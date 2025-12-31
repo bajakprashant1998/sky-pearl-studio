@@ -1,4 +1,5 @@
 import { Search, BarChart3, Share2, PenTool, Mail, Target } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const services = [
   {
@@ -6,36 +7,42 @@ const services = [
     title: "SEO Optimization",
     description:
       "Boost your search rankings and drive organic traffic with our proven SEO strategies.",
+    href: "/services/seo",
   },
   {
     icon: BarChart3,
     title: "PPC Advertising",
     description:
       "Maximize ROI with targeted pay-per-click campaigns across Google, Facebook, and more.",
+    href: "/services/ppc",
   },
   {
     icon: Share2,
     title: "Social Media Marketing",
     description:
       "Build your brand presence and engage audiences across all social platforms.",
+    href: "/services/social-media",
   },
   {
     icon: PenTool,
     title: "Content Marketing",
     description:
       "Create compelling content that attracts, engages, and converts your target audience.",
+    href: "/services/content-marketing",
   },
   {
     icon: Mail,
     title: "Email Marketing",
     description:
       "Nurture leads and drive conversions with personalized email campaigns.",
+    href: "/services/email-marketing",
   },
   {
     icon: Target,
     title: "Conversion Optimization",
     description:
       "Turn more visitors into customers with data-driven CRO strategies.",
+    href: "/services/conversion-optimization",
   },
 ];
 
@@ -61,8 +68,9 @@ const ServicesSection = () => {
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <div
+            <Link
               key={service.title}
+              to={service.href}
               className="group bg-card rounded-2xl p-8 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 animate-fade-up"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
@@ -75,7 +83,13 @@ const ServicesSection = () => {
               <p className="text-muted-foreground leading-relaxed">
                 {service.description}
               </p>
-            </div>
+              <span className="inline-flex items-center mt-4 text-primary font-medium group-hover:gap-2 transition-all">
+                Learn More
+                <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+            </Link>
           ))}
         </div>
       </div>
