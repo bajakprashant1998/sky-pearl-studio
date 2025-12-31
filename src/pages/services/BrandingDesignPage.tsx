@@ -2,8 +2,8 @@ import { getServiceBySlug } from "@/data/services";
 import ServicePageLayout from "@/components/ServicePageLayout";
 import NotFound from "@/pages/NotFound";
 
-const ContentMarketingPage = () => {
-  const service = getServiceBySlug("content-marketing");
+const BrandingDesignPage = () => {
+  const service = getServiceBySlug("branding-design");
   
   if (!service) return <NotFound />;
   
@@ -20,4 +20,4 @@ const ContentMarketingPage = () => {
   );
 };
 
-export default ContentMarketingPage;
+export default BrandingDesignPage;
