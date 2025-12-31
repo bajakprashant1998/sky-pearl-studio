@@ -1,0 +1,1211 @@
+import {
+  Search,
+  BarChart3,
+  Globe,
+  Share2,
+  PenTool,
+  Mail,
+  Target,
+  ShoppingCart,
+  Package,
+  Video,
+  Megaphone,
+  LineChart,
+  Code,
+  Bot,
+  GraduationCap,
+  Cloud,
+  Palette,
+  LucideIcon,
+} from "lucide-react";
+
+export interface SubcategoryItem {
+  name: string;
+}
+
+export interface Subcategory {
+  id: string;
+  title: string;
+  items: SubcategoryItem[];
+}
+
+export interface ServiceCategory {
+  id: string;
+  slug: string;
+  icon: LucideIcon;
+  title: string;
+  shortTitle: string;
+  subtitle: string;
+  description: string;
+  subcategories: Subcategory[];
+  benefits: string[];
+  ctaText: string;
+}
+
+export const services: ServiceCategory[] = [
+  {
+    id: "seo",
+    slug: "seo",
+    icon: Search,
+    title: "Search Engine Optimisation (SEO) Services",
+    shortTitle: "SEO Services",
+    subtitle: "Organic Search Excellence",
+    description: "Boost your search rankings and drive organic traffic with our proven SEO strategies. We help businesses achieve sustainable growth through technical excellence and strategic content optimization.",
+    subcategories: [
+      {
+        id: "on-page-seo",
+        title: "On-Page SEO",
+        items: [
+          { name: "Keyword research & mapping" },
+          { name: "Title tag & meta description optimisation" },
+          { name: "Content optimization" },
+          { name: "Internal linking strategy" },
+          { name: "Image SEO" },
+        ],
+      },
+      {
+        id: "technical-seo",
+        title: "Technical SEO",
+        items: [
+          { name: "Website speed optimisation" },
+          { name: "Core Web Vitals optimisation" },
+          { name: "Mobile SEO" },
+          { name: "Crawlability & indexability fixes" },
+          { name: "Schema markup implementation" },
+        ],
+      },
+      {
+        id: "off-page-seo",
+        title: "Off-Page SEO",
+        items: [
+          { name: "Link building" },
+          { name: "Digital PR & outreach" },
+          { name: "Brand mention building" },
+          { name: "Authority & trust optimisation" },
+        ],
+      },
+      {
+        id: "local-seo",
+        title: "Local SEO",
+        items: [
+          { name: "Google Business Profile optimisation" },
+          { name: "Local citation management" },
+          { name: "Local keyword targeting" },
+          { name: "Review & reputation management" },
+        ],
+      },
+      {
+        id: "enterprise-ecommerce-seo",
+        title: "Enterprise & Ecommerce SEO",
+        items: [
+          { name: "Large-site SEO architecture" },
+          { name: "Product & category page optimisation" },
+          { name: "International SEO" },
+          { name: "SEO analytics & reporting" },
+        ],
+      },
+    ],
+    benefits: [
+      "Increase organic traffic by up to 300%",
+      "Improve search engine rankings for target keywords",
+      "Generate high-quality leads without paid advertising",
+      "Build long-term sustainable online visibility",
+      "Outrank competitors in search results",
+      "Data-driven strategies with monthly reporting",
+    ],
+    ctaText: "Boost Your Rankings",
+  },
+  {
+    id: "ppc",
+    slug: "ppc",
+    icon: BarChart3,
+    title: "Pay-Per-Click (PPC) Advertising Services",
+    shortTitle: "PPC Advertising",
+    subtitle: "Paid Media Excellence",
+    description: "Maximize ROI with targeted pay-per-click campaigns across Google, Facebook, LinkedIn, and more. Our data-driven approach ensures every dollar works harder for your business.",
+    subcategories: [
+      {
+        id: "search-advertising",
+        title: "Search Advertising",
+        items: [
+          { name: "Google Ads management" },
+          { name: "Microsoft (Bing) Ads" },
+          { name: "Keyword bidding strategy" },
+          { name: "Ad copywriting" },
+        ],
+      },
+      {
+        id: "display-advertising",
+        title: "Display Advertising",
+        items: [
+          { name: "Google Display Network (GDN)" },
+          { name: "Banner & responsive display ads" },
+          { name: "Audience targeting" },
+        ],
+      },
+      {
+        id: "remarketing-retargeting",
+        title: "Remarketing & Retargeting",
+        items: [
+          { name: "Website visitor retargeting" },
+          { name: "Abandoned cart retargeting" },
+          { name: "Cross-platform remarketing" },
+        ],
+      },
+      {
+        id: "shopping-ecommerce-ads",
+        title: "Shopping & Ecommerce Ads",
+        items: [
+          { name: "Google Shopping Ads" },
+          { name: "Product feed optimisation" },
+          { name: "Performance tracking" },
+        ],
+      },
+      {
+        id: "mobile-app-advertising",
+        title: "Mobile & App Advertising",
+        items: [
+          { name: "Mobile PPC campaigns" },
+          { name: "App promotion ads" },
+        ],
+      },
+    ],
+    benefits: [
+      "Immediate visibility and traffic from day one",
+      "Precise targeting to reach your ideal customers",
+      "Complete control over advertising budget",
+      "Measurable ROI with detailed analytics",
+      "Scalable campaigns that grow with your business",
+      "Expert management saving you time and money",
+    ],
+    ctaText: "Launch Your Campaign",
+  },
+  {
+    id: "web-design",
+    slug: "web-design",
+    icon: Globe,
+    title: "Web Design & Development Services",
+    shortTitle: "Web Design",
+    subtitle: "Digital Experience Design",
+    description: "Create stunning, high-performing websites that convert visitors into customers. Our web design and development services combine aesthetics with functionality for maximum impact.",
+    subcategories: [
+      {
+        id: "website-design",
+        title: "Website Design",
+        items: [
+          { name: "Custom website design" },
+          { name: "Responsive & mobile-first design" },
+          { name: "UX-focused layouts" },
+        ],
+      },
+      {
+        id: "website-development",
+        title: "Website Development",
+        items: [
+          { name: "Frontend & backend development" },
+          { name: "CMS development (WordPress, etc.)" },
+          { name: "Custom functionality" },
+        ],
+      },
+      {
+        id: "website-redesign",
+        title: "Website Redesign",
+        items: [
+          { name: "UI/UX modernisation" },
+          { name: "Performance improvement" },
+          { name: "Conversion optimization" },
+        ],
+      },
+      {
+        id: "landing-page-development",
+        title: "Landing Page Development",
+        items: [
+          { name: "Conversion-focused landing pages" },
+          { name: "A/B testing ready layouts" },
+        ],
+      },
+    ],
+    benefits: [
+      "Modern, responsive designs that work on all devices",
+      "Fast-loading websites that improve user experience",
+      "SEO-friendly architecture for better rankings",
+      "Custom functionality tailored to your needs",
+      "Conversion-optimized layouts that drive results",
+      "Ongoing support and maintenance",
+    ],
+    ctaText: "Start Your Project",
+  },
+  {
+    id: "social-media",
+    slug: "social-media",
+    icon: Share2,
+    title: "Social Media Marketing Services",
+    shortTitle: "Social Media",
+    subtitle: "Social Excellence",
+    description: "Build your brand presence and engage audiences across all social platforms. Our social media strategies drive awareness, engagement, and conversions.",
+    subcategories: [
+      {
+        id: "organic-social-media",
+        title: "Organic Social Media",
+        items: [
+          { name: "Social media strategy" },
+          { name: "Content creation & posting" },
+          { name: "Community engagement" },
+        ],
+      },
+      {
+        id: "social-media-paid",
+        title: "Social Media Paid Advertising",
+        items: [
+          { name: "Facebook & Instagram Ads" },
+          { name: "LinkedIn Ads" },
+          { name: "Twitter/X Ads" },
+          { name: "TikTok Ads" },
+        ],
+      },
+      {
+        id: "social-media-analytics",
+        title: "Social Media Analytics",
+        items: [
+          { name: "Performance tracking" },
+          { name: "Audience insights" },
+          { name: "Engagement reports" },
+        ],
+      },
+    ],
+    benefits: [
+      "Increase brand awareness and reach",
+      "Build engaged communities around your brand",
+      "Drive targeted traffic to your website",
+      "Generate high-quality leads from social platforms",
+      "Improve customer loyalty and retention",
+      "Real-time performance tracking and optimization",
+    ],
+    ctaText: "Grow Your Social Presence",
+  },
+  {
+    id: "content-marketing",
+    slug: "content-marketing",
+    icon: PenTool,
+    title: "Content Marketing Services",
+    shortTitle: "Content Marketing",
+    subtitle: "Content Excellence",
+    description: "Create compelling content that attracts, engages, and converts your target audience. Our content strategies are designed to establish thought leadership and drive measurable results.",
+    subcategories: [
+      {
+        id: "content-strategy",
+        title: "Content Strategy",
+        items: [
+          { name: "Content planning & calendars" },
+          { name: "Audience research" },
+          { name: "Funnel-based content mapping" },
+        ],
+      },
+      {
+        id: "content-creation",
+        title: "Content Creation",
+        items: [
+          { name: "Blog writing" },
+          { name: "Long-form articles" },
+          { name: "Whitepapers & guides" },
+        ],
+      },
+      {
+        id: "website-copywriting",
+        title: "Website Copywriting",
+        items: [
+          { name: "Homepage & service pages" },
+          { name: "Landing page copy" },
+          { name: "CTA optimization" },
+        ],
+      },
+      {
+        id: "visual-interactive-content",
+        title: "Visual & Interactive Content",
+        items: [
+          { name: "Infographics" },
+          { name: "Interactive tools" },
+          { name: "Visual storytelling" },
+        ],
+      },
+    ],
+    benefits: [
+      "Establish thought leadership in your industry",
+      "Drive organic traffic through valuable content",
+      "Nurture leads through the buyer's journey",
+      "Improve search engine rankings",
+      "Build trust and credibility with your audience",
+      "Generate consistent, long-term results",
+    ],
+    ctaText: "Create Great Content",
+  },
+  {
+    id: "email-marketing",
+    slug: "email-marketing",
+    icon: Mail,
+    title: "Email Marketing Services",
+    shortTitle: "Email Marketing",
+    subtitle: "Email Excellence",
+    description: "Nurture leads and drive conversions with personalized email campaigns. Our email marketing strategies deliver the right message to the right people at the right time.",
+    subcategories: [
+      {
+        id: "campaign-strategy",
+        title: "Campaign Strategy",
+        items: [
+          { name: "Audience segmentation" },
+          { name: "Campaign planning" },
+        ],
+      },
+      {
+        id: "email-automation",
+        title: "Email Automation",
+        items: [
+          { name: "Drip campaigns" },
+          { name: "Lead nurturing workflows" },
+        ],
+      },
+      {
+        id: "email-design-copy",
+        title: "Design & Copy",
+        items: [
+          { name: "Email templates" },
+          { name: "Copywriting & CTA optimisation" },
+        ],
+      },
+      {
+        id: "email-analytics",
+        title: "Email Analytics",
+        items: [
+          { name: "Open & click tracking" },
+          { name: "Conversion reporting" },
+        ],
+      },
+    ],
+    benefits: [
+      "High ROI with personalized messaging",
+      "Automated workflows that save time",
+      "Nurture leads through the sales funnel",
+      "Increase customer retention and loyalty",
+      "Detailed analytics for continuous improvement",
+      "Scalable campaigns that grow with you",
+    ],
+    ctaText: "Start Email Campaigns",
+  },
+  {
+    id: "cro",
+    slug: "conversion-optimization",
+    icon: Target,
+    title: "Conversion Rate Optimisation (CRO)",
+    shortTitle: "CRO Services",
+    subtitle: "Conversion Excellence",
+    description: "Turn more visitors into customers with data-driven CRO strategies. We analyze user behavior and implement proven techniques to maximize your website's conversion potential.",
+    subcategories: [
+      {
+        id: "user-behaviour-analysis",
+        title: "User Behaviour Analysis",
+        items: [
+          { name: "Heatmaps" },
+          { name: "Session recordings" },
+          { name: "Funnel analysis" },
+        ],
+      },
+      {
+        id: "ab-multivariate-testing",
+        title: "A/B & Multivariate Testing",
+        items: [
+          { name: "Page layout testing" },
+          { name: "CTA & copy testing" },
+        ],
+      },
+      {
+        id: "ux-optimisation",
+        title: "UX Optimisation",
+        items: [
+          { name: "Navigation improvements" },
+          { name: "Form optimization" },
+          { name: "Checkout optimization" },
+        ],
+      },
+    ],
+    benefits: [
+      "Increase conversion rates by 50% or more",
+      "Maximize value from existing traffic",
+      "Reduce customer acquisition costs",
+      "Improve user experience and satisfaction",
+      "Make data-driven design decisions",
+      "Achieve sustainable revenue growth",
+    ],
+    ctaText: "Optimize Conversions",
+  },
+  {
+    id: "ecommerce",
+    slug: "ecommerce-marketing",
+    icon: ShoppingCart,
+    title: "E-commerce Marketing Services",
+    shortTitle: "E-commerce Marketing",
+    subtitle: "E-commerce Excellence",
+    description: "Drive sales and grow your online store with comprehensive e-commerce marketing strategies. From SEO to conversion optimization, we help e-commerce businesses thrive.",
+    subcategories: [
+      {
+        id: "ecommerce-seo",
+        title: "E-commerce SEO",
+        items: [
+          { name: "Product SEO" },
+          { name: "Category optimization" },
+        ],
+      },
+      {
+        id: "ecommerce-ppc",
+        title: "E-commerce PPC",
+        items: [
+          { name: "Product ads" },
+          { name: "Dynamic remarketing" },
+        ],
+      },
+      {
+        id: "marketplace-marketing",
+        title: "Marketplace Marketing",
+        items: [
+          { name: "Amazon marketing services" },
+          { name: "Product listing optimisation" },
+        ],
+      },
+      {
+        id: "ecommerce-conversion",
+        title: "Conversion Optimisation",
+        items: [
+          { name: "Cart abandonment strategy" },
+          { name: "Upsell & cross-sell optimisation" },
+        ],
+      },
+    ],
+    benefits: [
+      "Increase online sales and revenue",
+      "Improve product visibility in search results",
+      "Reduce cart abandonment rates",
+      "Optimize for higher average order values",
+      "Build customer loyalty and repeat purchases",
+      "Multi-channel marketing expertise",
+    ],
+    ctaText: "Grow Your E-commerce",
+  },
+  {
+    id: "amazon",
+    slug: "amazon-marketing",
+    icon: Package,
+    title: "Amazon Marketing Services",
+    shortTitle: "Amazon Marketing",
+    subtitle: "Amazon Excellence",
+    description: "Maximize your presence on the world's largest marketplace. Our Amazon marketing services help brands increase visibility, sales, and profitability on Amazon.",
+    subcategories: [
+      {
+        id: "amazon-seo",
+        title: "Amazon SEO",
+        items: [
+          { name: "Keyword optimization" },
+          { name: "Listing optimization" },
+        ],
+      },
+      {
+        id: "amazon-ppc",
+        title: "Amazon PPC",
+        items: [
+          { name: "Sponsored products" },
+          { name: "Sponsored brands" },
+          { name: "Sponsored display ads" },
+        ],
+      },
+      {
+        id: "amazon-storefront",
+        title: "Amazon Storefront Optimisation",
+        items: [
+          { name: "Brand storefront design" },
+          { name: "Performance tracking" },
+        ],
+      },
+    ],
+    benefits: [
+      "Increase product rankings on Amazon",
+      "Maximize advertising ROI",
+      "Improve conversion rates on product listings",
+      "Build a professional brand presence",
+      "Gain competitive advantage in your category",
+      "Expert Amazon marketplace management",
+    ],
+    ctaText: "Dominate Amazon",
+  },
+  {
+    id: "video",
+    slug: "video-marketing",
+    icon: Video,
+    title: "Video Marketing Services",
+    shortTitle: "Video Marketing",
+    subtitle: "Video Excellence",
+    description: "Engage audiences with compelling video content that tells your brand story. From strategy to production and distribution, we create videos that drive results.",
+    subcategories: [
+      {
+        id: "video-strategy",
+        title: "Video Strategy",
+        items: [
+          { name: "Campaign planning" },
+          { name: "Funnel-based video mapping" },
+        ],
+      },
+      {
+        id: "video-production",
+        title: "Video Production",
+        items: [
+          { name: "Promotional videos" },
+          { name: "Explainer videos" },
+          { name: "Product videos" },
+        ],
+      },
+      {
+        id: "video-distribution",
+        title: "Video Distribution",
+        items: [
+          { name: "YouTube marketing" },
+          { name: "Social video promotion" },
+          { name: "Video ads" },
+        ],
+      },
+    ],
+    benefits: [
+      "Increase engagement with compelling visuals",
+      "Improve brand recall and recognition",
+      "Drive conversions with video content",
+      "Boost social media performance",
+      "Enhance website user experience",
+      "Professional production quality",
+    ],
+    ctaText: "Start Video Marketing",
+  },
+  {
+    id: "programmatic",
+    slug: "programmatic-advertising",
+    icon: Megaphone,
+    title: "Programmatic & Advanced Advertising",
+    shortTitle: "Programmatic Ads",
+    subtitle: "Advanced Advertising",
+    description: "Leverage automated media buying and advanced targeting for maximum advertising efficiency. Our programmatic solutions deliver precision targeting at scale.",
+    subcategories: [
+      {
+        id: "programmatic-advertising",
+        title: "Programmatic Advertising",
+        items: [
+          { name: "Automated media buying" },
+          { name: "Audience targeting" },
+        ],
+      },
+      {
+        id: "performance-media-planning",
+        title: "Performance Media Planning",
+        items: [
+          { name: "Budget optimization" },
+          { name: "Cross-channel planning" },
+        ],
+      },
+    ],
+    benefits: [
+      "Precise audience targeting at scale",
+      "Real-time bidding optimization",
+      "Cross-channel campaign management",
+      "Reduced media buying costs",
+      "Data-driven decision making",
+      "Transparent reporting and insights",
+    ],
+    ctaText: "Explore Programmatic",
+  },
+  {
+    id: "analytics",
+    slug: "analytics-ai-technology",
+    icon: LineChart,
+    title: "Analytics, AI & Marketing Technology",
+    shortTitle: "Analytics & AI",
+    subtitle: "Data Excellence",
+    description: "Harness the power of data and AI to drive marketing success. Our analytics and technology solutions provide actionable insights for smarter decision-making.",
+    subcategories: [
+      {
+        id: "marketing-analytics",
+        title: "Marketing Analytics",
+        items: [
+          { name: "Performance dashboards" },
+          { name: "ROI & revenue tracking" },
+        ],
+      },
+      {
+        id: "ai-automation",
+        title: "AI & Automation",
+        items: [
+          { name: "AI-driven campaign optimisation" },
+          { name: "Predictive analytics" },
+        ],
+      },
+      {
+        id: "crm-integrations",
+        title: "CRM & Tool Integrations",
+        items: [
+          { name: "CRM setup & integration" },
+          { name: "Marketing automation tools" },
+        ],
+      },
+    ],
+    benefits: [
+      "Data-driven marketing decisions",
+      "Clear visibility into marketing ROI",
+      "Predictive insights for proactive optimization",
+      "Unified marketing technology stack",
+      "Automated reporting and insights",
+      "Improved marketing efficiency",
+    ],
+    ctaText: "Unlock Your Data",
+  },
+  {
+    id: "custom-development",
+    slug: "custom-development",
+    icon: Code,
+    title: "Custom Development & Integrations",
+    shortTitle: "Custom Development",
+    subtitle: "Development Excellence",
+    description: "Build custom marketing tools and seamlessly integrate your technology stack. Our development team creates solutions tailored to your unique business needs.",
+    subcategories: [
+      {
+        id: "custom-software-development",
+        title: "Custom Software Development",
+        items: [
+          { name: "Marketing tools & platforms" },
+          { name: "Custom dashboards" },
+        ],
+      },
+      {
+        id: "api-system-integrations",
+        title: "API & System Integrations",
+        items: [
+          { name: "Data syncing" },
+          { name: "Third-party tool integration" },
+        ],
+      },
+    ],
+    benefits: [
+      "Custom solutions for unique needs",
+      "Seamless system integrations",
+      "Improved operational efficiency",
+      "Scalable technology architecture",
+      "Expert development team",
+      "Ongoing support and maintenance",
+    ],
+    ctaText: "Build Custom Solutions",
+  },
+  {
+    id: "ai-marketing",
+    slug: "ai-marketing",
+    icon: Bot,
+    title: "AI-Powered Marketing & Automation Services",
+    shortTitle: "AI Marketing",
+    subtitle: "AI Excellence",
+    description: "Transform your marketing with cutting-edge AI technology. From strategy to execution, we leverage artificial intelligence to drive unprecedented results.",
+    subcategories: [
+      {
+        id: "ai-strategy-consulting",
+        title: "AI Marketing Strategy & Consulting",
+        items: [
+          { name: "AI readiness assessment" },
+          { name: "AI-driven marketing roadmap" },
+          { name: "Data strategy & AI adoption planning" },
+          { name: "Business process automation strategy" },
+        ],
+      },
+      {
+        id: "ai-seo-search",
+        title: "AI SEO & Search Intelligence",
+        items: [
+          { name: "AI-powered keyword research" },
+          { name: "Search intent & semantic analysis" },
+          { name: "AI content gap analysis" },
+          { name: "Predictive SEO trend modelling" },
+          { name: "AI-assisted on-page optimisation" },
+        ],
+      },
+      {
+        id: "ai-content-creation",
+        title: "AI Content Creation & Optimisation",
+        items: [
+          { name: "AI-assisted blog & article generation" },
+          { name: "AI copy optimisation for CTR & conversions" },
+          { name: "Content personalisation using AI" },
+          { name: "Automated content updates & refreshes" },
+          { name: "AI image & creative suggestions" },
+        ],
+      },
+      {
+        id: "ai-advertising-campaign",
+        title: "AI Advertising & Campaign Optimisation",
+        items: [
+          { name: "AI-driven bid management (PPC & paid social)" },
+          { name: "Automated audience targeting & segmentation" },
+          { name: "Predictive ad performance modelling" },
+          { name: "AI budget allocation & optimisation" },
+          { name: "Smart remarketing using machine learning" },
+        ],
+      },
+      {
+        id: "ai-personalisation",
+        title: "AI Personalisation & Customer Experience",
+        items: [
+          { name: "AI-based website personalisation" },
+          { name: "Dynamic content & product recommendations" },
+          { name: "Behaviour-based user journeys" },
+          { name: "Personalised landing pages & CTAs" },
+        ],
+      },
+      {
+        id: "ai-analytics-insights",
+        title: "AI Analytics & Predictive Insights",
+        items: [
+          { name: "AI-powered marketing dashboards" },
+          { name: "Predictive revenue & conversion forecasting" },
+          { name: "Customer lifetime value (CLV) modelling" },
+          { name: "Churn prediction & retention insights" },
+          { name: "Automated performance insights" },
+        ],
+      },
+      {
+        id: "ai-chatbots",
+        title: "AI Chatbots & Conversational Marketing",
+        items: [
+          { name: "AI chatbot setup & training" },
+          { name: "Website & landing page chatbots" },
+          { name: "Lead qualification chatbots" },
+          { name: "Customer support automation" },
+          { name: "CRM-integrated conversational AI" },
+        ],
+      },
+      {
+        id: "marketing-automation-ai",
+        title: "Marketing Automation & AI Workflows",
+        items: [
+          { name: "AI-driven email automation" },
+          { name: "Smart lead scoring" },
+          { name: "Automated nurturing workflows" },
+          { name: "Cross-channel campaign automation" },
+          { name: "Trigger-based marketing systems" },
+        ],
+      },
+      {
+        id: "ai-crm-integrations",
+        title: "AI CRM & System Integrations",
+        items: [
+          { name: "AI-powered CRM enhancement" },
+          { name: "Marketing automation platform integration" },
+          { name: "AI data enrichment" },
+          { name: "API-based AI tool integrations" },
+        ],
+      },
+      {
+        id: "generative-ai",
+        title: "Generative AI & Advanced Technologies",
+        items: [
+          { name: "Generative AI for ads & creatives" },
+          { name: "AI video scripting & optimisation" },
+          { name: "Voice search & AI assistants" },
+          { name: "Large Language Model (LLM) integration" },
+          { name: "Custom AI marketing tools" },
+        ],
+      },
+    ],
+    benefits: [
+      "Stay ahead with cutting-edge AI technology",
+      "Automate repetitive marketing tasks",
+      "Improve campaign performance with predictive insights",
+      "Personalise customer experiences at scale",
+      "Reduce costs through intelligent automation",
+      "Future-proof your marketing strategy",
+    ],
+    ctaText: "Embrace AI Marketing",
+  },
+  {
+    id: "training",
+    slug: "training-programs",
+    icon: GraduationCap,
+    title: "Professional Training & Internship Programs",
+    shortTitle: "Training Programs",
+    subtitle: "Education Excellence",
+    description: "Develop your skills with our comprehensive training programs. From digital marketing fundamentals to advanced AI techniques, we prepare you for success.",
+    subcategories: [
+      {
+        id: "digital-marketing-training",
+        title: "Digital Marketing Training Programs",
+        items: [
+          { name: "Fundamentals of Digital Marketing" },
+          { name: "Advanced SEO Training" },
+          { name: "PPC & Paid Advertising Training" },
+          { name: "Social Media Marketing Training" },
+          { name: "Content Marketing Training" },
+          { name: "Email Marketing & Automation Training" },
+        ],
+      },
+      {
+        id: "ai-automation-training",
+        title: "AI & Automation Training",
+        items: [
+          { name: "AI in Digital Marketing Fundamentals" },
+          { name: "AI-Powered SEO & Content Training" },
+          { name: "AI Advertising & Campaign Optimisation" },
+          { name: "Marketing Automation & AI Workflows" },
+          { name: "Prompt Engineering for Marketing" },
+          { name: "Generative AI Tools for Marketers" },
+        ],
+      },
+      {
+        id: "web-design-training",
+        title: "Web Design & Development Training",
+        items: [
+          { name: "Website Design Fundamentals (UI/UX)" },
+          { name: "HTML, CSS & JavaScript Training" },
+          { name: "WordPress Development Training" },
+          { name: "Conversion-Focused Web Design" },
+          { name: "Landing Page Design & Optimisation" },
+        ],
+      },
+      {
+        id: "analytics-training",
+        title: "Data, Analytics & Performance Training",
+        items: [
+          { name: "Google Analytics (GA4) Training" },
+          { name: "Marketing Analytics & Reporting" },
+          { name: "Conversion Tracking & Tag Management" },
+          { name: "Performance Marketing Analytics" },
+          { name: "AI-Based Predictive Analytics" },
+        ],
+      },
+      {
+        id: "ecommerce-training",
+        title: "E-commerce & Marketplace Training",
+        items: [
+          { name: "E-commerce SEO Training" },
+          { name: "Google Shopping & Product Ads" },
+          { name: "Amazon SEO & PPC Training" },
+          { name: "Conversion Optimisation for E-commerce" },
+          { name: "Marketplace Growth Strategies" },
+        ],
+      },
+      {
+        id: "internship-programs",
+        title: "Internship Programs",
+        items: [
+          { name: "Digital Marketing Internship" },
+          { name: "AI Marketing Internship" },
+          { name: "Web Design & Development Internship" },
+        ],
+      },
+      {
+        id: "certification-courses",
+        title: "Certification Courses",
+        items: [
+          { name: "Certificate in Digital Marketing" },
+          { name: "Certificate in AI Marketing" },
+          { name: "Certificate in Web & UI/UX Design" },
+        ],
+      },
+      {
+        id: "training-modes",
+        title: "Mode of Training",
+        items: [
+          { name: "Online Training (Live & Recorded)" },
+          { name: "Offline / Classroom Training" },
+          { name: "Corporate Training Programs" },
+          { name: "One-on-One Mentorship" },
+          { name: "Weekend / Fast-Track Programs" },
+        ],
+      },
+      {
+        id: "career-support",
+        title: "Career Support & Placement Assistance",
+        items: [
+          { name: "Internship completion certificate" },
+          { name: "Industry-recognised course certificate" },
+          { name: "Resume & portfolio preparation" },
+          { name: "Interview preparation" },
+          { name: "Job & freelance guidance" },
+        ],
+      },
+    ],
+    benefits: [
+      "Learn from industry experts",
+      "Hands-on practical experience",
+      "Industry-recognized certifications",
+      "Career support and placement assistance",
+      "Flexible learning options",
+      "Stay current with latest trends",
+    ],
+    ctaText: "Enroll Now",
+  },
+  {
+    id: "saas",
+    slug: "saas-products",
+    icon: Cloud,
+    title: "SaaS Products & Cloud-Based Software Solutions",
+    shortTitle: "SaaS Products",
+    subtitle: "Software Excellence",
+    description: "Leverage powerful SaaS solutions to streamline your marketing operations. Our cloud-based platforms provide the tools you need to scale your business.",
+    subcategories: [
+      {
+        id: "marketing-saas",
+        title: "Marketing SaaS Platforms",
+        items: [
+          { name: "All-in-One Digital Marketing Platform" },
+          { name: "SEO Management & Rank Tracking Software" },
+          { name: "PPC Campaign Management Software" },
+          { name: "Social Media Scheduling & Analytics Tools" },
+          { name: "Content Planning & Marketing Automation Platform" },
+        ],
+      },
+      {
+        id: "ai-saas",
+        title: "AI-Powered SaaS Solutions",
+        items: [
+          { name: "AI Marketing Automation Software" },
+          { name: "AI SEO & Keyword Intelligence Tool" },
+          { name: "AI Content Generation & Optimisation Platform" },
+          { name: "AI Ad Optimisation & Budget Automation Tool" },
+          { name: "AI Predictive Analytics & Forecasting Software" },
+        ],
+      },
+      {
+        id: "crm-saas",
+        title: "CRM & Customer Management SaaS",
+        items: [
+          { name: "Lead Management & CRM Software" },
+          { name: "AI-Powered Lead Scoring Systems" },
+          { name: "Customer Lifecycle Management Tools" },
+          { name: "Sales Pipeline & Opportunity Tracking" },
+          { name: "CRM Integration & Customisation" },
+        ],
+      },
+      {
+        id: "analytics-saas",
+        title: "Analytics & Reporting SaaS",
+        items: [
+          { name: "Marketing Analytics Dashboard" },
+          { name: "ROI & Revenue Tracking Software" },
+          { name: "Conversion Tracking & Attribution Tools" },
+          { name: "Custom KPI & Performance Dashboards" },
+          { name: "AI-Driven Insight & Reporting Platforms" },
+        ],
+      },
+      {
+        id: "ecommerce-saas",
+        title: "Ecommerce & Marketplace SaaS",
+        items: [
+          { name: "E-commerce Marketing Automation Software" },
+          { name: "Product Feed & Shopping Ads Management Tool" },
+          { name: "Amazon Seller Optimisation Platform" },
+          { name: "Conversion Rate Optimisation (CRO) Tools" },
+          { name: "Cart Abandonment & Retention Software" },
+        ],
+      },
+      {
+        id: "website-conversion-saas",
+        title: "Website & Conversion SaaS",
+        items: [
+          { name: "Website Builder & Landing Page SaaS" },
+          { name: "Funnel Builder & Lead Capture Tools" },
+          { name: "A/B Testing & Experimentation Software" },
+          { name: "Personalisation & Recommendation Engines" },
+          { name: "Form & Popup Conversion Tools" },
+        ],
+      },
+      {
+        id: "workflow-automation-saas",
+        title: "Workflow Automation & Integration SaaS",
+        items: [
+          { name: "Marketing Workflow Automation Platform" },
+          { name: "AI-Driven Process Automation Tools" },
+          { name: "API & Third-Party Tool Integrations" },
+          { name: "No-Code / Low-Code Automation Solutions" },
+          { name: "Cross-Platform Data Synchronisation" },
+        ],
+      },
+      {
+        id: "customer-support-saas",
+        title: "Customer Support & Engagement SaaS",
+        items: [
+          { name: "AI Chatbot & Conversational SaaS" },
+          { name: "Live Chat & Helpdesk Software" },
+          { name: "Omnichannel Customer Support Platform" },
+          { name: "Knowledge Base & Ticketing System" },
+          { name: "Customer Feedback & Survey Tools" },
+        ],
+      },
+      {
+        id: "subscription-billing-saas",
+        title: "Subscription & Billing SaaS",
+        items: [
+          { name: "Subscription Management Software" },
+          { name: "Payment Gateway Integration" },
+          { name: "Recurring Billing & Invoicing Systems" },
+          { name: "License & User Management Tools" },
+          { name: "SaaS Revenue Analytics" },
+        ],
+      },
+      {
+        id: "saas-development",
+        title: "SaaS Development, Customisation & Support",
+        items: [
+          { name: "Custom SaaS Application Development" },
+          { name: "SaaS UI/UX Design Services" },
+          { name: "Cloud Hosting & Scalability Solutions" },
+          { name: "SaaS Security & Compliance" },
+          { name: "Ongoing SaaS Maintenance & Support" },
+        ],
+      },
+    ],
+    benefits: [
+      "Scalable cloud-based solutions",
+      "Reduce operational costs",
+      "Access from anywhere, anytime",
+      "Regular updates and improvements",
+      "Enterprise-grade security",
+      "Seamless integrations",
+    ],
+    ctaText: "Explore Our Products",
+  },
+  {
+    id: "branding",
+    slug: "branding-design",
+    icon: Palette,
+    title: "Branding, Creative & Graphic Design Services",
+    shortTitle: "Branding & Design",
+    subtitle: "Creative Excellence",
+    description: "Build a memorable brand identity that stands out. Our creative team delivers stunning designs that capture your brand essence and resonate with your audience.",
+    subcategories: [
+      {
+        id: "brand-strategy-identity",
+        title: "Brand Strategy & Identity",
+        items: [
+          { name: "Brand discovery & positioning" },
+          { name: "Brand naming & tagline creation" },
+          { name: "Brand voice & messaging framework" },
+          { name: "Visual identity strategy" },
+          { name: "Brand guidelines & style guides" },
+        ],
+      },
+      {
+        id: "logo-design",
+        title: "Logo Design Services",
+        items: [
+          { name: "Custom logo design" },
+          { name: "Logo redesign & modernisation" },
+          { name: "Minimal & flat logo design" },
+          { name: "Corporate & startup branding logos" },
+          { name: "Logo usage guidelines" },
+        ],
+      },
+      {
+        id: "corporate-branding",
+        title: "Corporate Branding & Collateral",
+        items: [
+          { name: "Business cards & letterheads" },
+          { name: "Company profiles & brochures" },
+          { name: "Presentation & pitch deck design" },
+          { name: "Corporate stationery design" },
+          { name: "Brand kits & templates" },
+        ],
+      },
+      {
+        id: "graphic-design",
+        title: "Graphic Design Services",
+        items: [
+          { name: "Marketing & promotional creatives" },
+          { name: "Banner & display ad designs" },
+          { name: "Social media post & story designs" },
+          { name: "Infographic design" },
+          { name: "Print & digital creatives" },
+        ],
+      },
+      {
+        id: "ui-ux-design",
+        title: "UI/UX & Digital Design",
+        items: [
+          { name: "Website UI design" },
+          { name: "Mobile app UI design" },
+          { name: "SaaS dashboard UI/UX" },
+          { name: "Wireframes & prototypes" },
+          { name: "Design systems & component libraries" },
+        ],
+      },
+      {
+        id: "social-media-creative",
+        title: "Social Media Creative Design",
+        items: [
+          { name: "Social media branding kits" },
+          { name: "Campaign creatives" },
+          { name: "Reels, shorts & story graphics" },
+          { name: "Profile & cover design" },
+          { name: "Paid ad creatives" },
+        ],
+      },
+      {
+        id: "packaging-design",
+        title: "Packaging & Product Design",
+        items: [
+          { name: "Product packaging design" },
+          { name: "Label & box design" },
+          { name: "Dieline & print-ready files" },
+          { name: "Retail & ecommerce packaging" },
+        ],
+      },
+      {
+        id: "motion-graphics",
+        title: "Motion Graphics & Visual Media",
+        items: [
+          { name: "Animated graphics" },
+          { name: "Explainer motion videos" },
+          { name: "Logo animation" },
+          { name: "GIFs & micro-animations" },
+        ],
+      },
+      {
+        id: "creative-advertising",
+        title: "Creative Advertising & Campaign Design",
+        items: [
+          { name: "Ad concept & creative direction" },
+          { name: "Campaign branding & visuals" },
+          { name: "Cross-channel creative assets" },
+          { name: "Performance-focused creatives" },
+        ],
+      },
+      {
+        id: "ai-creative-design",
+        title: "AI-Powered Creative & Design Services",
+        items: [
+          { name: "AI-generated design concepts" },
+          { name: "AI image & visual generation" },
+          { name: "AI-assisted logo ideation" },
+          { name: "Creative automation workflows" },
+          { name: "AI design optimisation for ads" },
+        ],
+      },
+    ],
+    benefits: [
+      "Distinctive brand identity that stands out",
+      "Consistent branding across all touchpoints",
+      "Professional designs that build trust",
+      "Creative that drives engagement",
+      "Fast turnaround times",
+      "Dedicated creative team",
+    ],
+    ctaText: "Start Your Brand Journey",
+  },
+];
+
+export const getServiceBySlug = (slug: string): ServiceCategory | undefined => {
+  return services.find((service) => service.slug === slug);
+};
+
+export const getAllServiceRoutes = (): { path: string; title: string }[] => {
+  return services.map((service) => ({
+    path: `/services/${service.slug}`,
+    title: service.shortTitle,
+  }));
+};

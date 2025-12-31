@@ -1,56 +1,13 @@
-import { Search, BarChart3, Share2, PenTool, Mail, Target } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const services = [
-  {
-    icon: Search,
-    title: "SEO Optimization",
-    description:
-      "Boost your search rankings and drive organic traffic with our proven SEO strategies.",
-    href: "/services/seo",
-  },
-  {
-    icon: BarChart3,
-    title: "PPC Advertising",
-    description:
-      "Maximize ROI with targeted pay-per-click campaigns across Google, Facebook, and more.",
-    href: "/services/ppc",
-  },
-  {
-    icon: Share2,
-    title: "Social Media Marketing",
-    description:
-      "Build your brand presence and engage audiences across all social platforms.",
-    href: "/services/social-media",
-  },
-  {
-    icon: PenTool,
-    title: "Content Marketing",
-    description:
-      "Create compelling content that attracts, engages, and converts your target audience.",
-    href: "/services/content-marketing",
-  },
-  {
-    icon: Mail,
-    title: "Email Marketing",
-    description:
-      "Nurture leads and drive conversions with personalized email campaigns.",
-    href: "/services/email-marketing",
-  },
-  {
-    icon: Target,
-    title: "Conversion Optimization",
-    description:
-      "Turn more visitors into customers with data-driven CRO strategies.",
-    href: "/services/conversion-optimization",
-  },
-];
+import { services } from "@/data/services";
 
 const ServicesSection = () => {
+  // Show first 6 services on homepage
+  const featuredServices = services.slice(0, 6);
+
   return (
     <section id="services" className="py-24 bg-muted/30">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-medium mb-4">
             Our Services
@@ -65,12 +22,11 @@ const ServicesSection = () => {
           </p>
         </div>
 
-        {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
+          {featuredServices.map((service, index) => (
             <Link
-              key={service.title}
-              to={service.href}
+              key={service.id}
+              to={`/services/${service.slug}`}
               className="group bg-card rounded-2xl p-8 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 animate-fade-up"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
@@ -78,9 +34,9 @@ const ServicesSection = () => {
                 <service.icon className="w-7 h-7 text-primary-foreground" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-foreground">
-                {service.title}
+                {service.shortTitle}
               </h3>
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed line-clamp-3">
                 {service.description}
               </p>
               <span className="inline-flex items-center mt-4 text-primary font-medium group-hover:gap-2 transition-all">
@@ -91,6 +47,21 @@ const ServicesSection = () => {
               </span>
             </Link>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <p className="text-muted-foreground mb-4">
+            Explore all {services.length} services we offer
+          </p>
+          <Link
+            to="/services/seo"
+            className="inline-flex items-center gap-2 text-primary font-medium hover:underline"
+          >
+            View All Services
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
         </div>
       </div>
     </section>

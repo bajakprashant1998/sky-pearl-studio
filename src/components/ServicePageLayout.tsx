@@ -5,18 +5,14 @@ import { LucideIcon } from "lucide-react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { Helmet } from "react-helmet-async";
-
-interface ServiceFeature {
-  title: string;
-  description: string;
-}
+import { Subcategory } from "@/data/services";
 
 interface ServicePageLayoutProps {
   icon: LucideIcon;
   title: string;
   subtitle: string;
   description: string;
-  features: ServiceFeature[];
+  subcategories: Subcategory[];
   benefits: string[];
   ctaText?: string;
 }
@@ -26,7 +22,7 @@ const ServicePageLayout = ({
   title,
   subtitle,
   description,
-  features,
+  subcategories,
   benefits,
   ctaText = "Get Started Today",
 }: ServicePageLayoutProps) => {
@@ -80,7 +76,7 @@ const ServicePageLayout = ({
           </div>
         </section>
 
-        {/* Features Section */}
+        {/* Subcategories Section */}
         <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <div className="text-center max-w-3xl mx-auto mb-16">
@@ -93,18 +89,27 @@ const ServicePageLayout = ({
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
+              {subcategories.map((subcategory, index) => (
                 <div
-                  key={feature.title}
+                  key={subcategory.id}
                   className="bg-card rounded-2xl p-8 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 animate-fade-up"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  style={{ animationDelay: `${index * 0.05}s` }}
                 >
-                  <h3 className="text-xl font-bold mb-3 text-foreground">
-                    {feature.title}
+                  <h3 className="text-xl font-bold mb-4 text-foreground">
+                    {subcategory.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {feature.description}
-                  </p>
+                  <ul className="space-y-3">
+                    {subcategory.items.map((item, itemIndex) => (
+                      <li key={itemIndex} className="flex items-start gap-3">
+                        <div className="w-5 h-5 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <Check className="w-3 h-3 text-primary" />
+                        </div>
+                        <span className="text-muted-foreground text-sm leading-relaxed">
+                          {item.name}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ))}
             </div>
@@ -117,7 +122,7 @@ const ServicePageLayout = ({
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                  Why Choose Our <span className="text-gradient">{title}</span>
+                  Why Choose Our <span className="text-gradient">Services</span>
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
                   Partner with us to unlock your business potential with proven strategies and measurable results.
@@ -138,7 +143,7 @@ const ServicePageLayout = ({
               <div className="bg-gradient-to-br from-primary/10 to-accent/20 rounded-3xl p-8 lg:p-12">
                 <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
                 <p className="text-muted-foreground mb-6">
-                  Let's discuss how we can help grow your business with our {title.toLowerCase()} services.
+                  Let's discuss how we can help grow your business with our comprehensive services.
                 </p>
                 <Button variant="hero" className="w-full" asChild>
                   <Link to="/#contact">

@@ -8,10 +8,21 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import SEOPage from "./pages/services/SEOPage";
 import PPCPage from "./pages/services/PPCPage";
+import WebDesignPage from "./pages/services/WebDesignPage";
 import SocialMediaPage from "./pages/services/SocialMediaPage";
 import ContentMarketingPage from "./pages/services/ContentMarketingPage";
 import EmailMarketingPage from "./pages/services/EmailMarketingPage";
 import ConversionOptimizationPage from "./pages/services/ConversionOptimizationPage";
+import EcommerceMarketingPage from "./pages/services/EcommerceMarketingPage";
+import AmazonMarketingPage from "./pages/services/AmazonMarketingPage";
+import VideoMarketingPage from "./pages/services/VideoMarketingPage";
+import ProgrammaticAdvertisingPage from "./pages/services/ProgrammaticAdvertisingPage";
+import AnalyticsAIPage from "./pages/services/AnalyticsAIPage";
+import CustomDevelopmentPage from "./pages/services/CustomDevelopmentPage";
+import AIMarketingPage from "./pages/services/AIMarketingPage";
+import TrainingProgramsPage from "./pages/services/TrainingProgramsPage";
+import SaaSProductsPage from "./pages/services/SaaSProductsPage";
+import BrandingDesignPage from "./pages/services/BrandingDesignPage";
 
 const queryClient = new QueryClient();
 
@@ -26,11 +37,21 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/services/seo" element={<SEOPage />} />
             <Route path="/services/ppc" element={<PPCPage />} />
+            <Route path="/services/web-design" element={<WebDesignPage />} />
             <Route path="/services/social-media" element={<SocialMediaPage />} />
             <Route path="/services/content-marketing" element={<ContentMarketingPage />} />
             <Route path="/services/email-marketing" element={<EmailMarketingPage />} />
             <Route path="/services/conversion-optimization" element={<ConversionOptimizationPage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/services/ecommerce-marketing" element={<EcommerceMarketingPage />} />
+            <Route path="/services/amazon-marketing" element={<AmazonMarketingPage />} />
+            <Route path="/services/video-marketing" element={<VideoMarketingPage />} />
+            <Route path="/services/programmatic-advertising" element={<ProgrammaticAdvertisingPage />} />
+            <Route path="/services/analytics-ai-technology" element={<AnalyticsAIPage />} />
+            <Route path="/services/custom-development" element={<CustomDevelopmentPage />} />
+            <Route path="/services/ai-marketing" element={<AIMarketingPage />} />
+            <Route path="/services/training-programs" element={<TrainingProgramsPage />} />
+            <Route path="/services/saas-products" element={<SaaSProductsPage />} />
+            <Route path="/services/branding-design" element={<BrandingDesignPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
