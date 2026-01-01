@@ -5,7 +5,7 @@ const testimonials = [
     name: "Sarah Johnson",
     role: "CEO, TechStart Inc.",
     content:
-      "DigiPulse transformed our online presence completely. Our organic traffic increased by 300% in just 6 months. Their team is responsive, creative, and truly understands our business goals.",
+      "Digital Bull transformed our online presence completely. Our organic traffic increased by 300% in just 6 months. Their team is responsive, creative, and truly understands our business goals.",
     rating: 5,
   },
   {
@@ -19,7 +19,7 @@ const testimonials = [
     name: "Emily Rodriguez",
     role: "Founder, Artisan Goods",
     content:
-      "As a small business, I was hesitant to invest in digital marketing. DigiPulse made it accessible and the results speak for themselves. Our revenue doubled in the first year!",
+      "As a small business, I was hesitant to invest in digital marketing. Digital Bull made it accessible and the results speak for themselves. Our revenue doubled in the first year!",
     rating: 5,
   },
 ];
@@ -38,7 +38,7 @@ const TestimonialsSection = () => {
           </h2>
           <p className="text-lg text-muted-foreground">
             Don't just take our word for it. Here's what our clients have to say
-            about working with DigiPulse.
+            about working with Digital Bull.
           </p>
         </div>
 

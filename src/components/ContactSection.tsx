@@ -27,7 +27,7 @@ const ContactSection = () => {
                   <div className="w-10 h-10 bg-primary-foreground/20 rounded-lg flex items-center justify-center">
                     <Mail className="w-5 h-5 text-primary-foreground" />
                   </div>
-                  <span className="text-primary-foreground">hello@digipulse.com</span>
+                  <span className="text-primary-foreground">hello@digitalbull.com</span>
                 </div>
                 <div className="flex items-center gap-4 justify-center lg:justify-start">
                   <div className="w-10 h-10 bg-primary-foreground/20 rounded-lg flex items-center justify-center">

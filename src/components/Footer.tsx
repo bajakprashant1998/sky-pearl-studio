@@ -40,9 +40,9 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <a href="#home" className="flex items-center gap-2 mb-6">
               <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-xl">D</span>
+                <span className="text-primary-foreground font-bold text-xl">DB</span>
               </div>
-              <span className="text-xl font-bold text-background">DigiPulse</span>
+              <span className="text-xl font-bold text-background">Digital Bull</span>
             </a>
             <p className="text-background/70 mb-6 max-w-sm">
               Transforming businesses through innovative digital marketing strategies.
@@ -117,7 +117,7 @@ const Footer = () => {
         {/* Bottom */}
         <div className="pt-8 border-t border-background/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-background/70 text-sm">
-            © {currentYear} DigiPulse. All rights reserved.
+            © {currentYear} Digital Bull Technology Pvt LTD. All rights reserved.
           </p>
           <p className="text-background/50 text-sm">
             Designed with ❤️ for growing businesses

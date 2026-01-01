@@ -27,7 +27,7 @@ const AboutSection = () => {
                       <span className="text-primary-foreground font-bold text-xl">D</span>
                     </div>
                     <div>
-                      <div className="font-bold text-foreground">DigiPulse Agency</div>
+                      <div className="font-bold text-foreground">Digital Bull Technology</div>
                       <div className="text-sm text-muted-foreground">Est. 2009</div>
                     </div>
                   </div>

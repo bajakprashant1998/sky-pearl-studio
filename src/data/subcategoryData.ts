@@ -98,7 +98,7 @@ const generateDefaultContent = (
       "Ongoing optimization and support",
     ],
     testimonialSnippet: {
-      quote: `Working with DigiPulse on ${subcategoryTitle} transformed our business. The results exceeded our expectations.`,
+      quote: `Working with Digital Bull on ${subcategoryTitle} transformed our business. The results exceeded our expectations.`,
       author: "Marketing Director",
       company: "Industry Leader",
     },
@@ -133,7 +133,7 @@ const customSubcategoryData: Record<string, SubcategoryDetail> = {
       "Long-lasting results with proper maintenance",
     ],
     testimonialSnippet: {
-      quote: "Our organic traffic increased by 150% within 6 months of implementing DigiPulse's on-page SEO recommendations.",
+      quote: "Our organic traffic increased by 150% within 6 months of implementing Digital Bull's on-page SEO recommendations.",
       author: "Sarah Johnson",
       company: "TechStart Inc.",
     },
@@ -163,7 +163,7 @@ const customSubcategoryData: Record<string, SubcategoryDetail> = {
       "Strong foundation for all SEO efforts",
     ],
     testimonialSnippet: {
-      quote: "DigiPulse improved our site speed by 60% and fixed critical indexing issues we didn't even know existed.",
+      quote: "Digital Bull improved our site speed by 60% and fixed critical indexing issues we didn't even know existed.",
       author: "Michael Chen",
       company: "GlobalTech Solutions",
     },

@@ -31,7 +31,7 @@ const ServicePageLayout = ({
   return (
     <>
       <Helmet>
-        <title>{title} - DigiPulse Digital Marketing Agency</title>
+        <title>{title} - Digital Bull Technology</title>
         <meta name="description" content={description} />
       </Helmet>
       
