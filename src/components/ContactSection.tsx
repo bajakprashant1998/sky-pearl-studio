@@ -1,9 +1,74 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail, Phone, MapPin } from "lucide-react";
+import { useRef, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactSection = () => {
+  const form = useRef<HTMLFormElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const { toast } = useToast();
+
+  const sendEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!captchaToken) {
+      toast({
+        variant: "destructive",
+        title: "Verification Failed",
+        description: "Please complete the reCAPTCHA verification.",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    const formData = new FormData(form.current!);
+    const data = {
+      firstName: formData.get("user_name"),
+      lastName: formData.get("user_lastname"),
+      email: formData.get("user_email"),
+      phone: phone,
+      message: formData.get("message"),
+      captchaToken,
+    };
+
+    try {
+      const response = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Message sent!",
+          description: "We'll get back to you as soon as possible.",
+        });
+        form.current?.reset();
+        setPhone("");
+        setCaptchaToken(null);
+      } else {
+        throw new Error("Failed to send");
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error sending message",
+        description: "Please check if the backend server is running.",
+      });
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <section id="contact" className="py-24">
+    <section id="contact" className="py-12">
       <div className="container mx-auto px-4">
         <div className="relative bg-gradient-primary rounded-3xl p-8 md:p-16 overflow-hidden">
           {/* Background Pattern */}
@@ -23,37 +88,43 @@ const ContactSection = () => {
                 goals. Schedule a free consultation today.
               </p>
               <div className="space-y-4">
-                <div className="flex items-center gap-4 justify-center lg:justify-start">
+                <a href="mailto:cadbull2014@gmail.com" className="flex items-center gap-4 justify-center lg:justify-start group hover:opacity-90 transition-opacity">
                   <div className="w-10 h-10 bg-primary-foreground/20 rounded-lg flex items-center justify-center">
                     <Mail className="w-5 h-5 text-primary-foreground" />
                   </div>
-                  <span className="text-primary-foreground">hello@digitalbull.com</span>
-                </div>
-                <div className="flex items-center gap-4 justify-center lg:justify-start">
+                  <span className="text-primary-foreground">cadbull2014@gmail.com</span>
+                </a>
+                <a href="tel:+919824011921" className="flex items-center gap-4 justify-center lg:justify-start group hover:opacity-90 transition-opacity">
                   <div className="w-10 h-10 bg-primary-foreground/20 rounded-lg flex items-center justify-center">
                     <Phone className="w-5 h-5 text-primary-foreground" />
                   </div>
-                  <span className="text-primary-foreground">+1 (555) 123-4567</span>
-                </div>
+                  <span className="text-primary-foreground">+91 9824011921</span>
+                </a>
                 <div className="flex items-center gap-4 justify-center lg:justify-start">
                   <div className="w-10 h-10 bg-primary-foreground/20 rounded-lg flex items-center justify-center">
                     <MapPin className="w-5 h-5 text-primary-foreground" />
                   </div>
-                  <span className="text-primary-foreground">123 Marketing Ave, New York, NY</span>
+                  <span className="text-primary-foreground text-left">Digital Bull Technology Pvt ltd<br />
+                    A 823 Moneyplant High street<br />
+                    Jagatpur Road,
+                    Near GOTA Cross road<br />
+                    Ahmedabad</span>
                 </div>
               </div>
             </div>
 
             {/* Right Column - Form */}
             <div className="bg-card rounded-2xl p-8 shadow-2xl">
-              <form className="space-y-6">
+              <form ref={form} onSubmit={sendEmail} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
                       First Name
                     </label>
                     <input
+                      name="user_name"
                       type="text"
+                      required
                       className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                       placeholder="John"
                     />
@@ -63,35 +134,74 @@ const ContactSection = () => {
                       Last Name
                     </label>
                     <input
+                      name="user_lastname"
                       type="text"
                       className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                       placeholder="Doe"
                     />
                   </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-                    placeholder="john@example.com"
-                  />
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Email
+                    </label>
+                    <input
+                      name="user_email"
+                      type="email"
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                      placeholder="john@example.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Phone Number
+                    </label>
+                    <div className="relative">
+                      <PhoneInput
+                        defaultCountry="in"
+                        value={phone}
+                        onChange={(phone) => setPhone(phone)}
+                        inputClassName="!w-full !px-4 !py-3 !rounded-r-lg !border !border-border !bg-background !text-foreground focus:!outline-none focus:!ring-2 focus:!ring-primary transition-all !h-[50px] !text-base !border-l-0"
+                        countrySelectorStyleProps={{
+                          buttonClassName: "!px-3 !py-3 !rounded-l-lg !border !border-border !bg-background hover:!bg-muted transition-colors !h-[50px] !border-r-0",
+                        }}
+                        className="w-full flex"
+                      />
+                    </div>
+                  </div>
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
                     Message
                   </label>
                   <textarea
+                    name="message"
+                    required
                     rows={4}
                     className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
                     placeholder="Tell us about your project..."
                   />
                 </div>
-                <Button variant="hero" size="lg" className="w-full group">
-                  Send Message
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <div className="flex justify-center">
+                  <ReCAPTCHA
+                    sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || "YOUR_SITE_KEY_HERE"}
+                    onChange={setCaptchaToken}
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  variant="hero"
+                  size="lg"
+                  className="w-full group"
+                  disabled={loading}
+                >
+                  {loading ? "Sending..." : "Send Message"}
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform ml-2" />
                 </Button>
               </form>
             </div>

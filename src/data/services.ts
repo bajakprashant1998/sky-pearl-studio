@@ -17,6 +17,43 @@ import {
   Cloud,
   Palette,
   LucideIcon,
+  // New icons for subcategories
+  FileText,
+  Cpu,
+  Link,
+  MapPin,
+  Building,
+  MousePointer2,
+  Smartphone,
+  Repeat,
+  ShoppingBag,
+  Layout,
+  RefreshCcw,
+  Zap,
+  MessageCircle,
+  PieChart,
+  FileEdit,
+  Image,
+  Layers,
+  Send,
+  Workflow,
+  Eye,
+  CreditCard,
+  Truck,
+  Film,
+  Youtube,
+  MonitorPlay,
+  Settings,
+  Database,
+  Terminal,
+  Brain,
+  MessageSquare,
+  Sparkles,
+  UserCheck,
+  FlaskConical,
+  Store,
+  Puzzle,
+  TrendingUp,
 } from "lucide-react";
 
 export interface SubcategoryItem {
@@ -26,6 +63,7 @@ export interface SubcategoryItem {
 export interface Subcategory {
   id: string;
   title: string;
+  icon: LucideIcon;
   items: SubcategoryItem[];
 }
 
@@ -55,6 +93,7 @@ export const services: ServiceCategory[] = [
       {
         id: "on-page-seo",
         title: "On-Page SEO",
+        icon: FileText,
         items: [
           { name: "Keyword research & mapping" },
           { name: "Title tag & meta description optimisation" },
@@ -66,6 +105,7 @@ export const services: ServiceCategory[] = [
       {
         id: "technical-seo",
         title: "Technical SEO",
+        icon: Cpu,
         items: [
           { name: "Website speed optimisation" },
           { name: "Core Web Vitals optimisation" },
@@ -77,6 +117,7 @@ export const services: ServiceCategory[] = [
       {
         id: "off-page-seo",
         title: "Off-Page SEO",
+        icon: Link,
         items: [
           { name: "Link building" },
           { name: "Digital PR & outreach" },
@@ -87,6 +128,7 @@ export const services: ServiceCategory[] = [
       {
         id: "local-seo",
         title: "Local SEO",
+        icon: MapPin,
         items: [
           { name: "Google Business Profile optimisation" },
           { name: "Local citation management" },
@@ -97,6 +139,7 @@ export const services: ServiceCategory[] = [
       {
         id: "enterprise-ecommerce-seo",
         title: "Enterprise & Ecommerce SEO",
+        icon: Building,
         items: [
           { name: "Large-site SEO architecture" },
           { name: "Product & category page optimisation" },
@@ -127,6 +170,7 @@ export const services: ServiceCategory[] = [
       {
         id: "search-advertising",
         title: "Search Advertising",
+        icon: Search,
         items: [
           { name: "Google Ads management" },
           { name: "Microsoft (Bing) Ads" },
@@ -137,6 +181,7 @@ export const services: ServiceCategory[] = [
       {
         id: "display-advertising",
         title: "Display Advertising",
+        icon: Image,
         items: [
           { name: "Google Display Network (GDN)" },
           { name: "Banner & responsive display ads" },
@@ -146,6 +191,7 @@ export const services: ServiceCategory[] = [
       {
         id: "remarketing-retargeting",
         title: "Remarketing & Retargeting",
+        icon: Repeat,
         items: [
           { name: "Website visitor retargeting" },
           { name: "Abandoned cart retargeting" },
@@ -155,6 +201,7 @@ export const services: ServiceCategory[] = [
       {
         id: "shopping-ecommerce-ads",
         title: "Shopping & Ecommerce Ads",
+        icon: ShoppingBag,
         items: [
           { name: "Google Shopping Ads" },
           { name: "Product feed optimisation" },
@@ -164,6 +211,7 @@ export const services: ServiceCategory[] = [
       {
         id: "mobile-app-advertising",
         title: "Mobile & App Advertising",
+        icon: Smartphone,
         items: [
           { name: "Mobile PPC campaigns" },
           { name: "App promotion ads" },
@@ -192,6 +240,7 @@ export const services: ServiceCategory[] = [
       {
         id: "website-design",
         title: "Website Design",
+        icon: Layout,
         items: [
           { name: "Custom website design" },
           { name: "Responsive & mobile-first design" },
@@ -201,6 +250,7 @@ export const services: ServiceCategory[] = [
       {
         id: "website-development",
         title: "Website Development",
+        icon: Code,
         items: [
           { name: "Frontend & backend development" },
           { name: "CMS development (WordPress, etc.)" },
@@ -210,6 +260,7 @@ export const services: ServiceCategory[] = [
       {
         id: "website-redesign",
         title: "Website Redesign",
+        icon: RefreshCcw,
         items: [
           { name: "UI/UX modernisation" },
           { name: "Performance improvement" },
@@ -219,6 +270,7 @@ export const services: ServiceCategory[] = [
       {
         id: "landing-page-development",
         title: "Landing Page Development",
+        icon: MousePointer2,
         items: [
           { name: "Conversion-focused landing pages" },
           { name: "A/B testing ready layouts" },
@@ -247,6 +299,7 @@ export const services: ServiceCategory[] = [
       {
         id: "organic-social-media",
         title: "Organic Social Media",
+        icon: MessageCircle,
         items: [
           { name: "Social media strategy" },
           { name: "Content creation & posting" },
@@ -256,6 +309,7 @@ export const services: ServiceCategory[] = [
       {
         id: "social-media-paid",
         title: "Social Media Paid Advertising",
+        icon: Megaphone,
         items: [
           { name: "Facebook & Instagram Ads" },
           { name: "LinkedIn Ads" },
@@ -266,6 +320,7 @@ export const services: ServiceCategory[] = [
       {
         id: "social-media-analytics",
         title: "Social Media Analytics",
+        icon: PieChart,
         items: [
           { name: "Performance tracking" },
           { name: "Audience insights" },
@@ -295,6 +350,7 @@ export const services: ServiceCategory[] = [
       {
         id: "content-strategy",
         title: "Content Strategy",
+        icon: Target,
         items: [
           { name: "Content planning & calendars" },
           { name: "Audience research" },
@@ -304,6 +360,7 @@ export const services: ServiceCategory[] = [
       {
         id: "content-creation",
         title: "Content Creation",
+        icon: FileEdit,
         items: [
           { name: "Blog writing" },
           { name: "Long-form articles" },
@@ -313,6 +370,7 @@ export const services: ServiceCategory[] = [
       {
         id: "website-copywriting",
         title: "Website Copywriting",
+        icon: FileText,
         items: [
           { name: "Homepage & service pages" },
           { name: "Landing page copy" },
@@ -322,6 +380,7 @@ export const services: ServiceCategory[] = [
       {
         id: "visual-interactive-content",
         title: "Visual & Interactive Content",
+        icon: Image,
         items: [
           { name: "Infographics" },
           { name: "Interactive tools" },
@@ -351,6 +410,7 @@ export const services: ServiceCategory[] = [
       {
         id: "campaign-strategy",
         title: "Campaign Strategy",
+        icon: Target,
         items: [
           { name: "Audience segmentation" },
           { name: "Campaign planning" },
@@ -359,6 +419,7 @@ export const services: ServiceCategory[] = [
       {
         id: "email-automation",
         title: "Email Automation",
+        icon: Workflow,
         items: [
           { name: "Drip campaigns" },
           { name: "Lead nurturing workflows" },
@@ -367,6 +428,7 @@ export const services: ServiceCategory[] = [
       {
         id: "email-design-copy",
         title: "Design & Copy",
+        icon: Palette,
         items: [
           { name: "Email templates" },
           { name: "Copywriting & CTA optimisation" },
@@ -375,6 +437,7 @@ export const services: ServiceCategory[] = [
       {
         id: "email-analytics",
         title: "Email Analytics",
+        icon: BarChart3,
         items: [
           { name: "Open & click tracking" },
           { name: "Conversion reporting" },
@@ -403,6 +466,7 @@ export const services: ServiceCategory[] = [
       {
         id: "user-behaviour-analysis",
         title: "User Behaviour Analysis",
+        icon: Eye,
         items: [
           { name: "Heatmaps" },
           { name: "Session recordings" },
@@ -412,6 +476,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ab-multivariate-testing",
         title: "A/B & Multivariate Testing",
+        icon: FlaskConical,
         items: [
           { name: "Page layout testing" },
           { name: "CTA & copy testing" },
@@ -420,6 +485,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ux-optimisation",
         title: "UX Optimisation",
+        icon: Layout,
         items: [
           { name: "Navigation improvements" },
           { name: "Form optimization" },
@@ -449,6 +515,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ecommerce-seo",
         title: "E-commerce SEO",
+        icon: Search,
         items: [
           { name: "Product SEO" },
           { name: "Category optimization" },
@@ -457,6 +524,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ecommerce-ppc",
         title: "E-commerce PPC",
+        icon: MousePointer2,
         items: [
           { name: "Product ads" },
           { name: "Dynamic remarketing" },
@@ -465,6 +533,7 @@ export const services: ServiceCategory[] = [
       {
         id: "marketplace-marketing",
         title: "Marketplace Marketing",
+        icon: Store,
         items: [
           { name: "Amazon marketing services" },
           { name: "Product listing optimisation" },
@@ -473,6 +542,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ecommerce-conversion",
         title: "Conversion Optimisation",
+        icon: TrendingUp,
         items: [
           { name: "Cart abandonment strategy" },
           { name: "Upsell & cross-sell optimisation" },
@@ -501,6 +571,7 @@ export const services: ServiceCategory[] = [
       {
         id: "amazon-seo",
         title: "Amazon SEO",
+        icon: Search,
         items: [
           { name: "Keyword optimization" },
           { name: "Listing optimization" },
@@ -509,6 +580,7 @@ export const services: ServiceCategory[] = [
       {
         id: "amazon-ppc",
         title: "Amazon PPC",
+        icon: BarChart3,
         items: [
           { name: "Sponsored products" },
           { name: "Sponsored brands" },
@@ -518,6 +590,7 @@ export const services: ServiceCategory[] = [
       {
         id: "amazon-storefront",
         title: "Amazon Storefront Optimisation",
+        icon: Store,
         items: [
           { name: "Brand storefront design" },
           { name: "Performance tracking" },
@@ -546,6 +619,7 @@ export const services: ServiceCategory[] = [
       {
         id: "video-strategy",
         title: "Video Strategy",
+        icon: Target,
         items: [
           { name: "Campaign planning" },
           { name: "Funnel-based video mapping" },
@@ -554,6 +628,7 @@ export const services: ServiceCategory[] = [
       {
         id: "video-production",
         title: "Video Production",
+        icon: Film,
         items: [
           { name: "Promotional videos" },
           { name: "Explainer videos" },
@@ -563,6 +638,7 @@ export const services: ServiceCategory[] = [
       {
         id: "video-distribution",
         title: "Video Distribution",
+        icon: Share2,
         items: [
           { name: "YouTube marketing" },
           { name: "Social video promotion" },
@@ -592,6 +668,7 @@ export const services: ServiceCategory[] = [
       {
         id: "programmatic-advertising",
         title: "Programmatic Advertising",
+        icon: Settings,
         items: [
           { name: "Automated media buying" },
           { name: "Audience targeting" },
@@ -600,6 +677,7 @@ export const services: ServiceCategory[] = [
       {
         id: "performance-media-planning",
         title: "Performance Media Planning",
+        icon: BarChart3,
         items: [
           { name: "Budget optimization" },
           { name: "Cross-channel planning" },
@@ -628,6 +706,7 @@ export const services: ServiceCategory[] = [
       {
         id: "marketing-analytics",
         title: "Marketing Analytics",
+        icon: BarChart3,
         items: [
           { name: "Performance dashboards" },
           { name: "ROI & revenue tracking" },
@@ -636,6 +715,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-automation",
         title: "AI & Automation",
+        icon: Bot,
         items: [
           { name: "AI-driven campaign optimisation" },
           { name: "Predictive analytics" },
@@ -644,6 +724,7 @@ export const services: ServiceCategory[] = [
       {
         id: "crm-integrations",
         title: "CRM & Tool Integrations",
+        icon: Database,
         items: [
           { name: "CRM setup & integration" },
           { name: "Marketing automation tools" },
@@ -672,6 +753,7 @@ export const services: ServiceCategory[] = [
       {
         id: "custom-software-development",
         title: "Custom Software Development",
+        icon: Terminal,
         items: [
           { name: "Marketing tools & platforms" },
           { name: "Custom dashboards" },
@@ -680,6 +762,7 @@ export const services: ServiceCategory[] = [
       {
         id: "api-system-integrations",
         title: "API & System Integrations",
+        icon: Puzzle,
         items: [
           { name: "Data syncing" },
           { name: "Third-party tool integration" },
@@ -708,6 +791,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-strategy-consulting",
         title: "AI Marketing Strategy & Consulting",
+        icon: Brain,
         items: [
           { name: "AI readiness assessment" },
           { name: "AI-driven marketing roadmap" },
@@ -718,6 +802,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-seo-search",
         title: "AI SEO & Search Intelligence",
+        icon: Search,
         items: [
           { name: "AI-powered keyword research" },
           { name: "Search intent & semantic analysis" },
@@ -729,6 +814,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-content-creation",
         title: "AI Content Creation & Optimisation",
+        icon: Sparkles,
         items: [
           { name: "AI-assisted blog & article generation" },
           { name: "AI copy optimisation for CTR & conversions" },
@@ -740,6 +826,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-advertising-campaign",
         title: "AI Advertising & Campaign Optimisation",
+        icon: Target,
         items: [
           { name: "AI-driven bid management (PPC & paid social)" },
           { name: "Automated audience targeting & segmentation" },
@@ -751,6 +838,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-personalisation",
         title: "AI Personalisation & Customer Experience",
+        icon: UserCheck,
         items: [
           { name: "AI-based website personalisation" },
           { name: "Dynamic content & product recommendations" },
@@ -761,6 +849,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-analytics-insights",
         title: "AI Analytics & Predictive Insights",
+        icon: LineChart,
         items: [
           { name: "AI-powered marketing dashboards" },
           { name: "Predictive revenue & conversion forecasting" },
@@ -772,6 +861,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-chatbots",
         title: "AI Chatbots & Conversational Marketing",
+        icon: MessageSquare,
         items: [
           { name: "AI chatbot setup & training" },
           { name: "Website & landing page chatbots" },
@@ -783,6 +873,7 @@ export const services: ServiceCategory[] = [
       {
         id: "marketing-automation-ai",
         title: "Marketing Automation & AI Workflows",
+        icon: Workflow,
         items: [
           { name: "AI-driven email automation" },
           { name: "Smart lead scoring" },
@@ -794,6 +885,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-crm-integrations",
         title: "AI CRM & System Integrations",
+        icon: Database,
         items: [
           { name: "AI-powered CRM enhancement" },
           { name: "Marketing automation platform integration" },
@@ -804,6 +896,7 @@ export const services: ServiceCategory[] = [
       {
         id: "generative-ai",
         title: "Generative AI & Advanced Technologies",
+        icon: Sparkles,
         items: [
           { name: "Generative AI for ads & creatives" },
           { name: "AI video scripting & optimisation" },
@@ -835,6 +928,7 @@ export const services: ServiceCategory[] = [
       {
         id: "digital-marketing-training",
         title: "Digital Marketing Training Programs",
+        icon: Megaphone,
         items: [
           { name: "Fundamentals of Digital Marketing" },
           { name: "Advanced SEO Training" },
@@ -847,6 +941,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-automation-training",
         title: "AI & Automation Training",
+        icon: Bot,
         items: [
           { name: "AI in Digital Marketing Fundamentals" },
           { name: "AI-Powered SEO & Content Training" },
@@ -859,6 +954,7 @@ export const services: ServiceCategory[] = [
       {
         id: "web-design-training",
         title: "Web Design & Development Training",
+        icon: Code,
         items: [
           { name: "Website Design Fundamentals (UI/UX)" },
           { name: "HTML, CSS & JavaScript Training" },
@@ -870,6 +966,7 @@ export const services: ServiceCategory[] = [
       {
         id: "analytics-training",
         title: "Data, Analytics & Performance Training",
+        icon: LineChart,
         items: [
           { name: "Google Analytics (GA4) Training" },
           { name: "Marketing Analytics & Reporting" },
@@ -881,6 +978,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ecommerce-training",
         title: "E-commerce & Marketplace Training",
+        icon: ShoppingBag,
         items: [
           { name: "E-commerce SEO Training" },
           { name: "Google Shopping & Product Ads" },
@@ -892,6 +990,7 @@ export const services: ServiceCategory[] = [
       {
         id: "internship-programs",
         title: "Internship Programs",
+        icon: UserCheck,
         items: [
           { name: "Digital Marketing Internship" },
           { name: "AI Marketing Internship" },
@@ -901,6 +1000,7 @@ export const services: ServiceCategory[] = [
       {
         id: "certification-courses",
         title: "Certification Courses",
+        icon: FileText,
         items: [
           { name: "Certificate in Digital Marketing" },
           { name: "Certificate in AI Marketing" },
@@ -910,6 +1010,7 @@ export const services: ServiceCategory[] = [
       {
         id: "training-modes",
         title: "Mode of Training",
+        icon: MonitorPlay,
         items: [
           { name: "Online Training (Live & Recorded)" },
           { name: "Offline / Classroom Training" },
@@ -921,6 +1022,7 @@ export const services: ServiceCategory[] = [
       {
         id: "career-support",
         title: "Career Support & Placement Assistance",
+        icon: TrendingUp,
         items: [
           { name: "Internship completion certificate" },
           { name: "Industry-recognised course certificate" },
@@ -952,6 +1054,7 @@ export const services: ServiceCategory[] = [
       {
         id: "marketing-saas",
         title: "Marketing SaaS Platforms",
+        icon: Megaphone,
         items: [
           { name: "All-in-One Digital Marketing Platform" },
           { name: "SEO Management & Rank Tracking Software" },
@@ -963,6 +1066,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-saas",
         title: "AI-Powered SaaS Solutions",
+        icon: Bot,
         items: [
           { name: "AI Marketing Automation Software" },
           { name: "AI SEO & Keyword Intelligence Tool" },
@@ -974,6 +1078,7 @@ export const services: ServiceCategory[] = [
       {
         id: "crm-saas",
         title: "CRM & Customer Management SaaS",
+        icon: UserCheck,
         items: [
           { name: "Lead Management & CRM Software" },
           { name: "AI-Powered Lead Scoring Systems" },
@@ -985,6 +1090,7 @@ export const services: ServiceCategory[] = [
       {
         id: "analytics-saas",
         title: "Analytics & Reporting SaaS",
+        icon: BarChart3,
         items: [
           { name: "Marketing Analytics Dashboard" },
           { name: "ROI & Revenue Tracking Software" },
@@ -996,6 +1102,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ecommerce-saas",
         title: "Ecommerce & Marketplace SaaS",
+        icon: ShoppingCart,
         items: [
           { name: "E-commerce Marketing Automation Software" },
           { name: "Product Feed & Shopping Ads Management Tool" },
@@ -1007,6 +1114,7 @@ export const services: ServiceCategory[] = [
       {
         id: "website-conversion-saas",
         title: "Website & Conversion SaaS",
+        icon: Layout,
         items: [
           { name: "Website Builder & Landing Page SaaS" },
           { name: "Funnel Builder & Lead Capture Tools" },
@@ -1018,6 +1126,7 @@ export const services: ServiceCategory[] = [
       {
         id: "workflow-automation-saas",
         title: "Workflow Automation & Integration SaaS",
+        icon: Workflow,
         items: [
           { name: "Marketing Workflow Automation Platform" },
           { name: "AI-Driven Process Automation Tools" },
@@ -1029,6 +1138,7 @@ export const services: ServiceCategory[] = [
       {
         id: "customer-support-saas",
         title: "Customer Support & Engagement SaaS",
+        icon: MessageSquare,
         items: [
           { name: "AI Chatbot & Conversational SaaS" },
           { name: "Live Chat & Helpdesk Software" },
@@ -1040,6 +1150,7 @@ export const services: ServiceCategory[] = [
       {
         id: "subscription-billing-saas",
         title: "Subscription & Billing SaaS",
+        icon: CreditCard,
         items: [
           { name: "Subscription Management Software" },
           { name: "Payment Gateway Integration" },
@@ -1051,6 +1162,7 @@ export const services: ServiceCategory[] = [
       {
         id: "saas-development",
         title: "SaaS Development, Customisation & Support",
+        icon: Code,
         items: [
           { name: "Custom SaaS Application Development" },
           { name: "SaaS UI/UX Design Services" },
@@ -1082,6 +1194,7 @@ export const services: ServiceCategory[] = [
       {
         id: "brand-strategy-identity",
         title: "Brand Strategy & Identity",
+        icon: Target,
         items: [
           { name: "Brand discovery & positioning" },
           { name: "Brand naming & tagline creation" },
@@ -1093,6 +1206,7 @@ export const services: ServiceCategory[] = [
       {
         id: "logo-design",
         title: "Logo Design Services",
+        icon: PenTool,
         items: [
           { name: "Custom logo design" },
           { name: "Logo redesign & modernisation" },
@@ -1104,6 +1218,7 @@ export const services: ServiceCategory[] = [
       {
         id: "corporate-branding",
         title: "Corporate Branding & Collateral",
+        icon: Building,
         items: [
           { name: "Business cards & letterheads" },
           { name: "Company profiles & brochures" },
@@ -1115,6 +1230,7 @@ export const services: ServiceCategory[] = [
       {
         id: "graphic-design",
         title: "Graphic Design Services",
+        icon: Image,
         items: [
           { name: "Marketing & promotional creatives" },
           { name: "Banner & display ad designs" },
@@ -1126,6 +1242,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ui-ux-design",
         title: "UI/UX & Digital Design",
+        icon: Layout,
         items: [
           { name: "Website UI design" },
           { name: "Mobile app UI design" },
@@ -1137,6 +1254,7 @@ export const services: ServiceCategory[] = [
       {
         id: "social-media-creative",
         title: "Social Media Creative Design",
+        icon: Share2,
         items: [
           { name: "Social media branding kits" },
           { name: "Campaign creatives" },
@@ -1148,6 +1266,7 @@ export const services: ServiceCategory[] = [
       {
         id: "packaging-design",
         title: "Packaging & Product Design",
+        icon: Package,
         items: [
           { name: "Product packaging design" },
           { name: "Label & box design" },
@@ -1158,6 +1277,7 @@ export const services: ServiceCategory[] = [
       {
         id: "motion-graphics",
         title: "Motion Graphics & Visual Media",
+        icon: Film,
         items: [
           { name: "Animated graphics" },
           { name: "Explainer motion videos" },
@@ -1168,6 +1288,7 @@ export const services: ServiceCategory[] = [
       {
         id: "creative-advertising",
         title: "Creative Advertising & Campaign Design",
+        icon: Megaphone,
         items: [
           { name: "Ad concept & creative direction" },
           { name: "Campaign branding & visuals" },
@@ -1178,6 +1299,7 @@ export const services: ServiceCategory[] = [
       {
         id: "ai-creative-design",
         title: "AI-Powered Creative & Design Services",
+        icon: Sparkles,
         items: [
           { name: "AI-generated design concepts" },
           { name: "AI image & visual generation" },

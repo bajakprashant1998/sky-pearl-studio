@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.png";
 
 const HeroSection = () => {
@@ -40,13 +41,17 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-up" style={{ animationDelay: "0.3s" }}>
-              <Button variant="hero" size="lg" className="group">
-                Start Your Journey
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <Button variant="hero" size="lg" className="group" asChild>
+                <a href="#contact">
+                  Start Your Journey
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
               </Button>
-              <Button variant="heroOutline" size="lg" className="group">
-                <Play className="w-5 h-5" />
-                Watch Demo
+              <Button variant="heroOutline" size="lg" className="group" asChild>
+                <Link to="/about-us">
+                  <FileText className="w-5 h-5 mr-2" />
+                  Company Profile
+                </Link>
               </Button>
             </div>
 

@@ -24,6 +24,18 @@ import TrainingProgramsPage from "./pages/services/TrainingProgramsPage";
 import SaaSProductsPage from "./pages/services/SaaSProductsPage";
 import BrandingDesignPage from "./pages/services/BrandingDesignPage";
 import SubcategoryPage from "./pages/services/subcategory/SubcategoryPage";
+import FeatureDetailPage from "./pages/services/subcategory/FeatureDetailPage";
+import BenefitDetailPage from "./pages/services/subcategory/BenefitDetailPage";
+import Careers from "./pages/company/Careers";
+import AboutUs from "./pages/company/AboutUs";
+import ContactUs from "./pages/ContactUs";
+import CaseStudies from "./pages/company/CaseStudies";
+import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
+import TermsOfService from "./pages/legal/TermsOfService";
+import CookiePolicy from "./pages/legal/CookiePolicy";
+
+
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +45,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <WhatsAppButton />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
@@ -55,6 +68,20 @@ const App = () => (
             <Route path="/services/branding-design" element={<BrandingDesignPage />} />
             {/* Dynamic subcategory routes */}
             <Route path="/services/:serviceSlug/:subcategoryId" element={<SubcategoryPage />} />
+            {/* Dynamic feature routes */}
+            <Route path="/services/:serviceSlug/:subcategoryId/feature/:itemSlug" element={<FeatureDetailPage />} />
+            {/* Dynamic benefit routes */}
+            <Route path="/services/:serviceSlug/:subcategoryId/benefit/:itemSlug" element={<BenefitDetailPage />} />
+
+            {/* Company & Legal routes */}
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/case-studies" element={<CaseStudies />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/cookie-policy" element={<CookiePolicy />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

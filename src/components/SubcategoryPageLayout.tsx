@@ -27,7 +27,7 @@ const SubcategoryPageLayout = ({
   items,
 }: SubcategoryPageLayoutProps) => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
-  
+
   const subcategoryData = getSubcategoryData(
     subcategoryId,
     subcategoryTitle,
@@ -41,16 +41,16 @@ const SubcategoryPageLayout = ({
         <title>{subcategoryTitle} - {serviceTitle} | Digital Bull Technology</title>
         <meta name="description" content={subcategoryData.description} />
       </Helmet>
-      
+
       <Navbar />
-      
+
       <main className="pt-20">
         {/* Hero Section */}
         <section className="py-16 lg:py-24 bg-gradient-to-br from-primary/5 via-background to-accent/10 relative overflow-hidden">
           {/* Background decorations */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-          
+
           <div className="container mx-auto px-4 relative">
             {/* Breadcrumb */}
             <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
@@ -62,25 +62,25 @@ const SubcategoryPageLayout = ({
               <span>/</span>
               <span className="text-foreground">{subcategoryTitle}</span>
             </nav>
-            
+
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="animate-fade-up">
                 <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center mb-6 shadow-lg">
                   <ServiceIcon className="w-8 h-8 text-primary-foreground" />
                 </div>
-                
+
                 <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-medium mb-4">
                   {serviceTitle}
                 </span>
-                
+
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                   {subcategoryTitle}
                 </h1>
-                
+
                 <p className="text-xl text-muted-foreground leading-relaxed mb-8">
                   {subcategoryData.description}
                 </p>
-                
+
                 <div className="flex flex-wrap gap-4">
                   <Button variant="hero" size="lg">
                     Get Started <ArrowRight className="w-4 h-4 ml-2" />
@@ -90,7 +90,7 @@ const SubcategoryPageLayout = ({
                   </Button>
                 </div>
               </div>
-              
+
               {/* Hero Stats/Features Card */}
               <div className="animate-fade-up" style={{ animationDelay: "0.2s" }}>
                 <div className="bg-card rounded-3xl p-8 border border-border shadow-xl">
@@ -99,18 +99,27 @@ const SubcategoryPageLayout = ({
                     What's Included
                   </h3>
                   <ul className="space-y-4">
-                    {items.map((item, index) => (
-                      <li 
-                        key={index} 
-                        className="flex items-start gap-3 animate-fade-up"
-                        style={{ animationDelay: `${0.3 + index * 0.05}s` }}
-                      >
-                        <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <Check className="w-4 h-4 text-primary" />
-                        </div>
-                        <span className="text-foreground">{item.name}</span>
-                      </li>
-                    ))}
+                    {items.map((item, index) => {
+                      const itemSlug = item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                      return (
+                        <li
+                          key={index}
+                          className="animate-fade-up link-item"
+                          style={{ animationDelay: `${0.3 + index * 0.05}s` }}
+                        >
+                          <Link
+                            to={`/services/${serviceSlug}/${subcategoryId}/feature/${itemSlug}`}
+                            className="flex items-start gap-3 w-full group hover:bg-muted/50 p-2 rounded-lg transition-colors -ml-2"
+                          >
+                            <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-primary/20 transition-colors">
+                              <Check className="w-4 h-4 text-primary" />
+                            </div>
+                            <span className="text-foreground group-hover:text-primary transition-colors">{item.name}</span>
+                            <ArrowRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
+                          </Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>
@@ -143,21 +152,31 @@ const SubcategoryPageLayout = ({
                 Discover how our {subcategoryTitle} services can transform your business
               </p>
             </div>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {subcategoryData.keyBenefits.map((benefit, index) => {
                 const BenefitIcon = benefitIcons[index % benefitIcons.length];
+                const benefitSlug = benefit.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
                 return (
-                  <div
+                  <Link
                     key={index}
-                    className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 animate-fade-up group"
-                    style={{ animationDelay: `${index * 0.05}s` }}
+                    to={`/services/${serviceSlug}/${subcategoryId}/benefit/${benefitSlug}`}
+                    className="block group h-full"
                   >
-                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                      <BenefitIcon className="w-6 h-6 text-primary" />
+                    <div
+                      className="bg-card rounded-2xl p-6 border border-border group-hover:border-primary/50 group-hover:shadow-xl transition-all duration-300 animate-fade-up h-full flex flex-col"
+                      style={{ animationDelay: `${index * 0.05}s` }}
+                    >
+                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                        <BenefitIcon className="w-6 h-6 text-primary" />
+                      </div>
+                      <p className="text-foreground font-medium group-hover:text-primary transition-colors mb-4">{benefit}</p>
+                      <div className="mt-auto flex items-center text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                        Learn more <ArrowRight className="w-4 h-4 ml-1" />
+                      </div>
                     </div>
-                    <p className="text-foreground font-medium">{benefit}</p>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -175,7 +194,7 @@ const SubcategoryPageLayout = ({
                 A proven approach to delivering exceptional {subcategoryTitle} results
               </p>
             </div>
-            
+
             <div className="max-w-4xl mx-auto">
               {subcategoryData.processSteps.map((step, index) => {
                 const StepIcon = processIcons[index % processIcons.length];
@@ -194,7 +213,7 @@ const SubcategoryPageLayout = ({
                         <div className="w-0.5 h-full bg-border mt-4" />
                       )}
                     </div>
-                    
+
                     {/* Step Content */}
                     <div className="flex-1 bg-card rounded-2xl p-6 border border-border hover:border-primary/50 transition-colors">
                       <div className="flex items-center gap-3 mb-3">
@@ -217,18 +236,18 @@ const SubcategoryPageLayout = ({
               <div className="max-w-3xl mx-auto bg-card rounded-3xl p-8 lg:p-12 border border-border text-center relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2" />
                 <div className="absolute bottom-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-2xl translate-x-1/2 translate-y-1/2" />
-                
+
                 <div className="relative">
                   <div className="flex justify-center gap-1 mb-6">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-5 h-5 fill-primary text-primary" />
                     ))}
                   </div>
-                  
+
                   <blockquote className="text-xl lg:text-2xl font-medium mb-6 text-foreground">
                     "{subcategoryData.testimonialSnippet.quote}"
                   </blockquote>
-                  
+
                   <div>
                     <p className="font-semibold text-foreground">{subcategoryData.testimonialSnippet.author}</p>
                     <p className="text-sm text-muted-foreground">{subcategoryData.testimonialSnippet.company}</p>
@@ -250,7 +269,7 @@ const SubcategoryPageLayout = ({
                 Get answers to common questions about our {subcategoryTitle} services
               </p>
             </div>
-            
+
             <div className="max-w-3xl mx-auto space-y-4">
               {subcategoryData.faqs.map((faq, index) => (
                 <div
@@ -328,7 +347,7 @@ const SubcategoryPageLayout = ({
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </>
   );
