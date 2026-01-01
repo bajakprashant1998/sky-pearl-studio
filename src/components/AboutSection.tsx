@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const features = [
   "Data-driven strategies for measurable results",
@@ -31,7 +32,7 @@ const AboutSection = () => {
                       <div className="text-sm text-muted-foreground">Est. 2009</div>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <div className="flex justify-between items-center p-4 bg-muted rounded-xl">
                       <span className="text-muted-foreground">Client Retention</span>
@@ -50,19 +51,35 @@ const AboutSection = () => {
               </div>
 
               {/* Floating Badge */}
-              <div className="absolute -bottom-6 -right-6 bg-card rounded-2xl p-4 shadow-xl border border-border animate-float">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                    <CheckCircle2 className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-foreground">Google Partner</div>
-                    <div className="text-xs text-muted-foreground">Certified Agency</div>
-                  </div>
+            </div>
+
+            {/* Google Badge */}
+            <div className="absolute -bottom-6 -right-6 bg-card rounded-2xl p-4 shadow-xl border border-border animate-float">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <div className="font-bold text-foreground">Google Partner</div>
+                  <div className="text-xs text-muted-foreground">Certified Agency</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Microsoft Badge */}
+            <div className="absolute -bottom-6 -left-6 bg-card rounded-2xl p-4 shadow-xl border border-border animate-float" style={{ animationDelay: "2s" }}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-blue-600" />
+                </div>
+                <div>
+                  <div className="font-bold text-foreground">Microsoft</div>
+                  <div className="text-xs text-muted-foreground">Certified Agency</div>
                 </div>
               </div>
             </div>
           </div>
+
 
           {/* Right Column - Content */}
           <div className="space-y-8">
@@ -89,14 +106,16 @@ const AboutSection = () => {
               ))}
             </div>
 
-            <Button variant="hero" size="lg" className="group">
-              Learn More About Us
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <Button variant="hero" size="lg" className="group" asChild>
+              <Link to="/about-us">
+                Learn More About Us
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </Button>
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 
