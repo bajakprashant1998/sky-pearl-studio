@@ -38,7 +38,7 @@ const SubcategoryPageLayout = ({
   return (
     <>
       <Helmet>
-        <title>{subcategoryTitle} - {serviceTitle} | DigiPulse</title>
+        <title>{subcategoryTitle} - {serviceTitle} | Digital Bull Technology</title>
         <meta name="description" content={subcategoryData.description} />
       </Helmet>
       
