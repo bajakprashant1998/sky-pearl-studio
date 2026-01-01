@@ -23,6 +23,7 @@ import AIMarketingPage from "./pages/services/AIMarketingPage";
 import TrainingProgramsPage from "./pages/services/TrainingProgramsPage";
 import SaaSProductsPage from "./pages/services/SaaSProductsPage";
 import BrandingDesignPage from "./pages/services/BrandingDesignPage";
+import SubcategoryPage from "./pages/services/subcategory/SubcategoryPage";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,8 @@ const App = () => (
             <Route path="/services/training-programs" element={<TrainingProgramsPage />} />
             <Route path="/services/saas-products" element={<SaaSProductsPage />} />
             <Route path="/services/branding-design" element={<BrandingDesignPage />} />
+            {/* Dynamic subcategory routes */}
+            <Route path="/services/:serviceSlug/:subcategoryId" element={<SubcategoryPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

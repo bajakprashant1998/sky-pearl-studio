@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Check, ArrowRight } from "lucide-react";
+import { ArrowLeft, Check, ArrowRight, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LucideIcon } from "lucide-react";
 import Navbar from "./Navbar";
@@ -15,6 +15,7 @@ interface ServicePageLayoutProps {
   subcategories: Subcategory[];
   benefits: string[];
   ctaText?: string;
+  slug: string;
 }
 
 const ServicePageLayout = ({
@@ -25,6 +26,7 @@ const ServicePageLayout = ({
   subcategories,
   benefits,
   ctaText = "Get Started Today",
+  slug,
 }: ServicePageLayoutProps) => {
   return (
     <>
@@ -90,16 +92,20 @@ const ServicePageLayout = ({
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {subcategories.map((subcategory, index) => (
-                <div
+                <Link
                   key={subcategory.id}
-                  className="bg-card rounded-2xl p-8 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 animate-fade-up"
+                  to={`/services/${slug}/${subcategory.id}`}
+                  className="bg-card rounded-2xl p-8 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 animate-fade-up group"
                   style={{ animationDelay: `${index * 0.05}s` }}
                 >
-                  <h3 className="text-xl font-bold mb-4 text-foreground">
-                    {subcategory.title}
-                  </h3>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                      {subcategory.title}
+                    </h3>
+                    <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                  </div>
                   <ul className="space-y-3">
-                    {subcategory.items.map((item, itemIndex) => (
+                    {subcategory.items.slice(0, 4).map((item, itemIndex) => (
                       <li key={itemIndex} className="flex items-start gap-3">
                         <div className="w-5 h-5 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                           <Check className="w-3 h-3 text-primary" />
@@ -109,8 +115,13 @@ const ServicePageLayout = ({
                         </span>
                       </li>
                     ))}
+                    {subcategory.items.length > 4 && (
+                      <li className="text-sm text-primary font-medium pl-8">
+                        +{subcategory.items.length - 4} more services
+                      </li>
+                    )}
                   </ul>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
