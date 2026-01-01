@@ -16,6 +16,7 @@ const ProgrammaticAdvertisingPage = () => {
       subcategories={service.subcategories}
       benefits={service.benefits}
       ctaText={service.ctaText}
+      slug={service.slug}
     />
   );
 };
