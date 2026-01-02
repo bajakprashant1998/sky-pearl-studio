@@ -131,12 +131,12 @@ const Navbar = () => {
             >
               Careers
             </Link>
-            <a
+            {/* <a
               href={getHref("#testimonials")}
               className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
             >
               Testimonials
-            </a>
+            </a> */}
             <Link
               to="/contact"
               className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
@@ -233,13 +233,13 @@ const Navbar = () => {
               >
                 Careers
               </Link>
-              <a
+              {/* <a
                 href={getHref("#testimonials")}
                 className="text-muted-foreground hover:text-primary font-medium transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >
                 Testimonials
-              </a>
+              </a> */}
               <Link
                 to="/contact"
                 className="text-muted-foreground hover:text-primary font-medium transition-colors py-2"

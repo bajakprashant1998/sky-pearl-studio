@@ -36,6 +36,7 @@ import CookiePolicy from "./pages/legal/CookiePolicy";
 
 
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ const App = () => (
         <Sonner />
         <WhatsAppButton />
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/services/seo" element={<SEOPage />} />
