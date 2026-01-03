@@ -66,12 +66,12 @@ const AboutUs = () => {
         "logo": "https://digitalbull.com/dibull_logo.png",
         "description": "Full-service digital growth, technology, and creative solutions company specializing in AI, SaaS, Marketing, and Training.",
         "address": {
-            "@type": "PostalAddress",
+            "@type": "Digital Bull Technology Pvt ltd A 823 Moneyplant High street Jagatpur Road, Near GOTA Cross road Ahmedabad",
             "addressCountry": "India"
         },
         "contactPoint": {
             "@type": "ContactPoint",
-            "email": "hello@digitalbull.com",
+            "email": "cadbull2014@gmail.com",
             "contactType": "customer service"
         },
         "sameAs": [
@@ -91,18 +91,18 @@ const AboutUs = () => {
                 />
                 <meta name="keywords" content="digital marketing agency, digital bull technology, SEO company, PPC agency, web design, AI marketing, SaaS development" />
                 <link rel="canonical" href="https://digitalbull.com/about-us" />
-                
+
                 {/* Open Graph */}
                 <meta property="og:title" content="About Us | Digital Bull Technology" />
                 <meta property="og:description" content="Full-service digital growth company specializing in AI, SaaS, Marketing, and Training." />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://digitalbull.com/about-us" />
-                
+
                 {/* Twitter */}
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="About Us | Digital Bull Technology" />
                 <meta name="twitter:description" content="Full-service digital growth company specializing in AI, SaaS, Marketing, and Training." />
-                
+
                 {/* Structured Data */}
                 <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
             </Helmet>
@@ -146,7 +146,7 @@ const AboutUs = () => {
                             {/* Stats Infographic */}
                             <div className="grid grid-cols-2 gap-6 animate-fade-up" style={{ animationDelay: "0.4s" }}>
                                 {stats.map((stat, index) => (
-                                    <div 
+                                    <div
                                         key={index}
                                         className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition-colors"
                                     >
@@ -334,15 +334,15 @@ const AboutUs = () => {
                                     <Button size="lg" className="w-full bg-white text-blue-700 hover:bg-blue-50 font-bold" asChild>
                                         <Link to="/contact">Let's Talk Business</Link>
                                     </Button>
-                                    
+
                                     <div className="mt-8 pt-8 border-t border-white/20 text-left">
                                         <div className="flex items-center gap-3 mb-4">
                                             <Mail className="w-5 h-5 text-blue-200" />
-                                            <span className="text-blue-100">hello@digitalbull.com</span>
+                                            <span className="text-blue-100">cadbull2014@gmail.com</span>
                                         </div>
                                         <div className="flex items-center gap-3">
                                             <Phone className="w-5 h-5 text-blue-200" />
-                                            <span className="text-blue-100">+91 XXX XXX XXXX</span>
+                                            <span className="text-blue-100">+91 9824011921</span>
                                         </div>
                                     </div>
                                 </div>

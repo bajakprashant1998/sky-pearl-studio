@@ -1,4 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Link } from "react-router-dom";
 import AnimatedSection from "./AnimatedSection";
 
 const faqs = [
@@ -78,15 +79,15 @@ const FAQSection = () => {
           <p className="text-muted-foreground mb-4">
             Still have questions? We're here to help!
           </p>
-          <a
-            href="/contact"
+          <Link
+            to="/contact"
             className="inline-flex items-center gap-2 text-primary font-semibold hover:underline"
           >
             Contact Our Team
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </a>
+          </Link>
         </AnimatedSection>
       </div>
     </section>

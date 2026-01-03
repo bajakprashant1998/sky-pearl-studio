@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Facebook, Twitter, Linkedin, Instagram, MapPin, Phone, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { services } from "@/data/services";
 import {
@@ -63,6 +63,28 @@ const Footer = () => {
                   <social.icon className="w-5 h-5" />
                 </a>
               ))}
+            </div>
+
+            <div className="hidden lg:block space-y-4 pt-4 border-t border-slate-800/50">
+              <div className="flex items-start gap-3 text-slate-400">
+                <MapPin className="w-5 h-5 text-blue-500 flex-shrink-0 mt-1" />
+                <p className="text-sm leading-relaxed">
+                  A 823 Moneyplant High street Jagatpur Road,<br />
+                  Near GOTA Cross road Ahmedabad
+                </p>
+              </div>
+              <div className="flex items-center gap-3 text-slate-400">
+                <Phone className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                <a href="tel:+919824011921" className="text-sm hover:text-blue-400 transition-colors">
+                  +91-98240-11921
+                </a>
+              </div>
+              <div className="flex items-center gap-3 text-slate-400">
+                <Mail className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                <a href="mailto:cadbull2014@gmail.com" className="text-sm hover:text-blue-400 transition-colors">
+                  cadbull2014@gmail.com
+                </a>
+              </div>
             </div>
           </div>
 
@@ -191,6 +213,33 @@ const Footer = () => {
                       </li>
                     ))}
                   </ul>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="contact" className="border-slate-800">
+                <AccordionTrigger className="text-lg font-bold text-white hover:text-blue-400 hover:no-underline">Contact Info</AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-4 pt-2 pb-4">
+                    <div className="flex items-start gap-3 text-slate-400">
+                      <MapPin className="w-4 h-4 text-blue-500 flex-shrink-0 mt-1" />
+                      <p className="text-sm leading-relaxed">
+                        A 823 Moneyplant High street Jagatpur Road,<br />
+                        Near GOTA Cross road Ahmedabad
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3 text-slate-400">
+                      <Phone className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                      <a href="tel:+919824011921" className="text-sm hover:text-blue-400 transition-colors">
+                        +91-98240-11921
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-3 text-slate-400">
+                      <Mail className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                      <a href="mailto:cadbull2014@gmail.com" className="text-sm hover:text-blue-400 transition-colors">
+                        cadbull2014@gmail.com
+                      </a>
+                    </div>
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

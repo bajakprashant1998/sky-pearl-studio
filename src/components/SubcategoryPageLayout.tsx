@@ -86,7 +86,7 @@ const SubcategoryPageLayout = ({
                     Get Started <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                   <Button variant="heroOutline" size="lg" asChild>
-                    <a href="#contact">Free Consultation</a>
+                    <Link to="/contact">Free Consultation</Link>
                   </Button>
                 </div>
               </div>
@@ -314,7 +314,7 @@ const SubcategoryPageLayout = ({
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button variant="hero" size="lg" asChild>
-                  <Link to="/#contact">
+                  <Link to="/contact">
                     Get Free Consultation <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
                 </Button>

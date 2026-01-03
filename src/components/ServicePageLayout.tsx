@@ -54,9 +54,9 @@ const ServicePageLayout = ({
         <link rel="canonical" href={`https://dibull.com/services/${slug}`} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
-      
+
       <Navbar />
-      
+
       <main className="pt-20">
         {/* Hero Section */}
         <section className="py-20 lg:py-28 bg-gradient-to-br from-primary/5 via-background to-accent/10 relative overflow-hidden">
@@ -64,43 +64,43 @@ const ServicePageLayout = ({
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent rounded-full blur-3xl" />
           </div>
-          
+
           <div className="container mx-auto px-4 relative z-10">
             <AnimatedSection>
-              <Link 
-                to="/" 
+              <Link
+                to="/"
                 className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Back to Home
               </Link>
             </AnimatedSection>
-            
+
             <div className="max-w-4xl">
               <AnimatedSection delay={0.1}>
                 <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center mb-6">
                   <Icon className="w-8 h-8 text-primary-foreground" />
                 </div>
               </AnimatedSection>
-              
+
               <AnimatedSection delay={0.15}>
                 <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold mb-4 tracking-wide uppercase">
                   {subtitle}
                 </span>
               </AnimatedSection>
-              
+
               <AnimatedSection delay={0.2}>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                   {title}
                 </h1>
               </AnimatedSection>
-              
+
               <AnimatedSection delay={0.25}>
                 <p className="text-xl text-muted-foreground leading-relaxed mb-8 max-w-2xl">
                   {description}
                 </p>
               </AnimatedSection>
-              
+
               <AnimatedSection delay={0.3}>
                 <div className="flex flex-wrap gap-4">
                   <Button variant="hero" size="lg" className="group" asChild>
@@ -110,7 +110,7 @@ const ServicePageLayout = ({
                     </Link>
                   </Button>
                   <Button variant="heroOutline" size="lg" asChild>
-                    <a href="#contact">Schedule Consultation</a>
+                    <Link to="/contact">Schedule Consultation</Link>
                   </Button>
                 </div>
               </AnimatedSection>
@@ -135,7 +135,7 @@ const ServicePageLayout = ({
                 Comprehensive solutions tailored to your business needs
               </p>
             </AnimatedSection>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {subcategories.map((subcategory, index) => (
                 <AnimatedSection key={subcategory.id} delay={index * 0.1}>
@@ -190,7 +190,7 @@ const ServicePageLayout = ({
                 <p className="text-lg text-muted-foreground mb-8">
                   Partner with us to unlock your business potential with proven strategies and measurable results.
                 </p>
-                
+
                 <ul className="space-y-4">
                   {benefits.map((benefit, index) => (
                     <li key={index} className="flex items-start gap-3">
@@ -202,7 +202,7 @@ const ServicePageLayout = ({
                   ))}
                 </ul>
               </AnimatedSection>
-              
+
               <AnimatedSection direction="right">
                 <div className="bg-gradient-to-br from-primary/10 to-accent/20 rounded-3xl p-8 lg:p-12 border border-primary/20">
                   <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
@@ -211,7 +211,7 @@ const ServicePageLayout = ({
                   </p>
                   <Button variant="hero" className="w-full group" asChild>
                     <Link to="/contact">
-                      Contact Us 
+                      Contact Us
                       <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </Button>
@@ -221,7 +221,7 @@ const ServicePageLayout = ({
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </>
   );
