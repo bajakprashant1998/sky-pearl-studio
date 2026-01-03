@@ -1,5 +1,6 @@
 import { getServiceBySlug } from "@/data/services";
 import ServicePageLayout from "@/components/ServicePageLayout";
+import SEOChecker from "@/components/SEOChecker";
 import NotFound from "@/pages/NotFound";
 
 const SEOPage = () => {
@@ -17,6 +18,7 @@ const SEOPage = () => {
       benefits={service.benefits}
       ctaText={service.ctaText}
       slug={service.slug}
+      extraSection={<SEOChecker />}
     />
   );
 };

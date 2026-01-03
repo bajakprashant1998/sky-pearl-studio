@@ -33,7 +33,7 @@ import CaseStudies from "./pages/company/CaseStudies";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import TermsOfService from "./pages/legal/TermsOfService";
 import CookiePolicy from "./pages/legal/CookiePolicy";
-
+import ImpactDetailPage from "./pages/impact/ImpactDetailPage";
 
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -74,6 +74,9 @@ const App = () => (
             <Route path="/services/:serviceSlug/:subcategoryId/feature/:itemSlug" element={<FeatureDetailPage />} />
             {/* Dynamic benefit routes */}
             <Route path="/services/:serviceSlug/:subcategoryId/benefit/:itemSlug" element={<BenefitDetailPage />} />
+
+            {/* Business Impact routes */}
+            <Route path="/impact/:slug" element={<ImpactDetailPage />} />
 
             {/* Company & Legal routes */}
             <Route path="/about-us" element={<AboutUs />} />
