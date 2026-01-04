@@ -120,23 +120,23 @@ const Navbar = () => {
             </div>
 
             <Link
+              to="/free-tools"
+              className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
+            >
+              Free Tools
+            </Link>
+            <Link
               to="/about-us"
               className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
             >
               About
             </Link>
             <Link
-              to="/careers"
+              to="/case-studies"
               className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
             >
-              Careers
+              Case Studies
             </Link>
-            {/* <a
-              href={getHref("#testimonials")}
-              className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
-            >
-              Testimonials
-            </a> */}
             <Link
               to="/contact"
               className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
