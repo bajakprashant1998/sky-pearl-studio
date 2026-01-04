@@ -34,6 +34,8 @@ import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import TermsOfService from "./pages/legal/TermsOfService";
 import CookiePolicy from "./pages/legal/CookiePolicy";
 import ImpactDetailPage from "./pages/impact/ImpactDetailPage";
+import FreeToolsPage from "./pages/tools/FreeToolsPage";
+import ToolDetailPage from "./pages/tools/ToolDetailPage";
 
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -77,6 +79,10 @@ const App = () => (
 
             {/* Business Impact routes */}
             <Route path="/impact/:slug" element={<ImpactDetailPage />} />
+
+            {/* Free Tools routes */}
+            <Route path="/free-tools" element={<FreeToolsPage />} />
+            <Route path="/free-tools/:toolSlug" element={<ToolDetailPage />} />
 
             {/* Company & Legal routes */}
             <Route path="/about-us" element={<AboutUs />} />
