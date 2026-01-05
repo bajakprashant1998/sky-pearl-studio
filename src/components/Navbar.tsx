@@ -165,47 +165,49 @@ const Navbar = () => {
 
         {isOpen && (
           <div className="lg:hidden py-4 border-t border-border animate-fade-in max-h-[80vh] overflow-y-auto">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
               <Link
                 to="/"
-                className="text-muted-foreground hover:text-primary font-medium transition-colors py-2"
+                className="text-foreground hover:text-primary font-medium transition-colors py-3 px-2 rounded-lg hover:bg-muted"
                 onClick={() => setIsOpen(false)}
               >
                 Home
               </Link>
 
-              <div className="space-y-2">
-                <span className="text-muted-foreground font-medium py-2 block">Services</span>
-                <div className="pl-2 space-y-1">
+              <div className="space-y-1">
+                <span className="text-foreground font-semibold py-3 px-2 block">Services</span>
+                <div className="space-y-1">
                   {services.map((service) => (
                     <div key={service.id} className="space-y-1">
-                      <div className="flex items-center justify-between pr-2">
+                      <div className="flex items-center justify-between">
                         <Link
                           to={`/services/${service.slug}`}
-                          className="flex items-center gap-2 text-muted-foreground hover:text-primary text-sm transition-colors py-2 flex-1"
+                          className="flex items-center gap-3 text-muted-foreground hover:text-primary text-sm transition-colors py-2 px-2 flex-1 rounded-lg hover:bg-muted"
                           onClick={() => setIsOpen(false)}
                         >
-                          <service.icon className="w-4 h-4" />
-                          {service.shortTitle}
+                          <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                            <service.icon className="w-4 h-4 text-primary" />
+                          </div>
+                          <span className="font-medium">{service.shortTitle}</span>
                         </Link>
                         <button
                           onClick={(e) => {
                             e.preventDefault();
                             setExpandedServiceMobile(expandedServiceMobile === service.id ? null : service.id);
                           }}
-                          className="p-2"
+                          className="p-3 hover:bg-muted rounded-lg"
                         >
-                          <ChevronDown className={`w-3 h-3 transition-transform ${expandedServiceMobile === service.id ? 'rotate-180' : ''}`} />
+                          <ChevronDown className={`w-4 h-4 transition-transform ${expandedServiceMobile === service.id ? 'rotate-180' : ''}`} />
                         </button>
                       </div>
 
                       {expandedServiceMobile === service.id && (
-                        <div className="pl-8 border-l border-border ml-2 space-y-1 py-1">
+                        <div className="pl-4 border-l-2 border-primary/20 ml-4 space-y-1 py-1">
                           {service.subcategories.map(sub => (
                             <Link
                               key={sub.id}
                               to={`/services/${service.slug}/${sub.id}`}
-                              className="flex items-center gap-2 py-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                              className="flex items-center gap-2 py-2 px-2 text-sm text-muted-foreground hover:text-primary transition-colors rounded-lg hover:bg-muted"
                               onClick={() => setIsOpen(false)}
                             >
                               <sub.icon className="w-4 h-4" />
@@ -219,40 +221,44 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <a
-                href={getHref("#about")}
-                className="text-muted-foreground hover:text-primary font-medium transition-colors py-2"
+              <Link
+                to="/free-tools"
+                className="text-foreground hover:text-primary font-medium transition-colors py-3 px-2 rounded-lg hover:bg-muted"
+                onClick={() => setIsOpen(false)}
+              >
+                Free Tools
+              </Link>
+              <Link
+                to="/about-us"
+                className="text-foreground hover:text-primary font-medium transition-colors py-3 px-2 rounded-lg hover:bg-muted"
                 onClick={() => setIsOpen(false)}
               >
                 About
-              </a>
+              </Link>
+              <Link
+                to="/case-studies"
+                className="text-foreground hover:text-primary font-medium transition-colors py-3 px-2 rounded-lg hover:bg-muted"
+                onClick={() => setIsOpen(false)}
+              >
+                Case Studies
+              </Link>
               <Link
                 to="/careers"
-                className="text-muted-foreground hover:text-primary font-medium transition-colors py-2"
+                className="text-foreground hover:text-primary font-medium transition-colors py-3 px-2 rounded-lg hover:bg-muted"
                 onClick={() => setIsOpen(false)}
               >
                 Careers
               </Link>
-              {/* <a
-                href={getHref("#testimonials")}
-                className="text-muted-foreground hover:text-primary font-medium transition-colors py-2"
-                onClick={() => setIsOpen(false)}
-              >
-                Testimonials
-              </a> */}
               <Link
                 to="/contact"
-                className="text-muted-foreground hover:text-primary font-medium transition-colors py-2"
+                className="text-foreground hover:text-primary font-medium transition-colors py-3 px-2 rounded-lg hover:bg-muted"
                 onClick={() => setIsOpen(false)}
               >
                 Contact
               </Link>
 
-              <div className="flex flex-col gap-2 pt-4 border-t border-border">
-                <Button variant="ghost" className="justify-start">
-                  Log In
-                </Button>
-                <Button variant="hero" asChild>
+              <div className="flex flex-col gap-2 pt-4 mt-2 border-t border-border">
+                <Button variant="hero" size="lg" className="w-full" asChild>
                   <Link to="/contact" onClick={() => setIsOpen(false)}>Get Started</Link>
                 </Button>
               </div>
@@ -260,7 +266,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
-    </nav >
+    </nav>
   );
 };
 
