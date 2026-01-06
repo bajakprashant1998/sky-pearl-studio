@@ -7,7 +7,10 @@ const PrivacyPolicy = () => {
         <>
             <Helmet>
                 <title>Privacy Policy | Digital Bull Technology</title>
-                <meta name="description" content="Our commitment to your privacy. Read our Privacy Policy to understand how we collect, use, and protect your information." />
+                <meta name="description" content="Read Digital Bull Technology's Privacy Policy to understand how we collect, use, and protect your personal information. Your privacy matters to us." />
+                <meta name="keywords" content="privacy policy, data protection, personal information, Digital Bull privacy, GDPR compliance" />
+                <link rel="canonical" href="https://dibull.com/privacy-policy" />
+                <meta name="robots" content="index, follow" />
             </Helmet>
 
             <Navbar />

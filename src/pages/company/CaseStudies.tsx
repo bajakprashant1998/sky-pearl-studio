@@ -2,190 +2,210 @@ import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BarChart, TrendingUp, Users, Target, Building2, MonitorSmartphone } from "lucide-react";
+import { ArrowRight, TrendingUp, Users, Building2, MonitorSmartphone, Target, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const caseStudies = [
-    {
-        id: 1,
-        client: "HireForJob.com",
-        category: "Recruitment Portal",
-        title: "Scaling Job Portal Traffic to 1M+ Monthly Visitors",
-        description: "We implemented a massive programmatic SEO strategy for job listings and optimized the user flow for candidate registrations, establishing HireForJob as a leading recruitment platform.",
-        stats: [
-            { label: "Organic Traffic", value: "+450%" },
-            { label: "Candidate Signups", value: "250k+" },
-            { label: "Employer Leads", value: "+180%" },
-        ],
-        image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&q=80&w=800",
-        icon: Users,
-    },
-    {
-        id: 2,
-        client: "Cadbull.com",
-        category: "Architecture & CAD",
-        title: "Global SEO Domination for World's Largest CAD Library",
-        description: "Cadbull needed to reach architects worldwide. We rebuilt their site structure for technical SEO and optimized thousands of CAD drawing pages to rank #1 globally for key architecture terms.",
-        stats: [
-            { label: "Global Ranking", value: "Top 3" },
-            { label: "Daily Downloads", value: "50k+" },
-            { label: "Revenue Growth", value: "3.5x" },
-        ],
-        image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=800",
-        icon: Building2,
-    },
-    {
-        id: 3,
-        client: "CastingScreen",
-        category: "Mobile App Marketing",
-        title: "Launching a Screen Mirroring App to Top Charts",
-        description: "A comprehensive App Store Optimization (ASO) and PPC campaign to launch CastingScreen, driving massive installs and stabilizing daily active users.",
-        stats: [
-            { label: "App Installs", value: "1M+" },
-            { label: "CPI (Cost Per Install)", value: "-60%" },
-            { label: "Store Rating", value: "4.5★" },
-        ],
-        image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=800",
-        icon: MonitorSmartphone,
-    },
-    {
-        id: 4,
-        client: "Shuttech",
-        category: "Tech News & Services",
-        title: "Establishing Authority in Niche Tech Journalism",
-        description: "We helped Shuttech grow from a small blog to a recognized tech news source through content marketing, backlinking strategies, and high-speed AMP pages.",
-        stats: [
-            { label: "Monthly Readers", value: "+300%" },
-            { label: "Ad Revenue", value: "+210%" },
-            { label: "Newsletter subs", value: "50k" },
-        ],
-        image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=800",
-        icon: TrendingUp,
-    },
-    {
-        id: 5,
-        client: "GiftCityProperty.com",
-        category: "Real Estate",
-        title: "High-Ticket Lead Generation for GIFT City Investments",
-        description: "Targeting high-net-worth investors for India's first operational smart city. Our hyper-local SEO and LinkedIn ad campaigns delivered premium qualified leads for commercial & residential projects.",
-        stats: [
-            { label: "Lead Quality", value: "Premium" },
-            { label: "CPL (Cost Per Lead)", value: "-45%" },
-            { label: "Sales Conversion", value: "+35%" },
-        ],
-        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800",
-        icon: Target,
-    },
-];
+import { caseStudiesData } from "@/data/caseStudiesData";
+import AnimatedSection from "@/components/AnimatedSection";
 
 const CaseStudies = () => {
-    return (
-        <>
-            <Helmet>
-                <title>Client Success Stories | Digital Bull Technology</title>
-                <meta
-                    name="description"
-                    content="See how we've helped HireForJob, Cadbull, and other industry leaders achieve massive growth through our digital marketing strategies."
-                />
-            </Helmet>
+  return (
+    <>
+      <Helmet>
+        <title>Case Studies | Client Success Stories | Digital Bull Technology</title>
+        <meta
+          name="description"
+          content="Explore our case studies showcasing how Digital Bull Technology helped HireForJob, Cadbull, CastingScreen, and other industry leaders achieve massive growth through SEO, PPC, and digital marketing strategies."
+        />
+        <meta
+          name="keywords"
+          content="case studies, digital marketing success stories, SEO case study, PPC results, client success, HireForJob, Cadbull, CastingScreen, marketing ROI"
+        />
+        <link rel="canonical" href="https://dibull.com/case-studies" />
+        <meta property="og:title" content="Case Studies | Digital Bull Technology Success Stories" />
+        <meta property="og:description" content="See how we've helped industry leaders achieve 450%+ traffic growth, 1M+ app installs, and 3.5x revenue increases." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dibull.com/case-studies" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
 
-            <Navbar />
+      <Navbar />
 
-            <main className="pt-20">
-                {/* Hero Section */}
-                <section className="py-20 lg:py-28 bg-gradient-to-br from-primary/5 via-background to-accent/10">
-                    <div className="container mx-auto px-4 text-center">
-                        <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-medium mb-6 animate-fade-up">
-                            Our Portfolio
+      <main className="pt-20">
+        {/* Hero Section */}
+        <section className="py-20 lg:py-28 bg-gradient-to-br from-primary/5 via-background to-accent/10 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+          
+          <div className="container mx-auto px-4 text-center relative z-10">
+            <AnimatedSection>
+              <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-medium mb-6">
+                Our Portfolio
+              </span>
+            </AnimatedSection>
+            
+            <AnimatedSection delay={0.1}>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                Driving Growth for <span className="text-gradient">Industry Leaders</span>
+              </h1>
+            </AnimatedSection>
+            
+            <AnimatedSection delay={0.2}>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10">
+                From global platforms like Cadbull to local powerhouses like Gift City Properties, 
+                we deliver measurable results that transform businesses.
+              </p>
+            </AnimatedSection>
+
+            {/* Stats Overview */}
+            <AnimatedSection delay={0.3}>
+              <div className="flex flex-wrap justify-center gap-8 mt-12">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-primary">500+</div>
+                  <div className="text-sm text-muted-foreground">Projects Delivered</div>
+                </div>
+                <div className="w-px h-16 bg-border hidden sm:block" />
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-primary">$50M+</div>
+                  <div className="text-sm text-muted-foreground">Revenue Generated</div>
+                </div>
+                <div className="w-px h-16 bg-border hidden sm:block" />
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-primary">98%</div>
+                  <div className="text-sm text-muted-foreground">Client Satisfaction</div>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+        </section>
+
+        {/* Case Studies Grid */}
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {caseStudiesData.map((study, index) => (
+                <AnimatedSection key={study.id} delay={0.1 + index * 0.1}>
+                  <Link
+                    to={`/case-studies/${study.slug}`}
+                    className="group bg-card rounded-3xl overflow-hidden border border-border hover:shadow-2xl transition-all duration-500 flex flex-col h-full"
+                  >
+                    {/* Image */}
+                    <div className="relative h-56 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent z-10" />
+                      <img
+                        src={study.image}
+                        alt={study.title}
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                      />
+                      <div className="absolute top-4 left-4 z-20 bg-background/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-primary border border-primary/20">
+                        {study.category}
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 flex-1 flex flex-col">
+                      <div className="flex items-center gap-2 mb-3 text-muted-foreground text-sm font-medium">
+                        <study.icon className="w-4 h-4 text-primary" />
+                        <span className="uppercase tracking-wide text-xs">{study.client}</span>
+                      </div>
+
+                      <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                        {study.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm mb-6 flex-1 line-clamp-3">
+                        {study.description}
+                      </p>
+
+                      {/* Stats Grid */}
+                      <div className="grid grid-cols-3 gap-2 py-4 border-t border-border mb-4">
+                        {study.stats.map((stat, i) => (
+                          <div key={i} className="text-center">
+                            <div className="text-lg font-bold text-primary">{stat.value}</div>
+                            <div className="text-[10px] text-muted-foreground leading-tight">{stat.label}</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">{study.timeline}</span>
+                        <span className="flex items-center text-primary font-medium text-sm group-hover:gap-2 transition-all">
+                          View Case Study
+                          <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                         </span>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
-                            Driving Growth for <span className="text-gradient">Industry Leaders</span>
-                        </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-up" style={{ animationDelay: "0.2s" }}>
-                            From global platforms like Cadbull to local powerhouses like Gift City Properties, we deliver measurable results.
-                        </p>
+                      </div>
                     </div>
-                </section>
+                  </Link>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </section>
 
-                {/* Case Studies Grid */}
-                <section className="py-20">
-                    <div className="container mx-auto px-4">
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {caseStudies.map((study, index) => (
-                                <div
-                                    key={study.id}
-                                    className="group bg-card rounded-3xl overflow-hidden border border-border hover:shadow-2xl transition-all duration-300 animate-fade-up flex flex-col"
-                                    style={{ animationDelay: `${0.1 + index * 0.1}s` }}
-                                >
-                                    {/* Image */}
-                                    <div className="relative h-56 overflow-hidden">
-                                        <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/0 transition-colors z-10" />
-                                        <img
-                                            src={study.image}
-                                            alt={study.title}
-                                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                                        />
-                                        <div className="absolute top-4 left-4 z-20 bg-background/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-primary">
-                                            {study.category}
-                                        </div>
-                                    </div>
+        {/* Industries Section */}
+        <section className="py-20 bg-muted/30">
+          <div className="container mx-auto px-4">
+            <AnimatedSection>
+              <div className="text-center max-w-3xl mx-auto mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Industries We <span className="text-gradient">Transform</span>
+                </h2>
+                <p className="text-muted-foreground">
+                  Our expertise spans across multiple industries, delivering customized solutions for unique challenges.
+                </p>
+              </div>
+            </AnimatedSection>
 
-                                    {/* Content */}
-                                    <div className="p-6 flex-1 flex flex-col">
-                                        <div className="flex items-center gap-2 mb-3 text-muted-foreground text-sm font-medium">
-                                            <study.icon className="w-4 h-4 text-secondary" />
-                                            <span className="uppercase tracking-wide text-xs">{study.client}</span>
-                                        </div>
-
-                                        <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                                            {study.title}
-                                        </h3>
-                                        <p className="text-muted-foreground text-sm mb-6 flex-1 line-clamp-3">
-                                            {study.description}
-                                        </p>
-
-                                        {/* Stats Grid */}
-                                        <div className="grid grid-cols-3 gap-2 py-4 border-t border-border mb-4 bg-muted/30 rounded-lg px-2">
-                                            {study.stats.map((stat, i) => (
-                                                <div key={i} className="text-center">
-                                                    <div className="text-base font-bold text-primary">{stat.value}</div>
-                                                    <div className="text-[10px] text-muted-foreground leading-tight">{stat.label}</div>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        <Button variant="ghost" className="w-full justify-between items-center group-hover:bg-primary/5 transition-colors text-sm">
-                                            View Details <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                                        </Button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              {[
+                { icon: Users, name: "Recruitment" },
+                { icon: Building2, name: "Architecture" },
+                { icon: MonitorSmartphone, name: "Mobile Apps" },
+                { icon: Globe, name: "Tech & Media" },
+                { icon: Target, name: "Real Estate" },
+                { icon: TrendingUp, name: "E-commerce" },
+              ].map((industry, i) => (
+                <AnimatedSection key={industry.name} delay={0.1 + i * 0.05}>
+                  <div className="bg-card rounded-2xl p-6 text-center border border-border hover:border-primary/50 hover:shadow-lg transition-all group">
+                    <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+                      <industry.icon className="w-7 h-7 text-primary" />
                     </div>
-                </section>
+                    <h3 className="font-semibold text-foreground">{industry.name}</h3>
+                  </div>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </section>
 
-                {/* CTA Section */}
-                <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=2000')] opacity-10 bg-cover bg-center" />
-                    <div className="container mx-auto px-4 text-center relative z-10">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                            Be Our Next Success Story
-                        </h2>
-                        <p className="text-lg text-primary-foreground/80 max-w-2xl mx-auto mb-10">
-                            Join HireForJob, Cadbull, and other satisfied clients who chose Digital Bull Technology.
-                        </p>
-                        <Button size="lg" variant="secondary" asChild>
-                            <Link to="/#contact">
-                                Start Your Project <ArrowRight className="w-4 h-4 ml-2" />
-                            </Link>
-                        </Button>
-                    </div>
-                </section>
-            </main>
+        {/* CTA Section */}
+        <section className="py-24 bg-gradient-primary text-primary-foreground relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=2000')] opacity-10 bg-cover bg-center" />
+          <div className="container mx-auto px-4 text-center relative z-10">
+            <AnimatedSection>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+                Be Our Next Success Story
+              </h2>
+            </AnimatedSection>
+            <AnimatedSection delay={0.1}>
+              <p className="text-lg text-primary-foreground/80 max-w-2xl mx-auto mb-10">
+                Join HireForJob, Cadbull, and other industry leaders who chose Digital Bull Technology 
+                to transform their digital presence.
+              </p>
+            </AnimatedSection>
+            <AnimatedSection delay={0.2}>
+              <Button size="lg" variant="secondary" className="text-base" asChild>
+                <Link to="/contact">
+                  Start Your Project <ArrowRight className="w-5 h-5 ml-2" />
+                </Link>
+              </Button>
+            </AnimatedSection>
+          </div>
+        </section>
+      </main>
 
-            <Footer />
-        </>
-    );
+      <Footer />
+    </>
+  );
 };
 
 export default CaseStudies;
