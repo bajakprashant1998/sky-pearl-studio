@@ -30,6 +30,7 @@ import Careers from "./pages/company/Careers";
 import AboutUs from "./pages/company/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import CaseStudies from "./pages/company/CaseStudies";
+import CaseStudyDetailPage from "./pages/company/CaseStudyDetailPage";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import TermsOfService from "./pages/legal/TermsOfService";
 import CookiePolicy from "./pages/legal/CookiePolicy";
@@ -89,6 +90,7 @@ const App = () => (
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/case-studies" element={<CaseStudies />} />
+            <Route path="/case-studies/:slug" element={<CaseStudyDetailPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />

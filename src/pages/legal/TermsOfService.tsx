@@ -7,7 +7,10 @@ const TermsOfService = () => {
         <>
             <Helmet>
                 <title>Terms of Service | Digital Bull Technology</title>
-                <meta name="description" content="Read our Terms of Service to understand the rules and regulations for using the Digital Bull Technology website and services." />
+                <meta name="description" content="Read Digital Bull Technology's Terms of Service. Understand the rules, regulations, and conditions for using our digital marketing services and website." />
+                <meta name="keywords" content="terms of service, terms and conditions, user agreement, Digital Bull terms, service agreement" />
+                <link rel="canonical" href="https://dibull.com/terms-of-service" />
+                <meta name="robots" content="index, follow" />
             </Helmet>
 
             <Navbar />

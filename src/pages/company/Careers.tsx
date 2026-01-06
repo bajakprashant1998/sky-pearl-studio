@@ -127,11 +127,14 @@ This application was submitted via the Digital Bull Technology careers page.
   return (
     <>
       <Helmet>
-        <title>Careers | Digital Bull Technology - Join Our Team</title>
-        <meta name="description" content="Join Digital Bull Technology. We're looking for passionate individuals to help transform businesses through digital innovation. Submit your resume today!" />
-        <meta property="og:title" content="Careers | Digital Bull Technology" />
-        <meta property="og:description" content="Join our team of digital marketing experts. Submit your resume and start your career journey with us." />
+        <title>Careers | Join Digital Bull Technology | Digital Marketing Jobs</title>
+        <meta name="description" content="Join Digital Bull Technology's team of digital marketing experts. We're hiring SEO specialists, PPC managers, content creators, and developers. Remote-first culture with great benefits." />
+        <meta name="keywords" content="digital marketing jobs, SEO careers, PPC jobs, marketing agency careers, remote marketing jobs, Ahmedabad jobs, Digital Bull careers" />
+        <meta property="og:title" content="Careers at Digital Bull Technology | We're Hiring" />
+        <meta property="og:description" content="Join our team of digital marketing experts. Remote-first culture, professional development, and competitive benefits." />
+        <meta property="og:type" content="website" />
         <link rel="canonical" href="https://dibull.com/careers" />
+        <meta name="robots" content="index, follow" />
       </Helmet>
 
       <Navbar />
