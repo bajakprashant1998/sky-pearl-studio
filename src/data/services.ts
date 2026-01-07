@@ -54,10 +54,15 @@ import {
   Store,
   Puzzle,
   TrendingUp,
+  Shield,
+  Star,
+  Users,
+  Server,
 } from "lucide-react";
 
 export interface SubcategoryItem {
   name: string;
+  stats?: ServiceStat[];
 }
 
 export interface Subcategory {
@@ -65,6 +70,13 @@ export interface Subcategory {
   title: string;
   icon: LucideIcon;
   items: SubcategoryItem[];
+}
+
+export interface ServiceStat {
+  value: string;
+  label: string;
+  icon: LucideIcon;
+  color: string;
 }
 
 export interface ServiceCategory {
@@ -78,6 +90,7 @@ export interface ServiceCategory {
   subcategories: Subcategory[];
   benefits: string[];
   ctaText: string;
+  stats?: ServiceStat[];
 }
 
 export const services: ServiceCategory[] = [
@@ -157,6 +170,12 @@ export const services: ServiceCategory[] = [
       "Data-driven strategies with monthly reporting",
     ],
     ctaText: "Boost Your Rankings",
+    stats: [
+      { value: "300%", label: "Avg. Traffic Increase", icon: TrendingUp, color: "from-blue-500 to-cyan-500" },
+      { value: "10k+", label: "Keywords Ranked", icon: Search, color: "from-amber-500 to-orange-500" },
+      { value: "#1", label: "Rankings Achieved", icon: Star, color: "from-green-500 to-emerald-500" },
+      { value: "24/7", label: "SEO Monitoring", icon: Shield, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "ppc",
@@ -227,6 +246,12 @@ export const services: ServiceCategory[] = [
       "Expert management saving you time and money",
     ],
     ctaText: "Launch Your Campaign",
+    stats: [
+      { value: "3x", label: "Average ROI", icon: TrendingUp, color: "from-blue-500 to-cyan-500" },
+      { value: "10M+", label: "Ad Spend Managed", icon: BarChart3, color: "from-amber-500 to-orange-500" },
+      { value: "5%", label: "Conversion Rate", icon: Target, color: "from-green-500 to-emerald-500" },
+      { value: "24/7", label: "Bid Optimization", icon: Shield, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "web-design",
@@ -262,7 +287,15 @@ export const services: ServiceCategory[] = [
         title: "Website Redesign",
         icon: RefreshCcw,
         items: [
-          { name: "UI/UX modernisation" },
+          {
+            name: "UI/UX modernisation",
+            stats: [
+              { value: "50%", label: "Conversion Uplift", icon: TrendingUp, color: "from-blue-500 to-cyan-500" },
+              { value: "2s", label: "Faster Load", icon: Zap, color: "from-amber-500 to-orange-500" },
+              { value: "100%", label: "Mobile Responsive", icon: Smartphone, color: "from-green-500 to-emerald-500" },
+              { value: "9.5/10", label: "UX Score", icon: Star, color: "from-purple-500 to-pink-500" },
+            ]
+          },
           { name: "Performance improvement" },
           { name: "Conversion optimization" },
         ],
@@ -286,6 +319,12 @@ export const services: ServiceCategory[] = [
       "Ongoing support and maintenance",
     ],
     ctaText: "Start Your Project",
+    stats: [
+      { value: "100+", label: "Sites Launched", icon: Globe, color: "from-blue-500 to-cyan-500" },
+      { value: "100%", label: "Mobile Friendly", icon: Smartphone, color: "from-amber-500 to-orange-500" },
+      { value: "<2s", label: "Load Speed", icon: Zap, color: "from-green-500 to-emerald-500" },
+      { value: "24/7", label: "Support", icon: Shield, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "social-media",
@@ -337,6 +376,12 @@ export const services: ServiceCategory[] = [
       "Real-time performance tracking and optimization",
     ],
     ctaText: "Grow Your Social Presence",
+    stats: [
+      { value: "100k+", label: "Followers Gained", icon: Users, color: "from-blue-500 to-cyan-500" },
+      { value: "15%", label: "Engagement Rate", icon: MessageCircle, color: "from-amber-500 to-orange-500" },
+      { value: "500+", label: "Posts Created", icon: Image, color: "from-green-500 to-emerald-500" },
+      { value: "24/7", label: "Community Mgmt", icon: Shield, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "content-marketing",
@@ -397,6 +442,12 @@ export const services: ServiceCategory[] = [
       "Generate consistent, long-term results",
     ],
     ctaText: "Create Great Content",
+    stats: [
+      { value: "500+", label: "Articles Written", icon: FileText, color: "from-blue-500 to-cyan-500" },
+      { value: "1M+", label: "Readers Reached", icon: UserCheck, color: "from-amber-500 to-orange-500" },
+      { value: "4x", label: "Engagement Uplift", icon: Share2, color: "from-green-500 to-emerald-500" },
+      { value: "100%", label: "Strategy Aligned", icon: Target, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "email-marketing",
@@ -453,6 +504,12 @@ export const services: ServiceCategory[] = [
       "Scalable campaigns that grow with you",
     ],
     ctaText: "Start Email Campaigns",
+    stats: [
+      { value: "1M+", label: "Emails Sent", icon: Send, color: "from-blue-500 to-cyan-500" },
+      { value: "25%", label: "Avg Open Rate", icon: Eye, color: "from-amber-500 to-orange-500" },
+      { value: "40x", label: "ROI Potential", icon: TrendingUp, color: "from-green-500 to-emerald-500" },
+      { value: "100%", label: "Automated Flows", icon: Workflow, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "cro",
@@ -502,6 +559,12 @@ export const services: ServiceCategory[] = [
       "Achieve sustainable revenue growth",
     ],
     ctaText: "Optimize Conversions",
+    stats: [
+      { value: "50%", label: "Avg Uplift", icon: TrendingUp, color: "from-blue-500 to-cyan-500" },
+      { value: "100+", label: "Tests Run", icon: FlaskConical, color: "from-amber-500 to-orange-500" },
+      { value: "3x", label: "Revenue Increase", icon: BarChart3, color: "from-green-500 to-emerald-500" },
+      { value: "24/7", label: "Data Analysis", icon: Eye, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "ecommerce",
@@ -558,6 +621,12 @@ export const services: ServiceCategory[] = [
       "Multi-channel marketing expertise",
     ],
     ctaText: "Grow Your E-commerce",
+    stats: [
+      { value: "$10M+", label: "Sales Generated", icon: ShoppingCart, color: "from-blue-500 to-cyan-500" },
+      { value: "5x", label: "Avg ROAS", icon: BarChart3, color: "from-amber-500 to-orange-500" },
+      { value: "10k+", label: "Products Managed", icon: Package, color: "from-green-500 to-emerald-500" },
+      { value: "200%", label: "YoY Growth", icon: TrendingUp, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "amazon",
@@ -606,6 +675,12 @@ export const services: ServiceCategory[] = [
       "Expert Amazon marketplace management",
     ],
     ctaText: "Dominate Amazon",
+    stats: [
+      { value: "40%", label: "Sales Boost", icon: TrendingUp, color: "from-blue-500 to-cyan-500" },
+      { value: "100%", label: "Listings Optimized", icon: FileText, color: "from-amber-500 to-orange-500" },
+      { value: "-20%", label: "ACOS Reduction", icon: BarChart3, color: "from-green-500 to-emerald-500" },
+      { value: "24/7", label: "Account Health", icon: Shield, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "video",
@@ -655,6 +730,12 @@ export const services: ServiceCategory[] = [
       "Professional production quality",
     ],
     ctaText: "Start Video Marketing",
+    stats: [
+      { value: "1M+", label: "Views Generated", icon: Eye, color: "from-blue-500 to-cyan-500" },
+      { value: "10k+", label: "Hours Watch Time", icon: MonitorPlay, color: "from-amber-500 to-orange-500" },
+      { value: "50+", label: "Videos Produced", icon: Video, color: "from-green-500 to-emerald-500" },
+      { value: "200%", label: "Engagement", icon: Share2, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "programmatic",
@@ -693,6 +774,12 @@ export const services: ServiceCategory[] = [
       "Transparent reporting and insights",
     ],
     ctaText: "Explore Programmatic",
+    stats: [
+      { value: "1B+", label: "Impressions", icon: Eye, color: "from-blue-500 to-cyan-500" },
+      { value: "-30%", label: "CPM Reduction", icon: TrendingUp, color: "from-amber-500 to-orange-500" },
+      { value: "95%", label: "Target Reach", icon: Target, color: "from-green-500 to-emerald-500" },
+      { value: "RTB", label: "Real-Time Bids", icon: Zap, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "analytics",
@@ -740,6 +827,12 @@ export const services: ServiceCategory[] = [
       "Improved marketing efficiency",
     ],
     ctaText: "Unlock Your Data",
+    stats: [
+      { value: "100%", label: "Data Visibility", icon: Eye, color: "from-blue-500 to-cyan-500" },
+      { value: "50+", label: "Insights Generated", icon: Sparkles, color: "from-amber-500 to-orange-500" },
+      { value: "30%", label: "Efficiency Gain", icon: TrendingUp, color: "from-green-500 to-emerald-500" },
+      { value: "10+", label: "Custom Models", icon: Brain, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "custom-development",
@@ -778,6 +871,12 @@ export const services: ServiceCategory[] = [
       "Ongoing support and maintenance",
     ],
     ctaText: "Build Custom Solutions",
+    stats: [
+      { value: "100k+", label: "Lines of Code", icon: Code, color: "from-blue-500 to-cyan-500" },
+      { value: "99.9%", label: "System Uptime", icon: Server, color: "from-amber-500 to-orange-500" },
+      { value: "50+", label: "Integrations", icon: Puzzle, color: "from-green-500 to-emerald-500" },
+      { value: "24/7", label: "Dev Support", icon: Shield, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "ai-marketing",
@@ -915,6 +1014,12 @@ export const services: ServiceCategory[] = [
       "Future-proof your marketing strategy",
     ],
     ctaText: "Embrace AI Marketing",
+    stats: [
+      { value: "40%", label: "Efficiency Boost", icon: Zap, color: "from-blue-500 to-cyan-500" },
+      { value: "24/7", label: "Auto-Responses", icon: Bot, color: "from-amber-500 to-orange-500" },
+      { value: "50%", label: "Cost Saving", icon: TrendingUp, color: "from-green-500 to-emerald-500" },
+      { value: "3x", label: "Leads Generated", icon: UserCheck, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "training",
@@ -1041,6 +1146,12 @@ export const services: ServiceCategory[] = [
       "Stay current with latest trends",
     ],
     ctaText: "Enroll Now",
+    stats: [
+      { value: "500+", label: "Students Trained", icon: Users, color: "from-blue-500 to-cyan-500" },
+      { value: "50+", label: "Courses", icon: GraduationCap, color: "from-amber-500 to-orange-500" },
+      { value: "95%", label: "Placement Rate", icon: Star, color: "from-green-500 to-emerald-500" },
+      { value: "4.9/5", label: "Student Rating", icon: MessageCircle, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "saas",
@@ -1181,6 +1292,12 @@ export const services: ServiceCategory[] = [
       "Seamless integrations",
     ],
     ctaText: "Explore Our Products",
+    stats: [
+      { value: "10k+", label: "Active Users", icon: Users, color: "from-blue-500 to-cyan-500" },
+      { value: "99.9%", label: "Uptime", icon: Server, color: "from-amber-500 to-orange-500" },
+      { value: "100+", label: "Features", icon: Puzzle, color: "from-green-500 to-emerald-500" },
+      { value: "4.8/5", label: "User Satisfaction", icon: Star, color: "from-purple-500 to-pink-500" },
+    ],
   },
   {
     id: "branding",
@@ -1318,6 +1435,12 @@ export const services: ServiceCategory[] = [
       "Dedicated creative team",
     ],
     ctaText: "Start Your Brand Journey",
+    stats: [
+      { value: "500+", label: "Brands Built", icon: Building, color: "from-blue-500 to-cyan-500" },
+      { value: "1000+", label: "Identity Assets", icon: Palette, color: "from-amber-500 to-orange-500" },
+      { value: "3x", label: "Brand Recognition", icon: Eye, color: "from-green-500 to-emerald-500" },
+      { value: "100%", label: "Consistency", icon: Layers, color: "from-purple-500 to-pink-500" },
+    ],
   },
 ];
 

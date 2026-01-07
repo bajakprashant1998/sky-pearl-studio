@@ -4,9 +4,9 @@ import NotFound from "@/pages/NotFound";
 
 const CustomDevelopmentPage = () => {
   const service = getServiceBySlug("custom-development");
-  
+
   if (!service) return <NotFound />;
-  
+
   return (
     <ServicePageLayout
       icon={service.icon}
@@ -17,6 +17,7 @@ const CustomDevelopmentPage = () => {
       benefits={service.benefits}
       ctaText={service.ctaText}
       slug={service.slug}
+      stats={service.stats}
     />
   );
 };

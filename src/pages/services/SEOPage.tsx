@@ -5,9 +5,9 @@ import NotFound from "@/pages/NotFound";
 
 const SEOPage = () => {
   const service = getServiceBySlug("seo");
-  
+
   if (!service) return <NotFound />;
-  
+
   return (
     <ServicePageLayout
       icon={service.icon}
@@ -19,6 +19,7 @@ const SEOPage = () => {
       ctaText={service.ctaText}
       slug={service.slug}
       extraSection={<SEOChecker />}
+      stats={service.stats}
     />
   );
 };

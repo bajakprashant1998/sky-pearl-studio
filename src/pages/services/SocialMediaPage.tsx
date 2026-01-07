@@ -4,9 +4,9 @@ import NotFound from "@/pages/NotFound";
 
 const SocialMediaPage = () => {
   const service = getServiceBySlug("social-media");
-  
+
   if (!service) return <NotFound />;
-  
+
   return (
     <ServicePageLayout
       icon={service.icon}
@@ -17,6 +17,7 @@ const SocialMediaPage = () => {
       benefits={service.benefits}
       ctaText={service.ctaText}
       slug={service.slug}
+      stats={service.stats}
     />
   );
 };

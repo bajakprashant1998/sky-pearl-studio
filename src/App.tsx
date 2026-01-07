@@ -37,6 +37,8 @@ import CookiePolicy from "./pages/legal/CookiePolicy";
 import ImpactDetailPage from "./pages/impact/ImpactDetailPage";
 import FreeToolsPage from "./pages/tools/FreeToolsPage";
 import ToolDetailPage from "./pages/tools/ToolDetailPage";
+import DigitalMarketingClasses from "./pages/DigitalMarketingClasses";
+
 
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -86,6 +88,7 @@ const App = () => (
             <Route path="/free-tools/:toolSlug" element={<ToolDetailPage />} />
 
             {/* Company & Legal routes */}
+            <Route path="/digital-marketing-classes" element={<DigitalMarketingClasses />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/careers" element={<Careers />} />

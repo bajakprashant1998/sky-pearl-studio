@@ -6,7 +6,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import AnimatedSection from "./AnimatedSection";
 import { Helmet } from "react-helmet-async";
-import { Subcategory } from "@/data/services";
+import { Subcategory, ServiceStat } from "@/data/services";
 import { ReactNode } from "react";
 
 interface ServicePageLayoutProps {
@@ -19,9 +19,10 @@ interface ServicePageLayoutProps {
   ctaText?: string;
   slug: string;
   extraSection?: ReactNode;
+  stats?: ServiceStat[];
 }
 
-const stats = [
+const defaultStats = [
   { value: "500+", label: "Projects Delivered", icon: CheckCircle2, color: "from-blue-500 to-cyan-500" },
   { value: "98%", label: "Client Satisfaction", icon: Star, color: "from-amber-500 to-orange-500" },
   { value: "3x", label: "Average ROI", icon: TrendingUp, color: "from-green-500 to-emerald-500" },
@@ -52,6 +53,7 @@ const ServicePageLayout = ({
   ctaText = "Get Started Today",
   slug,
   extraSection,
+  stats = defaultStats,
 }: ServicePageLayoutProps) => {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -301,7 +303,7 @@ const ServicePageLayout = ({
                       <div className="text-5xl font-bold text-primary/10 absolute top-4 right-4 group-hover:text-primary/20 transition-colors">
                         {step.number}
                       </div>
-                      
+
                       <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mb-4">
                         <span className="text-lg font-bold text-white">{step.number}</span>
                       </div>
@@ -352,7 +354,7 @@ const ServicePageLayout = ({
                   {/* Decorative elements */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
                   <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-xl" />
-                  
+
                   <div className="relative z-10">
                     <Sparkles className="w-12 h-12 mb-6 opacity-80" />
                     <h3 className="text-2xl md:text-3xl font-bold mb-4">Ready to Get Started?</h3>

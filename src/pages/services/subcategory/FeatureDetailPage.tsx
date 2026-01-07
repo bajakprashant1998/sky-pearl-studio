@@ -1,24 +1,24 @@
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { 
-    ArrowLeft, Check, ArrowRight, Settings, Zap, BarChart3, Shield, 
+import {
+    ArrowLeft, Check, ArrowRight, Settings, Zap, BarChart3, Shield,
     Target, Lightbulb, TrendingUp, Clock, Users, Award, Rocket,
     ChevronDown, ChevronUp, Play, Star, CheckCircle2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getServiceBySlug } from "@/data/services";
+import { getServiceBySlug, ServiceStat } from "@/data/services";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import NotFound from "@/pages/NotFound";
 
 // Feature-specific content generator with rich data
-const generateFeatureContent = (title: string, subcategoryTitle: string, serviceTitle: string) => {
+const generateFeatureContent = (title: string, subcategoryTitle: string, serviceTitle: string, customStats?: ServiceStat[]) => {
     return {
         description: `Comprehensive ${title} services designed to enhance your ${subcategoryTitle} performance and drive measurable business growth.`,
         longDescription: `${title} is a critical component of successful ${subcategoryTitle}. Our approach ensures that every aspect of ${title} is optimized to meet your specific business objectives, delivering measurable results as part of our broader ${serviceTitle} offerings. We combine industry best practices with innovative strategies to help you stay ahead of the competition.`,
-        keyStats: [
+        keyStats: customStats || [
             { value: "98%", label: "Client Satisfaction", icon: Star },
             { value: "3x", label: "Average ROI", icon: TrendingUp },
             { value: "24/7", label: "Expert Support", icon: Clock },
@@ -113,7 +113,7 @@ const FeatureDetailPage = () => {
     );
 
     const itemTitle = foundItem ? foundItem.name : itemSlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-    const content = generateFeatureContent(itemTitle, subcategory.title, service.title);
+    const content = generateFeatureContent(itemTitle, subcategory.title, service.title, foundItem?.stats);
     const ServiceIcon = service.icon;
 
     // SEO structured data
@@ -138,18 +138,18 @@ const FeatureDetailPage = () => {
                 <meta name="description" content={content.description} />
                 <meta name="keywords" content={`${itemTitle}, ${subcategory.title}, ${service.shortTitle}, digital marketing, Digital Bull Technology`} />
                 <link rel="canonical" href={`https://digitalbull.com/services/${serviceSlug}/${subcategoryId}/feature/${itemSlug}`} />
-                
+
                 {/* Open Graph */}
                 <meta property="og:title" content={`${itemTitle} | Digital Bull Technology`} />
                 <meta property="og:description" content={content.description} />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content={`https://digitalbull.com/services/${serviceSlug}/${subcategoryId}/feature/${itemSlug}`} />
-                
+
                 {/* Twitter */}
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={`${itemTitle} | Digital Bull Technology`} />
                 <meta name="twitter:description" content={content.description} />
-                
+
                 {/* Structured Data */}
                 <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
             </Helmet>
@@ -213,8 +213,8 @@ const FeatureDetailPage = () => {
                                     </h2>
                                     <div className="grid grid-cols-2 gap-6">
                                         {content.keyStats.map((stat, index) => (
-                                            <div 
-                                                key={index} 
+                                            <div
+                                                key={index}
                                                 className="text-center p-4 rounded-2xl bg-muted/50 hover:bg-primary/5 transition-colors"
                                                 style={{ animationDelay: `${0.3 + index * 0.1}s` }}
                                             >
@@ -284,20 +284,20 @@ const FeatureDetailPage = () => {
                                         {index < content.process.length - 1 && (
                                             <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-primary/50 to-transparent z-0" />
                                         )}
-                                        
+
                                         <div className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all h-full relative z-10">
                                             {/* Step Number */}
                                             <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg mb-4 shadow-lg">
                                                 {step.step}
                                             </div>
-                                            
+
                                             <div className="flex items-center gap-2 mb-3">
                                                 <step.icon className="w-5 h-5 text-primary" />
                                                 <h3 className="text-lg font-bold">{step.title}</h3>
                                             </div>
-                                            
+
                                             <p className="text-muted-foreground text-sm mb-4">{step.description}</p>
-                                            
+
                                             <ul className="space-y-2">
                                                 {step.details.map((detail, i) => (
                                                     <li key={i} className="flex items-center gap-2 text-sm">
@@ -331,7 +331,7 @@ const FeatureDetailPage = () => {
                                     </Link>
                                 </Button>
                             </div>
-                            
+
                             <div className="bg-card rounded-3xl p-8 border border-border shadow-lg">
                                 <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                                     <Award className="w-5 h-5 text-primary" />
@@ -339,8 +339,8 @@ const FeatureDetailPage = () => {
                                 </h3>
                                 <ul className="space-y-4">
                                     {content.deliverables.map((item, index) => (
-                                        <li 
-                                            key={index} 
+                                        <li
+                                            key={index}
                                             className="flex items-start gap-3 animate-fade-up"
                                             style={{ animationDelay: `${index * 0.05}s` }}
                                         >
@@ -370,8 +370,8 @@ const FeatureDetailPage = () => {
 
                         <div className="max-w-3xl mx-auto space-y-4">
                             {content.faqs.map((faq, index) => (
-                                <div 
-                                    key={index} 
+                                <div
+                                    key={index}
                                     className="bg-card rounded-2xl border border-border overflow-hidden animate-fade-up"
                                     style={{ animationDelay: `${index * 0.05}s` }}
                                 >

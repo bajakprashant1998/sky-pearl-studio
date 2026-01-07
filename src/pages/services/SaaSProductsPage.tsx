@@ -4,9 +4,9 @@ import NotFound from "@/pages/NotFound";
 
 const SaaSProductsPage = () => {
   const service = getServiceBySlug("saas-products");
-  
+
   if (!service) return <NotFound />;
-  
+
   return (
     <ServicePageLayout
       icon={service.icon}
@@ -17,6 +17,7 @@ const SaaSProductsPage = () => {
       benefits={service.benefits}
       ctaText={service.ctaText}
       slug={service.slug}
+      stats={service.stats}
     />
   );
 };

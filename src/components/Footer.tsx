@@ -20,6 +20,7 @@ const Footer = () => {
     company: [
       { name: "About Us", href: "/about-us" },
       { name: "Careers", href: "/careers" },
+      { name: "Digital Marketing Classes", href: "/digital-marketing-classes" },
       // { name: "Blog", href: "#" }, // Not requested yet
       { name: "Case Studies", href: "/case-studies" },
       { name: "Contact", href: "/contact" },

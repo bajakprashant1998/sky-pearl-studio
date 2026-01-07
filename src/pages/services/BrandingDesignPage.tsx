@@ -4,9 +4,9 @@ import NotFound from "@/pages/NotFound";
 
 const BrandingDesignPage = () => {
   const service = getServiceBySlug("branding-design");
-  
+
   if (!service) return <NotFound />;
-  
+
   return (
     <ServicePageLayout
       icon={service.icon}
@@ -17,6 +17,7 @@ const BrandingDesignPage = () => {
       benefits={service.benefits}
       ctaText={service.ctaText}
       slug={service.slug}
+      stats={service.stats}
     />
   );
 };

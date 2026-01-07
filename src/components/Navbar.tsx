@@ -192,6 +192,12 @@ const Navbar = () => {
               Free Tools
             </Link>
             <Link
+              to="/digital-marketing-classes"
+              className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
+            >
+              Classes
+            </Link>
+            <Link
               to="/about-us"
               className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
             >
@@ -290,6 +296,13 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
               >
                 Free Tools
+              </Link>
+              <Link
+                to="/digital-marketing-classes"
+                className="text-foreground hover:text-primary font-medium transition-colors py-3 px-2 rounded-lg hover:bg-muted"
+                onClick={() => setIsOpen(false)}
+              >
+                Digital Marketing Classes
               </Link>
               <Link
                 to="/about-us"

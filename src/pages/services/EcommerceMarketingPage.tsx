@@ -4,9 +4,9 @@ import NotFound from "@/pages/NotFound";
 
 const EcommerceMarketingPage = () => {
   const service = getServiceBySlug("ecommerce-marketing");
-  
+
   if (!service) return <NotFound />;
-  
+
   return (
     <ServicePageLayout
       icon={service.icon}
@@ -17,6 +17,7 @@ const EcommerceMarketingPage = () => {
       benefits={service.benefits}
       ctaText={service.ctaText}
       slug={service.slug}
+      stats={service.stats}
     />
   );
 };

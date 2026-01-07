@@ -4,9 +4,9 @@ import NotFound from "@/pages/NotFound";
 
 const ProgrammaticAdvertisingPage = () => {
   const service = getServiceBySlug("programmatic-advertising");
-  
+
   if (!service) return <NotFound />;
-  
+
   return (
     <ServicePageLayout
       icon={service.icon}
@@ -17,6 +17,7 @@ const ProgrammaticAdvertisingPage = () => {
       benefits={service.benefits}
       ctaText={service.ctaText}
       slug={service.slug}
+      stats={service.stats}
     />
   );
 };
