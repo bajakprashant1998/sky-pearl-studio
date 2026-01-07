@@ -9,7 +9,8 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "pages:dev": "wrangler pages dev -- vite"
+    "pages:dev": "wrangler pages dev -- vite",
+    "generate:sitemap": "npx tsx scripts/generate-sitemap.ts"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
