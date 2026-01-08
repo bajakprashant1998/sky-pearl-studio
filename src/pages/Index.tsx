@@ -30,9 +30,10 @@ const Index = () => {
       "contactType": "customer service"
     },
     "sameAs": [
-      "https://facebook.com/digitalbull",
-      "https://twitter.com/digitalbull",
-      "https://linkedin.com/company/digitalbull"
+      "https://www.facebook.com/share/1GGViEsE5a/?mibextid=wwXIfr",
+      "https://x.com/digital_1221?s=21&t=gZqAEY-otu1upyCHIOj4Uw",
+      "https://www.linkedin.com/company/digitalbulltechnology/",
+      "https://www.instagram.com/digitalbulltechnology?igsh=MWxjbTJtMHkxNTBoNg=="
     ]
   };
 

@@ -33,10 +33,10 @@ const Footer = () => {
   };
 
   const socials = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Instagram, href: "#", label: "Instagram" },
+    { icon: Facebook, href: "https://www.facebook.com/share/1GGViEsE5a/?mibextid=wwXIfr", label: "Facebook" },
+    { icon: Twitter, href: "https://x.com/digital_1221?s=21&t=gZqAEY-otu1upyCHIOj4Uw", label: "Twitter" },
+    { icon: Linkedin, href: "https://www.linkedin.com/company/digitalbulltechnology/", label: "LinkedIn" },
+    { icon: Instagram, href: "https://www.instagram.com/digitalbulltechnology?igsh=MWxjbTJtMHkxNTBoNg==", label: "Instagram" },
   ];
 
   return (
@@ -58,6 +58,8 @@ const Footer = () => {
                 <a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 text-slate-400"
                   aria-label={social.label}
                 >

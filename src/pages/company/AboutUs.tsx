@@ -92,9 +92,10 @@ const AboutUs = () => {
             "contactType": "customer service"
         },
         "sameAs": [
-            "https://www.linkedin.com/company/digitalbull",
-            "https://twitter.com/digitalbull",
-            "https://www.facebook.com/digitalbull"
+            "https://www.linkedin.com/company/digitalbulltechnology/",
+            "https://x.com/digital_1221?s=21&t=gZqAEY-otu1upyCHIOj4Uw",
+            "https://www.facebook.com/share/1GGViEsE5a/?mibextid=wwXIfr",
+            "https://www.instagram.com/digitalbulltechnology?igsh=MWxjbTJtMHkxNTBoNg=="
         ]
     };
 
