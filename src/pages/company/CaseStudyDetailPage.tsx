@@ -49,7 +49,7 @@ const CaseStudyDetailPage = () => {
         {/* Hero Section */}
         <section className="py-16 lg:py-24 bg-gradient-to-br from-primary/5 via-background to-accent/10 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-          
+
           <div className="container mx-auto px-4 relative z-10">
             <AnimatedSection>
               <Link to="/case-studies" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary mb-8">
@@ -321,7 +321,7 @@ const CaseStudyDetailPage = () => {
                     Start Your Project <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10" asChild>
+                <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10" asChild>
                   <Link to="/case-studies">
                     View More Case Studies
                   </Link>

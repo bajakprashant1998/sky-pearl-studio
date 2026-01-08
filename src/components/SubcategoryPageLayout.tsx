@@ -341,7 +341,7 @@ const SubcategoryPageLayout = ({
               {subcategoryData.processSteps.map((step, index) => {
                 const StepIcon = processIcons[index % processIcons.length];
                 const colors = ["bg-blue-500", "bg-purple-500", "bg-amber-500", "bg-green-500", "bg-rose-500"];
-                
+
                 return (
                   <div
                     key={index}
