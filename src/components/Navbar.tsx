@@ -192,10 +192,13 @@ const Navbar = () => {
               Free Tools
             </Link>
             <Link
-              to="/digital-marketing-classes"
-              className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
+              to="/digital-marketing-academy"
+              className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300 flex items-center gap-1"
             >
-              Classes
+              <span className="relative">
+                Academy
+                <span className="absolute -top-1 -right-6 text-[10px] bg-gradient-to-r from-primary to-accent text-white px-1.5 py-0.5 rounded-full font-bold">NEW</span>
+              </span>
             </Link>
             <Link
               to="/about-us"

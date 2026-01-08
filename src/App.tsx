@@ -38,7 +38,7 @@ import ImpactDetailPage from "./pages/impact/ImpactDetailPage";
 import FreeToolsPage from "./pages/tools/FreeToolsPage";
 import ToolDetailPage from "./pages/tools/ToolDetailPage";
 import DigitalMarketingClasses from "./pages/DigitalMarketingClasses";
-
+import DigitalMarketingAcademy from "./pages/DigitalMarketingAcademy";
 
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -89,6 +89,7 @@ const App = () => (
 
             {/* Company & Legal routes */}
             <Route path="/digital-marketing-classes" element={<DigitalMarketingClasses />} />
+            <Route path="/digital-marketing-academy" element={<DigitalMarketingAcademy />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/careers" element={<Careers />} />
