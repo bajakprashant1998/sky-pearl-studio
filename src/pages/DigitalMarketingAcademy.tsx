@@ -63,13 +63,14 @@ const DigitalMarketingAcademy = () => {
   ];
 
   const benefits = [
-    { icon: Sparkles, text: "Latest Digital Marketing + AI integrated syllabus", desc: "Stay ahead with cutting-edge curriculum" },
-    { icon: Clock, text: "6 months in-depth training covering basics to advanced level", desc: "Comprehensive learning journey" },
-    { icon: Target, text: "Daily practical sessions with real tools & examples", desc: "Hands-on experience every day" },
-    { icon: Award, text: "Expert trainers with real-world industry experience", desc: "Learn from the best in the field" },
-    { icon: Users, text: "Small batch sizes for personalized attention", desc: "Individual focus and doubt solving" },
-    { icon: Briefcase, text: "Portfolio development for jobs, freelancing & business growth", desc: "Build your professional portfolio" },
-    { icon: TrendingUp, text: "Career guidance, interview preparation & freelancing roadmap", desc: "Complete career support" },
+    { icon: Sparkles, text: "AI-Integrated Syllabus", desc: "Latest Digital Marketing + AI integrated curriculum", slug: "ai-integrated-syllabus", gradient: "from-violet-500 to-purple-600" },
+    { icon: Clock, text: "6-Month In-Depth Training", desc: "Comprehensive training from basics to advanced level", slug: "in-depth-training", gradient: "from-blue-500 to-cyan-500" },
+    { icon: Target, text: "Daily Practical Sessions", desc: "Hands-on experience with real tools & examples", slug: "daily-practical-sessions", gradient: "from-green-500 to-emerald-500" },
+    { icon: Award, text: "Expert Industry Trainers", desc: "Learn from professionals with real-world experience", slug: "expert-trainers", gradient: "from-amber-500 to-orange-500" },
+    { icon: Users, text: "Small Batch Sizes", desc: "Personalized attention in every session", slug: "small-batch-sizes", gradient: "from-rose-500 to-pink-500" },
+    { icon: Briefcase, text: "Portfolio Development", desc: "Build a professional portfolio for career success", slug: "portfolio-development", gradient: "from-indigo-500 to-violet-500" },
+    { icon: TrendingUp, text: "Complete Career Support", desc: "Interview preparation and freelancing roadmap", slug: "career-guidance", gradient: "from-teal-500 to-cyan-500" },
+    { icon: BookOpen, text: "Industry Certifications", desc: "Get certified and recognized globally", slug: "certification-support", gradient: "from-emerald-500 to-green-500" },
   ];
 
   const digitalMarketingCurriculum = [
@@ -443,23 +444,24 @@ const DigitalMarketingAcademy = () => {
               </p>
             </AnimatedSection>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {benefits.map((benefit, index) => (
                 <AnimatedSection key={index} delay={index * 0.05}>
-                  <div className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 h-full group">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                        <benefit.icon className="w-6 h-6 text-white" />
+                  <Link to={`/digital-marketing-academy/${benefit.slug}`}>
+                    <div className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 h-full group cursor-pointer">
+                      <div className={`w-14 h-14 bg-gradient-to-br ${benefit.gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                        <benefit.icon className="w-7 h-7 text-white" />
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-start gap-2 mb-2">
-                          <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                          <p className="text-foreground font-medium">{benefit.text}</p>
-                        </div>
-                        <p className="text-sm text-muted-foreground">{benefit.desc}</p>
+                      <div className="flex items-start gap-2 mb-2">
+                        <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <h3 className="text-foreground font-bold">{benefit.text}</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{benefit.desc}</p>
+                      <div className="mt-4 flex items-center text-primary text-sm font-medium group-hover:gap-2 transition-all">
+                        Learn More <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </AnimatedSection>
               ))}
             </div>

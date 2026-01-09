@@ -8,7 +8,12 @@ import {
   Users, 
   Tag, 
   Type, 
-  Code 
+  Code,
+  Hash,
+  FileQuestion,
+  Globe,
+  Shield,
+  Palette
 } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
@@ -55,15 +60,15 @@ export const freeToolsData: FreeTool[] = [
     icon: Zap,
     title: "Website Speed Test",
     shortDescription: "Test your website's loading speed and performance metrics",
-    fullDescription: "Check your website's performance with our speed test tool. Measure load times, identify bottlenecks, and get recommendations to improve your site's speed for better user experience and SEO.",
+    fullDescription: "Check your website's performance with our speed test tool powered by Google PageSpeed Insights. Measure load times, identify bottlenecks, and get recommendations to improve your site's speed for better user experience and SEO.",
     color: "text-yellow-500",
     gradient: "from-yellow-500 to-orange-500",
     features: [
       "Page load time measurement",
       "Performance score calculation",
-      "Resource loading analysis",
+      "Core Web Vitals metrics",
       "Mobile vs desktop comparison",
-      "Core Web Vitals metrics"
+      "Optimization suggestions"
     ],
     howItWorks: [
       "Enter your website URL",
@@ -254,6 +259,121 @@ export const freeToolsData: FreeTool[] = [
       "Fill in required fields",
       "Generate markup code",
       "Add to your website"
+    ]
+  },
+  {
+    id: "hashtag-generator",
+    slug: "hashtag-generator",
+    icon: Hash,
+    title: "Hashtag Generator",
+    shortDescription: "Generate trending hashtags for social media posts",
+    fullDescription: "Find the perfect hashtags for your Instagram, Twitter, LinkedIn, and TikTok posts. Get trending, niche-specific, and high-engagement hashtag suggestions.",
+    color: "text-violet-500",
+    gradient: "from-violet-500 to-purple-600",
+    features: [
+      "Platform-specific hashtags",
+      "Trending hashtag discovery",
+      "Niche hashtag finder",
+      "Hashtag popularity metrics",
+      "Copy-ready hashtag sets"
+    ],
+    howItWorks: [
+      "Enter your topic or keyword",
+      "Select social media platform",
+      "Get hashtag suggestions",
+      "Copy and use in your posts"
+    ]
+  },
+  {
+    id: "robots-txt-generator",
+    slug: "robots-txt-generator",
+    icon: FileQuestion,
+    title: "Robots.txt Generator",
+    shortDescription: "Create robots.txt files for search engine crawlers",
+    fullDescription: "Generate proper robots.txt files to control how search engines crawl your website. Block sensitive pages, allow important content, and set sitemap locations.",
+    color: "text-emerald-500",
+    gradient: "from-emerald-500 to-green-600",
+    features: [
+      "Custom crawl rules",
+      "Sitemap integration",
+      "User-agent specific rules",
+      "Disallow path settings",
+      "Syntax validation"
+    ],
+    howItWorks: [
+      "Select user agents",
+      "Add allow/disallow rules",
+      "Set sitemap URL",
+      "Download robots.txt file"
+    ]
+  },
+  {
+    id: "domain-authority-checker",
+    slug: "domain-authority-checker",
+    icon: Globe,
+    title: "Domain Authority Checker",
+    shortDescription: "Check your website's domain authority score",
+    fullDescription: "Measure your website's domain authority and compare it with competitors. Understand your site's SEO strength and get tips to improve your authority score.",
+    color: "text-blue-600",
+    gradient: "from-blue-600 to-indigo-600",
+    features: [
+      "Domain authority score",
+      "Page authority check",
+      "Spam score analysis",
+      "Competitor comparison",
+      "Historical data trends"
+    ],
+    howItWorks: [
+      "Enter domain name",
+      "Check authority score",
+      "View detailed metrics",
+      "Get improvement tips"
+    ]
+  },
+  {
+    id: "ssl-checker",
+    slug: "ssl-checker",
+    icon: Shield,
+    title: "SSL Certificate Checker",
+    shortDescription: "Verify your website's SSL certificate status",
+    fullDescription: "Check if your website has a valid SSL certificate, when it expires, and if it's properly configured. Ensure your site is secure for visitors and search engines.",
+    color: "text-green-600",
+    gradient: "from-green-600 to-emerald-600",
+    features: [
+      "SSL validity check",
+      "Expiry date monitoring",
+      "Certificate details",
+      "Security grade rating",
+      "Configuration issues"
+    ],
+    howItWorks: [
+      "Enter your website URL",
+      "Check SSL status",
+      "View certificate details",
+      "Get security recommendations"
+    ]
+  },
+  {
+    id: "color-palette-generator",
+    slug: "color-palette-generator",
+    icon: Palette,
+    title: "Color Palette Generator",
+    shortDescription: "Create beautiful color palettes for your brand",
+    fullDescription: "Generate stunning color palettes for your website, brand identity, or design projects. Get complementary colors, gradients, and export in various formats.",
+    color: "text-rose-500",
+    gradient: "from-rose-500 to-pink-600",
+    features: [
+      "AI-powered color suggestions",
+      "Complementary color finder",
+      "Gradient generator",
+      "Export as CSS/HEX/RGB",
+      "Accessibility contrast check"
+    ],
+    howItWorks: [
+      "Choose a base color",
+      "Generate palette variations",
+      "Preview in mockups",
+      "Export color codes"
     ]
   }
 ];
