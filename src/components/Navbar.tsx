@@ -301,11 +301,12 @@ const Navbar = () => {
                 Free Tools
               </Link>
               <Link
-                to="/digital-marketing-classes"
-                className="text-foreground hover:text-primary font-medium transition-colors py-3 px-2 rounded-lg hover:bg-muted"
+                to="/digital-marketing-academy"
+                className="text-foreground hover:text-primary font-medium transition-colors py-3 px-2 rounded-lg hover:bg-muted flex items-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
-                Digital Marketing Classes
+                <span>Academy</span>
+                <span className="text-[10px] bg-gradient-to-r from-primary to-accent text-white px-1.5 py-0.5 rounded-full font-bold">NEW</span>
               </Link>
               <Link
                 to="/about-us"
