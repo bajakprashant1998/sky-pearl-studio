@@ -18,6 +18,11 @@ import CompetitorAnalyzerTool from "@/components/tools/CompetitorAnalyzerTool";
 import MetaTagGeneratorTool from "@/components/tools/MetaTagGeneratorTool";
 import HeadlineAnalyzerTool from "@/components/tools/HeadlineAnalyzerTool";
 import SchemaMarkupGeneratorTool from "@/components/tools/SchemaMarkupGeneratorTool";
+import HashtagGeneratorTool from "@/components/tools/HashtagGeneratorTool";
+import RobotsTxtGeneratorTool from "@/components/tools/RobotsTxtGeneratorTool";
+import DomainAuthorityCheckerTool from "@/components/tools/DomainAuthorityCheckerTool";
+import SSLCheckerTool from "@/components/tools/SSLCheckerTool";
+import ColorPaletteGeneratorTool from "@/components/tools/ColorPaletteGeneratorTool";
 
 const toolComponents: Record<string, React.ComponentType> = {
   "seo-checker": SEOCheckerTool,
@@ -29,7 +34,12 @@ const toolComponents: Record<string, React.ComponentType> = {
   "competitor-analyzer": CompetitorAnalyzerTool,
   "meta-tag-generator": MetaTagGeneratorTool,
   "headline-analyzer": HeadlineAnalyzerTool,
-  "schema-markup-generator": SchemaMarkupGeneratorTool
+  "schema-markup-generator": SchemaMarkupGeneratorTool,
+  "hashtag-generator": HashtagGeneratorTool,
+  "robots-txt-generator": RobotsTxtGeneratorTool,
+  "domain-authority-checker": DomainAuthorityCheckerTool,
+  "ssl-checker": SSLCheckerTool,
+  "color-palette-generator": ColorPaletteGeneratorTool
 };
 
 const ToolDetailPage = () => {
