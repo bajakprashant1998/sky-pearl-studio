@@ -478,9 +478,16 @@ const DigitalMarketingAcademy = () => {
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                 Digital Marketing <span className="text-gradient">Syllabus</span>
               </h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-6">
                 In-depth training covering all aspects of digital marketing from fundamentals to advanced strategies
               </p>
+              <Link to="/digital-marketing-syllabus">
+                <Button size="lg" className="gap-2">
+                  <BookOpen className="w-5 h-5" />
+                  View Complete 6-Month Syllabus
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
             </AnimatedSection>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
