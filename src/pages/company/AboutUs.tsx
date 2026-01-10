@@ -11,6 +11,11 @@ import {
     Star, Phone, MapPin, ArrowUpRight, Sparkles, Eye, MessageSquare
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import GrowthChart from "@/components/charts/GrowthChart";
+import ServiceDistributionChart from "@/components/charts/ServiceDistributionChart";
+import PerformanceMetrics from "@/components/charts/PerformanceMetrics";
+import ClientSuccessRadar from "@/components/charts/ClientSuccessRadar";
+import IndustryStats from "@/components/charts/IndustryStats";
 
 const services = [
     { icon: Search, title: "SEO", desc: "Comprehensive on-page, off-page, and technical SEO strategies.", link: "/services/seo", color: "from-blue-500 to-cyan-500" },
@@ -240,6 +245,32 @@ const AboutUs = () => {
                                     </article>
                                 ))}
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Data Analytics Section with Charts */}
+                <section className="py-20 bg-muted/30">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-16 animate-fade-up">
+                            <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">Data-Driven Results</span>
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Impact in Numbers</h2>
+                            <p className="text-muted-foreground max-w-2xl mx-auto">
+                                Real data showcasing the measurable impact we deliver for our clients
+                            </p>
+                        </div>
+                        
+                        {/* Industry Stats */}
+                        <div className="mb-12">
+                            <IndustryStats />
+                        </div>
+                        
+                        {/* Charts Grid */}
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <GrowthChart />
+                            <ServiceDistributionChart />
+                            <PerformanceMetrics />
+                            <ClientSuccessRadar />
                         </div>
                     </div>
                 </section>

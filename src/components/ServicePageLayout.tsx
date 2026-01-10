@@ -8,6 +8,9 @@ import AnimatedSection from "./AnimatedSection";
 import { Helmet } from "react-helmet-async";
 import { Subcategory, ServiceStat } from "@/data/services";
 import { ReactNode } from "react";
+import GrowthChart from "@/components/charts/GrowthChart";
+import ROICalculator from "@/components/charts/ROICalculator";
+import ChannelPerformance from "@/components/charts/ChannelPerformance";
 
 interface ServicePageLayoutProps {
   icon: LucideIcon;
@@ -318,6 +321,29 @@ const ServicePageLayout = ({
                   </AnimatedSection>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Data & Analytics Section with Charts */}
+        <section className="py-20 bg-muted/30">
+          <div className="container mx-auto px-4">
+            <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
+              <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
+                Data-Driven Success
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Measurable <span className="text-gradient">Results</span> You Can Expect
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Our strategies are backed by data and proven to deliver tangible business growth
+              </p>
+            </AnimatedSection>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <GrowthChart />
+              <ROICalculator />
+              <ChannelPerformance />
             </div>
           </div>
         </section>
