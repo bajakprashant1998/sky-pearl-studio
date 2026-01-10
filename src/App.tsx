@@ -37,7 +37,7 @@ import CookiePolicy from "./pages/legal/CookiePolicy";
 import ImpactDetailPage from "./pages/impact/ImpactDetailPage";
 import FreeToolsPage from "./pages/tools/FreeToolsPage";
 import ToolDetailPage from "./pages/tools/ToolDetailPage";
-import DigitalMarketingClasses from "./pages/DigitalMarketingClasses";
+
 import DigitalMarketingAcademy from "./pages/DigitalMarketingAcademy";
 import DigitalMarketingSyllabus from "./pages/DigitalMarketingSyllabus";
 import AcademyBenefitDetailPage from "./pages/academy/AcademyBenefitDetailPage";
@@ -90,7 +90,7 @@ const App = () => (
             <Route path="/free-tools/:toolSlug" element={<ToolDetailPage />} />
 
             {/* Company & Legal routes */}
-            <Route path="/digital-marketing-classes" element={<DigitalMarketingClasses />} />
+            
             <Route path="/digital-marketing-academy" element={<DigitalMarketingAcademy />} />
             <Route path="/digital-marketing-academy/:benefitSlug" element={<AcademyBenefitDetailPage />} />
             <Route path="/digital-marketing-syllabus" element={<DigitalMarketingSyllabus />} />
