@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AnimatedSection from "@/components/AnimatedSection";
+import TurnstileWidget from "@/components/TurnstileWidget";
 
 const benefits = [
   {
@@ -43,6 +44,7 @@ const benefits = [
 const Careers = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -58,6 +60,35 @@ const Careers = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Strict validation
+    if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.message.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Missing Information",
+        description: "All fields are required. Please fill in all details.",
+      });
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      toast({
+        variant: "destructive",
+        title: "Invalid Email",
+        description: "Please enter a valid email address.",
+      });
+      return;
+    }
+
+    if (!captchaToken) {
+      toast({
+        variant: "destructive",
+        title: "CAPTCHA Missing",
+        description: "Please complete the CAPTCHA verification to proceed.",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -71,6 +102,7 @@ const Careers = () => {
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
+          captchaToken: captchaToken,
         }),
       });
 
@@ -90,6 +122,7 @@ const Careers = () => {
         phone: "",
         message: ""
       });
+      setCaptchaToken(null);
 
     } catch (error) {
       console.error("Submission Error:", error);
@@ -268,6 +301,20 @@ const Careers = () => {
                       rows={4}
                       className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
                       placeholder="Tell us about yourself, your experience, and why you'd like to join Digital Bull Technology..."
+                    />
+                  </div>
+
+                  <div className="py-2">
+                    <TurnstileWidget
+                      onVerify={(token) => setCaptchaToken(token)}
+                      onError={() => {
+                        toast({
+                          variant: "destructive",
+                          title: "Verification Failed",
+                          description: "CAPTCHA verification failed. Please try again.",
+                        });
+                        setCaptchaToken(null);
+                      }}
                     />
                   </div>
 
