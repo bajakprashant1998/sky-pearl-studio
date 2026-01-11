@@ -1,68 +1,89 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Mail, Phone, MapPin } from "lucide-react";
-import { useRef, useState } from "react";
+import { ArrowRight, Mail, Phone, MapPin, Loader2, CheckCircle } from "lucide-react";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { PhoneInput } from 'react-international-phone';
-import 'react-international-phone/style.css';
-import ReCAPTCHA from "react-google-recaptcha";
 import AnimatedSection from "./AnimatedSection";
 
 const ContactSection = () => {
-  const form = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
-  const [phone, setPhone] = useState("");
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const sendEmail = async (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: ""
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const validateForm = () => {
+    if (!formData.name.trim()) return "Name is required";
+    if (!formData.email.trim()) return "Email is required";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return "Invalid email address";
+    if (!formData.phone.trim()) return "Phone number is required";
+    if (!formData.message.trim()) return "Message is required";
+    return null;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!captchaToken) {
+    const error = validateForm();
+    if (error) {
       toast({
         variant: "destructive",
-        title: "Verification Failed",
-        description: "Please complete the reCAPTCHA verification.",
+        title: "Validation Error",
+        description: error,
       });
       return;
     }
 
     setLoading(true);
 
-    const formData = new FormData(form.current!);
-    const data = {
-      firstName: formData.get("user_name"),
-      lastName: formData.get("user_lastname"),
-      email: formData.get("user_email"),
-      phone: phone,
-      message: formData.get("message"),
-      captchaToken,
-    };
-
     try {
-      const response = await fetch("/api/contact", {
+      // Combine phone with message as per requirement to fit the 3-field JSON schema
+      const finalMessage = `Phone: ${formData.phone}\n\nMessage:\n${formData.message}`;
+
+      const response = await fetch("https://email.dibull.com", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: finalMessage,
+        }),
       });
 
-      if (response.ok) {
-        toast({
-          title: "Message sent!",
-          description: "We'll get back to you as soon as possible.",
-        });
-        form.current?.reset();
-        setPhone("");
-        setCaptchaToken(null);
-      } else {
-        throw new Error("Failed to send");
+      if (!response.ok) {
+        throw new Error("Failed to send message");
       }
+
+      toast({
+        title: "Success!",
+        description: "Your message has been sent successfully.",
+      });
+
+      // Clear form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: ""
+      });
+
     } catch (error) {
+      console.error("Submission Error:", error);
       toast({
         variant: "destructive",
-        title: "Error sending message",
-        description: "Please check if the backend server is running.",
+        title: "Error",
+        description: "Failed to send message. Please try again later.",
       });
-      console.error("Error:", error);
     } finally {
       setLoading(false);
     }
@@ -73,13 +94,13 @@ const ContactSection = () => {
       <div className="container mx-auto px-4">
         <div className="relative bg-gradient-primary rounded-3xl p-6 sm:p-8 md:p-12 lg:p-16 overflow-hidden">
           {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
             <div className="absolute top-0 right-0 w-48 sm:w-64 md:w-96 h-48 sm:h-64 md:h-96 bg-primary-foreground rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-32 sm:w-48 md:w-64 h-32 sm:h-48 md:h-64 bg-primary-foreground rounded-full blur-3xl" />
           </div>
 
           <div className="relative z-10 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left Column */}
+            {/* Left Column - Contact Info */}
             <AnimatedSection direction="left" className="text-center lg:text-left">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-4 md:mb-6 leading-tight">
                 Ready to Grow Your Business?
@@ -88,126 +109,134 @@ const ContactSection = () => {
                 Let's discuss how we can help you achieve your digital marketing
                 goals. Schedule a free consultation today.
               </p>
-              <div className="space-y-3 sm:space-y-4">
-                <a href="mailto:cadbull2014@gmail.com" className="flex items-center gap-3 sm:gap-4 justify-center lg:justify-start group hover:opacity-90 transition-opacity">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-foreground/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
+
+              <div className="space-y-4">
+                <a
+                  href="mailto:cadbull2014@gmail.com"
+                  className="flex items-center gap-4 justify-center lg:justify-start group hover:opacity-90 transition-opacity p-2 rounded-lg hover:bg-white/5"
+                >
+                  <div className="w-12 h-12 bg-primary-foreground/20 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
+                    <Mail className="w-6 h-6 text-primary-foreground" />
                   </div>
-                  <span className="text-primary-foreground text-sm sm:text-base break-all">cadbull2014@gmail.com</span>
-                </a>
-                <a href="tel:+919824011921" className="flex items-center gap-3 sm:gap-4 justify-center lg:justify-start group hover:opacity-90 transition-opacity">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-foreground/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
-                  </div>
-                  <span className="text-primary-foreground text-sm sm:text-base">+91 9824011921</span>
-                </a>
-                <div className="flex items-start gap-3 sm:gap-4 justify-center lg:justify-start">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-foreground/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
-                  </div>
-                  <span className="text-primary-foreground text-sm sm:text-base text-left leading-relaxed">
-                    Digital Bull Technology Pvt ltd<br />
-                    A 823 Moneyplant High street<br />
-                    Jagatpur Road, Near GOTA Cross road<br />
-                    Ahmedabad
+                  <span className="text-primary-foreground text-base sm:text-lg font-medium break-all">
+                    cadbull2014@gmail.com
                   </span>
+                </a>
+
+                <a
+                  href="tel:+919824011921"
+                  className="flex items-center gap-4 justify-center lg:justify-start group hover:opacity-90 transition-opacity p-2 rounded-lg hover:bg-white/5"
+                >
+                  <div className="w-12 h-12 bg-primary-foreground/20 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
+                    <Phone className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                  <span className="text-primary-foreground text-base sm:text-lg font-medium">
+                    +91 98240 11921
+                  </span>
+                </a>
+
+                <div className="flex items-start gap-4 justify-center lg:justify-start p-2">
+                  <div className="w-12 h-12 bg-primary-foreground/20 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm mt-1">
+                    <MapPin className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                  <div className="text-primary-foreground text-base sm:text-lg leading-relaxed text-left">
+                    <span className="font-semibold block mb-1">Digital Bull Technology Pvt Ltd</span>
+                    <span className="opacity-90">
+                      A 823 Moneyplant High street<br />
+                      Jagatpur Road, Near GOTA Cross road<br />
+                      Ahmedabad
+                    </span>
+                  </div>
                 </div>
               </div>
             </AnimatedSection>
 
             {/* Right Column - Form */}
             <AnimatedSection direction="right">
-              <div className="bg-card rounded-2xl p-6 sm:p-8 shadow-2xl">
-                <form ref={form} onSubmit={sendEmail} className="space-y-4 sm:space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
-                        First Name
-                      </label>
-                      <input
-                        name="user_name"
-                        type="text"
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm sm:text-base"
-                        placeholder="John"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
-                        Last Name
-                      </label>
-                      <input
-                        name="user_lastname"
-                        type="text"
-                        className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm sm:text-base"
-                        placeholder="Doe"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
-                        Email
-                      </label>
-                      <input
-                        name="user_email"
-                        type="email"
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm sm:text-base"
-                        placeholder="john@example.com"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
-                        Phone Number
-                      </label>
-                      <div className="relative">
-                        <PhoneInput
-                          defaultCountry="in"
-                          value={phone}
-                          onChange={(phone) => setPhone(phone)}
-                          inputClassName="!w-full !px-4 !py-3 !rounded-r-lg !border !border-border !bg-background !text-foreground focus:!outline-none focus:!ring-2 focus:!ring-primary transition-all !h-[48px] !text-sm sm:!text-base !border-l-0"
-                          countrySelectorStyleProps={{
-                            buttonClassName: "!px-3 !py-3 !rounded-l-lg !border !border-border !bg-background hover:!bg-muted transition-colors !h-[48px] !border-r-0",
-                          }}
-                          className="w-full flex"
-                        />
-                      </div>
-                    </div>
+              <div className="bg-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-border/50">
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-semibold text-foreground mb-2 ml-1">
+                      Full Name
+                    </label>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      placeholder="John Doe"
+                      className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
+                    />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">
+                    <label htmlFor="email" className="block text-sm font-semibold text-foreground mb-2 ml-1">
+                      Email Address
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="john@example.com"
+                      className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-semibold text-foreground mb-2 ml-1">
+                      Phone Number
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                      placeholder="+91 98765 43210"
+                      className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-semibold text-foreground mb-2 ml-1">
                       Message
                     </label>
                     <textarea
+                      id="message"
                       name="message"
+                      value={formData.message}
+                      onChange={handleChange}
                       required
                       rows={4}
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none text-sm sm:text-base"
-                      placeholder="Tell us about your project..."
+                      placeholder="Tell us about your project or requirements..."
+                      className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 resize-none"
                     />
-                  </div>
-                  
-                  <div className="flex justify-center overflow-x-auto">
-                    <div className="transform scale-90 sm:scale-100 origin-center">
-                      <ReCAPTCHA
-                        sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || "YOUR_SITE_KEY_HERE"}
-                        onChange={setCaptchaToken}
-                      />
-                    </div>
                   </div>
 
                   <Button
                     type="submit"
                     variant="hero"
                     size="lg"
-                    className="w-full group text-sm sm:text-base"
+                    className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                     disabled={loading}
                   >
-                    {loading ? "Sending..." : "Send Message"}
-                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform ml-2" />
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        Sending Message...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
                   </Button>
                 </form>
               </div>
