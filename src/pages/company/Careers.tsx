@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ArrowRight, Briefcase, Users, Zap, Bike, HeartHandshake, Globe, Upload, Send } from "lucide-react";
+import { ArrowRight, Briefcase, Users, Zap, Bike, HeartHandshake, Globe, Send, Loader2 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AnimatedSection from "@/components/AnimatedSection";
 
@@ -41,79 +41,58 @@ const benefits = [
 ];
 
 const Careers = () => {
-  const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
-  const [fileName, setFileName] = useState("");
   const { toast } = useToast();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-      
-      if (!allowedTypes.includes(file.type)) {
-        toast({
-          variant: "destructive",
-          title: "Invalid file type",
-          description: "Please upload a PDF or DOC/DOCX file."
-        });
-        e.target.value = '';
-        setFileName("");
-        return;
-      }
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: ""
+  });
 
-      if (file.size > 5 * 1024 * 1024) {
-        toast({
-          variant: "destructive",
-          title: "File too large",
-          description: "Please upload a file smaller than 5MB."
-        });
-        e.target.value = '';
-        setFileName("");
-        return;
-      }
-
-      setFileName(file.name);
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    const formData = new FormData(formRef.current!);
-    
-    // Simulate form submission - in production, this would send to backend
     try {
-      // Create mailto link with form data (for demo purposes)
-      const name = formData.get('name') as string;
-      const email = formData.get('email') as string;
-      const phone = formData.get('phone') as string;
-      const message = formData.get('message') as string;
-
-      // Note: File attachment requires backend implementation
-      const mailtoLink = `mailto:info@dibull.com?subject=Job Application from ${encodeURIComponent(name)}&body=${encodeURIComponent(`
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Message: ${message}
-
-Resume: ${fileName ? `Attached (${fileName})` : 'Not attached'}
-
----
-This application was submitted via the Digital Bull Technology careers page.
-      `)}`;
-
-      window.location.href = mailtoLink;
-
-      toast({
-        title: "Application Ready!",
-        description: "Your email client should open with the application details. Please attach your resume and send.",
+      const response = await fetch("https://email.dibull.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+        }),
       });
 
-      formRef.current?.reset();
-      setFileName("");
+      if (!response.ok) {
+        throw new Error("Failed to send application");
+      }
+
+      toast({
+        title: "Application Submitted!",
+        description: "We have received your details. Please email your resume to info@dibull.com to complete your application.",
+      });
+
+      // Clear form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: ""
+      });
+
     } catch (error) {
+      console.error("Submission Error:", error);
       toast({
         variant: "destructive",
         title: "Submission failed",
@@ -153,7 +132,7 @@ This application was submitted via the Digital Bull Technology careers page.
                 We're Hiring!
               </span>
             </AnimatedSection>
-            
+
             <AnimatedSection delay={0.1}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight">
                 Build the Future of <br className="hidden md:block" />
@@ -217,34 +196,42 @@ This application was submitted via the Digital Bull Technology careers page.
                 <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold mb-4">
                   Apply Now
                 </span>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Submit Your Resume</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Submit Your Application</h2>
                 <p className="text-muted-foreground text-lg">
-                  Ready to join our team? Fill out the form below and we'll get in touch with you.
+                  Ready to join our team? Fill out the form below.
+                  <br className="hidden sm:block" />
+                  <span className="text-primary font-medium">Note: Please email your resume separately to info@dibull.com after submitting.</span>
                 </p>
               </div>
 
-              <form ref={formRef} onSubmit={handleSubmit} className="bg-card rounded-2xl p-8 border border-border shadow-lg">
-                <div className="space-y-6">
+              <div className="bg-card rounded-2xl p-8 border border-border shadow-lg">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
+                      <label htmlFor="name" className="block text-sm font-semibold text-foreground mb-2">
                         Full Name <span className="text-destructive">*</span>
                       </label>
                       <input
+                        id="name"
                         name="name"
                         type="text"
+                        value={formData.name}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                         placeholder="Your full name"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-foreground mb-2">
+                      <label htmlFor="email" className="block text-sm font-semibold text-foreground mb-2">
                         Email Address <span className="text-destructive">*</span>
                       </label>
                       <input
+                        id="email"
                         name="email"
                         type="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         required
                         className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                         placeholder="your@email.com"
@@ -253,12 +240,15 @@ This application was submitted via the Digital Bull Technology careers page.
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">
+                    <label htmlFor="phone" className="block text-sm font-semibold text-foreground mb-2">
                       Phone Number <span className="text-destructive">*</span>
                     </label>
                     <input
+                      id="phone"
                       name="phone"
                       type="tel"
+                      value={formData.phone}
+                      onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                       placeholder="+91 XXXXX XXXXX"
@@ -266,46 +256,19 @@ This application was submitted via the Digital Bull Technology careers page.
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">
-                      Message / Cover Letter
+                    <label htmlFor="message" className="block text-sm font-semibold text-foreground mb-2">
+                      Message / Cover Letter <span className="text-destructive">*</span>
                     </label>
                     <textarea
+                      id="message"
                       name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
                       rows={4}
                       className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
                       placeholder="Tell us about yourself, your experience, and why you'd like to join Digital Bull Technology..."
                     />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">
-                      Resume/CV <span className="text-destructive">*</span>
-                    </label>
-                    <div className="relative">
-                      <input
-                        name="resume"
-                        type="file"
-                        required
-                        accept=".pdf,.doc,.docx"
-                        onChange={handleFileChange}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                      />
-                      <div className="flex items-center gap-4 px-4 py-4 rounded-lg border-2 border-dashed border-border bg-muted/30 hover:border-primary/50 transition-colors">
-                        <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                          <Upload className="w-6 h-6 text-primary" />
-                        </div>
-                        <div>
-                          {fileName ? (
-                            <p className="font-medium text-foreground">{fileName}</p>
-                          ) : (
-                            <>
-                              <p className="font-medium text-foreground">Click to upload or drag and drop</p>
-                              <p className="text-sm text-muted-foreground">PDF, DOC, DOCX (Max 5MB)</p>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
                   </div>
 
                   <Button
@@ -316,7 +279,10 @@ This application was submitted via the Digital Bull Technology careers page.
                     disabled={loading}
                   >
                     {loading ? (
-                      "Submitting..."
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        Submitting...
+                      </>
                     ) : (
                       <>
                         <Send className="w-5 h-5 mr-2" />
@@ -328,8 +294,8 @@ This application was submitted via the Digital Bull Technology careers page.
                   <p className="text-center text-sm text-muted-foreground">
                     By submitting, you agree to our privacy policy. Your information will be handled with care.
                   </p>
-                </div>
-              </form>
+                </form>
+              </div>
 
               <div className="mt-8 text-center">
                 <p className="text-muted-foreground">

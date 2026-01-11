@@ -45,9 +45,6 @@ const ContactSection = () => {
     setLoading(true);
 
     try {
-      // Combine phone with message as per requirement to fit the 3-field JSON schema
-      const finalMessage = `Phone: ${formData.phone}\n\nMessage:\n${formData.message}`;
-
       const response = await fetch("https://email.dibull.com", {
         method: "POST",
         headers: {
@@ -56,7 +53,8 @@ const ContactSection = () => {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          message: finalMessage,
+          phone: formData.phone,
+          message: formData.message,
         }),
       });
 
