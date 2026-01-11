@@ -76,6 +76,7 @@ const DigitalMarketingAcademy = () => {
   const digitalMarketingCurriculum = [
     {
       title: "Digital Marketing Fundamentals",
+      slug: "digital-marketing-fundamentals",
       icon: Globe,
       color: "from-blue-500 to-cyan-500",
       topics: [
@@ -87,6 +88,7 @@ const DigitalMarketingAcademy = () => {
     },
     {
       title: "Website & Landing Page Fundamentals",
+      slug: "website-landing-page-fundamentals",
       icon: Laptop,
       color: "from-purple-500 to-pink-500",
       topics: [
@@ -98,6 +100,7 @@ const DigitalMarketingAcademy = () => {
     },
     {
       title: "Search Engine Optimization (SEO)",
+      slug: "search-engine-optimization",
       icon: Search,
       color: "from-green-500 to-emerald-500",
       topics: [
@@ -111,6 +114,7 @@ const DigitalMarketingAcademy = () => {
     },
     {
       title: "Content Marketing",
+      slug: "content-marketing",
       icon: FileText,
       color: "from-amber-500 to-orange-500",
       topics: [
@@ -122,6 +126,7 @@ const DigitalMarketingAcademy = () => {
     },
     {
       title: "Social Media Marketing",
+      slug: "social-media-marketing",
       icon: Share2,
       color: "from-rose-500 to-red-500",
       topics: [
@@ -133,6 +138,7 @@ const DigitalMarketingAcademy = () => {
     },
     {
       title: "Paid Advertising & Performance Marketing",
+      slug: "paid-advertising-performance-marketing",
       icon: MousePointerClick,
       color: "from-indigo-500 to-blue-500",
       topics: [
@@ -144,6 +150,7 @@ const DigitalMarketingAcademy = () => {
     },
     {
       title: "Email & WhatsApp Marketing",
+      slug: "email-whatsapp-marketing",
       icon: MessageSquare,
       color: "from-teal-500 to-cyan-500",
       topics: [
@@ -155,6 +162,7 @@ const DigitalMarketingAcademy = () => {
     },
     {
       title: "Analytics & Data Tracking",
+      slug: "analytics-data-tracking",
       icon: BarChart3,
       color: "from-violet-500 to-purple-500",
       topics: [
@@ -166,6 +174,7 @@ const DigitalMarketingAcademy = () => {
     },
     {
       title: "Online Reputation Management (ORM)",
+      slug: "online-reputation-management",
       icon: Shield,
       color: "from-emerald-500 to-green-500",
       topics: [
@@ -447,7 +456,7 @@ const DigitalMarketingAcademy = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {benefits.map((benefit, index) => (
                 <AnimatedSection key={index} delay={index * 0.05}>
-                  <Link to={`/digital-marketing-academy/${benefit.slug}`}>
+                  <Link to={`/digital-marketing-academy/benefit/${benefit.slug}`}>
                     <div className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 h-full group cursor-pointer">
                       <div className={`w-14 h-14 bg-gradient-to-br ${benefit.gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                         <benefit.icon className="w-7 h-7 text-white" />
@@ -493,26 +502,31 @@ const DigitalMarketingAcademy = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
               {digitalMarketingCurriculum.map((module, index) => (
                 <AnimatedSection key={index} delay={index * 0.05}>
-                  <div className="bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 h-full group">
-                    <div className={`bg-gradient-to-r ${module.color} p-4`}>
-                      <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                          <module.icon className="w-6 h-6 text-white" />
+                  <Link to={`/digital-marketing-academy/module/${module.slug}`}>
+                    <div className="bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 h-full group cursor-pointer">
+                      <div className={`bg-gradient-to-r ${module.color} p-4`}>
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <module.icon className="w-6 h-6 text-white" />
+                          </div>
+                          <h3 className="text-lg font-bold text-white">{module.title}</h3>
                         </div>
-                        <h3 className="text-lg font-bold text-white">{module.title}</h3>
+                      </div>
+                      <div className="p-5">
+                        <ul className="space-y-2">
+                          {module.topics.map((topic, topicIndex) => (
+                            <li key={topicIndex} className="flex items-start gap-2 text-sm text-muted-foreground">
+                              <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                              {topic}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="mt-4 flex items-center text-primary text-sm font-medium group-hover:gap-2 transition-all">
+                          Explore Module <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                        </div>
                       </div>
                     </div>
-                    <div className="p-5">
-                      <ul className="space-y-2">
-                        {module.topics.map((topic, topicIndex) => (
-                          <li key={topicIndex} className="flex items-start gap-2 text-sm text-muted-foreground">
-                            <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                            {topic}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                  </Link>
                 </AnimatedSection>
               ))}
             </div>

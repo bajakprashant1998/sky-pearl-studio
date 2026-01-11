@@ -41,6 +41,7 @@ import ToolDetailPage from "./pages/tools/ToolDetailPage";
 import DigitalMarketingAcademy from "./pages/DigitalMarketingAcademy";
 import DigitalMarketingSyllabus from "./pages/DigitalMarketingSyllabus";
 import AcademyBenefitDetailPage from "./pages/academy/AcademyBenefitDetailPage";
+import AcademyModuleDetailPage from "./pages/academy/AcademyModuleDetailPage";
 
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -92,7 +93,8 @@ const App = () => (
             {/* Company & Legal routes */}
             
             <Route path="/digital-marketing-academy" element={<DigitalMarketingAcademy />} />
-            <Route path="/digital-marketing-academy/:benefitSlug" element={<AcademyBenefitDetailPage />} />
+            <Route path="/digital-marketing-academy/benefit/:benefitSlug" element={<AcademyBenefitDetailPage />} />
+            <Route path="/digital-marketing-academy/module/:moduleSlug" element={<AcademyModuleDetailPage />} />
             <Route path="/digital-marketing-syllabus" element={<DigitalMarketingSyllabus />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
