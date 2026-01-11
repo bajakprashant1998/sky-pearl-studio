@@ -1,28 +1,33 @@
-import { TrendingUp, Users, Award, Globe, Target, Zap } from "lucide-react";
-import AnimatedSection from "./AnimatedSection";
+import { TrendingUp, Users, Award, Target } from "lucide-react";
+import AnimatedSection, { CountUp } from "./AnimatedSection";
 
 const stats = [
   {
     icon: TrendingUp,
-    value: "500+",
+    numericValue: 500,
+    suffix: "+",
     label: "Successful Campaigns",
     description: "Delivered across industries",
   },
   {
     icon: Users,
-    value: "10M+",
+    numericValue: 10,
+    suffix: "M+",
     label: "Leads Generated",
     description: "For our valued clients",
   },
   {
     icon: Target,
-    value: "$50M+",
+    prefix: "$",
+    numericValue: 50,
+    suffix: "M+",
     label: "Revenue Generated",
     description: "In client growth",
   },
   {
     icon: Award,
-    value: "98%",
+    numericValue: 98,
+    suffix: "%",
     label: "Client Satisfaction",
     description: "Consistently maintained",
   },
@@ -57,7 +62,12 @@ const StatsSection = () => {
                   <stat.icon className="w-8 h-8 text-primary-foreground" />
                 </div>
                 <div className="text-4xl md:text-5xl font-bold text-primary-foreground mb-2">
-                  {stat.value}
+                  <CountUp 
+                    end={stat.numericValue} 
+                    prefix={stat.prefix} 
+                    suffix={stat.suffix} 
+                    duration={2}
+                  />
                 </div>
                 <div className="text-primary-foreground font-medium mb-1">
                   {stat.label}
