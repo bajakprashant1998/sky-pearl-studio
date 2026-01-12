@@ -99,7 +99,7 @@ const AcademyModuleDetailPage = () => {
             </p>
             
             <div className="flex flex-wrap gap-4">
-              <Link to="/contact-us">
+              <Link to="/contact">
                 <Button size="lg" className="bg-white text-primary hover:bg-white/90">
                   <GraduationCap className="w-5 h-5 mr-2" />
                   Enroll Now
@@ -353,7 +353,7 @@ const AcademyModuleDetailPage = () => {
             <p className="text-xl text-muted-foreground mb-8">
               Upon completion, you'll receive the <strong className="text-foreground">{module.certification}</strong> from Dibull Digital Academy.
             </p>
-            <Link to="/contact-us">
+            <Link to="/contact">
               <Button size="lg" className={`${module.gradient} text-white border-0`}>
                 <GraduationCap className="w-5 h-5 mr-2" />
                 Start Your Journey Today
