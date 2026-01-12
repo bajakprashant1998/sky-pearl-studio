@@ -402,7 +402,7 @@ const DigitalMarketingAcademy = () => {
                 <AnimatedSection delay={0.5}>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button variant="hero" size="lg" className="group text-base px-8" asChild>
-                      <Link to="/contact">
+                      <Link to="/contact?interest=academy">
                         Enroll Now
                         <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                       </Link>
@@ -758,7 +758,7 @@ const DigitalMarketingAcademy = () => {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <Button size="lg" className="bg-white text-primary hover:bg-white/90 text-lg px-8" asChild>
-                  <Link to="/contact">
+                  <Link to="/contact?interest=academy">
                     Enroll Now
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
