@@ -1,24 +1,46 @@
 import { Helmet } from "react-helmet-async";
+import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail, Phone, MapPin, Loader2, Clock, MessageCircle, Sparkles, Send } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AnimatedSection from "@/components/AnimatedSection";
 import TurnstileWidget from "@/components/TurnstileWidget";
 
 const ContactUs = () => {
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
+  const interest = searchParams.get("interest");
+  const module = searchParams.get("module");
+
+  const getPrefilledMessage = () => {
+    if (interest === "academy") {
+      if (module) {
+        return `Hi, I'm interested in enrolling in the Digital Marketing Academy, specifically the "${module}" module. Please share more details about the program, schedule, and fees.`;
+      }
+      return "Hi, I'm interested in enrolling in the Digital Marketing Academy. Please share more details about the program, schedule, and fees.";
+    }
+    return "";
+  };
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    message: ""
+    message: getPrefilledMessage()
   });
+
+  useEffect(() => {
+    const prefilledMessage = getPrefilledMessage();
+    if (prefilledMessage) {
+      setFormData(prev => ({ ...prev, message: prefilledMessage }));
+    }
+  }, [interest, module]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
