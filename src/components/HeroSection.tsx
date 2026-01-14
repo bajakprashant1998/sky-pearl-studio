@@ -3,16 +3,11 @@ import { ArrowRight, Play, CheckCircle2, Star, Users, TrendingUp, Award } from "
 import { Link } from "react-router-dom";
 
 const clients = [
-  { name: "HireForJob", logo: "HireForJob" },
-  { name: "Cadbull", logo: "Cadbull" },
-  { name: "CastingScreen", logo: "CastingScreen" },
-  { name: "Shuttech", logo: "Shuttech" },
-  { name: "GiftCity", logo: "GiftCity" },
-  { name: "TechNova", logo: "TechNova" },
-  { name: "BlueSky", logo: "BlueSky" },
-  { name: "NextGen", logo: "NextGen" },
-  { name: "Innovate", logo: "Innovate" },
-  { name: "Growthly", logo: "Growthly" },
+  { name: "HireForJob", logo: "H" },
+  { name: "Cadbull", logo: "C" },
+  { name: "CastingScreen", logo: "CS" },
+  { name: "Shuttech", logo: "S" },
+  { name: "GiftCity", logo: "G" },
 ];
 
 const features = [
@@ -95,39 +90,21 @@ const HeroSection = () => {
               </Button>
             </div>
 
-            {/* Client Logos Marquee */}
+            {/* Client Logos */}
             <div className="pt-8 animate-fade-up" style={{ animationDelay: "0.4s" }}>
               <p className="text-sm text-muted-foreground mb-4">Trusted by industry leaders</p>
-              <div className="relative overflow-hidden max-w-xl mx-auto lg:mx-0">
-                {/* Gradient Masks */}
-                <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-                
-                {/* Marquee Track */}
-                <div className="flex gap-8 animate-marquee">
-                  {/* First set of logos */}
-                  {clients.map((client) => (
-                    <div
-                      key={client.name}
-                      className="flex-shrink-0 px-6 py-3 rounded-xl bg-card border border-border flex items-center justify-center text-sm font-semibold text-muted-foreground hover:text-primary hover:border-primary/50 hover:shadow-md transition-all cursor-pointer whitespace-nowrap"
-                      title={client.name}
-                    >
-                      {client.logo}
-                    </div>
-                  ))}
-                  {/* Duplicate set for seamless loop */}
-                  {clients.map((client) => (
-                    <div
-                      key={`${client.name}-dup`}
-                      className="flex-shrink-0 px-6 py-3 rounded-xl bg-card border border-border flex items-center justify-center text-sm font-semibold text-muted-foreground hover:text-primary hover:border-primary/50 hover:shadow-md transition-all cursor-pointer whitespace-nowrap"
-                      title={client.name}
-                    >
-                      {client.logo}
-                    </div>
-                  ))}
-                </div>
+              <div className="flex flex-wrap items-center gap-4 justify-center lg:justify-start">
+                {clients.map((client) => (
+                  <div
+                    key={client.name}
+                    className="w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center text-sm font-bold text-primary hover:border-primary/50 hover:shadow-md transition-all cursor-pointer"
+                    title={client.name}
+                  >
+                    {client.logo}
+                  </div>
+                ))}
+                <span className="text-sm text-muted-foreground">+500 more</span>
               </div>
-              <p className="text-xs text-muted-foreground mt-3 text-center lg:text-left">+500 businesses trust us</p>
             </div>
           </div>
 

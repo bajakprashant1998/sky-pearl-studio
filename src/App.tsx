@@ -45,7 +45,6 @@ import AcademyModuleDetailPage from "./pages/academy/AcademyModuleDetailPage";
 
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
-import MobileCTA from "@/components/MobileCTA";
 
 const queryClient = new QueryClient();
 
@@ -58,7 +57,6 @@ const App = () => (
         <WhatsAppButton />
         <BrowserRouter>
           <ScrollToTop />
-          <MobileCTA />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/services/seo" element={<SEOPage />} />
