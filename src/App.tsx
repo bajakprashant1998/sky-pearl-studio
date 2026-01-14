@@ -56,9 +56,9 @@ const App = () => (
         <Toaster />
         <Sonner />
         <WhatsAppButton />
-        <MobileCTA />
         <BrowserRouter>
           <ScrollToTop />
+          <MobileCTA />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/services/seo" element={<SEOPage />} />
