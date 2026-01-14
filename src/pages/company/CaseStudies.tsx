@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, TrendingUp, Users, Building2, MonitorSmartphone, Target, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -38,6 +39,12 @@ const CaseStudies = () => {
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
           
           <div className="container mx-auto px-4 text-center relative z-10">
+            <Breadcrumbs 
+              items={[
+                { label: "Case Studies" }
+              ]}
+              className="justify-center mb-8"
+            />
             <AnimatedSection>
               <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-medium mb-6">
                 Our Portfolio

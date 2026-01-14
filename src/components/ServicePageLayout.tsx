@@ -5,6 +5,7 @@ import { LucideIcon } from "lucide-react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import AnimatedSection from "./AnimatedSection";
+import Breadcrumbs from "./Breadcrumbs";
 import { Helmet } from "react-helmet-async";
 import { Subcategory, ServiceStat } from "@/data/services";
 import { ReactNode } from "react";
@@ -98,13 +99,13 @@ const ServicePageLayout = ({
 
           <div className="container mx-auto px-4 relative z-10">
             <AnimatedSection>
-              <Link
-                to="/"
-                className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Back to Home
-              </Link>
+              <Breadcrumbs 
+                items={[
+                  { label: "Services" },
+                  { label: title }
+                ]}
+                className="mb-8"
+              />
             </AnimatedSection>
 
             <div className="grid lg:grid-cols-2 gap-12 items-center">

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { LucideIcon } from "lucide-react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import Breadcrumbs from "./Breadcrumbs";
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { getSubcategoryData, processIcons, benefitIcons, SubcategoryDetail } from "@/data/subcategoryData";
@@ -90,15 +91,15 @@ const SubcategoryPageLayout = ({
 
           <div className="container mx-auto px-4 relative z-10">
             {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 text-sm text-white/70 mb-8 flex-wrap">
-              <Link to="/" className="hover:text-white transition-colors">Home</Link>
-              <span>/</span>
-              <Link to={`/services/${serviceSlug}`} className="hover:text-white transition-colors">
-                {serviceTitle}
-              </Link>
-              <span>/</span>
-              <span className="text-white">{subcategoryTitle}</span>
-            </nav>
+            <Breadcrumbs 
+              items={[
+                { label: "Services" },
+                { label: serviceTitle, href: `/services/${serviceSlug}` },
+                { label: subcategoryTitle }
+              ]}
+              variant="light"
+              className="mb-8"
+            />
 
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="animate-fade-up">

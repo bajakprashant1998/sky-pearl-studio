@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { freeToolsData } from "@/data/freeToolsData";
@@ -58,6 +59,12 @@ const FreeToolsPage = () => {
               transition={{ duration: 0.6 }}
               className="text-center max-w-4xl mx-auto"
             >
+              <Breadcrumbs 
+                items={[
+                  { label: "Free Tools" }
+                ]}
+                className="justify-center mb-6"
+              />
               <span className="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-medium mb-6">
                 <Sparkles className="w-4 h-4" />
                 100% Free - No Signup Required

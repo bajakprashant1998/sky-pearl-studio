@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 import AnimatedSection, { StaggerContainer, StaggerItem, FloatingElement } from "@/components/AnimatedSection";
 import {
@@ -343,7 +344,14 @@ const DigitalMarketingAcademy = () => {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-8">
+            <div className="space-y-8">
+                {/* Breadcrumbs */}
+                <Breadcrumbs 
+                  items={[
+                    { label: "Academy" }
+                  ]}
+                />
+                
                 {/* Badge */}
                 <AnimatedSection delay={0}>
                   <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full border border-primary/30">

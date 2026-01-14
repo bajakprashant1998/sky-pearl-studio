@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 import {
     ArrowRight, Target, Rocket, Lightbulb, Users, Globe, Layers,
@@ -140,6 +141,13 @@ const AboutUs = () => {
                     }} />
 
                     <div className="container mx-auto px-4 relative z-10">
+                        <Breadcrumbs 
+                            items={[
+                                { label: "About Us" }
+                            ]}
+                            variant="light"
+                            className="mb-8"
+                        />
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
                             <div className="text-center lg:text-left">
                                 <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-full text-sm font-medium mb-6 animate-fade-up">
