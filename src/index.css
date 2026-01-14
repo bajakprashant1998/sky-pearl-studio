@@ -194,6 +194,10 @@
     @apply -translate-y-2 shadow-xl;
   }
 
+  .safe-area-pb {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
   .hover-glow {
     @apply transition-all duration-300;
   }
