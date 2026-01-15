@@ -44,6 +44,7 @@ import AcademyBenefitDetailPage from "./pages/academy/AcademyBenefitDetailPage";
 import AcademyModuleDetailPage from "./pages/academy/AcademyModuleDetailPage";
 
 import WhatsAppButton from "@/components/WhatsAppButton";
+import LiveChatWidget from "@/components/LiveChatWidget";
 import ScrollToTop from "@/components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -55,6 +56,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <WhatsAppButton />
+        <LiveChatWidget />
         <BrowserRouter>
           <ScrollToTop />
           <Routes>
