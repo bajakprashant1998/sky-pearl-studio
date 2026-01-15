@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play, CheckCircle2, Star, Users, TrendingUp, Award } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import ClientLogoMarquee from "./ClientLogoMarquee";
 const clients = [
   { name: "HireForJob", logo: "H" },
   { name: "Cadbull", logo: "C" },
@@ -182,6 +182,11 @@ const HeroSection = () => {
               </div>
             </div>
           </div>
+        </div>
+        
+        {/* Client Logo Marquee */}
+        <div className="mt-16">
+          <ClientLogoMarquee />
         </div>
       </div>
     </section>
