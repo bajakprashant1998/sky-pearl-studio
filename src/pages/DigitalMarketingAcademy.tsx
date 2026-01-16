@@ -191,6 +191,7 @@ const DigitalMarketingAcademy = () => {
       title: "AI Website Designing",
       icon: Laptop,
       color: "from-blue-600 to-indigo-500",
+      slug: "ai-website-designing",
       topics: [
         "AI-powered website builders",
         "No-code & low-code platforms",
@@ -202,6 +203,7 @@ const DigitalMarketingAcademy = () => {
       title: "AI Graphic Designing",
       icon: Palette,
       color: "from-pink-500 to-rose-500",
+      slug: "ai-graphic-designing",
       topics: [
         "AI logo & brand identity creation",
         "Social media creatives & ad banners",
@@ -213,6 +215,7 @@ const DigitalMarketingAcademy = () => {
       title: "AI Video Editing & Creation",
       icon: Film,
       color: "from-purple-600 to-violet-500",
+      slug: "ai-video-editing",
       topics: [
         "AI-based video editing tools",
         "Reels, Shorts & YouTube video creation",
@@ -552,24 +555,30 @@ const DigitalMarketingAcademy = () => {
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {aiSkillsCurriculum.map((module, index) => (
                 <AnimatedSection key={index} delay={index * 0.1}>
-                  <div className="bg-card rounded-3xl overflow-hidden border-2 border-border hover:border-primary/50 hover:shadow-2xl transition-all duration-300 h-full group">
-                    <div className={`bg-gradient-to-br ${module.color} p-6 text-center`}>
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                        <module.icon className="w-8 h-8 text-white" />
+                  <Link to={`/digital-marketing-academy/${module.slug}`} className="block h-full">
+                    <div className="bg-card rounded-3xl overflow-hidden border-2 border-border hover:border-primary/50 hover:shadow-2xl transition-all duration-300 h-full group cursor-pointer">
+                      <div className={`bg-gradient-to-br ${module.color} p-6 text-center`}>
+                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                          <module.icon className="w-8 h-8 text-white" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white">{module.title}</h3>
                       </div>
-                      <h3 className="text-xl font-bold text-white">{module.title}</h3>
+                      <div className="p-6">
+                        <ul className="space-y-3">
+                          {module.topics.map((topic, topicIndex) => (
+                            <li key={topicIndex} className="flex items-start gap-3 text-sm">
+                              <Sparkles className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                              <span className="text-muted-foreground">{topic}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="mt-4 flex items-center justify-center gap-2 text-primary font-medium">
+                          <span>Learn More</span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
                     </div>
-                    <div className="p-6">
-                      <ul className="space-y-3">
-                        {module.topics.map((topic, topicIndex) => (
-                          <li key={topicIndex} className="flex items-start gap-3 text-sm">
-                            <Sparkles className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                            <span className="text-muted-foreground">{topic}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                  </Link>
                 </AnimatedSection>
               ))}
             </div>
