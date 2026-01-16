@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { MessageCircle, X, Send, Minimize2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { supabase } from "@/integrations/supabase/client";
+import { createChatClient } from "@/lib/supabaseChat";
 import { toast } from "@/hooks/use-toast";
 
 interface Message {
@@ -27,6 +27,9 @@ const LiveChatWidget = () => {
     return newId;
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Create a Supabase client with the session ID header for RLS
+  const supabase = useMemo(() => createChatClient(sessionId), [sessionId]);
 
   const quickReplies = [
     "Tell me about your services",
