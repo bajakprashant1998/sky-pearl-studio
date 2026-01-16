@@ -42,6 +42,9 @@ import DigitalMarketingAcademy from "./pages/DigitalMarketingAcademy";
 import DigitalMarketingSyllabus from "./pages/DigitalMarketingSyllabus";
 import AcademyBenefitDetailPage from "./pages/academy/AcademyBenefitDetailPage";
 import AcademyModuleDetailPage from "./pages/academy/AcademyModuleDetailPage";
+import AIWebsiteDesigningPage from "./pages/academy/AIWebsiteDesigningPage";
+import AIGraphicDesigningPage from "./pages/academy/AIGraphicDesigningPage";
+import AIVideoEditingPage from "./pages/academy/AIVideoEditingPage";
 
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -95,6 +98,9 @@ const App = () => (
             <Route path="/digital-marketing-academy" element={<DigitalMarketingAcademy />} />
             <Route path="/digital-marketing-academy/benefit/:benefitSlug" element={<AcademyBenefitDetailPage />} />
             <Route path="/digital-marketing-academy/module/:moduleSlug" element={<AcademyModuleDetailPage />} />
+            <Route path="/digital-marketing-academy/ai-website-designing" element={<AIWebsiteDesigningPage />} />
+            <Route path="/digital-marketing-academy/ai-graphic-designing" element={<AIGraphicDesigningPage />} />
+            <Route path="/digital-marketing-academy/ai-video-editing" element={<AIVideoEditingPage />} />
             <Route path="/digital-marketing-syllabus" element={<DigitalMarketingSyllabus />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
