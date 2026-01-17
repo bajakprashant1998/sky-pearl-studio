@@ -207,6 +207,12 @@ const Navbar = () => {
               About
             </Link>
             <Link
+              to="/our-verticals"
+              className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
+            >
+              Our Verticals
+            </Link>
+            <Link
               to="/case-studies"
               className="text-muted-foreground hover:text-primary font-medium transition-colors duration-300"
             >
@@ -314,6 +320,13 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
               >
                 About
+              </Link>
+              <Link
+                to="/our-verticals"
+                className="text-foreground hover:text-primary font-medium transition-colors py-3 px-2 rounded-lg hover:bg-muted"
+                onClick={() => setIsOpen(false)}
+              >
+                Our Verticals
               </Link>
               <Link
                 to="/case-studies"
