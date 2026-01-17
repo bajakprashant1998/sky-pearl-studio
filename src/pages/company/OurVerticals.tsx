@@ -3,16 +3,11 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnimatedSection, { StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
+import { livePlatforms } from "@/data/verticalsData";
 import { 
   Globe, 
   Rocket, 
   ExternalLink, 
-  Building2, 
-  Cpu, 
-  Film, 
-  HardHat, 
-  TrendingUp, 
-  Home as HomeIcon,
   Briefcase,
   Star,
   ShoppingBag,
@@ -30,63 +25,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-const livePlatforms = [
-  {
-    name: "Cadbull",
-    tagline: "World's Largest AutoCAD Library",
-    website: "www.cadbull.com",
-    url: "https://www.cadbull.com",
-    description: "Global hub for architects, civil engineers, and interior designers offering millions of professional AutoCAD DWG drawings including architectural plans, structural details, interiors, landscape, and 3D resources.",
-    icon: Building2,
-    color: "from-blue-600 to-blue-400"
-  },
-  {
-    name: "Shuttech",
-    tagline: "Technology Information Hub",
-    website: "www.shuttech.com",
-    url: "https://www.shuttech.com",
-    description: "A modern technology portal delivering news, tutorials, software reviews, and insights on AI, web, apps, and emerging digital trends.",
-    icon: Cpu,
-    color: "from-purple-600 to-purple-400"
-  },
-  {
-    name: "CastingScreen",
-    tagline: "Talent Management Platform",
-    website: "www.castingscreen.com",
-    url: "https://www.castingscreen.com",
-    description: "A professional ecosystem for talent discovery featuring artist profiles, casting opportunities, and networking for the entertainment and creative industries.",
-    icon: Film,
-    color: "from-pink-600 to-pink-400"
-  },
-  {
-    name: "CivilEngi",
-    tagline: "Civil Engineering Technology",
-    website: "www.civilengi.com",
-    url: "https://www.civilengi.com",
-    description: "A dedicated knowledge base for civil engineers and construction professionals with technical articles, methods, innovations, and industry updates.",
-    icon: HardHat,
-    color: "from-orange-600 to-orange-400"
-  },
-  {
-    name: "DiBull",
-    tagline: "Digital Marketing, Development & Coaching",
-    website: "www.dibull.com",
-    url: "https://www.dibull.com",
-    description: "A growth-driven platform providing digital marketing services, website and app development, and business & career coaching.",
-    icon: TrendingUp,
-    color: "from-primary to-blue-400"
-  },
-  {
-    name: "Gift City Property",
-    tagline: "Real Estate Listing Portal",
-    website: "www.giftcityproperty.com",
-    url: "https://www.giftcityproperty.com",
-    description: "A specialized real estate platform for GIFT City featuring commercial and residential property listings, projects, and investor-focused insights.",
-    icon: HomeIcon,
-    color: "from-emerald-600 to-emerald-400"
-  }
-];
 
 const upcomingPlatforms = [
   {
@@ -267,10 +205,8 @@ const OurVerticals = () => {
           <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {livePlatforms.map((platform, index) => (
               <StaggerItem key={index}>
-                <a 
-                  href={platform.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+                <Link 
+                  to={`/our-verticals/${platform.id}`}
                   className="block h-full"
                 >
                   <Card className="h-full border-2 border-border hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 group overflow-hidden">
@@ -296,12 +232,15 @@ const OurVerticals = () => {
                         </p>
                         <div className="flex items-center justify-between">
                           <span className="text-primary font-medium text-sm">{platform.website}</span>
-                          <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                          <div className="flex items-center gap-1 text-primary">
+                            <span className="text-sm font-medium">Learn More</span>
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </div>
                         </div>
                       </div>
                     </CardContent>
                   </Card>
-                </a>
+                </Link>
               </StaggerItem>
             ))}
           </StaggerContainer>
