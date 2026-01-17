@@ -28,6 +28,7 @@ import FeatureDetailPage from "./pages/services/subcategory/FeatureDetailPage";
 import BenefitDetailPage from "./pages/services/subcategory/BenefitDetailPage";
 import Careers from "./pages/company/Careers";
 import AboutUs from "./pages/company/AboutUs";
+import OurVerticals from "./pages/company/OurVerticals";
 import ContactUs from "./pages/ContactUs";
 import CaseStudies from "./pages/company/CaseStudies";
 import CaseStudyDetailPage from "./pages/company/CaseStudyDetailPage";
@@ -103,6 +104,7 @@ const App = () => (
             <Route path="/digital-marketing-academy/ai-video-editing" element={<AIVideoEditingPage />} />
             <Route path="/digital-marketing-syllabus" element={<DigitalMarketingSyllabus />} />
             <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/our-verticals" element={<OurVerticals />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/case-studies" element={<CaseStudies />} />
