@@ -30,6 +30,7 @@ import Careers from "./pages/company/Careers";
 import AboutUs from "./pages/company/AboutUs";
 import OurVerticals from "./pages/company/OurVerticals";
 import VerticalDetailPage from "./pages/company/VerticalDetailPage";
+import UpcomingVerticalDetailPage from "./pages/company/UpcomingVerticalDetailPage";
 import ContactUs from "./pages/ContactUs";
 import CaseStudies from "./pages/company/CaseStudies";
 import CaseStudyDetailPage from "./pages/company/CaseStudyDetailPage";
@@ -39,6 +40,8 @@ import CookiePolicy from "./pages/legal/CookiePolicy";
 import ImpactDetailPage from "./pages/impact/ImpactDetailPage";
 import FreeToolsPage from "./pages/tools/FreeToolsPage";
 import ToolDetailPage from "./pages/tools/ToolDetailPage";
+import BlogPage from "./pages/blog/BlogPage";
+import BlogDetailPage from "./pages/blog/BlogDetailPage";
 
 import DigitalMarketingAcademy from "./pages/DigitalMarketingAcademy";
 import DigitalMarketingSyllabus from "./pages/DigitalMarketingSyllabus";
@@ -81,22 +84,14 @@ const App = () => (
             <Route path="/services/training-programs" element={<TrainingProgramsPage />} />
             <Route path="/services/saas-products" element={<SaaSProductsPage />} />
             <Route path="/services/branding-design" element={<BrandingDesignPage />} />
-            {/* Dynamic subcategory routes */}
             <Route path="/services/:serviceSlug/:subcategoryId" element={<SubcategoryPage />} />
-            {/* Dynamic feature routes */}
             <Route path="/services/:serviceSlug/:subcategoryId/feature/:itemSlug" element={<FeatureDetailPage />} />
-            {/* Dynamic benefit routes */}
             <Route path="/services/:serviceSlug/:subcategoryId/benefit/:itemSlug" element={<BenefitDetailPage />} />
-
-            {/* Business Impact routes */}
             <Route path="/impact/:slug" element={<ImpactDetailPage />} />
-
-            {/* Free Tools routes */}
             <Route path="/free-tools" element={<FreeToolsPage />} />
             <Route path="/free-tools/:toolSlug" element={<ToolDetailPage />} />
-
-            {/* Company & Legal routes */}
-            
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogDetailPage />} />
             <Route path="/digital-marketing-academy" element={<DigitalMarketingAcademy />} />
             <Route path="/digital-marketing-academy/benefit/:benefitSlug" element={<AcademyBenefitDetailPage />} />
             <Route path="/digital-marketing-academy/module/:moduleSlug" element={<AcademyModuleDetailPage />} />
@@ -107,6 +102,7 @@ const App = () => (
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/our-verticals" element={<OurVerticals />} />
             <Route path="/our-verticals/:slug" element={<VerticalDetailPage />} />
+            <Route path="/our-verticals/upcoming/:slug" element={<UpcomingVerticalDetailPage />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/case-studies" element={<CaseStudies />} />
@@ -114,7 +110,6 @@ const App = () => (
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
-
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
