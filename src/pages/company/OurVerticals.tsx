@@ -276,31 +276,41 @@ const OurVerticals = () => {
           <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {upcomingPlatforms.map((platform, index) => (
               <StaggerItem key={index}>
-                <Card className="h-full border-2 border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group overflow-hidden bg-card/80 backdrop-blur-sm">
-                  <CardContent className="p-0">
-                    {/* Header with Gradient */}
-                    <div className={`bg-gradient-to-br ${platform.color} p-5 relative overflow-hidden opacity-90`}>
-                      <div className="absolute top-2 right-2">
-                        <Badge variant="secondary" className="bg-white/90 text-muted-foreground border-0 font-semibold text-xs">
-                          UPCOMING
-                        </Badge>
+                <Link 
+                  to={`/our-verticals/upcoming/${platform.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="block h-full"
+                >
+                  <Card className="h-full border-2 border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group overflow-hidden bg-card/80 backdrop-blur-sm">
+                    <CardContent className="p-0">
+                      {/* Header with Gradient */}
+                      <div className={`bg-gradient-to-br ${platform.color} p-5 relative overflow-hidden opacity-90`}>
+                        <div className="absolute top-2 right-2">
+                          <Badge variant="secondary" className="bg-white/90 text-muted-foreground border-0 font-semibold text-xs">
+                            UPCOMING
+                          </Badge>
+                        </div>
+                        <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                          <platform.icon className="w-6 h-6 text-white" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-0.5">{platform.name}</h3>
+                        <p className="text-white/80 text-sm font-medium">{platform.tagline}</p>
                       </div>
-                      <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                        <platform.icon className="w-6 h-6 text-white" />
-                      </div>
-                      <h3 className="text-xl font-bold text-white mb-0.5">{platform.name}</h3>
-                      <p className="text-white/80 text-sm font-medium">{platform.tagline}</p>
-                    </div>
 
-                    {/* Content */}
-                    <div className="p-5">
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-3 line-clamp-3">
-                        {platform.description}
-                      </p>
-                      <span className="text-primary/70 font-medium text-sm">{platform.website}</span>
-                    </div>
-                  </CardContent>
-                </Card>
+                      {/* Content */}
+                      <div className="p-5">
+                        <p className="text-muted-foreground text-sm leading-relaxed mb-3 line-clamp-3">
+                          {platform.description}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-primary/70 font-medium text-sm">{platform.website}</span>
+                          <span className="text-primary text-sm font-medium flex items-center gap-1">
+                            View <ArrowRight className="w-3 h-3" />
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               </StaggerItem>
             ))}
           </StaggerContainer>
