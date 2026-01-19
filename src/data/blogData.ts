@@ -1,3 +1,10 @@
+import seoAiSearchImage from "@/assets/blog/seo-ai-search.jpg";
+import aiMarketingAutomationImage from "@/assets/blog/ai-marketing-automation.jpg";
+import responsiveWebDesignImage from "@/assets/blog/responsive-web-design.jpg";
+import socialMediaAlgorithmImage from "@/assets/blog/social-media-algorithm.jpg";
+import ecommerceMarketingImage from "@/assets/blog/ecommerce-marketing.jpg";
+import localSeoImage from "@/assets/blog/local-seo.jpg";
+
 export interface BlogPost {
   id: string;
   slug: string;
@@ -34,7 +41,7 @@ export const blogPosts: BlogPost[] = [
     publishDate: "2026-01-18",
     author: "Digital Bull Team",
     readTime: "8 min read",
-    featuredImage: "/placeholder.svg",
+    featuredImage: seoAiSearchImage,
     content: `
 ## Introduction
 
@@ -117,7 +124,7 @@ Ready to optimize your website for AI-powered search? Learn more about our SEO s
     publishDate: "2026-01-18",
     author: "Digital Bull Team",
     readTime: "10 min read",
-    featuredImage: "/placeholder.svg",
+    featuredImage: aiMarketingAutomationImage,
     content: `
 ## Introduction
 
@@ -252,7 +259,7 @@ Ready to transform your marketing with AI? Explore our AI Marketing services or 
     publishDate: "2026-01-17",
     author: "Digital Bull Team",
     readTime: "9 min read",
-    featuredImage: "/placeholder.svg",
+    featuredImage: responsiveWebDesignImage,
     content: `
 ## Introduction
 
@@ -401,7 +408,7 @@ Looking to redesign your website with modern responsive principles? Explore our 
     publishDate: "2026-01-17",
     author: "Digital Bull Team",
     readTime: "7 min read",
-    featuredImage: "/placeholder.svg",
+    featuredImage: socialMediaAlgorithmImage,
     content: `
 ## Introduction
 
@@ -529,7 +536,7 @@ Need help navigating social media changes? Explore our Social Media Marketing se
     publishDate: "2026-01-16",
     author: "Digital Bull Team",
     readTime: "11 min read",
-    featuredImage: "/placeholder.svg",
+    featuredImage: ecommerceMarketingImage,
     content: `
 ## Introduction
 
@@ -687,7 +694,7 @@ Ready to boost your e-commerce conversions? Explore our Conversion Optimization 
     publishDate: "2026-01-16",
     author: "Digital Bull Team",
     readTime: "9 min read",
-    featuredImage: "/placeholder.svg",
+    featuredImage: localSeoImage,
     content: `
 ## Introduction
 
