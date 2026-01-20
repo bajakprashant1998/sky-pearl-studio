@@ -115,7 +115,7 @@ function formatSectionContent(content: string) {
   
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
-    
+
     // Skip empty lines but close list if open
     if (!line) {
       if (inList) {
@@ -124,7 +124,13 @@ function formatSectionContent(content: string) {
       }
       continue;
     }
-    
+
+    // Ignore standalone markdown symbols that sometimes leak into generated content
+    // (e.g. a line that is just "#")
+    if (/^#{1,6}$/.test(line)) {
+      continue;
+    }
+
     // Handle sub-headings (### )
     if (line.startsWith('### ')) {
       if (inList) {
@@ -699,28 +705,39 @@ const BlogDetailPage = () => {
                       <nav className="space-y-1">
                         {contentSections.map((section, index) => {
                           if (section.type !== 'section') return null;
+
+                          // Section id stays aligned with the rendered card id (uses original array index)
                           const sectionId = `section-${index}`;
                           const isActive = activeSection === sectionId;
+
+                          // Display number must match the main content numbering (only count 'section' types)
+                          const sectionNumber = contentSections
+                            .slice(0, index + 1)
+                            .filter((s) => s.type === 'section')
+                            .length;
+
                           return (
                             <a
-                              key={index}
+                              key={sectionId}
                               href={`#${sectionId}`}
                               onClick={(e) => {
                                 e.preventDefault();
                                 document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
                               }}
                               className={`flex items-start gap-3 p-3 rounded-xl transition-all text-sm ${
-                                isActive 
-                                  ? 'bg-primary/10 text-primary font-medium' 
-                                  : 'hover:bg-slate-50 text-slate-600 hover:text-slate-900'
+                                isActive
+                                  ? 'bg-primary/10 text-primary font-medium'
+                                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
                               }`}
                             >
-                              <span className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                                isActive 
-                                  ? 'bg-primary text-white' 
-                                  : 'bg-slate-200 text-slate-600'
-                              }`}>
-                                {index}
+                              <span
+                                className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                                  isActive
+                                    ? 'bg-primary text-primary-foreground'
+                                    : 'bg-muted text-muted-foreground'
+                                }`}
+                              >
+                                {sectionNumber}
                               </span>
                               <span className="line-clamp-2">{section.title}</span>
                             </a>
