@@ -26,7 +26,7 @@ import {
   Lightbulb,
   ChevronRight
 } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 // Parse content into structured sections
 function parseContentToSections(content: string) {
@@ -77,6 +77,22 @@ const BlogDetailPage = () => {
   const { data: post, isLoading } = useBlogPost(slug || "");
   const { data: allPosts = [] } = useBlogPosts();
   const [copied, setCopied] = useState(false);
+  const [readingProgress, setReadingProgress] = useState(0);
+
+  // Reading progress bar effect
+  useEffect(() => {
+    const updateProgress = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      setReadingProgress(Math.min(100, Math.max(0, progress)));
+    };
+
+    window.addEventListener('scroll', updateProgress);
+    updateProgress();
+    
+    return () => window.removeEventListener('scroll', updateProgress);
+  }, []);
 
   const relatedPosts = useMemo(() => {
     if (!post) return [];
@@ -94,6 +110,13 @@ const BlogDetailPage = () => {
     return (
       <>
         <Navbar />
+        {/* Reading Progress Bar */}
+        <div className="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50">
+          <div 
+            className="h-full bg-gradient-to-r from-primary via-primary/80 to-primary transition-all duration-150 ease-out"
+            style={{ width: `${readingProgress}%` }}
+          />
+        </div>
         <div className="min-h-screen pt-20 bg-slate-50">
           <div className="container px-4 py-16">
             <div className="max-w-6xl mx-auto">
@@ -151,6 +174,13 @@ const BlogDetailPage = () => {
 
   return (
     <>
+      {/* Reading Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-muted z-50">
+        <div 
+          className="h-full bg-gradient-to-r from-primary via-primary/80 to-primary transition-all duration-150 ease-out"
+          style={{ width: `${readingProgress}%` }}
+        />
+      </div>
       <Helmet>
         <title>{post.title} | Digital Bull Blog</title>
         <meta name="description" content={post.metaDescription} />
