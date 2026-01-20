@@ -572,7 +572,7 @@ const DigitalMarketingSyllabus = () => {
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-white text-center">
                   <IndianRupee className="w-8 h-8 mx-auto mb-3 opacity-80" />
                   <p className="text-sm opacity-80">Fees</p>
-                  <p className="text-xl font-bold">₹5,000/Month</p>
+                  <p className="text-xl font-bold">₹25,000</p>
                 </div>
               </div>
 
