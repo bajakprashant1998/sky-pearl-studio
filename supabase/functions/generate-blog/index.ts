@@ -163,9 +163,18 @@ Remember to provide ONLY valid JSON in your response.`;
         } else if (aiContent.includes("```")) {
           jsonStr = aiContent.split("```")[1].split("```")[0].trim();
         }
+        
+        // Clean up potential issues in JSON string
+        jsonStr = jsonStr
+          .replace(/[\x00-\x1F\x7F]/g, ' ') // Remove control characters
+          .replace(/\n\s*\n/g, '\n') // Remove double newlines
+          .replace(/,\s*}/g, '}') // Remove trailing commas
+          .replace(/,\s*]/g, ']'); // Remove trailing commas in arrays
+        
         articleData = JSON.parse(jsonStr);
       } catch (parseError) {
         console.error(`Failed to parse AI response for article ${i + 1}:`, parseError);
+        console.error(`Raw content (first 500 chars):`, aiContent.substring(0, 500));
         continue;
       }
 
