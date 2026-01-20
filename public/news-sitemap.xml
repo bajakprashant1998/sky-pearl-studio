@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://dibull.com/blog/google-search-generative-experience-2026</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Digital Bull Technology</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-18T00:00:00Z</news:publication_date>
+      <news:title><![CDATA[Google's SGE: How AI Search Changes SEO]]></news:title>
+      <news:keywords>Google SGE, AI Search, SEO Strategy, Search Engine, Digital Marketing</news:keywords>
+    </news:news>
+    <lastmod>2026-01-18T00:00:00Z</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://dibull.com/blog/ai-marketing-automation-2026</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Digital Bull Technology</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-15T00:00:00Z</news:publication_date>
+      <news:title><![CDATA[AI Marketing Automation: The Complete Guide for 2026]]></news:title>
+      <news:keywords>AI Marketing, Automation, Machine Learning, Personalization, MarTech</news:keywords>
+    </news:news>
+    <lastmod>2026-01-15T00:00:00Z</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://dibull.com/blog/responsive-web-design-2026</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Digital Bull Technology</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-12T00:00:00Z</news:publication_date>
+      <news:title><![CDATA[Responsive Web Design Best Practices for 2026]]></news:title>
+      <news:keywords>Web Design, Responsive Design, Mobile First, UX, CSS</news:keywords>
+    </news:news>
+    <lastmod>2026-01-12T00:00:00Z</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://dibull.com/blog/social-media-algorithm-changes-2026</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Digital Bull Technology</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-10T00:00:00Z</news:publication_date>
+      <news:title><![CDATA[Social Media Algorithm Changes: What Marketers Need to Know]]></news:title>
+      <news:keywords>Social Media, Algorithm, Instagram, TikTok, LinkedIn</news:keywords>
+    </news:news>
+    <lastmod>2026-01-10T00:00:00Z</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://dibull.com/blog/ecommerce-conversion-optimization</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Digital Bull Technology</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-08T00:00:00Z</news:publication_date>
+      <news:title><![CDATA[E-commerce Conversion Optimization: Advanced Strategies]]></news:title>
+      <news:keywords>E-commerce, Conversion, CRO, Online Shopping, Revenue</news:keywords>
+    </news:news>
+    <lastmod>2026-01-08T00:00:00Z</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://dibull.com/blog/local-seo-small-business</loc>
+    <news:news>
+      <news:publication>
+        <news:name>Digital Bull Technology</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2026-01-05T00:00:00Z</news:publication_date>
+      <news:title><![CDATA[Local SEO for Small Businesses: The Ultimate Guide]]></news:title>
+      <news:keywords>Local SEO, Small Business, Google Business Profile, Citations</news:keywords>
+    </news:news>
+    <lastmod>2026-01-05T00:00:00Z</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

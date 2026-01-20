@@ -1,4 +1,11 @@
+# Robots.txt for Digital Bull Technology
+# https://dibull.com
+
 User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /blog/
 Allow: /
 
 User-agent: Bingbot
@@ -12,3 +19,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Sitemaps
+Sitemap: https://dibull.com/sitemap.xml
+Sitemap: https://dibull.com/news-sitemap.xml
