@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { backend } from "@/lib/backendClient";
 import { blogPosts as staticBlogPosts } from "@/data/blogData";
 
 export interface BlogPost {
@@ -54,7 +54,7 @@ export function useBlogPosts(category?: string) {
   return useQuery({
     queryKey: ["blog-posts", category],
     queryFn: async () => {
-      let query = supabase
+      let query = backend
         .from("blog_posts")
         .select("*")
         .eq("is_published", true)
@@ -95,7 +95,7 @@ export function useBlogPost(slug: string) {
     queryKey: ["blog-post", slug],
     queryFn: async () => {
       // First check database
-      const { data, error } = await supabase
+      const { data, error } = await backend
         .from("blog_posts")
         .select("*")
         .eq("slug", slug)
@@ -122,7 +122,7 @@ export function useBlogCategories() {
   return useQuery({
     queryKey: ["blog-categories"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await backend
         .from("blog_posts")
         .select("category")
         .eq("is_published", true);
