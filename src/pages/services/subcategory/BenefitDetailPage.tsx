@@ -55,6 +55,12 @@ const generateBenefitContent = (title: string, subcategoryTitle: string) => {
                 desc: "Long-term results that continue to deliver value",
                 icon: Shield,
                 stat: "12+ months"
+            },
+            { 
+                title: "Brand Authority", 
+                desc: "Build trust and credibility in your industry",
+                icon: Award,
+                stat: "3x growth"
             }
         ],
         howWeDeliver: [
@@ -254,12 +260,12 @@ const BenefitDetailPage = () => {
                     </div>
                 </section>
 
-                {/* Impact Areas - Visual Infographic */}
-                <section className="py-20 bg-muted/30">
+                {/* Business Impact Section - Clean Card Design */}
+                <section className="py-20 bg-background">
                     <div className="container mx-auto px-4">
-                        <div className="text-center max-w-3xl mx-auto mb-16">
+                        <div className="text-center max-w-3xl mx-auto mb-12">
                             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                                Business <span className="text-gradient">Impact</span>
+                                Business <span className="text-primary">Impact</span>
                             </h2>
                             <p className="text-lg text-muted-foreground">
                                 How achieving {itemTitle} transforms your business
@@ -270,20 +276,21 @@ const BenefitDetailPage = () => {
                             {content.impactAreas.map((area, index) => (
                                 <article
                                     key={index}
-                                    className="bg-card rounded-2xl p-6 border border-border hover:border-green-500/50 hover:shadow-xl transition-all duration-300 animate-fade-up group relative overflow-hidden"
+                                    className="bg-card rounded-xl p-6 border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300 animate-fade-up group relative overflow-hidden"
                                     style={{ animationDelay: `${index * 0.05}s` }}
                                 >
-                                    {/* Background stat */}
-                                    <div className="absolute -top-4 -right-4 text-6xl font-bold text-green-100 dark:text-green-900/30 opacity-50 group-hover:opacity-80 transition-opacity">
+                                    {/* Background stat - subtle watermark effect */}
+                                    <div className="absolute top-2 right-4 text-5xl md:text-6xl font-bold text-primary/5 dark:text-primary/10 select-none pointer-events-none">
                                         {area.stat}
                                     </div>
                                     
                                     <div className="relative z-10">
-                                        <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                            <area.icon className="w-6 h-6 text-green-600" />
+                                        {/* Icon with primary color background */}
+                                        <div className="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                                            <area.icon className="w-6 h-6 text-primary" />
                                         </div>
-                                        <h3 className="text-lg font-bold mb-2">{area.title}</h3>
-                                        <p className="text-muted-foreground text-sm">{area.desc}</p>
+                                        <h3 className="text-lg font-bold mb-2 text-foreground">{area.title}</h3>
+                                        <p className="text-muted-foreground text-sm leading-relaxed">{area.desc}</p>
                                     </div>
                                 </article>
                             ))}
