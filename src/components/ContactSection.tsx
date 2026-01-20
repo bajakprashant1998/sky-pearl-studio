@@ -118,30 +118,30 @@ const ContactSection = () => {
               <div className="space-y-4">
                 <a
                   href="mailto:info@dibull.com"
-                  className="flex items-center gap-4 justify-center lg:justify-start group hover:opacity-90 transition-opacity p-2 rounded-lg hover:bg-white/5"
+                  className="flex items-center gap-4 group hover:opacity-90 transition-opacity p-2 rounded-lg hover:bg-white/5"
                 >
                   <div className="w-12 h-12 bg-primary-foreground/20 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
                     <Mail className="w-6 h-6 text-primary-foreground" />
                   </div>
-                  <span className="text-primary-foreground text-base sm:text-lg font-medium break-all">
+                  <span className="text-primary-foreground text-base sm:text-lg font-medium break-all text-left">
                     info@dibull.com
                   </span>
                 </a>
 
                 <a
                   href="tel:+919824011921"
-                  className="flex items-center gap-4 justify-center lg:justify-start group hover:opacity-90 transition-opacity p-2 rounded-lg hover:bg-white/5"
+                  className="flex items-center gap-4 group hover:opacity-90 transition-opacity p-2 rounded-lg hover:bg-white/5"
                 >
                   <div className="w-12 h-12 bg-primary-foreground/20 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
                     <Phone className="w-6 h-6 text-primary-foreground" />
                   </div>
-                  <span className="text-primary-foreground text-base sm:text-lg font-medium">
+                  <span className="text-primary-foreground text-base sm:text-lg font-medium text-left">
                     +91 98240 11921
                   </span>
                 </a>
 
-                <div className="flex items-start gap-4 justify-center lg:justify-start p-2">
-                  <div className="w-12 h-12 bg-primary-foreground/20 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm mt-1">
+                <div className="flex items-start gap-4 p-2">
+                  <div className="w-12 h-12 bg-primary-foreground/20 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
                     <MapPin className="w-6 h-6 text-primary-foreground" />
                   </div>
                   <div className="text-primary-foreground text-base sm:text-lg leading-relaxed text-left">
