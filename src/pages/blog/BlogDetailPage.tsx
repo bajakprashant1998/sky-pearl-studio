@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { 
   ArrowLeft, 
   ArrowRight,
+  ArrowUp,
   Calendar, 
   Clock, 
   User,
@@ -155,6 +156,17 @@ const BlogDetailPage = () => {
   const [copied, setCopied] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
   const [activeSection, setActiveSection] = useState<string>("");
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Calculate remaining read time based on progress
+  const remainingReadTime = useMemo(() => {
+    if (!post) return "";
+    const totalMinutes = parseInt(post.readTime) || 5;
+    const remaining = Math.ceil(totalMinutes * (1 - readingProgress / 100));
+    if (remaining <= 0) return "< 1 min left";
+    if (remaining === 1) return "1 min left";
+    return `${remaining} min left`;
+  }, [post, readingProgress]);
 
   // Reading progress bar effect & active section tracking
   useEffect(() => {
@@ -163,6 +175,9 @@ const BlogDetailPage = () => {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       setReadingProgress(Math.min(100, Math.max(0, progress)));
+      
+      // Show back to top button after scrolling 400px
+      setShowBackToTop(scrollTop > 400);
       
       // Find active section for table of contents
       const sections = document.querySelectorAll('[data-section-id]');
@@ -182,6 +197,10 @@ const BlogDetailPage = () => {
     return () => window.removeEventListener('scroll', updateProgress);
   }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const relatedPosts = useMemo(() => {
     if (!post) return [];
     return allPosts
@@ -199,13 +218,13 @@ const BlogDetailPage = () => {
       <>
         <Navbar />
         {/* Reading Progress Bar */}
-        <div className="fixed top-0 left-0 w-full h-1 bg-slate-200 z-50">
+        <div className="fixed top-0 left-0 w-full h-1 bg-muted z-50">
           <div 
             className="h-full bg-gradient-to-r from-primary via-primary/80 to-primary transition-all duration-150 ease-out"
             style={{ width: `${readingProgress}%` }}
           />
         </div>
-        <div className="min-h-screen pt-20 bg-slate-50">
+        <div className="min-h-screen pt-20 bg-secondary/30">
           <div className="container px-4 py-16">
             <div className="max-w-6xl mx-auto">
               <Skeleton className="h-64 w-full rounded-2xl mb-8" />
@@ -232,9 +251,9 @@ const BlogDetailPage = () => {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="min-h-screen flex items-center justify-center bg-secondary/30">
           <div className="text-center">
-            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-white shadow-lg flex items-center justify-center">
+            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-card shadow-lg flex items-center justify-center">
               <BookOpen className="w-10 h-10 text-muted-foreground" />
             </div>
             <h1 className="text-2xl font-bold mb-4">Article not found</h1>
@@ -307,12 +326,12 @@ const BlogDetailPage = () => {
       <Navbar />
 
       {/* Light Gray Background for entire page */}
-      <div className="bg-slate-100 min-h-screen">
+      <div className="bg-secondary/30 min-h-screen">
         {/* Hero Section with Gradient */}
-        <section className="relative pt-20 pb-12 bg-gradient-to-br from-blue-50 via-sky-50 to-indigo-50">
+        <section className="relative pt-20 pb-12 bg-gradient-to-br from-secondary via-secondary/50 to-accent/10">
           {/* Decorative Elements */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
           
           <div className="container px-4 relative z-10">
             {/* Back Button */}
@@ -327,22 +346,22 @@ const BlogDetailPage = () => {
             <AnimatedSection direction="up">
               <div className="max-w-4xl">
                 {/* Category Badge */}
-                <Badge className="bg-primary text-white hover:bg-primary/90 px-4 py-1.5 mb-6 text-sm font-medium">
+                <Badge className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-1.5 mb-6 text-sm font-medium">
                   {post.category}
                 </Badge>
                 
                 {/* Main Title - Large, Bold, Dark Blue */}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
                   {post.title}
                 </h1>
                 
                 {/* Intro Description */}
-                <p className="text-xl text-slate-600 leading-relaxed mb-8 max-w-3xl">
+                <p className="text-xl text-muted-foreground leading-relaxed mb-8 max-w-3xl">
                   {post.metaDescription}
                 </p>
                 
                 {/* Meta Info */}
-                <div className="flex flex-wrap items-center gap-6 text-slate-500">
+                <div className="flex flex-wrap items-center gap-6 text-muted-foreground">
                   <span className="flex items-center gap-2">
                     <Calendar className="w-5 h-5 text-primary" />
                     {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
@@ -355,6 +374,13 @@ const BlogDetailPage = () => {
                     <User className="w-5 h-5 text-primary" />
                     {post.author}
                   </span>
+                  {/* Dynamic remaining time */}
+                  {readingProgress > 0 && readingProgress < 100 && (
+                    <span className="flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-sm">
+                      <Clock className="w-4 h-4" />
+                      {remainingReadTime}
+                    </span>
+                  )}
                 </div>
               </div>
             </AnimatedSection>
@@ -383,14 +409,14 @@ const BlogDetailPage = () => {
                 {contentSections.map((section, index) => (
                   <AnimatedSection key={index} direction="up" delay={index * 0.1}>
                     {section.type === 'intro' && (
-                      <Card className="border-0 shadow-lg rounded-2xl bg-white">
+                      <Card className="border-0 shadow-lg rounded-2xl bg-card">
                         <CardContent className="p-8">
                           <div 
-                            className="prose prose-lg max-w-none text-slate-600 leading-relaxed"
+                            className="prose prose-lg max-w-none text-muted-foreground leading-relaxed"
                             style={{ lineHeight: '1.8' }}
                             dangerouslySetInnerHTML={{ 
                               __html: section.content
-                                .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-900">$1</strong>')
+                                .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-foreground">$1</strong>')
                                 .replace(/\n\n/g, '</p><p class="mb-4">')
                             }} 
                           />
@@ -402,7 +428,7 @@ const BlogDetailPage = () => {
                       <Card 
                         id={`section-${index}`}
                         data-section-id={`section-${index}`}
-                        className="border-0 shadow-lg rounded-2xl bg-white hover:shadow-xl transition-shadow duration-300 scroll-mt-24"
+                        className="border-0 shadow-lg rounded-2xl bg-card hover:shadow-xl transition-shadow duration-300 scroll-mt-24"
                       >
                         <CardContent className="p-8">
                           {/* Section Number & Title */}
@@ -415,7 +441,7 @@ const BlogDetailPage = () => {
                           
                           {/* Section Content */}
                           <div 
-                            className="prose prose-lg max-w-none text-slate-600"
+                            className="prose prose-lg max-w-none text-muted-foreground"
                             style={{ lineHeight: '1.8' }}
                             dangerouslySetInnerHTML={{ __html: formatSectionContent(section.content) }}
                           />
@@ -424,7 +450,7 @@ const BlogDetailPage = () => {
                     )}
 
                     {section.type === 'tip' && (
-                      <Card className="border-0 shadow-lg rounded-2xl bg-gradient-to-r from-blue-50 to-sky-50 border-l-4 border-l-primary overflow-hidden">
+                      <Card className="border-0 shadow-lg rounded-2xl bg-gradient-to-r from-secondary to-secondary/50 border-l-4 border-l-primary overflow-hidden">
                         <CardContent className="p-8">
                           {/* Tip Header */}
                           <div className="flex items-center gap-3 mb-4">
@@ -438,7 +464,7 @@ const BlogDetailPage = () => {
                           
                           {/* Tip Content */}
                           <div 
-                            className="text-slate-700 leading-relaxed"
+                            className="text-foreground leading-relaxed"
                             style={{ lineHeight: '1.8' }}
                             dangerouslySetInnerHTML={{ __html: formatSectionContent(section.content) }}
                           />
@@ -451,10 +477,10 @@ const BlogDetailPage = () => {
                 {/* If no sections parsed, show raw content in a card */}
                 {contentSections.length === 0 && (
                   <AnimatedSection direction="up">
-                    <Card className="border-0 shadow-lg rounded-2xl bg-white">
+                    <Card className="border-0 shadow-lg rounded-2xl bg-card">
                       <CardContent className="p-8">
                         <div 
-                          className="prose prose-lg max-w-none text-slate-600"
+                          className="prose prose-lg max-w-none text-muted-foreground"
                           style={{ lineHeight: '1.8' }}
                           dangerouslySetInnerHTML={{ __html: formatSectionContent(post.content) }}
                         />
@@ -465,16 +491,16 @@ const BlogDetailPage = () => {
 
                 {/* Tags Card */}
                 <AnimatedSection direction="up">
-                  <Card className="border-0 shadow-lg rounded-2xl bg-white">
+                  <Card className="border-0 shadow-lg rounded-2xl bg-card">
                     <CardContent className="p-6">
                       <div className="flex items-center gap-3 flex-wrap">
                         <Tag className="w-5 h-5 text-primary" />
-                        <span className="font-semibold text-slate-900">Tags:</span>
+                        <span className="font-semibold text-foreground">Tags:</span>
                         {post.tags.map((tag) => (
                           <Link key={tag} to={`/blog?search=${encodeURIComponent(tag)}`}>
                             <Badge 
                               variant="outline" 
-                              className="px-4 py-2 hover:bg-primary hover:text-white hover:border-primary transition-all cursor-pointer border-slate-300"
+                              className="px-4 py-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all cursor-pointer border-border"
                             >
                               {tag}
                             </Badge>
@@ -487,19 +513,19 @@ const BlogDetailPage = () => {
 
                 {/* Questions CTA Card */}
                 <AnimatedSection direction="up">
-                  <Card className="border-0 shadow-lg rounded-2xl bg-gradient-to-r from-primary/5 to-blue-50 border border-primary/10">
+                  <Card className="border-0 shadow-lg rounded-2xl bg-gradient-to-r from-primary/5 to-secondary border border-primary/10">
                     <CardContent className="p-8">
                       <div className="flex items-start gap-5">
                         <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                           <MessageCircle className="w-7 h-7 text-primary" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-bold text-xl text-slate-900 mb-2">Have questions about this article?</h3>
-                          <p className="text-slate-600 mb-5">
+                          <h3 className="font-bold text-xl text-foreground mb-2">Have questions about this article?</h3>
+                          <p className="text-muted-foreground mb-5">
                             Our team of digital marketing experts is here to help you implement these strategies.
                           </p>
                           <Link to="/contact">
-                            <Button className="bg-primary hover:bg-primary/90 text-white px-6">
+                            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6">
                               Get in Touch
                               <ArrowRight className="w-4 h-4 ml-2" />
                             </Button>
@@ -512,16 +538,16 @@ const BlogDetailPage = () => {
 
                 {/* Share Section */}
                 <AnimatedSection direction="up">
-                  <Card className="border-0 shadow-lg rounded-2xl bg-white">
+                  <Card className="border-0 shadow-lg rounded-2xl bg-card">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between flex-wrap gap-4">
-                        <span className="font-semibold text-slate-900">Share this article:</span>
+                        <span className="font-semibold text-foreground">Share this article:</span>
                         <div className="flex items-center gap-3">
                           <a 
                             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-3 rounded-full bg-slate-100 hover:bg-primary hover:text-white transition-all"
+                            className="p-3 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-all"
                           >
                             <Twitter className="w-5 h-5" />
                           </a>
@@ -529,7 +555,7 @@ const BlogDetailPage = () => {
                             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-3 rounded-full bg-slate-100 hover:bg-primary hover:text-white transition-all"
+                            className="p-3 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-all"
                           >
                             <Facebook className="w-5 h-5" />
                           </a>
@@ -537,15 +563,15 @@ const BlogDetailPage = () => {
                             href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(post.title)}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-3 rounded-full bg-slate-100 hover:bg-primary hover:text-white transition-all"
+                            className="p-3 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-all"
                           >
                             <Linkedin className="w-5 h-5" />
                           </a>
                           <button 
                             onClick={handleCopyLink}
-                            className="p-3 rounded-full bg-slate-100 hover:bg-primary hover:text-white transition-all"
+                            className="p-3 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-all"
                           >
-                            {copied ? <Check className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
+                            {copied ? <Check className="w-5 h-5 text-primary" /> : <Copy className="w-5 h-5" />}
                           </button>
                         </div>
                       </div>
@@ -598,9 +624,9 @@ const BlogDetailPage = () => {
               <aside className="lg:sticky lg:top-24 lg:self-start space-y-6">
                 {/* Table of Contents */}
                 {contentSections.filter(s => s.type === 'section').length > 0 && (
-                  <Card className="border-0 shadow-lg rounded-2xl bg-white overflow-hidden">
-                    <div className="bg-gradient-to-r from-primary/10 to-blue-50 px-6 py-4 border-b border-slate-100">
-                      <h3 className="font-bold text-lg text-slate-900 flex items-center gap-2">
+                  <Card className="border-0 shadow-lg rounded-2xl bg-card overflow-hidden">
+                    <div className="bg-gradient-to-r from-primary/10 to-secondary px-6 py-4 border-b border-border">
+                      <h3 className="font-bold text-lg text-foreground flex items-center gap-2">
                         <BookOpen className="w-5 h-5 text-primary" />
                         Table of Contents
                       </h3>
@@ -641,19 +667,19 @@ const BlogDetailPage = () => {
                   </Card>
                 )}
                 {/* Author Card */}
-                <Card className="overflow-hidden border-0 shadow-lg rounded-2xl bg-white">
-                  <div className="h-24 bg-gradient-to-br from-primary to-blue-600" />
+                <Card className="overflow-hidden border-0 shadow-lg rounded-2xl bg-card">
+                  <div className="h-24 bg-gradient-to-br from-primary to-accent" />
                   <CardContent className="pt-0 pb-6 px-6 -mt-12">
-                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center border-4 border-white shadow-lg">
-                      <User className="w-12 h-12 text-white" />
+                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center border-4 border-background shadow-lg">
+                      <User className="w-12 h-12 text-primary-foreground" />
                     </div>
                     <div className="text-center">
-                      <h3 className="font-bold text-xl text-slate-900 mb-1">{post.author}</h3>
-                      <p className="text-slate-500 mb-6">
+                      <h3 className="font-bold text-xl text-foreground mb-1">{post.author}</h3>
+                      <p className="text-muted-foreground mb-6">
                         Digital Marketing Experts
                       </p>
                       <Link to="/about-us">
-                        <Button className="w-full bg-primary hover:bg-primary/90 text-white font-semibold">
+                        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
                           About Our Team
                         </Button>
                       </Link>
@@ -663,19 +689,19 @@ const BlogDetailPage = () => {
 
                 {/* Need Help CTA Card */}
                 <Card className="border-0 shadow-lg rounded-2xl overflow-hidden">
-                  <div className="relative p-8 bg-gradient-to-br from-primary via-blue-600 to-indigo-600 text-white">
+                  <div className="relative p-8 bg-gradient-to-br from-primary via-accent to-primary text-primary-foreground">
                     {/* Decorative Elements */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
-                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full blur-xl" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-background/10 rounded-full blur-2xl" />
+                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-background/5 rounded-full blur-xl" />
                     
                     <div className="relative z-10">
-                      <Sparkles className="w-12 h-12 mb-5 text-white/90" />
+                      <Sparkles className="w-12 h-12 mb-5 text-primary-foreground/90" />
                       <h3 className="font-bold text-2xl mb-3">Need Help?</h3>
-                      <p className="text-white/90 mb-6 leading-relaxed">
+                      <p className="text-primary-foreground/90 mb-6 leading-relaxed">
                         Get expert assistance with your digital marketing strategy.
                       </p>
                       <Link to="/contact">
-                        <Button className="w-full bg-white text-primary hover:bg-white/90 font-semibold shadow-lg">
+                        <Button className="w-full bg-background text-primary hover:bg-background/90 font-semibold shadow-lg">
                           Contact Us
                         </Button>
                       </Link>
@@ -685,9 +711,9 @@ const BlogDetailPage = () => {
 
                 {/* Related Articles */}
                 {relatedPosts.length > 0 && (
-                  <Card className="border-0 shadow-lg rounded-2xl bg-white">
+                  <Card className="border-0 shadow-lg rounded-2xl bg-card">
                     <CardContent className="p-6">
-                      <h3 className="font-bold text-lg text-slate-900 mb-5 flex items-center gap-2">
+                      <h3 className="font-bold text-lg text-foreground mb-5 flex items-center gap-2">
                         <BookOpen className="w-5 h-5 text-primary" />
                         Related Articles
                       </h3>
@@ -698,17 +724,17 @@ const BlogDetailPage = () => {
                             to={`/blog/${relatedPost.slug}`}
                             className="block group"
                           >
-                            <div className="flex gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors">
+                            <div className="flex gap-4 p-3 rounded-xl hover:bg-muted transition-colors">
                               <img 
                                 src={relatedPost.featuredImage} 
                                 alt={relatedPost.title}
                                 className="w-20 h-16 object-cover rounded-lg flex-shrink-0"
                               />
                               <div className="flex-1 min-w-0">
-                                <h4 className="font-medium text-sm text-slate-900 group-hover:text-primary transition-colors line-clamp-2 mb-1">
+                                <h4 className="font-medium text-sm text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-1">
                                   {relatedPost.title}
                                 </h4>
-                                <span className="text-xs text-slate-500 flex items-center gap-1">
+                                <span className="text-xs text-muted-foreground flex items-center gap-1">
                                   <Clock className="w-3 h-3" />
                                   {relatedPost.readTime}
                                 </span>
@@ -726,7 +752,7 @@ const BlogDetailPage = () => {
         </section>
 
         {/* More Articles Section */}
-        <section className="py-20 bg-gradient-to-b from-slate-100 to-white">
+        <section className="py-20 bg-gradient-to-b from-secondary/30 to-background">
           <div className="container px-4">
             <AnimatedSection direction="up">
               <div className="text-center mb-12">
@@ -734,10 +760,10 @@ const BlogDetailPage = () => {
                   <BookOpen className="w-4 h-4 mr-2" />
                   Continue Reading
                 </Badge>
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                   More Expert Insights
                 </h2>
-                <p className="text-slate-600 max-w-xl mx-auto">
+                <p className="text-muted-foreground max-w-xl mx-auto">
                   Explore more articles to enhance your digital marketing knowledge
                 </p>
               </div>
@@ -757,10 +783,10 @@ const BlogDetailPage = () => {
                       </div>
                       <CardContent className="p-6">
                         <Badge className="bg-primary/10 text-primary text-xs mb-3">{p.category}</Badge>
-                        <h3 className="font-bold text-lg text-slate-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                        <h3 className="font-bold text-lg text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
                           {p.title}
                         </h3>
-                        <div className="flex items-center text-sm text-slate-500">
+                        <div className="flex items-center text-sm text-muted-foreground">
                           <Clock className="w-4 h-4 mr-1" />
                           {p.readTime}
                         </div>
@@ -773,7 +799,7 @@ const BlogDetailPage = () => {
 
             <div className="text-center mt-10">
               <Link to="/blog">
-                <Button variant="outline" size="lg" className="px-8 border-primary text-primary hover:bg-primary hover:text-white">
+                <Button variant="outline" size="lg" className="px-8 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                   View All Articles
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
@@ -782,6 +808,17 @@ const BlogDetailPage = () => {
           </div>
         </section>
       </div>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-24 right-6 z-40 w-12 h-12 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 transition-all duration-300 flex items-center justify-center animate-fade-in"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </button>
+      )}
 
       <Footer />
     </>
