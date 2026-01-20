@@ -220,7 +220,7 @@ const ContactUs = () => {
                 {/* Contact Cards */}
                 <div className="space-y-4">
                   <a
-                    href="mailto:cadbull2014@gmail.com"
+                    href="mailto:info@dibull.com"
                     className="flex items-center gap-4 p-5 bg-card rounded-2xl border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300 group"
                   >
                     <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
@@ -228,7 +228,7 @@ const ContactUs = () => {
                     </div>
                     <div>
                       <span className="text-sm text-muted-foreground">Email Us</span>
-                      <p className="text-foreground font-semibold text-lg">cadbull2014@gmail.com</p>
+                      <p className="text-foreground font-semibold text-lg">info@dibull.com</p>
                     </div>
                     <ArrowRight className="w-5 h-5 text-muted-foreground ml-auto opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                   </a>

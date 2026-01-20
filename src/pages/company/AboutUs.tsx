@@ -92,7 +92,7 @@ const AboutUs = () => {
         },
         "contactPoint": {
             "@type": "ContactPoint",
-            "email": "cadbull2014@gmail.com",
+            "email": "info@dibull.com",
             "telephone": "+91-9824011921",
             "contactType": "customer service"
         },
@@ -424,7 +424,7 @@ const AboutUs = () => {
                                     <div className="mt-8 pt-8 border-t border-white/20">
                                         <div className="flex items-center gap-3 mb-4">
                                             <Mail className="w-5 h-5 text-blue-200" />
-                                            <span className="text-blue-100">cadbull2014@gmail.com</span>
+                                            <span className="text-blue-100">info@dibull.com</span>
                                         </div>
                                         <div className="flex items-center gap-3 mb-4">
                                             <Phone className="w-5 h-5 text-blue-200" />

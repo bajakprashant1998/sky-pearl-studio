@@ -84,8 +84,8 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-3 text-slate-400">
                 <Mail className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                <a href="mailto:cadbull2014@gmail.com" className="text-sm hover:text-blue-400 transition-colors">
-                  cadbull2014@gmail.com
+                <a href="mailto:info@dibull.com" className="text-sm hover:text-blue-400 transition-colors">
+                  info@dibull.com
                 </a>
               </div>
             </div>
@@ -238,8 +238,8 @@ const Footer = () => {
                     </div>
                     <div className="flex items-center gap-3 text-slate-400">
                       <Mail className="w-4 h-4 text-blue-500 flex-shrink-0" />
-                      <a href="mailto:cadbull2014@gmail.com" className="text-sm hover:text-blue-400 transition-colors">
-                        cadbull2014@gmail.com
+                      <a href="mailto:info@dibull.com" className="text-sm hover:text-blue-400 transition-colors">
+                        info@dibull.com
                       </a>
                     </div>
                   </div>
