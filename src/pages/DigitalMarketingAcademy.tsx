@@ -58,7 +58,7 @@ const DigitalMarketingAcademy = () => {
   const courseDetails = [
     { icon: Clock, label: "Duration", value: "6 Months", color: "from-blue-500 to-cyan-500" },
     { icon: Clock, label: "Class Timing", value: "10:00 AM - 6:30 PM", color: "from-purple-500 to-pink-500" },
-    { icon: IndianRupee, label: "Course Fees", value: "₹5,000 per Month", color: "from-green-500 to-emerald-500" },
+    { icon: IndianRupee, label: "Course Fees", value: "₹25,000", color: "from-green-500 to-emerald-500" },
     { icon: BookOpen, label: "Training Type", value: "Practical + Theory + Live Projects", color: "from-amber-500 to-orange-500" },
   ];
 
@@ -273,7 +273,7 @@ const DigitalMarketingAcademy = () => {
         <title>Digital Marketing Academy Ahmedabad | 6-Month Practical Training Course - Digital Bull Technology</title>
         <meta
           name="description"
-          content="Join the best Digital Marketing Academy in Ahmedabad. 6-month practical training with AI skills, live projects & career support. ₹5,000/month. Enroll now for expert training in SEO, social media, PPC & more!"
+          content="Join the best Digital Marketing Academy in Ahmedabad. 6-month practical training with AI skills, live projects & career support. ₹25,000. Enroll now for expert training in SEO, social media, PPC & more!"
         />
         <meta
           name="keywords"
@@ -281,13 +281,13 @@ const DigitalMarketingAcademy = () => {
         />
         <link rel="canonical" href="https://dibull.com/digital-marketing-academy" />
         <meta property="og:title" content="Digital Marketing Academy Ahmedabad | Best Training Institute - Digital Bull" />
-        <meta property="og:description" content="Learn Digital Marketing & AI skills with practical training. 6-month course with live projects & career support. ₹5,000/month. Best digital marketing academy in Ahmedabad!" />
+        <meta property="og:description" content="Learn Digital Marketing & AI skills with practical training. 6-month course with live projects & career support. ₹25,000. Best digital marketing academy in Ahmedabad!" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://dibull.com/digital-marketing-academy" />
         <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Digital Marketing Academy Ahmedabad | 6-Month Training" />
-        <meta name="twitter:description" content="Best digital marketing training in Ahmedabad. Practical + AI skills. ₹5,000/month. Enroll now!" />
+        <meta name="twitter:description" content="Best digital marketing training in Ahmedabad. Practical + AI skills. ₹25,000. Enroll now!" />
         <meta name="robots" content="index, follow" />
         <script type="application/ld+json">
           {JSON.stringify({
@@ -392,7 +392,7 @@ const DigitalMarketingAcademy = () => {
                     </div>
                     <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border">
                       <IndianRupee className="w-4 h-4 text-green-500" />
-                      <span className="text-sm font-medium">₹5,000/Month</span>
+                      <span className="text-sm font-medium">₹25,000</span>
                     </div>
                     <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border">
                       <BookOpen className="w-4 h-4 text-purple-500" />
@@ -757,7 +757,7 @@ const DigitalMarketingAcademy = () => {
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-white text-center">
                   <IndianRupee className="w-8 h-8 mx-auto mb-3 opacity-80" />
                   <p className="text-sm opacity-80">Fees</p>
-                  <p className="text-xl font-bold">₹5,000/Month</p>
+                  <p className="text-xl font-bold">₹25,000</p>
                 </div>
               </div>
 
