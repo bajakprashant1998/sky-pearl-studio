@@ -303,22 +303,60 @@ const BlogDetailPage = () => {
         {post.tags.map(tag => (
           <meta key={tag} property="article:tag" content={tag} />
         ))}
+        
+        {/* Google News Meta Tags */}
+        <meta name="news_keywords" content={post.tags.slice(0, 10).join(', ')} />
+        <meta name="original-source" content={`https://dibull.com/blog/${post.slug}`} />
+        <meta name="syndication-source" content={`https://dibull.com/blog/${post.slug}`} />
+        <meta name="geo.region" content="IN" />
+        <meta name="geo.placename" content="India" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        
+        {/* NewsArticle Structured Data for Google News */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "BlogPosting",
+            "@type": "NewsArticle",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://dibull.com/blog/${post.slug}`
+            },
             "headline": post.title,
             "description": post.metaDescription,
-            "image": post.featuredImage,
+            "image": {
+              "@type": "ImageObject",
+              "url": post.featuredImage,
+              "width": 1200,
+              "height": 630
+            },
             "datePublished": post.publishDate,
+            "dateModified": post.publishDate,
             "author": {
               "@type": "Organization",
-              "name": post.author
+              "name": post.author,
+              "url": "https://dibull.com"
             },
             "publisher": {
               "@type": "Organization",
+              "name": "Digital Bull Technology",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://dibull.com/dibull_logo.png",
+                "width": 600,
+                "height": 60
+              },
+              "url": "https://dibull.com"
+            },
+            "articleSection": post.category,
+            "keywords": post.tags.join(', '),
+            "wordCount": post.content.split(/\s+/).length,
+            "inLanguage": "en-IN",
+            "isAccessibleForFree": true,
+            "copyrightHolder": {
+              "@type": "Organization",
               "name": "Digital Bull Technology"
-            }
+            },
+            "copyrightYear": new Date(post.publishDate).getFullYear()
           })}
         </script>
       </Helmet>
