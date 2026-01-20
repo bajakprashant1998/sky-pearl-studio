@@ -156,7 +156,7 @@ export const caseStudiesData: CaseStudy[] = [
     timeline: "18 months",
     testimonial: {
       quote: "Digital Bull Technology understood our unique challenges as a CAD resource platform. Their technical SEO expertise helped us fix issues we didn't even know existed, and the international expansion strategy opened up entirely new markets for us.",
-      author: "Rahul Patel",
+      author: "Krunal Jani",
       role: "Founder, Cadbull.com"
     },
     process: [
