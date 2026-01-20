@@ -117,14 +117,14 @@ const ContactSection = () => {
 
               <div className="space-y-4">
                 <a
-                  href="mailto:cadbull2014@gmail.com"
+                  href="mailto:info@dibull.com"
                   className="flex items-center gap-4 justify-center lg:justify-start group hover:opacity-90 transition-opacity p-2 rounded-lg hover:bg-white/5"
                 >
                   <div className="w-12 h-12 bg-primary-foreground/20 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
                     <Mail className="w-6 h-6 text-primary-foreground" />
                   </div>
                   <span className="text-primary-foreground text-base sm:text-lg font-medium break-all">
-                    cadbull2014@gmail.com
+                    info@dibull.com
                   </span>
                 </a>
 
