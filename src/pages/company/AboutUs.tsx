@@ -81,8 +81,8 @@ const AboutUs = () => {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Digital Bull Technology Pvt LTD",
-        "url": "https://digitalbull.com",
-        "logo": "https://digitalbull.com/dibull_logo.png",
+        "url": "https://dibull.com",
+        "logo": "https://dibull.com/dibull_logo.png",
         "description": "Full-service digital growth, technology, and creative solutions company specializing in AI, SaaS, Marketing, and Training.",
         "address": {
             "@type": "PostalAddress",
@@ -113,11 +113,11 @@ const AboutUs = () => {
                     content="Digital Bull Technology Pvt LTD is a full-service digital growth company specializing in AI, SaaS, Marketing, and Training. 15+ years of experience, 500+ projects delivered."
                 />
                 <meta name="keywords" content="digital marketing agency, digital bull technology, SEO company, PPC agency, web design, AI marketing, SaaS development" />
-                <link rel="canonical" href="https://digitalbull.com/about-us" />
+                <link rel="canonical" href="https://dibull.com/about-us" />
                 <meta property="og:title" content="About Us | Digital Bull Technology" />
                 <meta property="og:description" content="Full-service digital growth company specializing in AI, SaaS, Marketing, and Training." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://digitalbull.com/about-us" />
+                <meta property="og:url" content="https://dibull.com/about-us" />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="About Us | Digital Bull Technology" />
                 <meta name="twitter:description" content="Full-service digital growth company specializing in AI, SaaS, Marketing, and Training." />
