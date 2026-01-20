@@ -56,23 +56,96 @@ function parseContentToSections(content: string) {
   return sections;
 }
 
-// Format content with proper HTML - removes all markdown header symbols
+// Format content with proper HTML - removes all markdown symbols and creates clean lists
 function formatContent(content: string) {
-  return content
-    // Remove any remaining markdown headers (# ## ### ####) and standalone # symbols
+  // First, clean up markdown symbols
+  let cleaned = content
     .replace(/^#{1,4}\s+/gm, '')
     .replace(/\n#\s*$/gm, '')
     .replace(/\s#\s*$/gm, '')
-    .replace(/#\s*$/gm, '')
-    .replace(/### ([^\n]+)/g, '<h3 class="text-xl font-bold text-primary mt-6 mb-3">$1</h3>')
-    .replace(/## ([^\n]+)/g, '<h2 class="text-2xl font-bold text-primary mt-8 mb-4">$1</h2>')
-    .replace(/# ([^\n]+)/g, '<h1 class="text-3xl font-bold text-primary mt-8 mb-4">$1</h1>')
-    .replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>')
-    .replace(/\n\n/g, '</p><p class="mb-4 leading-relaxed text-muted-foreground">')
-    .replace(/\n- /g, '</p><li class="ml-4 mb-2 text-muted-foreground flex items-start gap-2"><ChevronRight class="w-4 h-4 text-primary mt-1 flex-shrink-0" />')
-    .replace(/<li/g, '</p><ul class="my-4 space-y-2"><li')
-    .replace(/- \*\*/g, '<li class="ml-4 mb-2 text-muted-foreground"><strong>')
-    .replace(/\*\* /g, '</strong> ');
+    .replace(/#\s*$/gm, '');
+  
+  // Convert markdown lists to proper HTML lists
+  const lines = cleaned.split('\n');
+  let result = '';
+  let inList = false;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    
+    if (line.startsWith('- ')) {
+      if (!inList) {
+        result += '<ul class="list-none space-y-3 my-4 pl-0">';
+        inList = true;
+      }
+      const listContent = line.substring(2)
+        .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-foreground font-semibold">$1</strong>');
+      result += `<li class="flex items-start gap-3"><span class="text-primary mt-1.5 flex-shrink-0">•</span><span>${listContent}</span></li>`;
+    } else {
+      if (inList) {
+        result += '</ul>';
+        inList = false;
+      }
+      if (line) {
+        const formatted = line
+          .replace(/### ([^\n]+)/g, '<h3 class="text-xl font-bold text-primary mt-6 mb-3">$1</h3>')
+          .replace(/## ([^\n]+)/g, '<h2 class="text-2xl font-bold text-primary mt-8 mb-4">$1</h2>')
+          .replace(/# ([^\n]+)/g, '<h1 class="text-3xl font-bold text-primary mt-8 mb-4">$1</h1>')
+          .replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>');
+        result += `<p class="mb-4 leading-relaxed">${formatted}</p>`;
+      }
+    }
+  }
+  
+  if (inList) {
+    result += '</ul>';
+  }
+  
+  return result;
+}
+
+// Simple content formatter for inline use
+function formatSectionContent(content: string) {
+  let cleaned = content
+    .replace(/^#{1,4}\s+/gm, '')
+    .replace(/\n#\s*$/gm, '')
+    .replace(/\s#\s*$/gm, '')
+    .replace(/#\s*$/gm, '');
+  
+  const lines = cleaned.split('\n');
+  let result = '';
+  let inList = false;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    
+    if (line.startsWith('- ')) {
+      if (!inList) {
+        result += '<ul class="list-none space-y-3 my-4 pl-0">';
+        inList = true;
+      }
+      const listContent = line.substring(2)
+        .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-900 font-semibold">$1</strong>');
+      result += `<li class="flex items-start gap-3"><span class="text-primary mt-1.5 flex-shrink-0">•</span><span class="flex-1">${listContent}</span></li>`;
+    } else {
+      if (inList) {
+        result += '</ul>';
+        inList = false;
+      }
+      if (line) {
+        const formatted = line
+          .replace(/### ([^\n]+)/g, '<h3 class="text-xl font-bold text-slate-800 mt-6 mb-3">$1</h3>')
+          .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-900 font-semibold">$1</strong>');
+        result += `<p class="mb-4">${formatted}</p>`;
+      }
+    }
+  }
+  
+  if (inList) {
+    result += '</ul>';
+  }
+  
+  return result;
 }
 
 const BlogDetailPage = () => {
@@ -328,18 +401,7 @@ const BlogDetailPage = () => {
                           <div 
                             className="prose prose-lg max-w-none text-slate-600"
                             style={{ lineHeight: '1.8' }}
-                            dangerouslySetInnerHTML={{ 
-                              __html: section.content
-                                .replace(/^#{1,4}\s+/gm, '')
-                                .replace(/\n#\s*$/gm, '')
-                                .replace(/\s#\s*$/gm, '')
-                                .replace(/#\s*$/gm, '')
-                                .replace(/### ([^\n]+)/g, '<h3 class="text-xl font-bold text-slate-800 mt-6 mb-3">$1</h3>')
-                                .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-900 font-semibold">$1</strong>')
-                                .replace(/\n\n/g, '</p><p class="mb-4">')
-                                .replace(/\n- /g, '<br/><span class="flex items-start gap-2 my-2"><span class="text-primary mt-1">•</span>')
-                                .replace(/\n/g, '<br/>')
-                            }}
+                            dangerouslySetInnerHTML={{ __html: formatSectionContent(section.content) }}
                           />
                         </CardContent>
                       </Card>
@@ -362,15 +424,7 @@ const BlogDetailPage = () => {
                           <div 
                             className="text-slate-700 leading-relaxed"
                             style={{ lineHeight: '1.8' }}
-                            dangerouslySetInnerHTML={{ 
-                              __html: section.content
-                                .replace(/^#{1,4}\s+/gm, '')
-                                .replace(/\n#\s*$/gm, '')
-                                .replace(/\s#\s*$/gm, '')
-                                .replace(/#\s*$/gm, '')
-                                .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-900 font-semibold">$1</strong>')
-                                .replace(/\n/g, '<br/>')
-                            }}
+                            dangerouslySetInnerHTML={{ __html: formatSectionContent(section.content) }}
                           />
                         </CardContent>
                       </Card>
@@ -386,19 +440,7 @@ const BlogDetailPage = () => {
                         <div 
                           className="prose prose-lg max-w-none text-slate-600"
                           style={{ lineHeight: '1.8' }}
-                          dangerouslySetInnerHTML={{ 
-                            __html: post.content
-                              .replace(/^#{1,4}\s+/gm, '')
-                              .replace(/\n#\s*$/gm, '')
-                              .replace(/\s#\s*$/gm, '')
-                              .replace(/#\s*$/gm, '')
-                              .replace(/## ([^\n]+)/g, '</div><div class="mt-8 pt-8 border-t border-slate-200"><h2 class="text-2xl font-bold text-primary mb-4">$1</h2>')
-                              .replace(/### ([^\n]+)/g, '<h3 class="text-xl font-bold text-slate-800 mt-6 mb-3">$1</h3>')
-                              .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-900 font-semibold">$1</strong>')
-                              .replace(/\n\n/g, '</p><p class="mb-4">')
-                              .replace(/\n- /g, '<br/><span class="inline-flex items-start gap-2"><span class="text-primary">•</span>')
-                              .replace(/\n/g, '<br/>')
-                          }}
+                          dangerouslySetInnerHTML={{ __html: formatSectionContent(post.content) }}
                         />
                       </CardContent>
                     </Card>
