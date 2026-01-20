@@ -154,14 +154,26 @@ const BlogDetailPage = () => {
   const { data: allPosts = [] } = useBlogPosts();
   const [copied, setCopied] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState<string>("");
 
-  // Reading progress bar effect
+  // Reading progress bar effect & active section tracking
   useEffect(() => {
     const updateProgress = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       setReadingProgress(Math.min(100, Math.max(0, progress)));
+      
+      // Find active section for table of contents
+      const sections = document.querySelectorAll('[data-section-id]');
+      let currentActive = "";
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 150) {
+          currentActive = section.getAttribute('data-section-id') || "";
+        }
+      });
+      setActiveSection(currentActive);
     };
 
     window.addEventListener('scroll', updateProgress);
@@ -387,7 +399,11 @@ const BlogDetailPage = () => {
                     )}
 
                     {section.type === 'section' && (
-                      <Card className="border-0 shadow-lg rounded-2xl bg-white hover:shadow-xl transition-shadow duration-300">
+                      <Card 
+                        id={`section-${index}`}
+                        data-section-id={`section-${index}`}
+                        className="border-0 shadow-lg rounded-2xl bg-white hover:shadow-xl transition-shadow duration-300 scroll-mt-24"
+                      >
                         <CardContent className="p-8">
                           {/* Section Number & Title */}
                           <h2 className="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
@@ -538,8 +554,92 @@ const BlogDetailPage = () => {
                 </AnimatedSection>
               </div>
 
+              {/* Floating Social Share Buttons - Desktop only */}
+              <div className="hidden xl:flex fixed left-8 top-1/2 -translate-y-1/2 flex-col gap-3 z-40">
+                <div className="bg-white rounded-2xl shadow-lg p-3 space-y-3">
+                  <a 
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-primary hover:text-white transition-all"
+                    title="Share on Twitter"
+                  >
+                    <Twitter className="w-5 h-5" />
+                  </a>
+                  <a 
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-primary hover:text-white transition-all"
+                    title="Share on Facebook"
+                  >
+                    <Facebook className="w-5 h-5" />
+                  </a>
+                  <a 
+                    href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(post.title)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-primary hover:text-white transition-all"
+                    title="Share on LinkedIn"
+                  >
+                    <Linkedin className="w-5 h-5" />
+                  </a>
+                  <button 
+                    onClick={handleCopyLink}
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-muted hover:bg-primary hover:text-white transition-all"
+                    title="Copy link"
+                  >
+                    {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                  </button>
+                </div>
+              </div>
+
               {/* Sidebar - Sticky */}
               <aside className="lg:sticky lg:top-24 lg:self-start space-y-6">
+                {/* Table of Contents */}
+                {contentSections.filter(s => s.type === 'section').length > 0 && (
+                  <Card className="border-0 shadow-lg rounded-2xl bg-white overflow-hidden">
+                    <div className="bg-gradient-to-r from-primary/10 to-blue-50 px-6 py-4 border-b border-slate-100">
+                      <h3 className="font-bold text-lg text-slate-900 flex items-center gap-2">
+                        <BookOpen className="w-5 h-5 text-primary" />
+                        Table of Contents
+                      </h3>
+                    </div>
+                    <CardContent className="p-4">
+                      <nav className="space-y-1">
+                        {contentSections.map((section, index) => {
+                          if (section.type !== 'section') return null;
+                          const sectionId = `section-${index}`;
+                          const isActive = activeSection === sectionId;
+                          return (
+                            <a
+                              key={index}
+                              href={`#${sectionId}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+                              }}
+                              className={`flex items-start gap-3 p-3 rounded-xl transition-all text-sm ${
+                                isActive 
+                                  ? 'bg-primary/10 text-primary font-medium' 
+                                  : 'hover:bg-slate-50 text-slate-600 hover:text-slate-900'
+                              }`}
+                            >
+                              <span className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                                isActive 
+                                  ? 'bg-primary text-white' 
+                                  : 'bg-slate-200 text-slate-600'
+                              }`}>
+                                {index}
+                              </span>
+                              <span className="line-clamp-2">{section.title}</span>
+                            </a>
+                          );
+                        })}
+                      </nav>
+                    </CardContent>
+                  </Card>
+                )}
                 {/* Author Card */}
                 <Card className="overflow-hidden border-0 shadow-lg rounded-2xl bg-white">
                   <div className="h-24 bg-gradient-to-br from-primary to-blue-600" />
