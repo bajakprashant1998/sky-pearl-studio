@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnimatedSection, { StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
-import { blogPosts, blogCategories, getBlogPostsByCategory } from "@/data/blogData";
+import { useBlogPosts, useBlogCategories } from "@/hooks/useBlogPosts";
+import { blogCategories } from "@/data/blogData";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { 
   BookOpen, 
   Calendar, 
@@ -19,21 +21,30 @@ import {
   TrendingUp,
   Newspaper,
   Zap,
-  Users
+  Users,
+  Loader2
 } from "lucide-react";
 
 const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredPosts = getBlogPostsByCategory(selectedCategory).filter(post =>
-    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.metaDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const { data: allPosts = [], isLoading } = useBlogPosts();
+  const { data: categories = blogCategories } = useBlogCategories();
 
-  const featuredPost = blogPosts[0];
-  const recentPosts = blogPosts.slice(1);
+  const filteredPosts = useMemo(() => {
+    return allPosts.filter(post => {
+      const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
+      const matchesSearch = !searchQuery || 
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.metaDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      return matchesCategory && matchesSearch;
+    });
+  }, [allPosts, selectedCategory, searchQuery]);
+
+  const featuredPost = allPosts[0];
+  const recentPosts = allPosts.slice(1);
 
   return (
     <>
@@ -111,8 +122,8 @@ const BlogPage = () => {
               {/* Quick Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 max-w-3xl mx-auto">
                 {[
-                  { icon: Newspaper, label: "Articles", value: `${blogPosts.length}+` },
-                  { icon: Tag, label: "Topics", value: `${blogCategories.length - 1}` },
+                  { icon: Newspaper, label: "Articles", value: `${allPosts.length}+` },
+                  { icon: Tag, label: "Topics", value: `${categories.length - 1}` },
                   { icon: Users, label: "Readers", value: "50K+" },
                   { icon: Zap, label: "AI Updates", value: "Daily" }
                 ].map((stat, i) => (
@@ -132,7 +143,7 @@ const BlogPage = () => {
       <section className="py-6 border-y border-border/50 sticky top-16 lg:top-20 bg-background/95 backdrop-blur-xl z-40">
         <div className="container px-4">
           <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-            {blogCategories.map((category) => (
+            {categories.map((category) => (
               <Button
                 key={category}
                 variant={selectedCategory === category ? "default" : "ghost"}
@@ -152,7 +163,7 @@ const BlogPage = () => {
       </section>
 
       {/* Featured Post - Premium Card */}
-      {selectedCategory === "All" && !searchQuery && (
+      {selectedCategory === "All" && !searchQuery && featuredPost && !isLoading && (
         <section className="py-16">
           <div className="container px-4">
             <AnimatedSection direction="up">
@@ -240,7 +251,21 @@ const BlogPage = () => {
             </div>
           </AnimatedSection>
 
-          {filteredPosts.length === 0 ? (
+          {isLoading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <Card key={i} className="h-full overflow-hidden border-0 bg-card">
+                  <Skeleton className="aspect-[16/10] w-full" />
+                  <CardContent className="p-6 space-y-4">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-6 w-full" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/4" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : filteredPosts.length === 0 ? (
             <AnimatedSection direction="up">
               <div className="text-center py-20">
                 <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center">
@@ -340,7 +365,7 @@ const BlogPage = () => {
                 </div>
                 
                 <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-                  {Array.from(new Set(blogPosts.flatMap(post => post.tags))).slice(0, 15).map((tag) => (
+                  {Array.from(new Set(allPosts.flatMap(post => post.tags))).slice(0, 15).map((tag) => (
                     <Badge 
                       key={tag} 
                       variant="secondary"

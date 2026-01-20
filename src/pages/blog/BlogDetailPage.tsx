@@ -3,10 +3,11 @@ import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnimatedSection, { StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
-import { getBlogPostBySlug, blogPosts } from "@/data/blogData";
+import { useBlogPost, useBlogPosts } from "@/hooks/useBlogPosts";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { 
   ArrowLeft, 
   ArrowRight,
@@ -22,14 +23,47 @@ import {
   Copy,
   Check,
   Sparkles,
-  MessageCircle
+  MessageCircle,
+  Loader2
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 const BlogDetailPage = () => {
   const { slug } = useParams();
-  const post = getBlogPostBySlug(slug || "");
+  const { data: post, isLoading } = useBlogPost(slug || "");
+  const { data: allPosts = [] } = useBlogPosts();
   const [copied, setCopied] = useState(false);
+
+  const relatedPosts = useMemo(() => {
+    if (!post) return [];
+    return allPosts
+      .filter(p => p.id !== post.id && p.category === post.category)
+      .slice(0, 3);
+  }, [post, allPosts]);
+
+  if (isLoading) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-screen pt-20">
+          <div className="container px-4 py-16">
+            <Skeleton className="h-[400px] w-full rounded-2xl mb-8" />
+            <div className="max-w-4xl mx-auto space-y-4">
+              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-6 w-3/4" />
+              <div className="space-y-3 pt-8">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-5/6" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   if (!post) {
     return (
@@ -54,10 +88,6 @@ const BlogDetailPage = () => {
       </>
     );
   }
-
-  const relatedPosts = blogPosts
-    .filter(p => p.id !== post.id && p.category === post.category)
-    .slice(0, 3);
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
 
@@ -363,7 +393,7 @@ const BlogDetailPage = () => {
           </AnimatedSection>
 
           <StaggerContainer className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {blogPosts.filter(p => p.id !== post.id).slice(0, 3).map((p) => (
+            {allPosts.filter(p => p.id !== post.id).slice(0, 3).map((p) => (
               <StaggerItem key={p.id}>
                 <Link to={`/blog/${p.slug}`}>
                   <Card className="h-full overflow-hidden group hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border-0">
