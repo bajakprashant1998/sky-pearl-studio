@@ -108,39 +108,56 @@ function formatContent(content: string) {
 
 // Simple content formatter for inline use
 function formatSectionContent(content: string) {
-  let cleaned = content
-    .replace(/^#{1,4}\s+/gm, '')
-    .replace(/\n#\s*$/gm, '')
-    .replace(/\s#\s*$/gm, '')
-    .replace(/#\s*$/gm, '');
-  
-  const lines = cleaned.split('\n');
+  // Don't strip markdown headings yet - we need to convert them to HTML first
+  const lines = content.split('\n');
   let result = '';
   let inList = false;
   
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
     
+    // Skip empty lines but close list if open
+    if (!line) {
+      if (inList) {
+        result += '</ul>';
+        inList = false;
+      }
+      continue;
+    }
+    
+    // Handle sub-headings (### )
+    if (line.startsWith('### ')) {
+      if (inList) {
+        result += '</ul>';
+        inList = false;
+      }
+      const headingText = line.substring(4).replace(/\*\*([^*]+)\*\*/g, '$1');
+      result += `<h3 class="text-xl font-bold text-foreground mt-6 mb-3">${headingText}</h3>`;
+      continue;
+    }
+    
+    // Handle bullet points
     if (line.startsWith('- ')) {
       if (!inList) {
         result += '<ul class="list-none space-y-3 my-4 pl-0">';
         inList = true;
       }
       const listContent = line.substring(2)
-        .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-900 font-semibold">$1</strong>');
+        .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-foreground font-semibold">$1</strong>');
       result += `<li class="flex items-start gap-3"><span class="text-primary mt-1.5 flex-shrink-0">•</span><span class="flex-1">${listContent}</span></li>`;
-    } else {
-      if (inList) {
-        result += '</ul>';
-        inList = false;
-      }
-      if (line) {
-        const formatted = line
-          .replace(/### ([^\n]+)/g, '<h3 class="text-xl font-bold text-slate-800 mt-6 mb-3">$1</h3>')
-          .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-900 font-semibold">$1</strong>');
-        result += `<p class="mb-4">${formatted}</p>`;
-      }
+      continue;
     }
+    
+    // Regular paragraphs
+    if (inList) {
+      result += '</ul>';
+      inList = false;
+    }
+    
+    // Format bold text and create paragraph
+    const formatted = line
+      .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-foreground font-semibold">$1</strong>');
+    result += `<p class="mb-4 leading-relaxed">${formatted}</p>`;
   }
   
   if (inList) {
