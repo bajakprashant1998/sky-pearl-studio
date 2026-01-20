@@ -57,6 +57,135 @@ function calculateReadTime(content: string): string {
   return `${minutes} min read`;
 }
 
+// Generate image using Gemini API
+async function generateBlogImage(topic: string, category: string, geminiApiKey: string): Promise<string | null> {
+  try {
+    const imagePrompt = `Create a professional, modern blog header image for a digital marketing article about "${topic}". 
+    Category: ${category}. 
+    Style: Clean, corporate, with subtle tech elements. 
+    Colors: Professional blues, teals, and accent colors. 
+    16:9 aspect ratio, high quality, no text overlays.`;
+
+    console.log("Generating image with Gemini for topic:", topic);
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp-image-generation:generateContent?key=${geminiApiKey}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                { text: imagePrompt }
+              ]
+            }
+          ],
+          generationConfig: {
+            responseModalities: ["image", "text"],
+            responseMimeType: "text/plain"
+          }
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Gemini image API error:", response.status, errorText);
+      return null;
+    }
+
+    const data = await response.json();
+    
+    // Extract base64 image from response
+    const candidates = data.candidates;
+    if (candidates && candidates[0]?.content?.parts) {
+      for (const part of candidates[0].content.parts) {
+        if (part.inlineData?.mimeType?.startsWith("image/")) {
+          const base64Image = part.inlineData.data;
+          const mimeType = part.inlineData.mimeType;
+          console.log("Successfully generated image");
+          return `data:${mimeType};base64,${base64Image}`;
+        }
+      }
+    }
+
+    console.log("No image found in Gemini response");
+    return null;
+  } catch (error) {
+    console.error("Error generating image:", error);
+    return null;
+  }
+}
+
+// Upload base64 image to Supabase storage
+async function uploadImageToStorage(
+  supabase: any,
+  base64Image: string,
+  slug: string
+): Promise<string | null> {
+  try {
+    // Extract base64 data and mime type
+    const matches = base64Image.match(/^data:([^;]+);base64,(.+)$/);
+    if (!matches) {
+      console.error("Invalid base64 image format");
+      return null;
+    }
+
+    const mimeType = matches[1];
+    const base64Data = matches[2];
+    const extension = mimeType.split("/")[1] || "png";
+    const fileName = `blog-images/${slug}.${extension}`;
+
+    // Convert base64 to Uint8Array
+    const binaryString = atob(base64Data);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+
+    // Check if bucket exists, create if not
+    const { data: buckets } = await supabase.storage.listBuckets();
+    const bucketExists = buckets?.some((b: any) => b.name === "blog-images");
+    
+    if (!bucketExists) {
+      const { error: createError } = await supabase.storage.createBucket("blog-images", {
+        public: true,
+        fileSizeLimit: 5242880, // 5MB
+      });
+      if (createError) {
+        console.error("Error creating bucket:", createError);
+      }
+    }
+
+    // Upload to Supabase storage
+    const { data, error } = await supabase.storage
+      .from("blog-images")
+      .upload(fileName, bytes, {
+        contentType: mimeType,
+        upsert: true,
+      });
+
+    if (error) {
+      console.error("Error uploading image:", error);
+      return null;
+    }
+
+    // Get public URL
+    const { data: publicUrlData } = supabase.storage
+      .from("blog-images")
+      .getPublicUrl(fileName);
+
+    console.log("Image uploaded successfully:", publicUrlData.publicUrl);
+    return publicUrlData.publicUrl;
+  } catch (error) {
+    console.error("Error in uploadImageToStorage:", error);
+    return null;
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -64,6 +193,7 @@ serve(async (req) => {
 
   try {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
@@ -186,6 +316,18 @@ Remember to provide ONLY valid JSON in your response.`;
       // Calculate read time
       const readTime = calculateReadTime(articleData.content);
 
+      // Generate and upload image if Gemini API key is available
+      let imageUrl = null;
+      if (GEMINI_API_KEY) {
+        console.log("Generating image with Gemini...");
+        const base64Image = await generateBlogImage(randomTopic, randomCategory, GEMINI_API_KEY);
+        if (base64Image) {
+          imageUrl = await uploadImageToStorage(supabase, base64Image, slug);
+        }
+      } else {
+        console.log("GEMINI_API_KEY not configured, skipping image generation");
+      }
+
       // Insert into database
       const { data: insertedPost, error: insertError } = await supabase
         .from("blog_posts")
@@ -199,6 +341,7 @@ Remember to provide ONLY valid JSON in your response.`;
           tags: articleData.tags || [],
           read_time: readTime,
           author: "DiBull AI Team",
+          image_url: imageUrl,
           is_published: true,
           published_at: new Date().toISOString(),
         })
@@ -211,6 +354,9 @@ Remember to provide ONLY valid JSON in your response.`;
       }
 
       console.log(`Successfully generated and saved article: ${articleData.title}`);
+      if (imageUrl) {
+        console.log(`With image: ${imageUrl}`);
+      }
       generatedArticles.push(insertedPost);
     }
 
