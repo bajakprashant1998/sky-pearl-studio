@@ -57,62 +57,89 @@ function calculateReadTime(content: string): string {
   return `${minutes} min read`;
 }
 
-// Generate image using Gemini API
-async function generateBlogImage(topic: string, category: string, geminiApiKey: string): Promise<string | null> {
+// Generate unique image using Lovable AI
+async function generateBlogImage(topic: string, category: string, title: string, lovableApiKey: string): Promise<string | null> {
   try {
-    const imagePrompt = `Create a professional, modern blog header image for a digital marketing article about "${topic}". 
-    Category: ${category}. 
-    Style: Clean, corporate, with subtle tech elements. 
-    Colors: Professional blues, teals, and accent colors. 
-    16:9 aspect ratio, high quality, no text overlays.`;
+    // Create a highly specific prompt based on the actual article title and topic
+    const uniqueElements = [
+      "abstract geometric shapes",
+      "flowing data streams",
+      "interconnected nodes",
+      "rising bar charts",
+      "circular infographic elements",
+      "gradient mesh backgrounds",
+      "isometric icons",
+      "minimalist line art",
+      "layered paper cut style",
+      "3D floating elements"
+    ];
+    
+    const colorSchemes = [
+      "deep blue to cyan gradient",
+      "purple to pink gradient",
+      "teal to green gradient",
+      "orange to yellow gradient",
+      "indigo to violet gradient"
+    ];
+    
+    const randomElement = uniqueElements[Math.floor(Math.random() * uniqueElements.length)];
+    const randomColors = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
+    const uniqueId = Date.now() + Math.random().toString(36).substring(7);
 
-    console.log("Generating image with Gemini for topic:", topic);
+    const imagePrompt = `Create a unique, professional blog header image. 
+Topic: "${title}" about ${topic}.
+Category: ${category}.
+Visual Style: ${randomElement} with ${randomColors}.
+Requirements:
+- Modern, clean corporate design
+- 16:9 aspect ratio
+- NO text, NO words, NO letters
+- Unique composition ID: ${uniqueId}
+- High quality, professional marketing aesthetic
+- Abstract representation of the ${category} concept`;
+
+    console.log("Generating unique image for:", title);
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp-image-generation:generateContent?key=${geminiApiKey}`,
+      "https://ai.gateway.lovable.dev/v1/chat/completions",
       {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${lovableApiKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          contents: [
+          model: "google/gemini-2.5-flash-image-preview",
+          messages: [
             {
-              parts: [
-                { text: imagePrompt }
-              ]
+              role: "user",
+              content: imagePrompt
             }
           ],
-          generationConfig: {
-            responseModalities: ["image", "text"],
-            responseMimeType: "text/plain"
-          }
+          modalities: ["image", "text"]
         }),
       }
     );
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Gemini image API error:", response.status, errorText);
+      console.error("Lovable AI image API error:", response.status, errorText);
       return null;
     }
 
     const data = await response.json();
     
     // Extract base64 image from response
-    const candidates = data.candidates;
-    if (candidates && candidates[0]?.content?.parts) {
-      for (const part of candidates[0].content.parts) {
-        if (part.inlineData?.mimeType?.startsWith("image/")) {
-          const base64Image = part.inlineData.data;
-          const mimeType = part.inlineData.mimeType;
-          console.log("Successfully generated image");
-          return `data:${mimeType};base64,${base64Image}`;
-        }
+    const images = data.choices?.[0]?.message?.images;
+    if (images && images.length > 0) {
+      const imageUrl = images[0]?.image_url?.url;
+      if (imageUrl) {
+        console.log("Successfully generated unique image for:", title);
+        return imageUrl;
       }
     }
 
-    console.log("No image found in Gemini response");
+    console.log("No image found in Lovable AI response");
     return null;
   } catch (error) {
     console.error("Error generating image:", error);
@@ -193,7 +220,6 @@ serve(async (req) => {
 
   try {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
@@ -316,16 +342,16 @@ Remember to provide ONLY valid JSON in your response.`;
       // Calculate read time
       const readTime = calculateReadTime(articleData.content);
 
-      // Generate and upload image if Gemini API key is available
+      // Generate and upload unique image using Lovable AI
       let imageUrl = null;
-      if (GEMINI_API_KEY) {
-        console.log("Generating image with Gemini...");
-        const base64Image = await generateBlogImage(randomTopic, randomCategory, GEMINI_API_KEY);
-        if (base64Image) {
-          imageUrl = await uploadImageToStorage(supabase, base64Image, slug);
-        }
-      } else {
-        console.log("GEMINI_API_KEY not configured, skipping image generation");
+      console.log("Generating unique image with Lovable AI...");
+      const base64Image = await generateBlogImage(randomTopic, randomCategory, articleData.title, LOVABLE_API_KEY);
+      if (base64Image) {
+        imageUrl = await uploadImageToStorage(supabase, base64Image, slug);
+      }
+
+      if (!imageUrl) {
+        console.log("Image generation failed, post will be created without image");
       }
 
       // Insert into database
