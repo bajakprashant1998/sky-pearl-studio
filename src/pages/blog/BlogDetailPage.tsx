@@ -59,8 +59,11 @@ function parseContentToSections(content: string) {
 // Format content with proper HTML - removes all markdown header symbols
 function formatContent(content: string) {
   return content
-    // Remove any remaining markdown headers (# ## ### ####)
+    // Remove any remaining markdown headers (# ## ### ####) and standalone # symbols
     .replace(/^#{1,4}\s+/gm, '')
+    .replace(/\n#\s*$/gm, '')
+    .replace(/\s#\s*$/gm, '')
+    .replace(/#\s*$/gm, '')
     .replace(/### ([^\n]+)/g, '<h3 class="text-xl font-bold text-primary mt-6 mb-3">$1</h3>')
     .replace(/## ([^\n]+)/g, '<h2 class="text-2xl font-bold text-primary mt-8 mb-4">$1</h2>')
     .replace(/# ([^\n]+)/g, '<h1 class="text-3xl font-bold text-primary mt-8 mb-4">$1</h1>')
@@ -328,6 +331,9 @@ const BlogDetailPage = () => {
                             dangerouslySetInnerHTML={{ 
                               __html: section.content
                                 .replace(/^#{1,4}\s+/gm, '')
+                                .replace(/\n#\s*$/gm, '')
+                                .replace(/\s#\s*$/gm, '')
+                                .replace(/#\s*$/gm, '')
                                 .replace(/### ([^\n]+)/g, '<h3 class="text-xl font-bold text-slate-800 mt-6 mb-3">$1</h3>')
                                 .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-900 font-semibold">$1</strong>')
                                 .replace(/\n\n/g, '</p><p class="mb-4">')
@@ -359,6 +365,9 @@ const BlogDetailPage = () => {
                             dangerouslySetInnerHTML={{ 
                               __html: section.content
                                 .replace(/^#{1,4}\s+/gm, '')
+                                .replace(/\n#\s*$/gm, '')
+                                .replace(/\s#\s*$/gm, '')
+                                .replace(/#\s*$/gm, '')
                                 .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-900 font-semibold">$1</strong>')
                                 .replace(/\n/g, '<br/>')
                             }}
@@ -380,13 +389,16 @@ const BlogDetailPage = () => {
                           dangerouslySetInnerHTML={{ 
                             __html: post.content
                               .replace(/^#{1,4}\s+/gm, '')
+                              .replace(/\n#\s*$/gm, '')
+                              .replace(/\s#\s*$/gm, '')
+                              .replace(/#\s*$/gm, '')
                               .replace(/## ([^\n]+)/g, '</div><div class="mt-8 pt-8 border-t border-slate-200"><h2 class="text-2xl font-bold text-primary mb-4">$1</h2>')
                               .replace(/### ([^\n]+)/g, '<h3 class="text-xl font-bold text-slate-800 mt-6 mb-3">$1</h3>')
                               .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-slate-900 font-semibold">$1</strong>')
                               .replace(/\n\n/g, '</p><p class="mb-4">')
                               .replace(/\n- /g, '<br/><span class="inline-flex items-start gap-2"><span class="text-primary">•</span>')
                               .replace(/\n/g, '<br/>')
-                          }} 
+                          }}
                         />
                       </CardContent>
                     </Card>
