@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import LazyImage from "@/components/LazyImage";
 import { 
   ArrowLeft, 
   ArrowRight,
@@ -435,7 +436,7 @@ const BlogDetailPage = () => {
                 <AnimatedSection direction="up">
                   {/* Featured Image Card */}
                   <Card className="overflow-hidden border-0 shadow-lg rounded-2xl">
-                    <img 
+                    <LazyImage 
                       src={post.featuredImage} 
                       alt={post.title}
                       className="w-full h-64 md:h-80 object-cover"
@@ -444,48 +445,55 @@ const BlogDetailPage = () => {
                 </AnimatedSection>
 
                 {/* Content Sections as Cards */}
-                {contentSections.map((section, index) => (
-                  <AnimatedSection key={index} direction="up" delay={index * 0.1}>
-                    {section.type === 'intro' && (
-                      <Card className="border-0 shadow-lg rounded-2xl bg-card">
-                        <CardContent className="p-8">
-                          <div 
-                            className="prose prose-lg max-w-none text-muted-foreground leading-relaxed"
-                            style={{ lineHeight: '1.8' }}
-                            dangerouslySetInnerHTML={{ 
-                              __html: section.content
-                                .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-foreground">$1</strong>')
-                                .replace(/\n\n/g, '</p><p class="mb-4">')
-                            }} 
-                          />
-                        </CardContent>
-                      </Card>
-                    )}
+                {contentSections.map((section, index) => {
+                  // Calculate section number (only count 'section' types, starting from 1)
+                  const sectionNumber = contentSections
+                    .slice(0, index + 1)
+                    .filter(s => s.type === 'section')
+                    .length;
+                  
+                  return (
+                    <AnimatedSection key={index} direction="up" delay={index * 0.1}>
+                      {section.type === 'intro' && (
+                        <Card className="border-0 shadow-lg rounded-2xl bg-card">
+                          <CardContent className="p-8">
+                            <div 
+                              className="prose prose-lg max-w-none text-muted-foreground leading-relaxed"
+                              style={{ lineHeight: '1.8' }}
+                              dangerouslySetInnerHTML={{ 
+                                __html: section.content
+                                  .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-foreground">$1</strong>')
+                                  .replace(/\n\n/g, '</p><p class="mb-4">')
+                              }} 
+                            />
+                          </CardContent>
+                        </Card>
+                      )}
 
-                    {section.type === 'section' && (
-                      <Card 
-                        id={`section-${index}`}
-                        data-section-id={`section-${index}`}
-                        className="border-0 shadow-lg rounded-2xl bg-card hover:shadow-xl transition-shadow duration-300 scroll-mt-24"
-                      >
-                        <CardContent className="p-8">
-                          {/* Section Number & Title */}
-                          <h2 className="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
-                            <span className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
-                              {index}
-                            </span>
-                            {section.title}
-                          </h2>
-                          
-                          {/* Section Content */}
-                          <div 
-                            className="prose prose-lg max-w-none text-muted-foreground"
-                            style={{ lineHeight: '1.8' }}
-                            dangerouslySetInnerHTML={{ __html: formatSectionContent(section.content) }}
-                          />
-                        </CardContent>
-                      </Card>
-                    )}
+                      {section.type === 'section' && (
+                        <Card 
+                          id={`section-${index}`}
+                          data-section-id={`section-${index}`}
+                          className="border-0 shadow-lg rounded-2xl bg-card hover:shadow-xl transition-shadow duration-300 scroll-mt-24"
+                        >
+                          <CardContent className="p-8">
+                            {/* Section Number & Title */}
+                            <h2 className="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
+                              <span className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
+                                {sectionNumber}
+                              </span>
+                              {section.title}
+                            </h2>
+                            
+                            {/* Section Content */}
+                            <div 
+                              className="prose prose-lg max-w-none text-muted-foreground"
+                              style={{ lineHeight: '1.8' }}
+                              dangerouslySetInnerHTML={{ __html: formatSectionContent(section.content) }}
+                            />
+                          </CardContent>
+                        </Card>
+                      )}
 
                     {section.type === 'tip' && (
                       <Card className="border-0 shadow-lg rounded-2xl bg-gradient-to-r from-secondary to-secondary/50 border-l-4 border-l-primary overflow-hidden">
@@ -509,8 +517,9 @@ const BlogDetailPage = () => {
                         </CardContent>
                       </Card>
                     )}
-                  </AnimatedSection>
-                ))}
+                    </AnimatedSection>
+                  );
+                })}
 
                 {/* If no sections parsed, show raw content in a card */}
                 {contentSections.length === 0 && (
@@ -763,7 +772,7 @@ const BlogDetailPage = () => {
                             className="block group"
                           >
                             <div className="flex gap-4 p-3 rounded-xl hover:bg-muted transition-colors">
-                              <img 
+                              <LazyImage 
                                 src={relatedPost.featuredImage} 
                                 alt={relatedPost.title}
                                 className="w-20 h-16 object-cover rounded-lg flex-shrink-0"
@@ -813,7 +822,7 @@ const BlogDetailPage = () => {
                   <Link to={`/blog/${p.slug}`}>
                     <Card className="h-full overflow-hidden group hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border-0 rounded-2xl bg-white">
                       <div className="aspect-video overflow-hidden">
-                        <img 
+                        <LazyImage 
                           src={p.featuredImage} 
                           alt={p.title}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"

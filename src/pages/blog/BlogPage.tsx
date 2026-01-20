@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import LazyImage from "@/components/LazyImage";
 import { 
   BookOpen, 
   Calendar, 
@@ -49,19 +50,77 @@ const BlogPage = () => {
   return (
     <>
       <Helmet>
-        <title>Blog | Digital Marketing Insights & Trends | Digital Bull</title>
+        <title>Blog | Digital Marketing Insights & Trends | Digital Bull Technology</title>
         <meta 
           name="description" 
-          content="Stay updated with the latest digital marketing trends, SEO strategies, AI marketing insights, and web development best practices from Digital Bull experts." 
+          content="Stay updated with the latest digital marketing trends, SEO strategies, AI marketing insights, and web development best practices from Digital Bull experts in Ahmedabad." 
         />
         <meta 
           name="keywords" 
-          content="digital marketing blog, SEO tips, AI marketing, web development, social media marketing, online business growth, Digital Bull" 
+          content="digital marketing blog, SEO tips, AI marketing, web development, social media marketing, online business growth, Digital Bull, Ahmedabad digital marketing" 
         />
         <link rel="canonical" href="https://dibull.com/blog" />
-        <meta property="og:title" content="Blog | Digital Marketing Insights & Trends | Digital Bull" />
-        <meta property="og:description" content="Expert insights on digital marketing, SEO, AI, and web development." />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="Blog | Digital Marketing Insights & Trends | Digital Bull Technology" />
+        <meta property="og:description" content="Expert insights on digital marketing, SEO, AI, and web development from Ahmedabad's leading digital agency." />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dibull.com/blog" />
+        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Blog | Digital Marketing Insights & Trends" />
+        <meta name="twitter:description" content="Expert insights on digital marketing, SEO, AI, and web development." />
+        
+        {/* Additional SEO */}
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="author" content="Digital Bull Technology" />
+        <meta name="geo.region" content="IN-GJ" />
+        <meta name="geo.placename" content="Ahmedabad" />
+        
+        {/* Blog Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Blog",
+            "name": "Digital Bull Technology Blog",
+            "description": "Expert insights on digital marketing, SEO, AI, and web development",
+            "url": "https://dibull.com/blog",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Digital Bull Technology",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://dibull.com/dibull_logo.png"
+              }
+            },
+            "inLanguage": "en-IN"
+          })}
+        </script>
+        
+        {/* BreadcrumbList Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://dibull.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://dibull.com/blog"
+              }
+            ]
+          })}
+        </script>
       </Helmet>
 
       <Navbar />
@@ -172,7 +231,7 @@ const BlogPage = () => {
                   <div className="grid lg:grid-cols-2 gap-0">
                     {/* Image Section */}
                     <div className="relative aspect-video lg:aspect-auto lg:min-h-[480px] overflow-hidden">
-                      <img 
+                      <LazyImage 
                         src={featuredPost.featuredImage} 
                         alt={featuredPost.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
@@ -286,7 +345,7 @@ const BlogPage = () => {
                     <Card className="h-full overflow-hidden group hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-2 border-0 bg-card">
                       {/* Image */}
                       <div className="relative aspect-[16/10] overflow-hidden">
-                        <img 
+                        <LazyImage 
                           src={post.featuredImage} 
                           alt={post.title}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"

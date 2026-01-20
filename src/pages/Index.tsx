@@ -23,12 +23,14 @@ const Index = () => {
       "streetAddress": "A 823 Moneyplant High street, Jagatpur Road, Near GOTA Cross road",
       "addressLocality": "Ahmedabad",
       "addressRegion": "Gujarat",
+      "postalCode": "382481",
       "addressCountry": "IN"
     },
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+91 9824011921",
-      "contactType": "customer service"
+      "contactType": "customer service",
+      "availableLanguage": ["English", "Hindi", "Gujarati"]
     },
     "sameAs": [
       "https://www.facebook.com/share/1GGViEsE5a/?mibextid=wwXIfr",
@@ -46,7 +48,61 @@ const Index = () => {
       "Social Media Marketing",
       "PPC Advertising",
       "Web Design",
-      "Content Marketing"
+      "Content Marketing",
+      "Email Marketing",
+      "Branding",
+      "E-commerce Marketing"
+    ],
+    "foundingDate": "2020",
+    "numberOfEmployees": "10-50"
+  };
+
+  const localBusinessJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Digital Bull Technology",
+    "image": "https://dibull.com/dibull_logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "A 823 Moneyplant High street, Jagatpur Road, Near GOTA Cross road",
+      "addressLocality": "Ahmedabad",
+      "addressRegion": "Gujarat",
+      "postalCode": "382481",
+      "addressCountry": "IN"
+    },
+    "telephone": "+91 9824011921",
+    "priceRange": "$$",
+    "openingHours": "Mo-Sa 09:00-18:00",
+    "url": "https://dibull.com",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "23.0707",
+      "longitude": "72.5177"
+    }
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Digital Bull Technology",
+    "url": "https://dibull.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://dibull.com/blog?search={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://dibull.com"
+      }
     ]
   };
 
@@ -77,7 +133,14 @@ const Index = () => {
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="geo.region" content="IN-GJ" />
         <meta name="geo.placename" content="Ahmedabad" />
+        <meta name="author" content="Digital Bull Technology" />
+        <meta name="language" content="en-IN" />
+        <meta name="revisit-after" content="7 days" />
+        <meta name="rating" content="general" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(localBusinessJsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(websiteJsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
       </Helmet>
 
       <main className="min-h-screen">
