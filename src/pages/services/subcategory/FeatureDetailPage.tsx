@@ -125,7 +125,7 @@ const FeatureDetailPage = () => {
         "provider": {
             "@type": "Organization",
             "name": "Digital Bull Technology Pvt LTD",
-            "url": "https://digitalbull.com"
+            "url": "https://dibull.com"
         },
         "serviceType": subcategory.title,
         "areaServed": "Worldwide"
@@ -137,7 +137,7 @@ const FeatureDetailPage = () => {
                 <title>{itemTitle} | {subcategory.title} Services - Digital Bull Technology</title>
                 <meta name="description" content={content.description} />
                 <meta name="keywords" content={`${itemTitle}, ${subcategory.title}, ${service.shortTitle}, digital marketing, Digital Bull Technology`} />
-                <link rel="canonical" href={`https://digitalbull.com/services/${serviceSlug}/${subcategoryId}/feature/${itemSlug}`} />
+                <link rel="canonical" href={`https://dibull.com/services/${serviceSlug}/${subcategoryId}/feature/${itemSlug}`} />
 
                 {/* Open Graph */}
                 <meta property="og:title" content={`${itemTitle} | Digital Bull Technology`} />

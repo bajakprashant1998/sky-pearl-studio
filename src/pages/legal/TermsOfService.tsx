@@ -63,7 +63,7 @@ const TermsOfService = () => {
 
                         <h2 className="text-2xl font-bold mt-8 mb-4">7. Contact Us</h2>
                         <p>
-                            If you have any questions about these Terms, please contact us at: <a href="mailto:legal@digitalbull.com" className="text-primary hover:underline">legal@digitalbull.com</a>
+                            If you have any questions about these Terms, please contact us at: <a href="mailto:legal@dibull.com" className="text-primary hover:underline">legal@dibull.com</a>
                         </p>
                     </div>
                 </div>

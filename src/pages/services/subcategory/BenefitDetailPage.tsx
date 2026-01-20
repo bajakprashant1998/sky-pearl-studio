@@ -141,7 +141,7 @@ const BenefitDetailPage = () => {
         "provider": {
             "@type": "Organization",
             "name": "Digital Bull Technology Pvt LTD",
-            "url": "https://digitalbull.com"
+            "url": "https://dibull.com"
         },
         "serviceType": subcategory.title,
         "areaServed": "Worldwide"
