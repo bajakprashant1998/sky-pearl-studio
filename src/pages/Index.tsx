@@ -9,6 +9,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import FeaturedBlogCarousel from "@/components/FeaturedBlogCarousel";
 
 const Index = () => {
   const jsonLd = {
@@ -148,6 +149,7 @@ const Index = () => {
         <HeroSection />
         <ServicesSection />
         <StatsSection />
+        <FeaturedBlogCarousel />
         <BusinessImpactSection />
         <AboutSection />
         <TestimonialsSection />
