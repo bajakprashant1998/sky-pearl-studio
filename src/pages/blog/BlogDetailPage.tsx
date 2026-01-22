@@ -248,8 +248,112 @@ const BlogDetailPage = () => {
   const [readingProgress, setReadingProgress] = useState(0);
   const [activeSection, setActiveSection] = useState<string>("");
   const [showBackToTop, setShowBackToTop] = useState(false);
+  
+  // Smart reading time state
+  const [scrollSpeed, setScrollSpeed] = useState<'slow' | 'normal' | 'fast' | 'skimming'>('normal');
+  const [adaptiveRemainingTime, setAdaptiveRemainingTime] = useState<string>("");
+  const [wordsPerMinute, setWordsPerMinute] = useState(200); // Average WPM
 
-  // Calculate remaining read time based on progress
+  // Calculate word count from content
+  const wordCount = useMemo(() => {
+    if (!post) return 0;
+    return post.content.split(/\s+/).filter(word => word.length > 0).length;
+  }, [post]);
+
+  // Smart reading time estimator based on scroll speed
+  useEffect(() => {
+    if (!post) return;
+    
+    let lastScrollTop = window.scrollY;
+    let lastScrollTime = Date.now();
+    let scrollSpeeds: number[] = [];
+    const SAMPLE_SIZE = 10;
+    
+    const calculateAdaptiveTime = () => {
+      const scrollTop = window.scrollY;
+      const currentTime = Date.now();
+      const timeDiff = currentTime - lastScrollTime;
+      const scrollDiff = Math.abs(scrollTop - lastScrollTop);
+      
+      // Calculate pixels per second
+      const pixelsPerSecond = timeDiff > 0 ? (scrollDiff / timeDiff) * 1000 : 0;
+      
+      // Store recent scroll speeds
+      scrollSpeeds.push(pixelsPerSecond);
+      if (scrollSpeeds.length > SAMPLE_SIZE) {
+        scrollSpeeds.shift();
+      }
+      
+      // Calculate average scroll speed
+      const avgSpeed = scrollSpeeds.reduce((a, b) => a + b, 0) / scrollSpeeds.length;
+      
+      // Categorize scroll speed and adjust WPM
+      let newWpm = 200;
+      let speedCategory: 'slow' | 'normal' | 'fast' | 'skimming' = 'normal';
+      
+      if (avgSpeed < 50) {
+        // Slow/careful reading - user is reading thoroughly
+        newWpm = 150;
+        speedCategory = 'slow';
+      } else if (avgSpeed < 200) {
+        // Normal reading speed
+        newWpm = 200;
+        speedCategory = 'normal';
+      } else if (avgSpeed < 500) {
+        // Fast reading/scanning
+        newWpm = 350;
+        speedCategory = 'fast';
+      } else {
+        // Skimming - very fast scroll
+        newWpm = 600;
+        speedCategory = 'skimming';
+      }
+      
+      setScrollSpeed(speedCategory);
+      setWordsPerMinute(prev => Math.round(prev * 0.7 + newWpm * 0.3)); // Smooth transition
+      
+      // Calculate remaining words based on progress
+      const remainingWords = Math.ceil(wordCount * (1 - readingProgress / 100));
+      const remainingMinutes = Math.ceil(remainingWords / wordsPerMinute);
+      
+      // Format remaining time
+      if (remainingMinutes <= 0 || readingProgress >= 95) {
+        setAdaptiveRemainingTime("Almost done!");
+      } else if (remainingMinutes === 1) {
+        setAdaptiveRemainingTime("~1 min left");
+      } else if (remainingMinutes < 60) {
+        setAdaptiveRemainingTime(`~${remainingMinutes} min left`);
+      } else {
+        const hours = Math.floor(remainingMinutes / 60);
+        const mins = remainingMinutes % 60;
+        setAdaptiveRemainingTime(`~${hours}h ${mins}m left`);
+      }
+      
+      lastScrollTop = scrollTop;
+      lastScrollTime = currentTime;
+    };
+    
+    // Throttled scroll handler
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          calculateAdaptiveTime();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial calculation
+    calculateAdaptiveTime();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [post, wordCount, readingProgress, wordsPerMinute]);
+
+  // Static remaining read time fallback
   const remainingReadTime = useMemo(() => {
     if (!post) return "";
     const totalMinutes = parseInt(post.readTime) || 5;
@@ -372,22 +476,57 @@ const BlogDetailPage = () => {
 
   return (
     <>
-      {/* Reading Progress Bar - Enhanced */}
+      {/* Reading Progress Bar - Enhanced with Speed Indicator */}
       <div className="fixed top-0 left-0 w-full h-1.5 bg-muted/50 z-50 backdrop-blur-sm">
         <div 
-          className="h-full bg-gradient-to-r from-primary via-accent to-primary transition-all duration-150 ease-out relative"
+          className={`h-full transition-all duration-150 ease-out relative ${
+            scrollSpeed === 'slow' 
+              ? 'bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500' 
+              : scrollSpeed === 'fast' 
+              ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500' 
+              : scrollSpeed === 'skimming' 
+              ? 'bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500'
+              : 'bg-gradient-to-r from-primary via-accent to-primary'
+          }`}
           style={{ width: `${readingProgress}%` }}
         >
           {/* Glow effect at the end */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full blur-md animate-pulse" />
+          <div className={`absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full blur-md animate-pulse ${
+            scrollSpeed === 'slow' ? 'bg-emerald-500' 
+            : scrollSpeed === 'fast' ? 'bg-amber-500' 
+            : scrollSpeed === 'skimming' ? 'bg-rose-500'
+            : 'bg-primary'
+          }`} />
         </div>
-        {/* Progress percentage indicator */}
+        {/* Progress & Speed indicator */}
         {readingProgress > 5 && readingProgress < 95 && (
           <div 
-            className="absolute top-3 text-xs font-bold text-primary bg-background/90 backdrop-blur-sm px-2 py-1 rounded-full shadow-lg border border-primary/20 transition-all"
-            style={{ left: `${Math.min(readingProgress, 90)}%`, transform: 'translateX(-50%)' }}
+            className={`absolute top-4 text-xs font-bold backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg border transition-all flex items-center gap-1.5 ${
+              scrollSpeed === 'slow' 
+                ? 'bg-emerald-50 text-emerald-600 border-emerald-200' 
+                : scrollSpeed === 'fast' 
+                ? 'bg-amber-50 text-amber-600 border-amber-200' 
+                : scrollSpeed === 'skimming' 
+                ? 'bg-rose-50 text-rose-600 border-rose-200'
+                : 'bg-background/90 text-primary border-primary/20'
+            }`}
+            style={{ left: `${Math.min(readingProgress, 85)}%`, transform: 'translateX(-50%)' }}
           >
-            {Math.round(readingProgress)}%
+            {scrollSpeed === 'slow' && <BookOpen className="w-3 h-3" />}
+            {scrollSpeed === 'normal' && <Zap className="w-3 h-3" />}
+            {scrollSpeed === 'fast' && <TrendingUp className="w-3 h-3" />}
+            {scrollSpeed === 'skimming' && <Rocket className="w-3 h-3" />}
+            <span>{Math.round(readingProgress)}%</span>
+            <span className="text-[9px] opacity-70">• {adaptiveRemainingTime || remainingReadTime}</span>
+          </div>
+        )}
+        {/* Completion indicator */}
+        {readingProgress >= 95 && (
+          <div 
+            className="absolute top-4 right-4 text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 animate-bounce-subtle"
+          >
+            <Check className="w-3 h-3" />
+            <span>Article Complete!</span>
           </div>
         )}
       </div>
@@ -548,11 +687,49 @@ const BlogDetailPage = () => {
                     <span className="text-sm font-medium">{post.readTime}</span>
                   </div>
                   
-                  {/* Dynamic remaining time - Enhanced */}
-                  {readingProgress > 0 && readingProgress < 100 && (
-                    <div className="flex items-center gap-2 bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-sm rounded-full px-4 py-3 shadow-md border border-primary/20 animate-pulse">
-                      <Zap className="w-5 h-5 text-primary" />
-                      <span className="text-sm font-bold text-primary">{remainingReadTime}</span>
+                  {/* Smart Reading Time Indicator */}
+                  {readingProgress > 0 && readingProgress < 95 && (
+                    <div className={`flex items-center gap-2 backdrop-blur-sm rounded-full px-4 py-3 shadow-md border transition-all duration-500 ${
+                      scrollSpeed === 'slow' 
+                        ? 'bg-emerald-500/10 border-emerald-500/30' 
+                        : scrollSpeed === 'fast' 
+                        ? 'bg-amber-500/10 border-amber-500/30' 
+                        : scrollSpeed === 'skimming' 
+                        ? 'bg-rose-500/10 border-rose-500/30'
+                        : 'bg-primary/10 border-primary/20'
+                    }`}>
+                      {/* Speed Icon */}
+                      {scrollSpeed === 'slow' && <BookOpen className="w-5 h-5 text-emerald-600" />}
+                      {scrollSpeed === 'normal' && <Zap className="w-5 h-5 text-primary" />}
+                      {scrollSpeed === 'fast' && <TrendingUp className="w-5 h-5 text-amber-600" />}
+                      {scrollSpeed === 'skimming' && <Rocket className="w-5 h-5 text-rose-600" />}
+                      
+                      <div className="flex flex-col">
+                        <span className={`text-sm font-bold ${
+                          scrollSpeed === 'slow' 
+                            ? 'text-emerald-600' 
+                            : scrollSpeed === 'fast' 
+                            ? 'text-amber-600' 
+                            : scrollSpeed === 'skimming' 
+                            ? 'text-rose-600'
+                            : 'text-primary'
+                        }`}>
+                          {adaptiveRemainingTime || remainingReadTime}
+                        </span>
+                        <span className="text-[10px] text-muted-foreground capitalize">
+                          {scrollSpeed === 'slow' ? 'Deep reading' : 
+                           scrollSpeed === 'fast' ? 'Speed reading' :
+                           scrollSpeed === 'skimming' ? 'Skimming' : 'Reading'}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Completion Badge */}
+                  {readingProgress >= 95 && (
+                    <div className="flex items-center gap-2 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 backdrop-blur-sm rounded-full px-4 py-3 shadow-md border border-emerald-500/30 animate-pulse">
+                      <Check className="w-5 h-5 text-emerald-600" />
+                      <span className="text-sm font-bold text-emerald-600">Complete!</span>
                     </div>
                   )}
                 </div>
