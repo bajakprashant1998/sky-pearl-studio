@@ -10,7 +10,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import LazyImage from "@/components/LazyImage";
 import { 
   BookOpen, 
   Calendar, 
@@ -23,8 +22,73 @@ import {
   Newspaper,
   Zap,
   Users,
-  Loader2
+  Loader2,
+  BarChart3,
+  Target,
+  Megaphone,
+  LineChart,
+  Globe,
+  Palette,
+  Code,
+  Mail,
+  Share2,
+  PieChart,
+  Rocket,
+  Brain,
+  ShoppingCart,
+  Video,
+  Lightbulb,
+  Settings
 } from "lucide-react";
+
+// Category to icon mapping for visual variety
+const getCategoryIcon = (category: string) => {
+  const iconMap: Record<string, React.ElementType> = {
+    "SEO": Target,
+    "Content Marketing": BookOpen,
+    "Social Media": Share2,
+    "PPC": BarChart3,
+    "Email Marketing": Mail,
+    "Web Development": Code,
+    "AI Marketing": Brain,
+    "E-commerce": ShoppingCart,
+    "Video Marketing": Video,
+    "Branding": Palette,
+    "Analytics": LineChart,
+    "Digital Marketing": Megaphone,
+  };
+  return iconMap[category] || Lightbulb;
+};
+
+// Get gradient colors based on category
+const getCategoryGradient = (category: string) => {
+  const gradients: Record<string, string> = {
+    "SEO": "from-emerald-500 to-teal-600",
+    "Content Marketing": "from-violet-500 to-purple-600",
+    "Social Media": "from-pink-500 to-rose-600",
+    "PPC": "from-amber-500 to-orange-600",
+    "Email Marketing": "from-blue-500 to-indigo-600",
+    "Web Development": "from-cyan-500 to-sky-600",
+    "AI Marketing": "from-fuchsia-500 to-pink-600",
+    "E-commerce": "from-green-500 to-emerald-600",
+    "Video Marketing": "from-red-500 to-rose-600",
+    "Branding": "from-indigo-500 to-violet-600",
+    "Analytics": "from-slate-500 to-gray-600",
+    "Digital Marketing": "from-primary to-blue-600",
+  };
+  return gradients[category] || "from-primary to-accent";
+};
+
+// Get background pattern based on index
+const getPatternStyle = (index: number) => {
+  const patterns = [
+    { backgroundImage: "radial-gradient(circle at 20% 80%, currentColor 2px, transparent 2px)", backgroundSize: "20px 20px" },
+    { backgroundImage: "linear-gradient(45deg, currentColor 1px, transparent 1px)", backgroundSize: "12px 12px" },
+    { backgroundImage: "radial-gradient(currentColor 1px, transparent 1px)", backgroundSize: "16px 16px" },
+    { backgroundImage: "linear-gradient(0deg, currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)", backgroundSize: "24px 24px" },
+  ];
+  return patterns[index % patterns.length];
+};
 
 const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -221,7 +285,7 @@ const BlogPage = () => {
         </div>
       </section>
 
-      {/* Featured Post - Premium Card */}
+      {/* Featured Post - Premium Icon Card */}
       {selectedCategory === "All" && !searchQuery && featuredPost && !isLoading && (
         <section className="py-16">
           <div className="container px-4">
@@ -229,23 +293,47 @@ const BlogPage = () => {
               <Link to={`/blog/${featuredPost.slug}`}>
                 <Card className="overflow-hidden group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border-0 bg-gradient-to-br from-card to-card/50">
                   <div className="grid lg:grid-cols-2 gap-0">
-                    {/* Image Section */}
-                    <div className="relative aspect-video lg:aspect-auto lg:min-h-[480px] overflow-hidden">
-                      <LazyImage 
-                        src={featuredPost.featuredImage} 
-                        alt={featuredPost.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    {/* Icon & Infographic Section */}
+                    <div className={`relative aspect-video lg:aspect-auto lg:min-h-[480px] overflow-hidden bg-gradient-to-br ${getCategoryGradient(featuredPost.category)}`}>
+                      {/* Pattern Overlay */}
+                      <div 
+                        className="absolute inset-0 opacity-10 text-white"
+                        style={getPatternStyle(0)}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                      
+                      {/* Floating Decorative Elements */}
+                      <div className="absolute top-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl animate-pulse" />
+                      <div className="absolute bottom-20 left-10 w-24 h-24 bg-white/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }} />
+                      
+                      {/* Main Icon */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-white/20 rounded-full blur-3xl scale-150" />
+                          {(() => {
+                            const IconComponent = getCategoryIcon(featuredPost.category);
+                            return <IconComponent className="relative w-32 h-32 lg:w-48 lg:h-48 text-white drop-shadow-2xl" strokeWidth={1} />;
+                          })()}
+                        </div>
+                      </div>
+                      
+                      {/* Mini Stats Infographic */}
+                      <div className="absolute bottom-6 left-6 right-6 flex gap-4">
+                        <div className="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-3 flex items-center gap-2">
+                          <TrendingUp className="w-5 h-5 text-white" />
+                          <span className="text-white text-sm font-medium">Trending</span>
+                        </div>
+                        <div className="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-3 flex items-center gap-2">
+                          <Clock className="w-5 h-5 text-white" />
+                          <span className="text-white text-sm font-medium">{featuredPost.readTime}</span>
+                        </div>
+                      </div>
+                      
+                      {/* Featured Badge */}
                       <div className="absolute top-6 left-6">
-                        <Badge className="bg-primary text-primary-foreground px-4 py-1.5 text-sm font-semibold shadow-lg">
+                        <Badge className="bg-white text-primary px-4 py-1.5 text-sm font-semibold shadow-lg">
                           <Sparkles className="w-4 h-4 mr-2" />
                           Featured
                         </Badge>
-                      </div>
-                      <div className="absolute bottom-6 left-6 right-6 lg:hidden">
-                        <Badge variant="secondary" className="mb-2">{featuredPost.category}</Badge>
-                        <h2 className="text-2xl font-bold text-white mb-2">{featuredPost.title}</h2>
                       </div>
                     </div>
                     
@@ -277,8 +365,8 @@ const BlogPage = () => {
                       
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-muted-foreground flex items-center gap-2">
-                          <Clock className="w-4 h-4" />
-                          {featuredPost.readTime}
+                          <BookOpen className="w-4 h-4" />
+                          Expert Insights
                         </span>
                         <div className="flex items-center text-primary font-semibold text-lg group-hover:gap-3 gap-2 transition-all">
                           Read Full Article
@@ -314,7 +402,9 @@ const BlogPage = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <Card key={i} className="h-full overflow-hidden border-0 bg-card">
-                  <Skeleton className="aspect-[16/10] w-full" />
+                  <div className="aspect-[16/10] w-full bg-gradient-to-br from-muted to-muted/50 animate-pulse flex items-center justify-center">
+                    <Settings className="w-12 h-12 text-muted-foreground/30 animate-spin" />
+                  </div>
                   <CardContent className="p-6 space-y-4">
                     <Skeleton className="h-4 w-24" />
                     <Skeleton className="h-6 w-full" />
@@ -327,8 +417,8 @@ const BlogPage = () => {
           ) : filteredPosts.length === 0 ? (
             <AnimatedSection direction="up">
               <div className="text-center py-20">
-                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center">
-                  <Search className="w-10 h-10 text-muted-foreground" />
+                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                  <Search className="w-10 h-10 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">No articles found</h3>
                 <p className="text-muted-foreground mb-6">Try adjusting your search or filter criteria</p>
@@ -339,62 +429,85 @@ const BlogPage = () => {
             </AnimatedSection>
           ) : (
             <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {(selectedCategory === "All" && !searchQuery ? recentPosts : filteredPosts).map((post) => (
-                <StaggerItem key={post.id}>
-                  <Link to={`/blog/${post.slug}`}>
-                    <Card className="h-full overflow-hidden group hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-2 border-0 bg-card">
-                      {/* Image */}
-                      <div className="relative aspect-[16/10] overflow-hidden">
-                        <LazyImage 
-                          src={post.featuredImage} 
-                          alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <Badge className="absolute top-4 left-4 bg-background/90 text-foreground backdrop-blur-sm">
-                          {post.category}
-                        </Badge>
-                      </div>
-                      
-                      {/* Content */}
-                      <CardContent className="p-6">
-                        <div className="flex items-center gap-3 mb-4 text-sm text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="w-4 h-4" />
-                            {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                          </span>
-                          <span className="w-1 h-1 rounded-full bg-muted-foreground" />
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-4 h-4" />
-                            {post.readTime}
-                          </span>
+              {(selectedCategory === "All" && !searchQuery ? recentPosts : filteredPosts).map((post, index) => {
+                const IconComponent = getCategoryIcon(post.category);
+                return (
+                  <StaggerItem key={post.id}>
+                    <Link to={`/blog/${post.slug}`}>
+                      <Card className="h-full overflow-hidden group hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-2 border-0 bg-card">
+                        {/* Icon Graphic Section */}
+                        <div className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
+                          {/* Pattern Overlay */}
+                          <div 
+                            className="absolute inset-0 opacity-10 text-white"
+                            style={getPatternStyle(index)}
+                          />
+                          
+                          {/* Floating Elements */}
+                          <div className="absolute top-4 right-4 w-16 h-16 bg-white/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
+                          <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/10 rounded-full blur-lg" />
+                          
+                          {/* Main Icon */}
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="relative group-hover:scale-110 transition-transform duration-500">
+                              <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
+                              <IconComponent className="relative w-16 h-16 lg:w-20 lg:h-20 text-white drop-shadow-lg" strokeWidth={1.5} />
+                            </div>
+                          </div>
+                          
+                          {/* Category Badge */}
+                          <Badge className="absolute top-4 left-4 bg-white/90 text-foreground backdrop-blur-sm shadow-lg">
+                            {post.category}
+                          </Badge>
+                          
+                          {/* Read Time Pill */}
+                          <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1.5">
+                            <Clock className="w-3.5 h-3.5 text-white" />
+                            <span className="text-white text-xs font-medium">{post.readTime}</span>
+                          </div>
                         </div>
                         
-                        <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
-                          {post.title}
-                        </h3>
-                        
-                        <p className="text-muted-foreground mb-4 line-clamp-2 text-sm leading-relaxed">
-                          {post.metaDescription}
-                        </p>
-                        
-                        <div className="flex flex-wrap gap-1.5 mb-4">
-                          {post.tags.slice(0, 3).map(tag => (
-                            <Badge key={tag} variant="secondary" className="text-xs px-2 py-0.5">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                        
-                        <div className="flex items-center text-primary font-medium text-sm pt-4 border-t border-border/50">
-                          Read Article
-                          <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </StaggerItem>
-              ))}
+                        {/* Content */}
+                        <CardContent className="p-6">
+                          <div className="flex items-center gap-3 mb-4 text-sm text-muted-foreground">
+                            <span className="flex items-center gap-1">
+                              <Calendar className="w-4 h-4" />
+                              {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                            </span>
+                            <span className="w-1 h-1 rounded-full bg-muted-foreground" />
+                            <span className="flex items-center gap-1">
+                              <BookOpen className="w-4 h-4" />
+                              {post.tags.length} Topics
+                            </span>
+                          </div>
+                          
+                          <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                            {post.title}
+                          </h3>
+                          
+                          <p className="text-muted-foreground mb-4 line-clamp-2 text-sm leading-relaxed">
+                            {post.metaDescription}
+                          </p>
+                          
+                          <div className="flex flex-wrap gap-1.5 mb-4">
+                            {post.tags.slice(0, 3).map(tag => (
+                              <Badge key={tag} variant="secondary" className="text-xs px-2 py-0.5">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                          
+                          <div className="flex items-center text-primary font-medium text-sm pt-4 border-t border-border/50 group-hover:gap-3 gap-2 transition-all">
+                            <Rocket className="w-4 h-4" />
+                            Read Article
+                            <ArrowRight className="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  </StaggerItem>
+                );
+              })}
             </StaggerContainer>
           )}
         </div>
