@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import AnimatedSection from "@/components/AnimatedSection";
+import { motion } from "framer-motion";
 import {
   Carousel,
   CarouselContent,
@@ -32,6 +33,7 @@ import {
   Lightbulb,
   Rocket,
   TrendingUp,
+  Zap,
 } from "lucide-react";
 
 // Category to icon mapping
@@ -118,18 +120,52 @@ const FeaturedBlogCarousel = () => {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-b from-background via-secondary/30 to-background overflow-hidden">
-      <div className="container px-4">
+    <section className="py-20 bg-gradient-to-b from-background via-secondary/30 to-background overflow-hidden relative">
+      {/* Animated background elements */}
+      <motion.div 
+        className="absolute top-20 left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl"
+        animate={{ 
+          scale: [1, 1.3, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div 
+        className="absolute bottom-20 right-10 w-80 h-80 bg-accent/5 rounded-full blur-3xl"
+        animate={{ 
+          scale: [1.3, 1, 1.3],
+          opacity: [0.5, 0.3, 0.5],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+      />
+
+      <div className="container px-4 relative z-10">
         <AnimatedSection direction="up">
           <div className="text-center mb-12">
             {/* Section Badge */}
-            <Badge className="bg-primary/10 text-primary hover:bg-primary/20 mb-4 px-4 py-2">
-              <Sparkles className="w-4 h-4 mr-2" />
-              Latest Insights
-            </Badge>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <Badge className="bg-primary/10 text-primary hover:bg-primary/20 mb-4 px-4 py-2">
+                <Sparkles className="w-4 h-4 mr-2" />
+                Latest Insights
+              </Badge>
+            </motion.div>
             
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              From Our <span className="text-primary">Knowledge Hub</span>
+              From Our <span className="text-primary relative">
+                Knowledge Hub
+                <motion.div 
+                  className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent rounded-full"
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                />
+              </span>
             </h2>
             
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -152,76 +188,104 @@ const FeaturedBlogCarousel = () => {
                 return (
                   <CarouselItem key={post.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
                     <Link to={`/blog/${post.slug}`}>
-                      <Card className="h-full overflow-hidden group hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-2 border-0 bg-card">
-                        {/* Icon Graphic Section */}
-                        <div className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
-                          {/* Pattern Overlay */}
-                          <div 
-                            className="absolute inset-0 opacity-10 text-white"
-                            style={getPatternStyle(index)}
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        <Card className="h-full overflow-hidden group hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 border-0 bg-card relative">
+                          {/* Hover glow effect */}
+                          <motion.div 
+                            className={`absolute inset-0 bg-gradient-to-br ${getCategoryGradient(post.category)} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
                           />
-                          
-                          {/* Floating Elements */}
-                          <div className="absolute top-4 right-4 w-16 h-16 bg-white/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
-                          <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/10 rounded-full blur-lg" />
-                          
-                          {/* Main Icon */}
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="relative group-hover:scale-110 transition-transform duration-500">
-                              <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
-                              <IconComponent className="relative w-16 h-16 lg:w-20 lg:h-20 text-white drop-shadow-lg" strokeWidth={1.5} />
+
+                          {/* Icon Graphic Section */}
+                          <div className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
+                            {/* Pattern Overlay */}
+                            <div 
+                              className="absolute inset-0 opacity-10 text-white"
+                              style={getPatternStyle(index)}
+                            />
+                            
+                            {/* Floating Elements */}
+                            <motion.div 
+                              className="absolute top-4 right-4 w-16 h-16 bg-white/10 rounded-full blur-xl"
+                              animate={{ scale: [1, 1.5, 1] }}
+                              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                            <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/10 rounded-full blur-lg" />
+                            
+                            {/* Main Icon */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <motion.div 
+                                className="relative"
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                                transition={{ type: "spring", stiffness: 300 }}
+                              >
+                                <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
+                                <IconComponent className="relative w-16 h-16 lg:w-20 lg:h-20 text-white drop-shadow-lg" strokeWidth={1.5} />
+                              </motion.div>
+                            </div>
+                            
+                            {/* Category Badge */}
+                            <Badge className="absolute top-4 left-4 bg-white/90 text-foreground backdrop-blur-sm shadow-lg">
+                              {post.category}
+                            </Badge>
+                            
+                            {/* Read Time Pill */}
+                            <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1.5">
+                              <Clock className="w-3.5 h-3.5 text-white" />
+                              <span className="text-white text-xs font-medium">{post.readTime}</span>
                             </div>
                           </div>
                           
-                          {/* Category Badge */}
-                          <Badge className="absolute top-4 left-4 bg-white/90 text-foreground backdrop-blur-sm shadow-lg">
-                            {post.category}
-                          </Badge>
-                          
-                          {/* Read Time Pill */}
-                          <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5 text-white" />
-                            <span className="text-white text-xs font-medium">{post.readTime}</span>
-                          </div>
-                        </div>
-                        
-                        {/* Content */}
-                        <CardContent className="p-6">
-                          <div className="flex items-center gap-3 mb-3 text-sm text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                              <Calendar className="w-4 h-4" />
-                              {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                            </span>
-                            <span className="w-1 h-1 rounded-full bg-muted-foreground" />
-                            <span className="flex items-center gap-1">
-                              <TrendingUp className="w-4 h-4" />
-                              Trending
-                            </span>
-                          </div>
-                          
-                          <h3 className="text-lg font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
-                            {post.title}
-                          </h3>
-                          
-                          <p className="text-muted-foreground mb-4 line-clamp-2 text-sm leading-relaxed">
-                            {post.metaDescription}
-                          </p>
-                          
-                          <div className="flex items-center text-primary font-medium text-sm group-hover:gap-3 gap-2 transition-all">
-                            <Rocket className="w-4 h-4" />
-                            Read Article
-                            <ArrowRight className="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" />
-                          </div>
-                        </CardContent>
-                      </Card>
+                          {/* Content */}
+                          <CardContent className="p-6 relative">
+                            <div className="flex items-center gap-3 mb-3 text-sm text-muted-foreground">
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-4 h-4" />
+                                {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                              </span>
+                              <span className="w-1 h-1 rounded-full bg-muted-foreground" />
+                              <span className="flex items-center gap-1">
+                                <TrendingUp className="w-4 h-4" />
+                                Trending
+                              </span>
+                            </div>
+                            
+                            <h3 className="text-lg font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                              {post.title}
+                            </h3>
+                            
+                            <p className="text-muted-foreground mb-4 line-clamp-2 text-sm leading-relaxed">
+                              {post.metaDescription}
+                            </p>
+                            
+                            <div className="flex items-center text-primary font-medium text-sm group-hover:gap-3 gap-2 transition-all">
+                              <Rocket className="w-4 h-4" />
+                              Read Article
+                              <ArrowRight className="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" />
+                            </div>
+
+                            {/* Bottom accent line */}
+                            <motion.div 
+                              className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r ${getCategoryGradient(post.category)}`}
+                              initial={{ width: 0 }}
+                              whileHover={{ width: "100%" }}
+                              transition={{ duration: 0.3 }}
+                            />
+                          </CardContent>
+                        </Card>
+                      </motion.div>
                     </Link>
                   </CarouselItem>
                 );
               })}
             </CarouselContent>
             <div className="flex items-center justify-center gap-4 mt-8">
-              <CarouselPrevious className="static translate-y-0 bg-primary/10 border-primary/20 hover:bg-primary hover:text-primary-foreground" />
-              <CarouselNext className="static translate-y-0 bg-primary/10 border-primary/20 hover:bg-primary hover:text-primary-foreground" />
+              <CarouselPrevious className="static translate-y-0 bg-primary/10 border-primary/20 hover:bg-primary hover:text-primary-foreground transition-all" />
+              <CarouselNext className="static translate-y-0 bg-primary/10 border-primary/20 hover:bg-primary hover:text-primary-foreground transition-all" />
             </div>
           </Carousel>
         </AnimatedSection>
@@ -230,11 +294,16 @@ const FeaturedBlogCarousel = () => {
         <AnimatedSection direction="up" delay={0.4}>
           <div className="text-center mt-12">
             <Link to="/blog">
-              <Button size="lg" className="px-8 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25">
-                <BookOpen className="w-5 h-5 mr-2" />
-                Explore All Articles
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button size="lg" className="px-8 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 group">
+                  <BookOpen className="w-5 h-5 mr-2" />
+                  Explore All Articles
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </motion.div>
             </Link>
           </div>
         </AnimatedSection>
