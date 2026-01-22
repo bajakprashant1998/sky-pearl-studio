@@ -2,7 +2,9 @@ import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import AnimatedSection, { StaggerContainer, StaggerItem, FloatingElement } from "@/components/AnimatedSection";
+import AnimatedSection, { FloatingElement, CountUp } from "@/components/AnimatedSection";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import {
   GraduationCap,
   CheckCircle2,
@@ -11,9 +13,7 @@ import {
   Users,
   Award,
   BookOpen,
-  Code,
   Palette,
-  Video,
   TrendingUp,
   Briefcase,
   Mail,
@@ -27,39 +27,39 @@ import {
   BarChart3,
   MessageSquare,
   FileText,
-  Megaphone,
   Zap,
   Brain,
-  Lightbulb,
   Star,
   Building2,
   Laptop,
-  PenTool,
   Film,
-  LineChart,
   Shield,
   HeartHandshake,
   Rocket,
   MousePointerClick,
-  Settings,
   CircleDollarSign,
   Heart,
-  UserCheck
+  UserCheck,
+  Play,
+  Calendar
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 const DigitalMarketingAcademy = () => {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   const courseDetails = [
     { icon: Clock, label: "Duration", value: "6 Months", color: "from-blue-500 to-cyan-500" },
-    { icon: Clock, label: "Class Timing", value: "10:00 AM - 6:30 PM", color: "from-purple-500 to-pink-500" },
+    { icon: Calendar, label: "Class Timing", value: "10:00 AM - 6:30 PM", color: "from-purple-500 to-pink-500" },
     { icon: IndianRupee, label: "Course Fees", value: "₹25,000/Month", color: "from-green-500 to-emerald-500" },
-    { icon: BookOpen, label: "Training Type", value: "Practical + Theory + Live Projects", color: "from-amber-500 to-orange-500" },
+    { icon: BookOpen, label: "Training Type", value: "Practical + Live Projects", color: "from-amber-500 to-orange-500" },
   ];
 
   const benefits = [
@@ -226,22 +226,22 @@ const DigitalMarketingAcademy = () => {
   ];
 
   const practicalProjects = [
-    { icon: Globe, text: "Website creation using AI tools", color: "bg-blue-500" },
-    { icon: Search, text: "SEO audits on real websites", color: "bg-green-500" },
-    { icon: Share2, text: "Social media marketing campaigns", color: "bg-pink-500" },
-    { icon: Palette, text: "AI-based graphic & video projects", color: "bg-purple-500" },
-    { icon: BarChart3, text: "Paid ads execution & optimization", color: "bg-orange-500" },
-    { icon: FileText, text: "Analytics dashboards & reports", color: "bg-cyan-500" },
+    { icon: Globe, text: "Website creation using AI tools", color: "from-blue-500 to-cyan-500" },
+    { icon: Search, text: "SEO audits on real websites", color: "from-green-500 to-emerald-500" },
+    { icon: Share2, text: "Social media marketing campaigns", color: "from-pink-500 to-rose-500" },
+    { icon: Palette, text: "AI-based graphic & video projects", color: "from-purple-500 to-violet-500" },
+    { icon: BarChart3, text: "Paid ads execution & optimization", color: "from-orange-500 to-amber-500" },
+    { icon: FileText, text: "Analytics dashboards & reports", color: "from-cyan-500 to-teal-500" },
   ];
 
   const careerOpportunities = [
-    { title: "Digital Marketing Executive", icon: Megaphone, color: "from-blue-500 to-cyan-500" },
+    { title: "Digital Marketing Executive", icon: Rocket, color: "from-blue-500 to-cyan-500" },
     { title: "SEO Specialist", icon: Search, color: "from-green-500 to-emerald-500" },
     { title: "Social Media Manager", icon: Share2, color: "from-pink-500 to-rose-500" },
     { title: "Performance Marketing Executive", icon: Target, color: "from-orange-500 to-amber-500" },
     { title: "AI Website Designer", icon: Laptop, color: "from-purple-500 to-violet-500" },
     { title: "AI Graphic Designer", icon: Palette, color: "from-rose-500 to-pink-500" },
-    { title: "Video Content Creator", icon: Video, color: "from-red-500 to-orange-500" },
+    { title: "Video Content Creator", icon: Film, color: "from-red-500 to-orange-500" },
     { title: "Freelancer or Agency Owner", icon: Building2, color: "from-indigo-500 to-blue-500" },
   ];
 
@@ -265,6 +265,13 @@ const DigitalMarketingAcademy = () => {
     { text: "Resume & portfolio building", icon: FileText },
     { text: "Freelancing income roadmap", icon: CircleDollarSign },
     { text: "Business & agency growth guidance", icon: Rocket },
+  ];
+
+  const stats = [
+    { value: 500, suffix: "+", label: "Students Trained" },
+    { value: 90, suffix: "%", label: "Placement Rate" },
+    { value: 50, suffix: "+", label: "AI Tools Covered" },
+    { value: 12, suffix: "", label: "Core Modules" },
   ];
 
   return (
@@ -312,7 +319,7 @@ const DigitalMarketingAcademy = () => {
             "offers": {
               "@type": "Offer",
               "name": "6-Month Digital Marketing Course",
-              "price": "5000",
+              "price": "25000",
               "priceCurrency": "INR",
               "priceValidUntil": "2026-12-31"
             }
@@ -324,130 +331,278 @@ const DigitalMarketingAcademy = () => {
         <Navbar />
 
         {/* Hero Section */}
-        <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
+        <section ref={heroRef} className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
           {/* Animated Background */}
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
-            <FloatingElement duration={4} distance={20}>
-              <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl" />
-            </FloatingElement>
-            <FloatingElement duration={5} distance={15}>
-              <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
-            </FloatingElement>
-            <FloatingElement duration={6} distance={25}>
-              <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl" />
-            </FloatingElement>
+            
+            {/* Animated orbs */}
+            <motion.div 
+              className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 1.3, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div 
+              className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1.3, 1, 1.3],
+                opacity: [0.5, 0.3, 0.5],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            />
+            <motion.div 
+              className="absolute top-1/2 left-1/3 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"
+              animate={{ 
+                x: [-30, 30, -30],
+                y: [-20, 20, -20],
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            />
+
+            {/* Floating particles */}
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-2 h-2 bg-primary/30 rounded-full"
+                style={{
+                  left: `${10 + i * 12}%`,
+                  top: `${20 + (i % 4) * 20}%`,
+                }}
+                animate={{
+                  y: [-30, 30, -30],
+                  opacity: [0.2, 0.5, 0.2],
+                }}
+                transition={{
+                  duration: 5 + i,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.3,
+                }}
+              />
+            ))}
           </div>
 
           {/* Grid Pattern */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          <div className="absolute inset-0 opacity-[0.02]" style={{
+            backgroundImage: "linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)",
+            backgroundSize: "50px 50px"
           }} />
 
-          <div className="container mx-auto px-4 relative z-10">
+          <motion.div 
+            className="container mx-auto px-4 relative z-10"
+            style={{ y: heroY, opacity: heroOpacity }}
+          >
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-8">
                 {/* Badge */}
-                <AnimatedSection delay={0}>
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full border border-primary/30">
-                    <GraduationCap className="w-5 h-5 text-primary" />
-                    <span className="text-sm font-semibold text-foreground">Professional Training Academy</span>
+                <motion.div 
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full border border-primary/30"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <GraduationCap className="w-5 h-5 text-primary" />
+                  <span className="text-sm font-semibold text-foreground">Professional Training Academy</span>
+                  <motion.div
+                    animate={{ rotate: [0, 20, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                  </div>
-                </AnimatedSection>
+                  </motion.div>
+                </motion.div>
 
                 {/* Heading */}
-                <AnimatedSection delay={0.1}>
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1]">
-                    Digital Marketing{" "}
-                    <span className="relative inline-block">
-                      <span className="text-gradient">Academy</span>
-                      <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
-                        <path d="M2 10C50 2 150 2 198 10" stroke="hsl(var(--primary))" strokeWidth="4" strokeLinecap="round" opacity="0.4" />
-                      </svg>
-                    </span>
-                  </h1>
-                </AnimatedSection>
+                <motion.h1 
+                  className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1]"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  Digital Marketing{" "}
+                  <span className="relative inline-block">
+                    <span className="text-gradient">Academy</span>
+                    <motion.svg 
+                      className="absolute -bottom-2 left-0 w-full" 
+                      viewBox="0 0 200 12" 
+                      fill="none"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{ duration: 1, delay: 0.8 }}
+                    >
+                      <motion.path 
+                        d="M2 10C50 2 150 2 198 10" 
+                        stroke="hsl(var(--primary))" 
+                        strokeWidth="4" 
+                        strokeLinecap="round" 
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 1.2, delay: 0.8 }}
+                      />
+                    </motion.svg>
+                  </span>
+                </motion.h1>
 
                 {/* Subtitle */}
-                <AnimatedSection delay={0.2}>
-                  <p className="text-xl md:text-2xl text-muted-foreground font-medium">
-                    Learn Digital Marketing & AI Skills with Practical, Career-Focused Training
-                  </p>
-                </AnimatedSection>
+                <motion.p 
+                  className="text-xl md:text-2xl text-muted-foreground font-medium"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  Learn Digital Marketing & AI Skills with Practical, Career-Focused Training
+                </motion.p>
 
                 {/* Description */}
-                <AnimatedSection delay={0.3}>
-                  <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-                    Digital Marketing Academy is a professional training center in Ahmedabad dedicated to delivering in-depth, practical, and industry-oriented education in Digital Marketing and AI-based creative technologies. We strongly believe that practical knowledge creates confidence and career success.
-                  </p>
-                </AnimatedSection>
+                <motion.p 
+                  className="text-base text-muted-foreground leading-relaxed max-w-xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                >
+                  Digital Marketing Academy is a professional training center in Ahmedabad dedicated to delivering in-depth, practical, and industry-oriented education in Digital Marketing and AI-based creative technologies.
+                </motion.p>
 
-                {/* Quick Info */}
-                <AnimatedSection delay={0.4}>
-                  <div className="flex flex-wrap gap-4">
-                    <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border">
-                      <Clock className="w-4 h-4 text-primary" />
-                      <span className="text-sm font-medium">6 Months</span>
-                    </div>
-                    <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border">
-                      <IndianRupee className="w-4 h-4 text-green-500" />
-                      <span className="text-sm font-medium">₹25,000/Month</span>
-                    </div>
-                    <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border">
-                      <BookOpen className="w-4 h-4 text-purple-500" />
-                      <span className="text-sm font-medium">Live Projects</span>
-                    </div>
-                  </div>
-                </AnimatedSection>
+                {/* Quick Info Pills */}
+                <motion.div 
+                  className="flex flex-wrap gap-3"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  {[
+                    { icon: Clock, text: "6 Months", color: "text-primary" },
+                    { icon: IndianRupee, text: "₹25,000/Month", color: "text-green-500" },
+                    { icon: BookOpen, text: "Live Projects", color: "text-purple-500" },
+                  ].map((item, index) => (
+                    <motion.div
+                      key={item.text}
+                      className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border hover:border-primary/50 transition-colors cursor-default"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.5 + index * 0.1 }}
+                    >
+                      <item.icon className={`w-4 h-4 ${item.color}`} />
+                      <span className="text-sm font-medium">{item.text}</span>
+                    </motion.div>
+                  ))}
+                </motion.div>
 
                 {/* CTA Buttons */}
-                <AnimatedSection delay={0.5}>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Button variant="hero" size="lg" className="group text-base px-8" asChild>
-                      <Link to="/contact?interest=academy">
+                <motion.div 
+                  className="flex flex-col sm:flex-row gap-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                >
+                  <Button variant="hero" size="lg" className="group text-base px-8" asChild>
+                    <Link to="/contact?interest=academy">
+                      <span className="flex items-center">
                         Enroll Now
                         <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Link>
-                    </Button>
-                    <Button variant="outline" size="lg" className="group text-base" asChild>
-                      <a href="tel:+919824011921">
-                        <Phone className="w-5 h-5 mr-2" />
-                        Call: +91 98240 11921
-                      </a>
-                    </Button>
-                  </div>
-                </AnimatedSection>
+                      </span>
+                    </Link>
+                  </Button>
+                  <Button variant="outline" size="lg" className="group text-base" asChild>
+                    <a href="tel:+919824011921">
+                      <Phone className="w-5 h-5 mr-2" />
+                      Call: +91 98240 11921
+                    </a>
+                  </Button>
+                </motion.div>
               </div>
 
-              {/* Course Details Cards */}
-              <AnimatedSection delay={0.3} direction="right">
-                <div className="grid grid-cols-2 gap-4">
-                  {courseDetails.map((detail, index) => (
-                    <div
-                      key={index}
-                      className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 group"
+              {/* Course Details Cards - Right Side */}
+              <motion.div 
+                className="grid grid-cols-2 gap-4"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                {courseDetails.map((detail, index) => (
+                  <motion.div
+                    key={index}
+                    className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 transition-all duration-300 group relative overflow-hidden"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 + index * 0.1 }}
+                    whileHover={{ y: -5, scale: 1.02 }}
+                  >
+                    {/* Hover gradient */}
+                    <motion.div 
+                      className={`absolute inset-0 bg-gradient-to-br ${detail.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                    />
+                    
+                    <motion.div 
+                      className={`w-14 h-14 bg-gradient-to-br ${detail.color} rounded-xl flex items-center justify-center mb-4 relative`}
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <div className={`w-14 h-14 bg-gradient-to-br ${detail.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                        <detail.icon className="w-7 h-7 text-white" />
-                      </div>
-                      <div className="text-sm text-muted-foreground mb-1">{detail.label}</div>
-                      <div className="text-lg font-bold text-foreground">{detail.value}</div>
+                      <detail.icon className="w-7 h-7 text-white relative z-10" />
+                      <motion.div 
+                        className="absolute inset-0 rounded-xl bg-white/20"
+                        animate={{ opacity: [0, 0.3, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                      />
+                    </motion.div>
+                    <div className="text-sm text-muted-foreground mb-1">{detail.label}</div>
+                    <div className="text-lg font-bold text-foreground">{detail.value}</div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* Stats Section */}
+        <section className="py-16 bg-gradient-primary relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <motion.div 
+              className="absolute top-0 left-0 w-64 h-64 bg-primary-foreground/20 rounded-full blur-3xl"
+              animate={{ x: [-20, 20, -20] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </div>
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {stats.map((stat, index) => (
+                <AnimatedSection key={stat.label} delay={0.1 * index}>
+                  <motion.div 
+                    className="text-center p-6 rounded-2xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/10"
+                    whileHover={{ y: -5, scale: 1.02 }}
+                  >
+                    <div className="text-4xl md:text-5xl font-bold text-primary-foreground mb-2">
+                      <CountUp end={stat.value} suffix={stat.suffix} duration={2} />
                     </div>
-                  ))}
-                </div>
-              </AnimatedSection>
+                    <div className="text-primary-foreground/70 font-medium">{stat.label}</div>
+                  </motion.div>
+                </AnimatedSection>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Why Choose Us Section */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20 bg-muted/30 relative overflow-hidden">
+          <motion.div 
+            className="absolute top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 8, repeat: Infinity }}
+          />
+          
           <div className="container mx-auto px-4">
             <AnimatedSection className="text-center mb-16">
-              <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
+              <motion.span 
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4"
+                whileHover={{ scale: 1.05 }}
+              >
+                <Zap className="w-4 h-4" />
                 Why Choose Us
-              </span>
+              </motion.span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                 Why Choose <span className="text-gradient">Digital Marketing Academy?</span>
               </h2>
@@ -460,10 +615,26 @@ const DigitalMarketingAcademy = () => {
               {benefits.map((benefit, index) => (
                 <AnimatedSection key={index} delay={index * 0.05}>
                   <Link to={`/digital-marketing-academy/benefit/${benefit.slug}`}>
-                    <div className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 h-full group cursor-pointer">
-                      <div className={`w-14 h-14 bg-gradient-to-br ${benefit.gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                    <motion.div 
+                      className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 transition-all duration-300 h-full group cursor-pointer relative overflow-hidden"
+                      whileHover={{ y: -8 }}
+                    >
+                      {/* Hover effect */}
+                      <motion.div 
+                        className={`absolute inset-0 bg-gradient-to-br ${benefit.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                      />
+                      
+                      <motion.div 
+                        className={`w-14 h-14 bg-gradient-to-br ${benefit.gradient} rounded-xl flex items-center justify-center mb-4 relative`}
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                      >
                         <benefit.icon className="w-7 h-7 text-white" />
-                      </div>
+                        <motion.div 
+                          className="absolute inset-0 rounded-xl bg-white/20"
+                          animate={{ opacity: [0, 0.4, 0] }}
+                          transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
+                        />
+                      </motion.div>
                       <div className="flex items-start gap-2 mb-2">
                         <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                         <h3 className="text-foreground font-bold">{benefit.text}</h3>
@@ -472,7 +643,15 @@ const DigitalMarketingAcademy = () => {
                       <div className="mt-4 flex items-center text-primary text-sm font-medium group-hover:gap-2 transition-all">
                         Learn More <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                       </div>
-                    </div>
+                      
+                      {/* Bottom accent */}
+                      <motion.div 
+                        className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r ${benefit.gradient}`}
+                        initial={{ width: 0 }}
+                        whileHover={{ width: "100%" }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </motion.div>
                   </Link>
                 </AnimatedSection>
               ))}
@@ -481,12 +660,21 @@ const DigitalMarketingAcademy = () => {
         </section>
 
         {/* Digital Marketing Curriculum */}
-        <section className="py-20 bg-background">
-          <div className="container mx-auto px-4">
+        <section className="py-20 bg-background relative overflow-hidden">
+          <div className="absolute inset-0 opacity-[0.02]" style={{
+            backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)",
+            backgroundSize: "30px 30px"
+          }} />
+          
+          <div className="container mx-auto px-4 relative z-10">
             <AnimatedSection className="text-center mb-16">
-              <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold mb-4">
+              <motion.span 
+                className="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold mb-4"
+                whileHover={{ scale: 1.05 }}
+              >
+                <BookOpen className="w-4 h-4" />
                 Complete Curriculum
-              </span>
+              </motion.span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                 Digital Marketing <span className="text-gradient">Syllabus</span>
               </h2>
@@ -494,11 +682,13 @@ const DigitalMarketingAcademy = () => {
                 In-depth training covering all aspects of digital marketing from fundamentals to advanced strategies
               </p>
               <Link to="/digital-marketing-syllabus">
-                <Button size="lg" className="gap-2">
-                  <BookOpen className="w-5 h-5" />
-                  View Complete 6-Month Syllabus
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                  <Button size="lg" className="gap-2">
+                    <BookOpen className="w-5 h-5" />
+                    View Complete 6-Month Syllabus
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </motion.div>
               </Link>
             </AnimatedSection>
 
@@ -506,29 +696,53 @@ const DigitalMarketingAcademy = () => {
               {digitalMarketingCurriculum.map((module, index) => (
                 <AnimatedSection key={index} delay={index * 0.05}>
                   <Link to={`/digital-marketing-academy/module/${module.slug}`}>
-                    <div className="bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 h-full group cursor-pointer">
-                      <div className={`bg-gradient-to-r ${module.color} p-4`}>
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <motion.div 
+                      className="bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 h-full group cursor-pointer"
+                      whileHover={{ y: -8 }}
+                    >
+                      <div className={`bg-gradient-to-r ${module.color} p-4 relative overflow-hidden`}>
+                        {/* Animated pattern */}
+                        <motion.div 
+                          className="absolute inset-0 opacity-20"
+                          style={{
+                            backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
+                            backgroundSize: "15px 15px"
+                          }}
+                          animate={{ x: [0, 15, 0] }}
+                          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                        />
+                        
+                        <div className="flex items-center gap-3 relative z-10">
+                          <motion.div 
+                            className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center"
+                            whileHover={{ scale: 1.1, rotate: 10 }}
+                          >
                             <module.icon className="w-6 h-6 text-white" />
-                          </div>
+                          </motion.div>
                           <h3 className="text-lg font-bold text-white">{module.title}</h3>
                         </div>
                       </div>
                       <div className="p-5">
                         <ul className="space-y-2">
-                          {module.topics.map((topic, topicIndex) => (
-                            <li key={topicIndex} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          {module.topics.slice(0, 4).map((topic, topicIndex) => (
+                            <motion.li 
+                              key={topicIndex} 
+                              className="flex items-start gap-2 text-sm text-muted-foreground"
+                              initial={{ opacity: 0, x: -10 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: topicIndex * 0.05 }}
+                            >
                               <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                               {topic}
-                            </li>
+                            </motion.li>
                           ))}
                         </ul>
                         <div className="mt-4 flex items-center text-primary text-sm font-medium group-hover:gap-2 transition-all">
                           Explore Module <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   </Link>
                 </AnimatedSection>
               ))}
@@ -537,13 +751,25 @@ const DigitalMarketingAcademy = () => {
         </section>
 
         {/* AI Skills Curriculum */}
-        <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-accent/10">
-          <div className="container mx-auto px-4">
+        <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-accent/10 relative overflow-hidden">
+          <motion.div 
+            className="absolute top-1/2 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
+            animate={{ 
+              scale: [1, 1.3, 1],
+              rotate: [0, 180, 360]
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          />
+          
+          <div className="container mx-auto px-4 relative z-10">
             <AnimatedSection className="text-center mb-16">
-              <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
-                <Brain className="w-4 h-4 inline mr-2" />
+              <motion.span 
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4"
+                whileHover={{ scale: 1.05 }}
+              >
+                <Brain className="w-4 h-4" />
                 AI-Powered Skills
-              </span>
+              </motion.span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                 Advanced AI-Based <span className="text-gradient">Creative Skills</span>
               </h2>
@@ -556,20 +782,61 @@ const DigitalMarketingAcademy = () => {
               {aiSkillsCurriculum.map((module, index) => (
                 <AnimatedSection key={index} delay={index * 0.1}>
                   <Link to={`/digital-marketing-academy/${module.slug}`} className="block h-full">
-                    <div className="bg-card rounded-3xl overflow-hidden border-2 border-border hover:border-primary/50 hover:shadow-2xl transition-all duration-300 h-full group cursor-pointer">
-                      <div className={`bg-gradient-to-br ${module.color} p-6 text-center`}>
-                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <motion.div 
+                      className="bg-card rounded-3xl overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-300 h-full group cursor-pointer relative"
+                      whileHover={{ y: -10, scale: 1.02 }}
+                    >
+                      {/* Glow effect on hover */}
+                      <motion.div 
+                        className={`absolute -inset-1 bg-gradient-to-br ${module.color} rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`}
+                      />
+                      
+                      <div className={`bg-gradient-to-br ${module.color} p-6 text-center relative overflow-hidden`}>
+                        {/* Animated sparkles */}
+                        {[...Array(3)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            className="absolute"
+                            style={{ 
+                              left: `${20 + i * 30}%`, 
+                              top: `${20 + i * 20}%` 
+                            }}
+                            animate={{ 
+                              opacity: [0, 1, 0],
+                              scale: [0.5, 1, 0.5]
+                            }}
+                            transition={{ 
+                              duration: 2, 
+                              repeat: Infinity, 
+                              delay: i * 0.5 
+                            }}
+                          >
+                            <Sparkles className="w-4 h-4 text-white/50" />
+                          </motion.div>
+                        ))}
+                        
+                        <motion.div 
+                          className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 relative z-10"
+                          whileHover={{ scale: 1.1, rotate: 10 }}
+                        >
                           <module.icon className="w-8 h-8 text-white" />
-                        </div>
-                        <h3 className="text-xl font-bold text-white">{module.title}</h3>
+                        </motion.div>
+                        <h3 className="text-xl font-bold text-white relative z-10">{module.title}</h3>
                       </div>
-                      <div className="p-6">
+                      <div className="p-6 relative">
                         <ul className="space-y-3">
                           {module.topics.map((topic, topicIndex) => (
-                            <li key={topicIndex} className="flex items-start gap-3 text-sm">
+                            <motion.li 
+                              key={topicIndex} 
+                              className="flex items-start gap-3 text-sm"
+                              initial={{ opacity: 0, x: -10 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: topicIndex * 0.1 }}
+                            >
                               <Sparkles className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                               <span className="text-muted-foreground">{topic}</span>
-                            </li>
+                            </motion.li>
                           ))}
                         </ul>
                         <div className="mt-4 flex items-center justify-center gap-2 text-primary font-medium">
@@ -577,7 +844,7 @@ const DigitalMarketingAcademy = () => {
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   </Link>
                 </AnimatedSection>
               ))}
@@ -586,12 +853,16 @@ const DigitalMarketingAcademy = () => {
         </section>
 
         {/* Practical Projects */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20 bg-muted/30 relative overflow-hidden">
           <div className="container mx-auto px-4">
             <AnimatedSection className="text-center mb-16">
-              <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold mb-4">
+              <motion.span 
+                className="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold mb-4"
+                whileHover={{ scale: 1.05 }}
+              >
+                <Target className="w-4 h-4" />
                 Hands-On Learning
-              </span>
+              </motion.span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                 Practical Training & <span className="text-gradient">Live Projects</span>
               </h2>
@@ -603,11 +874,21 @@ const DigitalMarketingAcademy = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {practicalProjects.map((project, index) => (
                 <AnimatedSection key={index} delay={index * 0.1}>
-                  <div className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 group">
-                    <div className="flex items-center gap-4">
-                      <div className={`w-14 h-14 ${project.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                  <motion.div 
+                    className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 transition-all duration-300 group relative overflow-hidden"
+                    whileHover={{ y: -5 }}
+                  >
+                    <motion.div 
+                      className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                    />
+                    
+                    <div className="flex items-center gap-4 relative">
+                      <motion.div 
+                        className={`w-14 h-14 bg-gradient-to-br ${project.color} rounded-xl flex items-center justify-center`}
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                      >
                         <project.icon className="w-7 h-7 text-white" />
-                      </div>
+                      </motion.div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
                           <CheckCircle2 className="w-5 h-5 text-green-500" />
@@ -615,7 +896,7 @@ const DigitalMarketingAcademy = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 </AnimatedSection>
               ))}
             </div>
@@ -623,12 +904,16 @@ const DigitalMarketingAcademy = () => {
         </section>
 
         {/* Career Opportunities */}
-        <section className="py-20 bg-background">
+        <section className="py-20 bg-background relative overflow-hidden">
           <div className="container mx-auto px-4">
             <AnimatedSection className="text-center mb-16">
-              <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
+              <motion.span 
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4"
+                whileHover={{ scale: 1.05 }}
+              >
+                <Rocket className="w-4 h-4" />
                 Career Paths
-              </span>
+              </motion.span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                 Career Opportunities <span className="text-gradient">After Course</span>
               </h2>
@@ -640,12 +925,27 @@ const DigitalMarketingAcademy = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
               {careerOpportunities.map((career, index) => (
                 <AnimatedSection key={index} delay={index * 0.05}>
-                  <div className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 text-center group h-full">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${career.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform`}>
+                  <motion.div 
+                    className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 transition-all duration-300 text-center group h-full relative overflow-hidden"
+                    whileHover={{ y: -8, scale: 1.02 }}
+                  >
+                    <motion.div 
+                      className={`absolute inset-0 bg-gradient-to-br ${career.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                    />
+                    
+                    <motion.div 
+                      className={`w-16 h-16 bg-gradient-to-br ${career.color} rounded-2xl flex items-center justify-center mx-auto mb-4 relative`}
+                      whileHover={{ scale: 1.1, rotate: 10 }}
+                    >
                       <career.icon className="w-8 h-8 text-white" />
-                    </div>
+                      <motion.div 
+                        className="absolute inset-0 rounded-2xl bg-white/20"
+                        animate={{ opacity: [0, 0.4, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
+                      />
+                    </motion.div>
                     <h3 className="font-bold text-foreground">{career.title}</h3>
-                  </div>
+                  </motion.div>
                 </AnimatedSection>
               ))}
             </div>
@@ -653,59 +953,102 @@ const DigitalMarketingAcademy = () => {
         </section>
 
         {/* Certifications & Career Support */}
-        <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-accent/10">
+        <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-accent/10 relative overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
               {/* Certifications */}
               <AnimatedSection direction="left">
-                <div className="bg-card rounded-3xl p-8 border border-border h-full">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center">
+                <motion.div 
+                  className="bg-card rounded-3xl p-8 border border-border h-full relative overflow-hidden"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <motion.div 
+                    className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl"
+                    animate={{ scale: [1, 1.3, 1] }}
+                    transition={{ duration: 4, repeat: Infinity }}
+                  />
+                  
+                  <div className="flex items-center gap-3 mb-6 relative">
+                    <motion.div 
+                      className="w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl flex items-center justify-center"
+                      whileHover={{ rotate: 10 }}
+                    >
                       <Award className="w-7 h-7 text-white" />
-                    </div>
+                    </motion.div>
                     <h3 className="text-2xl font-bold">Certifications</h3>
                   </div>
-                  <ul className="space-y-4">
+                  <ul className="space-y-4 relative">
                     {certifications.map((cert, index) => (
-                      <li key={index} className="flex items-start gap-3">
+                      <motion.li 
+                        key={index} 
+                        className="flex items-start gap-3"
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                      >
                         <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
                         <span className="text-muted-foreground">{cert}</span>
-                      </li>
+                      </motion.li>
                     ))}
                   </ul>
-                </div>
+                </motion.div>
               </AnimatedSection>
 
               {/* Career Support */}
               <AnimatedSection direction="right">
-                <div className="bg-card rounded-3xl p-8 border border-border h-full">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
+                <motion.div 
+                  className="bg-card rounded-3xl p-8 border border-border h-full relative overflow-hidden"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <motion.div 
+                    className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-2xl"
+                    animate={{ scale: [1, 1.3, 1] }}
+                    transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+                  />
+                  
+                  <div className="flex items-center gap-3 mb-6 relative">
+                    <motion.div 
+                      className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center"
+                      whileHover={{ rotate: 10 }}
+                    >
                       <HeartHandshake className="w-7 h-7 text-white" />
-                    </div>
+                    </motion.div>
                     <h3 className="text-2xl font-bold">Career Support</h3>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4 relative">
                     {careerSupport.map((support, index) => (
-                      <div key={index} className="flex items-center gap-3 p-3 bg-muted/50 rounded-xl">
+                      <motion.div 
+                        key={index} 
+                        className="flex items-center gap-3 p-3 bg-muted/50 rounded-xl hover:bg-muted transition-colors"
+                        whileHover={{ scale: 1.05, x: 5 }}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                      >
                         <support.icon className="w-5 h-5 text-primary" />
                         <span className="text-sm font-medium">{support.text}</span>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               </AnimatedSection>
             </div>
           </div>
         </section>
 
         {/* Who Can Join */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20 bg-muted/30 relative overflow-hidden">
           <div className="container mx-auto px-4">
             <AnimatedSection className="text-center mb-16">
-              <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold mb-4">
+              <motion.span 
+                className="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold mb-4"
+                whileHover={{ scale: 1.05 }}
+              >
+                <Users className="w-4 h-4" />
                 Open for All
-              </span>
+              </motion.span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                 Who Can Join <span className="text-gradient">Digital Marketing Academy?</span>
               </h2>
@@ -717,13 +1060,23 @@ const DigitalMarketingAcademy = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {targetAudience.map((audience, index) => (
                 <AnimatedSection key={index} delay={index * 0.1}>
-                  <div className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 group text-center">
-                    <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                  <motion.div 
+                    className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 transition-all duration-300 group text-center relative overflow-hidden"
+                    whileHover={{ y: -8 }}
+                  >
+                    <motion.div 
+                      className="absolute inset-0 bg-gradient-to-br from-primary to-accent opacity-0 group-hover:opacity-5 transition-opacity duration-500"
+                    />
+                    
+                    <motion.div 
+                      className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mx-auto mb-4 relative"
+                      whileHover={{ scale: 1.1, rotate: 10 }}
+                    >
                       <audience.icon className="w-8 h-8 text-white" />
-                    </div>
+                    </motion.div>
                     <h3 className="font-bold text-lg text-foreground mb-2">{audience.title}</h3>
                     <p className="text-sm text-muted-foreground">{audience.desc}</p>
-                  </div>
+                  </motion.div>
                 </AnimatedSection>
               ))}
             </div>
@@ -733,63 +1086,121 @@ const DigitalMarketingAcademy = () => {
         {/* Enrollment CTA */}
         <section className="py-20 bg-gradient-to-br from-primary via-primary/90 to-accent relative overflow-hidden">
           {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/10 rounded-full blur-3xl" />
+          <motion.div 
+            className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
+            transition={{ duration: 6, repeat: Infinity }}
+          />
+          <motion.div 
+            className="absolute bottom-0 left-0 w-72 h-72 bg-white/10 rounded-full blur-3xl"
+            animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.1, 0.2] }}
+            transition={{ duration: 6, repeat: Infinity, delay: 1 }}
+          />
+
+          {/* Floating particles */}
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-white/20 rounded-full"
+              style={{
+                left: `${10 + i * 15}%`,
+                top: `${20 + (i % 3) * 25}%`,
+              }}
+              animate={{
+                y: [-20, 20, -20],
+                opacity: [0.2, 0.5, 0.2],
+              }}
+              transition={{
+                duration: 4 + i,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.3,
+              }}
+            />
+          ))}
 
           <div className="container mx-auto px-4 relative z-10">
             <AnimatedSection className="text-center max-w-4xl mx-auto">
-              <GraduationCap className="w-16 h-16 text-white/80 mx-auto mb-6" />
+              <motion.div
+                animate={{ y: [-5, 5, -5] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <GraduationCap className="w-16 h-16 text-white/80 mx-auto mb-6" />
+              </motion.div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
                 Enroll Now – Start Your Digital & AI Career
               </h2>
 
               <div className="grid md:grid-cols-3 gap-6 mb-10">
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-white text-center">
-                  <Clock className="w-8 h-8 mx-auto mb-3 opacity-80" />
-                  <p className="text-sm opacity-80">Duration</p>
-                  <p className="text-xl font-bold">6 Months</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-white text-center">
-                  <Clock className="w-8 h-8 mx-auto mb-3 opacity-80" />
-                  <p className="text-sm opacity-80">Timing</p>
-                  <p className="text-xl font-bold">10 AM – 6:30 PM</p>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-white text-center">
-                  <IndianRupee className="w-8 h-8 mx-auto mb-3 opacity-80" />
-                  <p className="text-sm opacity-80">Fees</p>
-                  <p className="text-xl font-bold">₹25,000/Month</p>
-                </div>
+                {[
+                  { icon: Clock, label: "Duration", value: "6 Months" },
+                  { icon: Clock, label: "Timing", value: "10 AM – 6:30 PM" },
+                  { icon: IndianRupee, label: "Fees", value: "₹25,000/Month" },
+                ].map((item, index) => (
+                  <motion.div 
+                    key={item.label}
+                    className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-white text-center border border-white/10"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
+                  >
+                    <item.icon className="w-8 h-8 mx-auto mb-3 opacity-80" />
+                    <p className="text-sm opacity-80">{item.label}</p>
+                    <p className="text-xl font-bold">{item.value}</p>
+                  </motion.div>
+                ))}
               </div>
 
               <p className="text-xl text-white/80 mb-8">
                 Join Digital Marketing Academy and gain practical digital marketing + AI skills to build a successful, future-ready career.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                <Button size="lg" className="bg-white text-primary hover:bg-white/90 text-lg px-8" asChild>
-                  <Link to="/contact?interest=academy">
-                    Enroll Now
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 text-lg" asChild>
-                  <a href="tel:+919824011921">
-                    <Phone className="w-5 h-5 mr-2" />
-                    +91 98240 11921
-                  </a>
-                </Button>
-              </div>
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-4 justify-center mb-8"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                  <Button size="lg" className="bg-white text-primary hover:bg-white/90 text-lg px-8" asChild>
+                    <Link to="/contact?interest=academy">
+                      Enroll Now
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </Link>
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+                  <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 text-lg" asChild>
+                    <a href="tel:+919824011921">
+                      <Phone className="w-5 h-5 mr-2" />
+                      +91 98240 11921
+                    </a>
+                  </Button>
+                </motion.div>
+              </motion.div>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-white/80">
-                <a href="mailto:info@dibull.com" className="flex items-center gap-2 hover:text-white transition-colors">
+                <motion.a 
+                  href="mailto:info@dibull.com" 
+                  className="flex items-center gap-2 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                >
                   <Mail className="w-5 h-5" />
                   info@dibull.com
-                </a>
+                </motion.a>
                 <span className="hidden sm:inline">•</span>
-                <a href="https://wa.me/919824011921" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white transition-colors">
+                <motion.a 
+                  href="https://wa.me/919824011921" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-2 hover:text-white transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                >
                   <MessageSquare className="w-5 h-5" />
                   WhatsApp Us
-                </a>
+                </motion.a>
               </div>
             </AnimatedSection>
           </div>
