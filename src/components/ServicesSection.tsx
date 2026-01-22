@@ -66,22 +66,22 @@ const ServicesSection = () => {
             <AnimatedSection key={service.id} delay={0.05 * index}>
               <Link
                 to={`/services/${service.slug}`}
-                className="group relative bg-card rounded-2xl p-6 border border-border hover:border-primary/50 transition-all duration-300 h-full flex flex-col overflow-hidden"
+                className="group relative bg-card rounded-2xl p-6 border border-border hover:border-primary/50 transition-all duration-300 h-full flex flex-col"
               >
                 {/* Hover gradient overlay */}
                 <motion.div 
-                  className={`absolute inset-0 bg-gradient-to-br ${serviceColors[index % serviceColors.length]} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                  className={`absolute inset-0 bg-gradient-to-br ${serviceColors[index % serviceColors.length]} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl`}
                 />
 
                 {/* Trending badge for first 3 */}
                 {index < 3 && (
                   <motion.div 
-                    className="absolute -top-2 -right-2 z-10"
+                    className="absolute top-3 right-3 z-10"
                     initial={{ scale: 0, rotate: -20 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ delay: 0.3 + index * 0.1, type: "spring" }}
                   >
-                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold text-white bg-gradient-to-r ${serviceColors[index]}`}>
+                    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold text-white bg-gradient-to-r ${serviceColors[index]} shadow-lg`}>
                       <Flame className="w-3 h-3" />
                       HOT
                     </span>
