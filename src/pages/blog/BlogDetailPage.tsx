@@ -15,6 +15,7 @@ import {
   Calendar, 
   Clock, 
   User,
+  Users,
   BookOpen,
   Tag,
   Facebook,
@@ -371,12 +372,24 @@ const BlogDetailPage = () => {
 
   return (
     <>
-      {/* Reading Progress Bar */}
-      <div className="fixed top-0 left-0 w-full h-1 bg-muted z-50">
+      {/* Reading Progress Bar - Enhanced */}
+      <div className="fixed top-0 left-0 w-full h-1.5 bg-muted/50 z-50 backdrop-blur-sm">
         <div 
-          className="h-full bg-gradient-to-r from-primary via-primary/80 to-primary transition-all duration-150 ease-out"
+          className="h-full bg-gradient-to-r from-primary via-accent to-primary transition-all duration-150 ease-out relative"
           style={{ width: `${readingProgress}%` }}
-        />
+        >
+          {/* Glow effect at the end */}
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-primary rounded-full blur-md animate-pulse" />
+        </div>
+        {/* Progress percentage indicator */}
+        {readingProgress > 5 && readingProgress < 95 && (
+          <div 
+            className="absolute top-3 text-xs font-bold text-primary bg-background/90 backdrop-blur-sm px-2 py-1 rounded-full shadow-lg border border-primary/20 transition-all"
+            style={{ left: `${Math.min(readingProgress, 90)}%`, transform: 'translateX(-50%)' }}
+          >
+            {Math.round(readingProgress)}%
+          </div>
+        )}
       </div>
       <Helmet>
         <title>{post.title} | Digital Bull Blog</title>
@@ -454,60 +467,93 @@ const BlogDetailPage = () => {
       <Navbar />
 
       {/* Light Gray Background for entire page */}
-      <div className="bg-secondary/30 min-h-screen">
-        {/* Hero Section with Gradient */}
-        <section className="relative pt-20 pb-12 bg-gradient-to-br from-secondary via-secondary/50 to-accent/10">
-          {/* Decorative Elements */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
+      <div className="bg-gradient-to-b from-secondary/40 via-secondary/20 to-background min-h-screen">
+        {/* Hero Section - Ultra Premium */}
+        <section className="relative pt-24 pb-16 overflow-hidden">
+          {/* Decorative Background Elements */}
+          <div className="absolute inset-0 bg-gradient-to-br from-secondary via-secondary/50 to-accent/10" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-3xl" />
+          <div className="absolute inset-0 opacity-30" style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--primary)/0.05) 1px, transparent 0)`,
+            backgroundSize: '32px 32px'
+          }} />
           
           <div className="container px-4 relative z-10">
-            {/* Back Button */}
-            <Link 
-              to="/blog" 
-              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium mb-8 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Blog
-            </Link>
+            {/* Breadcrumb */}
+            <nav className="flex items-center gap-2 text-sm mb-8">
+              <Link 
+                to="/" 
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                Home
+              </Link>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+              <Link 
+                to="/blog" 
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                Blog
+              </Link>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+              <span className="text-primary font-medium truncate max-w-[200px]">{post.category}</span>
+            </nav>
             
             <AnimatedSection direction="up">
               <div className="max-w-4xl">
-                {/* Category Badge */}
-                <Badge className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-1.5 mb-6 text-sm font-medium">
-                  {post.category}
-                </Badge>
+                {/* Category Badge with Icon */}
+                <div className="flex items-center gap-3 mb-6">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getCategoryGradient(post.category)} flex items-center justify-center shadow-lg`}>
+                    {(() => {
+                      const IconComponent = getCategoryIcon(post.category);
+                      return <IconComponent className="w-6 h-6 text-white" />;
+                    })()}
+                  </div>
+                  <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-0 px-4 py-2 text-sm font-semibold">
+                    {post.category}
+                  </Badge>
+                </div>
                 
-                {/* Main Title - Large, Bold, Dark Blue */}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
+                {/* Main Title - Large, Bold */}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-[1.1] tracking-tight">
                   {post.title}
                 </h1>
                 
                 {/* Intro Description */}
-                <p className="text-xl text-muted-foreground leading-relaxed mb-8 max-w-3xl">
+                <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mb-10 max-w-3xl">
                   {post.metaDescription}
                 </p>
                 
-                {/* Meta Info */}
-                <div className="flex flex-wrap items-center gap-6 text-muted-foreground">
-                  <span className="flex items-center gap-2">
+                {/* Enhanced Meta Info Bar */}
+                <div className="flex flex-wrap items-center gap-4">
+                  <div className="flex items-center gap-3 bg-card/80 backdrop-blur-sm rounded-full px-5 py-3 shadow-md border border-border/50">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                      <User className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <span className="block text-sm font-semibold text-foreground">{post.author}</span>
+                      <span className="text-xs text-muted-foreground">Expert Team</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm rounded-full px-4 py-3 shadow-md border border-border/50">
                     <Calendar className="w-5 h-5 text-primary" />
-                    {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <Clock className="w-5 h-5 text-primary" />
-                    {post.readTime}
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <User className="w-5 h-5 text-primary" />
-                    {post.author}
-                  </span>
-                  {/* Dynamic remaining time */}
-                  {readingProgress > 0 && readingProgress < 100 && (
-                    <span className="flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full text-primary font-medium text-sm">
-                      <Clock className="w-4 h-4" />
-                      {remainingReadTime}
+                    <span className="text-sm font-medium">
+                      {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                     </span>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm rounded-full px-4 py-3 shadow-md border border-border/50">
+                    <Clock className="w-5 h-5 text-primary" />
+                    <span className="text-sm font-medium">{post.readTime}</span>
+                  </div>
+                  
+                  {/* Dynamic remaining time - Enhanced */}
+                  {readingProgress > 0 && readingProgress < 100 && (
+                    <div className="flex items-center gap-2 bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-sm rounded-full px-4 py-3 shadow-md border border-primary/20 animate-pulse">
+                      <Zap className="w-5 h-5 text-primary" />
+                      <span className="text-sm font-bold text-primary">{remainingReadTime}</span>
+                    </div>
                   )}
                 </div>
               </div>
@@ -518,62 +564,73 @@ const BlogDetailPage = () => {
         {/* Main Content Area */}
         <section className="py-12">
           <div className="container px-4">
-            <div className="grid lg:grid-cols-[1fr_360px] gap-8 max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-[1fr_380px] gap-10 max-w-7xl mx-auto">
               
               {/* Main Content - Card-Based Layout */}
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <AnimatedSection direction="up">
-                  {/* Hero Graphic Card - Replaces Featured Image */}
-                  <Card className={`overflow-hidden border-0 shadow-lg rounded-2xl bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
-                    <div className="relative h-64 md:h-80">
-                      {/* Pattern Overlay */}
-                      <div 
-                        className="absolute inset-0 opacity-10 text-white"
-                        style={getPatternStyle(0)}
-                      />
-                      
-                      {/* Floating Decorative Elements */}
-                      <div className="absolute top-8 right-8 w-32 h-32 bg-white/10 rounded-full blur-2xl animate-pulse" />
-                      <div className="absolute bottom-8 left-8 w-24 h-24 bg-white/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }} />
-                      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-white/5 rounded-full blur-lg" />
-                      
-                      {/* Main Icon */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-white/20 rounded-full blur-3xl scale-150" />
-                          {(() => {
-                            const IconComponent = getCategoryIcon(post.category);
-                            return <IconComponent className="relative w-24 h-24 md:w-32 md:h-32 text-white drop-shadow-2xl" strokeWidth={1} />;
-                          })()}
+                  {/* Hero Graphic Card - Ultra Premium */}
+                  <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-primary rounded-3xl opacity-50 blur-md group-hover:opacity-75 transition-opacity animate-gradient-x" />
+                    <Card className={`relative overflow-hidden border-0 shadow-2xl rounded-2xl bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
+                      <div className="relative h-72 md:h-96">
+                        {/* Animated Pattern Overlay */}
+                        <div 
+                          className="absolute inset-0 opacity-15 text-white"
+                          style={getPatternStyle(0)}
+                        />
+                        
+                        {/* Animated Floating Elements */}
+                        <div className="absolute top-10 right-10 w-40 h-40 bg-white/15 rounded-full blur-2xl animate-float" />
+                        <div className="absolute bottom-10 left-10 w-32 h-32 bg-white/15 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }} />
+                        <div className="absolute top-1/3 left-1/4 w-20 h-20 bg-white/10 rounded-full blur-lg animate-float" style={{ animationDelay: '2s' }} />
+                        
+                        {/* Main Icon with Enhanced Glow */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="relative group-hover:scale-110 transition-transform duration-700">
+                            <div className="absolute inset-0 bg-white/30 rounded-full blur-3xl scale-[2] animate-pulse" />
+                            <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
+                            {(() => {
+                              const IconComponent = getCategoryIcon(post.category);
+                              return <IconComponent className="relative w-28 h-28 md:w-40 md:h-40 text-white drop-shadow-2xl" strokeWidth={0.8} />;
+                            })()}
+                          </div>
+                        </div>
+                        
+                        {/* Enhanced Stats Bar */}
+                        <div className="absolute bottom-6 left-6 right-6 flex gap-3 flex-wrap">
+                          <div className="bg-white/25 backdrop-blur-md rounded-xl px-5 py-3 flex items-center gap-2 border border-white/20 shadow-lg">
+                            <TrendingUp className="w-5 h-5 text-white" />
+                            <span className="text-white text-sm font-semibold">Expert Analysis</span>
+                          </div>
+                          <div className="bg-white/25 backdrop-blur-md rounded-xl px-5 py-3 flex items-center gap-2 border border-white/20 shadow-lg">
+                            <Clock className="w-5 h-5 text-white" />
+                            <span className="text-white text-sm font-semibold">{post.readTime}</span>
+                          </div>
+                          <div className="bg-white/25 backdrop-blur-md rounded-xl px-5 py-3 flex items-center gap-2 border border-white/20 shadow-lg">
+                            <Award className="w-5 h-5 text-white" />
+                            <span className="text-white text-sm font-semibold">{post.category}</span>
+                          </div>
+                          <div className="bg-white/25 backdrop-blur-md rounded-xl px-5 py-3 flex items-center gap-2 border border-white/20 shadow-lg">
+                            <Users className="w-5 h-5 text-white" />
+                            <span className="text-white text-sm font-semibold">2.5K reads</span>
+                          </div>
+                        </div>
+                        
+                        {/* Decorative Corner Elements */}
+                        <div className="absolute top-6 left-6">
+                          <div className="w-4 h-16 bg-white/30 rounded-full" />
+                          <div className="w-16 h-4 bg-white/30 rounded-full mt-2" />
+                        </div>
+                        <div className="absolute top-6 right-6 flex items-center gap-2">
+                          <Badge className="bg-white/90 text-primary font-bold shadow-lg">
+                            <Sparkles className="w-4 h-4 mr-1" />
+                            Premium
+                          </Badge>
                         </div>
                       </div>
-                      
-                      {/* Stats Infographic Bar */}
-                      <div className="absolute bottom-6 left-6 right-6 flex gap-3 flex-wrap">
-                        <div className="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2.5 flex items-center gap-2">
-                          <TrendingUp className="w-4 h-4 text-white" />
-                          <span className="text-white text-sm font-medium">Expert Insights</span>
-                        </div>
-                        <div className="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2.5 flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-white" />
-                          <span className="text-white text-sm font-medium">{post.readTime}</span>
-                        </div>
-                        <div className="bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2.5 flex items-center gap-2">
-                          <Award className="w-4 h-4 text-white" />
-                          <span className="text-white text-sm font-medium">{post.category}</span>
-                        </div>
-                      </div>
-                      
-                      {/* Decorative Corner Elements */}
-                      <div className="absolute top-6 left-6">
-                        <div className="w-3 h-12 bg-white/30 rounded-full" />
-                        <div className="w-12 h-3 bg-white/30 rounded-full mt-1" />
-                      </div>
-                      <div className="absolute top-6 right-6">
-                        <Zap className="w-8 h-8 text-white/40" />
-                      </div>
-                    </div>
-                  </Card>
+                    </Card>
+                  </div>
                 </AnimatedSection>
 
                 {/* Content Sections as Cards */}
