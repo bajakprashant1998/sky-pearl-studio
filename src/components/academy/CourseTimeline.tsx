@@ -267,8 +267,8 @@ const CourseTimeline = () => {
             </motion.p>
           </div>
 
-          {/* Skills Radar Chart - Sticky Sidebar */}
-          <div className="hidden lg:block lg:w-80 lg:sticky lg:top-28 lg:self-start">
+          {/* Skills Radar Chart - Sidebar */}
+          <div className="hidden lg:block lg:w-80 lg:self-start">
             <SkillsRadarChart scrollProgress={scrollYProgress} />
           </div>
         </div>
