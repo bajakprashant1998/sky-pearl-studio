@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence, MotionValue, useTransform, useMotionValue } from 'framer-motion';
-import { Award, Download, Sparkles, CheckCircle2, Calendar, Globe } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence, MotionValue } from 'framer-motion';
+import { Award, Download, Sparkles, CheckCircle2, Calendar, Globe, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 interface CertificatePreviewProps {
   scrollProgress: MotionValue<number>;
@@ -12,6 +15,8 @@ interface CertificatePreviewProps {
 const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress, isVisible }) => {
   const [userName, setUserName] = useState('');
   const [isHovered, setIsHovered] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const certificateRef = useRef<HTMLDivElement>(null);
 
   const skills = [
     'Search Engine Optimization (SEO)',
@@ -21,6 +26,84 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
     'Content Marketing',
     'Analytics & Reporting',
   ];
+
+  const handleDownloadPDF = async () => {
+    if (!userName.trim()) {
+      toast.error('Please enter your name to generate the certificate');
+      return;
+    }
+
+    if (!certificateRef.current) {
+      toast.error('Unable to generate certificate. Please try again.');
+      return;
+    }
+
+    setIsGenerating(true);
+    toast.loading('Generating your certificate...', { id: 'pdf-generation' });
+
+    try {
+      // Get the certificate element
+      const element = certificateRef.current;
+      
+      // Create a clone for PDF generation to avoid affecting the display
+      const clone = element.cloneNode(true) as HTMLElement;
+      clone.style.position = 'absolute';
+      clone.style.left = '-9999px';
+      clone.style.top = '0';
+      clone.style.width = '900px';
+      clone.style.background = 'white';
+      document.body.appendChild(clone);
+
+      // Wait for images to load
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // Generate canvas from the certificate
+      const canvas = await html2canvas(clone, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+        width: 900,
+        height: clone.offsetHeight,
+      });
+
+      // Remove the clone
+      document.body.removeChild(clone);
+
+      // Calculate PDF dimensions (A4 landscape for certificate)
+      const imgWidth = 297; // A4 landscape width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      // Create PDF
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      // Add image to PDF
+      const imgData = canvas.toDataURL('image/png', 1.0);
+      const pageHeight = 210; // A4 landscape height in mm
+      const yOffset = (pageHeight - imgHeight) / 2; // Center vertically
+
+      pdf.addImage(imgData, 'PNG', 0, Math.max(0, yOffset), imgWidth, imgHeight);
+
+      // Generate filename with user's name
+      const sanitizedName = userName.trim().replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+      const filename = `Digital_Marketing_Certificate_${sanitizedName}.pdf`;
+
+      // Download PDF
+      pdf.save(filename);
+
+      toast.success('Certificate downloaded successfully!', { id: 'pdf-generation' });
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      toast.error('Failed to generate certificate. Please try again.', { id: 'pdf-generation' });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -95,7 +178,11 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
             />
 
             {/* Certificate Container */}
-            <div className="relative bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-2xl border-4 border-blue-500/30 overflow-hidden shadow-2xl">
+            <div 
+              ref={certificateRef}
+              className="relative bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-2xl border-4 border-blue-500/30 overflow-hidden shadow-2xl"
+              style={{ backgroundColor: '#ffffff' }}
+            >
               {/* Geometric Border Pattern - Top */}
               <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 flex items-center justify-center overflow-hidden">
                 <div className="flex gap-1">
@@ -143,7 +230,7 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
               </div>
 
               {/* Certificate Content */}
-              <div className="relative px-8 lg:px-16 py-12 lg:py-16 ml-6 mr-6 mt-6 mb-6">
+              <div className="relative px-8 lg:px-16 py-12 lg:py-16 ml-6 mr-6 mt-6 mb-6 bg-white dark:bg-slate-900">
                 {/* Company Logo & Name */}
                 <div className="text-center mb-6">
                   <div className="flex items-center justify-center gap-3 mb-2">
@@ -151,12 +238,13 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
                       src="/dibull_logo.png" 
                       alt="Digital Bull Logo" 
                       className="w-12 h-12 object-contain"
+                      crossOrigin="anonymous"
                     />
                     <div className="text-left">
-                      <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 tracking-wide">
+                      <h3 className="text-lg font-bold text-blue-600 tracking-wide">
                         DIGITAL BULL
                       </h3>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 tracking-widest">
+                      <p className="text-xs text-slate-500 tracking-widest">
                         TECHNOLOGY PVT. LTD
                       </p>
                     </div>
@@ -168,29 +256,30 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
                   <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent tracking-wider mb-2">
                     CERTIFICATE
                   </h1>
-                  <p className="text-lg text-slate-600 dark:text-slate-300 font-medium">
+                  <p className="text-lg text-slate-600 font-medium">
                     Of Completion Digital Marketing Internship
                   </p>
                 </div>
 
                 {/* Recipient Name */}
                 <div className="text-center mb-6">
-                  <p className="text-slate-500 dark:text-slate-400 mb-2">This is to certify that</p>
+                  <p className="text-slate-500 mb-2">This is to certify that</p>
                   <div className="relative inline-block w-full max-w-md">
                     <Input
                       type="text"
                       value={userName}
                       onChange={(e) => setUserName(e.target.value)}
                       placeholder="Enter Your Name"
-                      className="text-center text-xl font-semibold border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent border-blue-300 focus:border-blue-500 placeholder:text-slate-400"
+                      maxLength={50}
+                      className="text-center text-xl font-semibold border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent border-blue-300 focus:border-blue-500 placeholder:text-slate-400 text-slate-800"
                     />
                   </div>
                 </div>
 
                 {/* Certificate Body */}
                 <div className="text-center mb-8">
-                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto">
-                    has successfully completed the <span className="font-semibold text-blue-600 dark:text-blue-400">Six-month Digital Marketing Internship</span> at 
+                  <p className="text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                    has successfully completed the <span className="font-semibold text-blue-600">Six-month Digital Marketing Internship</span> at 
                     Digital Bull Technology Pvt. Ltd, demonstrating proficiency in key areas of digital marketing including:
                   </p>
                 </div>
@@ -203,7 +292,7 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.5 + index * 0.1 }}
-                      className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300"
+                      className="flex items-center gap-2 text-sm text-slate-600"
                     >
                       <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
                       <span className="truncate">{skill}</span>
@@ -216,8 +305,8 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
                   {/* Director Signature */}
                   <div className="text-center">
                     <div className="w-32 h-0.5 bg-slate-300 mb-2" />
-                    <p className="font-semibold text-slate-700 dark:text-slate-200">KRUNAL JANI</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">DIRECTOR</p>
+                    <p className="font-semibold text-slate-700">KRUNAL JANI</p>
+                    <p className="text-xs text-slate-500">DIRECTOR</p>
                   </div>
 
                   {/* Award Medal */}
@@ -248,17 +337,17 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
                   {/* Manager Signature */}
                   <div className="text-center">
                     <div className="w-32 h-0.5 bg-slate-300 mb-2" />
-                    <p className="font-semibold text-slate-700 dark:text-slate-200">MANAGER</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">OPERATIONS</p>
+                    <p className="font-semibold text-slate-700">MANAGER</p>
+                    <p className="text-xs text-slate-500">OPERATIONS</p>
                   </div>
                 </div>
 
                 {/* Footer */}
-                <div className="text-center pt-4 border-t border-slate-200 dark:border-slate-700">
-                  <div className="flex items-center justify-center gap-6 text-xs text-slate-500 dark:text-slate-400">
+                <div className="text-center pt-4 border-t border-slate-200">
+                  <div className="flex items-center justify-center gap-6 text-xs text-slate-500">
                     <div className="flex items-center gap-1.5">
                       <Calendar className="w-3.5 h-3.5" />
-                      <span>Issue Date: Upon Completion</span>
+                      <span>Issue Date: {new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <Globe className="w-3.5 h-3.5" />
@@ -270,7 +359,7 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
             </div>
           </motion.div>
 
-          {/* CTA Button */}
+          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -288,13 +377,33 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
             <Button
               size="lg"
               variant="outline"
-              className="border-blue-500/50 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50"
-              disabled
+              className="border-blue-500/50 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50 min-w-[200px]"
+              onClick={handleDownloadPDF}
+              disabled={isGenerating}
             >
-              <Download className="w-5 h-5 mr-2" />
-              Download Preview (Coming Soon)
+              {isGenerating ? (
+                <>
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Download className="w-5 h-5 mr-2" />
+                  Download Preview
+                </>
+              )}
             </Button>
           </motion.div>
+
+          {/* Helper Text */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="text-center text-sm text-muted-foreground mt-4"
+          >
+            Enter your name above to personalize and download your certificate preview
+          </motion.p>
         </motion.div>
       )}
     </AnimatePresence>
