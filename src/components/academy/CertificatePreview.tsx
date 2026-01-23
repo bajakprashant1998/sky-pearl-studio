@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { Link } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 
 interface CertificatePreviewProps {
   scrollProgress: MotionValue<number>;
@@ -27,6 +28,38 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
     'Content Marketing',
     'Analytics & Reporting',
   ];
+
+  const triggerConfetti = () => {
+    // First burst - center
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#3B82F6', '#06B6D4', '#8B5CF6', '#F59E0B', '#10B981'],
+    });
+
+    // Second burst - left
+    setTimeout(() => {
+      confetti({
+        particleCount: 50,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: ['#3B82F6', '#06B6D4', '#8B5CF6'],
+      });
+    }, 150);
+
+    // Third burst - right
+    setTimeout(() => {
+      confetti({
+        particleCount: 50,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: ['#F59E0B', '#10B981', '#EC4899'],
+      });
+    }, 300);
+  };
 
   const handleDownloadPDF = async () => {
     if (!userName.trim()) {
@@ -371,6 +404,7 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
               size="lg"
               className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-lg shadow-blue-500/25"
               asChild
+              onClick={triggerConfetti}
             >
               <Link to="/contact?interest=academy">
                 <Award className="w-5 h-5 mr-2" />
