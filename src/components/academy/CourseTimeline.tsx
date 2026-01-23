@@ -1,24 +1,19 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
   Globe,
-  Laptop,
   Search,
-  FileText,
   Share2,
   MousePointerClick,
-  MessageSquare,
-  BarChart3,
   Brain,
-  Palette,
-  Film,
   CheckCircle2,
   ChevronDown,
   Award,
   Clock,
   Zap,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import SkillsRadarChart from "./SkillsRadarChart";
+import CertificatePreview from "./CertificatePreview";
 
 interface TimelineMonth {
   month: string;
@@ -133,12 +128,26 @@ const timelineData: TimelineMonth[] = [
 
 const CourseTimeline = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const [expandedMonth, setExpandedMonth] = useState<string | null>(null);
+  const [showCertificate, setShowCertificate] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"],
   });
+
+  const { scrollYProgress: sectionProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  useEffect(() => {
+    const unsubscribe = sectionProgress.on("change", (progress) => {
+      setShowCertificate(progress > 0.85);
+    });
+    return () => unsubscribe();
+  }, [sectionProgress]);
 
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
@@ -147,7 +156,7 @@ const CourseTimeline = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-background via-primary/5 to-background relative overflow-hidden">
+    <section ref={sectionRef} className="py-20 bg-gradient-to-b from-background via-primary/5 to-background relative overflow-hidden">
       {/* Background decorations */}
       <motion.div
         className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
@@ -192,69 +201,88 @@ const CourseTimeline = () => {
           />
         </div>
 
-        {/* Timeline Container */}
-        <div ref={containerRef} className="relative max-w-5xl mx-auto">
-          {/* Central Timeline Line - Desktop */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-border hidden lg:block transform -translate-x-1/2">
-            <motion.div
-              className="w-full bg-gradient-to-b from-primary via-accent to-primary rounded-full"
-              style={{ height: lineHeight }}
-            />
-          </div>
-
-          {/* Central Timeline Line - Mobile */}
-          <div className="absolute left-6 top-0 bottom-0 w-1 bg-border lg:hidden">
-            <motion.div
-              className="w-full bg-gradient-to-b from-primary via-accent to-primary rounded-full"
-              style={{ height: lineHeight }}
-            />
-          </div>
-
-          {/* Timeline Items */}
-          <div className="space-y-12 lg:space-y-24">
-            {timelineData.map((item, index) => (
-              <TimelineItem
-                key={item.month}
-                item={item}
-                index={index}
-                isExpanded={expandedMonth === item.month}
-                onToggle={() => toggleExpand(item.month)}
-              />
-            ))}
-          </div>
-
-          {/* Completion Node */}
-          <motion.div
-            className="flex justify-center mt-16"
-            initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, type: "spring" }}
-          >
-            <div className="relative">
+        {/* Main Layout: Timeline + Radar Chart */}
+        <div className="lg:flex lg:gap-8 lg:items-start">
+          {/* Timeline Container */}
+          <div ref={containerRef} className="relative lg:flex-1">
+            {/* Central Timeline Line - Desktop */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-border hidden lg:block transform -translate-x-1/2">
               <motion.div
-                className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/30"
-                animate={{ boxShadow: ["0 0 20px hsl(var(--primary) / 0.3)", "0 0 40px hsl(var(--primary) / 0.5)", "0 0 20px hsl(var(--primary) / 0.3)"] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <Award className="w-10 h-10 text-white" />
-              </motion.div>
-              <motion.div
-                className="absolute -inset-2 rounded-full border-2 border-primary/30"
-                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                className="w-full bg-gradient-to-b from-primary via-accent to-primary rounded-full"
+                style={{ height: lineHeight }}
               />
             </div>
-          </motion.div>
-          <motion.p
-            className="text-center mt-4 text-lg font-semibold text-foreground"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            🎓 You're Certified & Career Ready!
-          </motion.p>
+
+            {/* Central Timeline Line - Mobile */}
+            <div className="absolute left-6 top-0 bottom-0 w-1 bg-border lg:hidden">
+              <motion.div
+                className="w-full bg-gradient-to-b from-primary via-accent to-primary rounded-full"
+                style={{ height: lineHeight }}
+              />
+            </div>
+
+            {/* Timeline Items */}
+            <div className="space-y-12 lg:space-y-24">
+              {timelineData.map((item, index) => (
+                <TimelineItem
+                  key={item.month}
+                  item={item}
+                  index={index}
+                  isExpanded={expandedMonth === item.month}
+                  onToggle={() => toggleExpand(item.month)}
+                />
+              ))}
+            </div>
+
+            {/* Completion Node */}
+            <motion.div
+              className="flex justify-center mt-16"
+              initial={{ opacity: 0, scale: 0 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, type: "spring" }}
+            >
+              <div className="relative">
+                <motion.div
+                  className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/30"
+                  animate={{ boxShadow: ["0 0 20px hsl(var(--primary) / 0.3)", "0 0 40px hsl(var(--primary) / 0.5)", "0 0 20px hsl(var(--primary) / 0.3)"] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <Award className="w-10 h-10 text-primary-foreground" />
+                </motion.div>
+                <motion.div
+                  className="absolute -inset-2 rounded-full border-2 border-primary/30"
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              </div>
+            </motion.div>
+            <motion.p
+              className="text-center mt-4 text-lg font-semibold text-foreground"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+            >
+              🎓 You're Certified & Career Ready!
+            </motion.p>
+          </div>
+
+          {/* Skills Radar Chart - Sticky Sidebar */}
+          <div className="hidden lg:block lg:w-80 lg:sticky lg:top-28 lg:self-start">
+            <SkillsRadarChart scrollProgress={scrollYProgress} />
+          </div>
         </div>
+
+        {/* Mobile Radar Chart */}
+        <div className="lg:hidden mt-12">
+          <SkillsRadarChart scrollProgress={scrollYProgress} />
+        </div>
+
+        {/* Certificate Preview */}
+        <CertificatePreview 
+          scrollProgress={scrollYProgress}
+          isVisible={showCertificate}
+        />
       </div>
     </section>
   );
@@ -289,7 +317,7 @@ const TimelineItem = ({ item, index, isExpanded, onToggle }: TimelineItemProps) 
           whileTap={{ scale: 0.95 }}
           onClick={onToggle}
         >
-          <Icon className="w-7 h-7 text-white" />
+          <Icon className="w-7 h-7 text-primary-foreground" />
         </motion.div>
         <motion.div
           className={`absolute -inset-2 rounded-full border-2 border-dashed ${
@@ -324,14 +352,14 @@ const TimelineItem = ({ item, index, isExpanded, onToggle }: TimelineItemProps) 
             />
             <div className="relative z-10 flex items-center justify-between">
               <div>
-                <span className="text-white/80 text-sm font-medium">{item.label}</span>
-                <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                <span className="text-primary-foreground/80 text-sm font-medium">{item.label}</span>
+                <h3 className="text-xl font-bold text-primary-foreground">{item.title}</h3>
               </div>
               <motion.div
                 animate={{ rotate: isExpanded ? 180 : 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <ChevronDown className="w-6 h-6 text-white" />
+                <ChevronDown className="w-6 h-6 text-primary-foreground" />
               </motion.div>
             </div>
           </div>
@@ -348,7 +376,7 @@ const TimelineItem = ({ item, index, isExpanded, onToggle }: TimelineItemProps) 
                 <span>{item.skills} Skills</span>
               </div>
             </div>
-            <span className={`text-xs font-semibold px-3 py-1 rounded-full bg-gradient-to-r ${item.gradient} text-white`}>
+            <span className={`text-xs font-semibold px-3 py-1 rounded-full bg-gradient-to-r ${item.gradient} text-primary-foreground`}>
               {item.milestone}
             </span>
           </div>
