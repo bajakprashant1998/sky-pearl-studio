@@ -355,7 +355,7 @@ const DigitalMarketingAcademy = () => {
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             />
             <motion.div 
-              className="absolute top-1/2 left-1/3 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"
+              className="absolute top-1/2 left-1/3 w-64 h-64 bg-accent/10 rounded-full blur-3xl"
               animate={{ 
                 x: [-30, 30, -30],
                 y: [-20, 20, -20],
@@ -367,7 +367,7 @@ const DigitalMarketingAcademy = () => {
             {[...Array(8)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-2 h-2 bg-primary/30 rounded-full"
+                className="absolute w-2 h-2 bg-primary/20 rounded-full"
                 style={{
                   left: `${10 + i * 12}%`,
                   top: `${20 + (i % 4) * 20}%`,
@@ -1020,7 +1020,7 @@ const DigitalMarketingAcademy = () => {
                     </motion.div>
                     <h3 className="text-2xl font-bold">Career Support</h3>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 relative">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative">
                     {careerSupport.map((support, index) => (
                       <motion.div 
                         key={index} 
