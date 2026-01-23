@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import AnimatedSection, { FloatingElement, CountUp } from "@/components/AnimatedSection";
+import CourseTimeline from "@/components/academy/CourseTimeline";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import {
@@ -658,6 +659,9 @@ const DigitalMarketingAcademy = () => {
             </div>
           </div>
         </section>
+
+        {/* Interactive Course Timeline */}
+        <CourseTimeline />
 
         {/* Digital Marketing Curriculum */}
         <section className="py-20 bg-background relative overflow-hidden">
