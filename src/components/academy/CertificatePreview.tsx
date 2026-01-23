@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { Link } from 'react-router-dom';
 
 interface CertificatePreviewProps {
   scrollProgress: MotionValue<number>;
@@ -369,10 +370,12 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
             <Button
               size="lg"
               className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-lg shadow-blue-500/25"
-              onClick={() => window.location.href = '/digital-marketing-academy#enroll'}
+              asChild
             >
-              <Award className="w-5 h-5 mr-2" />
-              Enroll Now to Earn Your Certificate
+              <Link to="/contact?interest=academy">
+                <Award className="w-5 h-5 mr-2" />
+                Enroll Now to Earn Your Certificate
+              </Link>
             </Button>
             <Button
               size="lg"
