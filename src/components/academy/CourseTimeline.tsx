@@ -156,18 +156,20 @@ const CourseTimeline = () => {
   };
 
   return (
-    <section ref={sectionRef} className="py-20 bg-gradient-to-b from-background via-primary/5 to-background relative overflow-hidden">
-      {/* Background decorations */}
-      <motion.div
-        className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
-        animate={{ scale: [1.2, 1, 1.2], opacity: [0.5, 0.3, 0.5] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-      />
+    <section ref={sectionRef} className="py-20 bg-gradient-to-b from-background via-primary/5 to-background relative">
+      {/* Background decorations (clipped) */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
+          animate={{ scale: [1.2, 1, 1.2], opacity: [0.5, 0.3, 0.5] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
