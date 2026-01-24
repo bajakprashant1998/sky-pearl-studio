@@ -57,10 +57,10 @@ const DigitalMarketingAcademy = () => {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   const courseDetails = [
-    { icon: Clock, label: "Duration", value: "6 Months", color: "from-blue-500 to-cyan-500" },
-    { icon: Calendar, label: "Class Timing", value: "10:00 AM - 6:30 PM", color: "from-purple-500 to-pink-500" },
-    { icon: IndianRupee, label: "Course Fees", value: "₹25,000/Month", color: "from-green-500 to-emerald-500" },
-    { icon: BookOpen, label: "Training Type", value: "Practical + Live Projects", color: "from-amber-500 to-orange-500" },
+    { icon: Clock, label: "Duration", value: "6 Months", color: "from-blue-500 to-cyan-500", gradient: "from-blue-500 to-cyan-500" },
+    { icon: Calendar, label: "Class Timing", value: "10:00 AM - 6:30 PM", color: "from-purple-500 to-pink-500", gradient: "from-purple-500 to-pink-500" },
+    { icon: IndianRupee, label: "Course Fees", value: "₹25,000/Month", color: "from-green-500 to-emerald-500", gradient: "from-green-500 to-emerald-500" },
+    { icon: BookOpen, label: "Training Type", value: "Practical + Live Projects", color: "from-amber-500 to-orange-500", gradient: "from-amber-500 to-orange-500" },
   ];
 
   const benefits = [
@@ -331,530 +331,356 @@ const DigitalMarketingAcademy = () => {
       <main className="min-h-screen">
         <Navbar />
 
-        {/* Hero Section */}
-        <section ref={heroRef} className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
-          {/* Animated Background */}
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
-            
-            {/* Animated orbs */}
-            <motion.div 
-              className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl"
-              animate={{ 
-                scale: [1, 1.3, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div 
-              className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
-              animate={{ 
-                scale: [1.3, 1, 1.3],
-                opacity: [0.5, 0.3, 0.5],
-              }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            />
-            <motion.div 
-              className="absolute top-1/2 left-1/3 w-64 h-64 bg-accent/10 rounded-full blur-3xl"
-              animate={{ 
-                x: [-30, 30, -30],
-                y: [-20, 20, -20],
-              }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            />
+      {/* Hero Section */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-primary/20" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+        
+        {/* Floating elements */}
+        <motion.div
+          style={{ y: heroY, opacity: heroOpacity }}
+          className="absolute top-20 left-10 sm:left-20 w-48 sm:w-64 lg:w-72 h-48 sm:h-64 lg:h-72 bg-primary/20 rounded-full blur-3xl"
+        />
+        <motion.div
+          style={{ y: heroY }}
+          className="absolute bottom-20 right-10 sm:right-20 w-48 sm:w-64 lg:w-96 h-48 sm:h-64 lg:h-96 bg-blue-500/20 rounded-full blur-3xl"
+        />
 
-            {/* Floating particles */}
-            {[...Array(8)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 bg-primary/20 rounded-full"
-                style={{
-                  left: `${10 + i * 12}%`,
-                  top: `${20 + (i % 4) * 20}%`,
-                }}
-                animate={{
-                  y: [-30, 30, -30],
-                  opacity: [0.2, 0.5, 0.2],
-                }}
-                transition={{
-                  duration: 5 + i,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.3,
-                }}
-              />
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center max-w-5xl mx-auto"
+          >
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/10 border border-primary/20 mb-4 sm:mb-6"
+            >
+              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+              <span className="text-xs sm:text-sm font-medium text-primary">6-Month Practical Training Program</span>
+            </motion.div>
+
+            {/* Heading */}
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+              Master{' '}
+              <span className="bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent">
+                Digital Marketing
+              </span>
+              <br className="hidden sm:block" />
+              <span className="sm:hidden"> & </span>
+              <span className="hidden sm:inline"> & </span>
+              <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-400 bg-clip-text text-transparent">
+                AI Skills
+              </span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-2">
+              Transform your career with hands-on training in SEO, Social Media, PPC, 
+              AI Tools, and Creative Design. Learn from industry experts and build a 
+              portfolio that gets you hired.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-white shadow-lg shadow-primary/25 text-sm sm:text-base"
+                onClick={() => window.location.href = '/contact-us'}
+              >
+                <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                Enroll Now - ₹35,000
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-slate-600 text-white hover:bg-slate-800 text-sm sm:text-base"
+                onClick={() => window.location.href = '/digital-marketing-syllabus'}
+              >
+                <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                View Full Syllabus
+              </Button>
+            </div>
+
+            {/* Course Highlights */}
+            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
+              {courseDetails.map((detail, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 + index * 0.1 }}
+                  className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+                >
+                  <div className={`p-1.5 sm:p-2 rounded-lg bg-gradient-to-br ${detail.gradient}`}>
+                    <detail.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-base sm:text-lg lg:text-xl font-bold text-white">{detail.value}</p>
+                    <p className="text-[10px] sm:text-xs text-slate-400">{detail.label}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="flex flex-col items-center gap-2 text-slate-400"
+          >
+            <span className="text-[10px] sm:text-xs">Scroll to explore</span>
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 rotate-90" />
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-gradient-primary relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <motion.div 
+            className="absolute top-0 left-0 w-64 h-64 bg-primary-foreground/20 rounded-full blur-3xl"
+            animate={{ x: [-20, 20, -20] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            {stats.map((stat, index) => (
+              <AnimatedSection key={stat.label} delay={0.1 * index}>
+                <motion.div 
+                  className="text-center p-4 sm:p-6 rounded-2xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/10"
+                  whileHover={{ y: -5, scale: 1.02 }}
+                >
+                  <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-primary-foreground mb-2">
+                    <CountUp end={stat.value} suffix={stat.suffix} duration={2} />
+                  </div>
+                  <div className="text-xs sm:text-sm text-primary-foreground/70 font-medium">{stat.label}</div>
+                </motion.div>
+              </AnimatedSection>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Grid Pattern */}
-          <div className="absolute inset-0 opacity-[0.02]" style={{
-            backgroundImage: "linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)",
-            backgroundSize: "50px 50px"
-          }} />
+      {/* Why Choose Us Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-muted/30 relative overflow-hidden">
+        <motion.div 
+          className="absolute top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
+        
+        <div className="container mx-auto px-4 sm:px-6">
+          <AnimatedSection className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <motion.span 
+              className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold mb-4"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Zap className="w-3 h-3 sm:w-4 sm:h-4" />
+              Why Choose Us
+            </motion.span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              Why Choose <span className="text-gradient">Digital Marketing Academy?</span>
+            </h2>
+            <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-2">
+              We follow a skill-first teaching approach, ensuring students gain real expertise through practical training and industry exposure.
+            </p>
+          </AnimatedSection>
 
-          <motion.div 
-            className="container mx-auto px-4 relative z-10"
-            style={{ y: heroY, opacity: heroOpacity }}
-          >
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-8">
-                {/* Badge */}
-                <motion.div 
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full border border-primary/30"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <GraduationCap className="w-5 h-5 text-primary" />
-                  <span className="text-sm font-semibold text-foreground">Professional Training Academy</span>
-                  <motion.div
-                    animate={{ rotate: [0, 20, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {benefits.map((benefit, index) => (
+              <AnimatedSection key={index} delay={index * 0.05}>
+                <Link to={`/digital-marketing-academy/benefit/${benefit.slug}`}>
+                  <motion.div 
+                    className="bg-card rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-border hover:border-primary/50 transition-all duration-300 h-full group cursor-pointer relative overflow-hidden"
+                    whileHover={{ y: -8 }}
                   >
-                    <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                  </motion.div>
-                </motion.div>
-
-                {/* Heading */}
-                <motion.h1 
-                  className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1]"
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                >
-                  Digital Marketing{" "}
-                  <span className="relative inline-block">
-                    <span className="text-gradient">Academy</span>
-                    <motion.svg 
-                      className="absolute -bottom-2 left-0 w-full" 
-                      viewBox="0 0 200 12" 
-                      fill="none"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: 1, opacity: 1 }}
-                      transition={{ duration: 1, delay: 0.8 }}
-                    >
-                      <motion.path 
-                        d="M2 10C50 2 150 2 198 10" 
-                        stroke="hsl(var(--primary))" 
-                        strokeWidth="4" 
-                        strokeLinecap="round" 
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: 1.2, delay: 0.8 }}
-                      />
-                    </motion.svg>
-                  </span>
-                </motion.h1>
-
-                {/* Subtitle */}
-                <motion.p 
-                  className="text-xl md:text-2xl text-muted-foreground font-medium"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                >
-                  Learn Digital Marketing & AI Skills with Practical, Career-Focused Training
-                </motion.p>
-
-                {/* Description */}
-                <motion.p 
-                  className="text-base text-muted-foreground leading-relaxed max-w-xl"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                >
-                  Digital Marketing Academy is a professional training center in Ahmedabad dedicated to delivering in-depth, practical, and industry-oriented education in Digital Marketing and AI-based creative technologies.
-                </motion.p>
-
-                {/* Quick Info Pills */}
-                <motion.div 
-                  className="flex flex-wrap gap-3"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                  {[
-                    { icon: Clock, text: "6 Months", color: "text-primary" },
-                    { icon: IndianRupee, text: "₹25,000/Month", color: "text-green-500" },
-                    { icon: BookOpen, text: "Live Projects", color: "text-purple-500" },
-                  ].map((item, index) => (
-                    <motion.div
-                      key={item.text}
-                      className="flex items-center gap-2 px-4 py-2 bg-card rounded-full border border-border hover:border-primary/50 transition-colors cursor-default"
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.5 + index * 0.1 }}
-                    >
-                      <item.icon className={`w-4 h-4 ${item.color}`} />
-                      <span className="text-sm font-medium">{item.text}</span>
-                    </motion.div>
-                  ))}
-                </motion.div>
-
-                {/* CTA Buttons */}
-                <motion.div 
-                  className="flex flex-col sm:flex-row gap-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                >
-                  <Button variant="hero" size="lg" className="group text-base px-8" asChild>
-                    <Link to="/contact?interest=academy">
-                      <span className="flex items-center">
-                        Enroll Now
-                        <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </span>
-                    </Link>
-                  </Button>
-                  <Button variant="outline" size="lg" className="group text-base" asChild>
-                    <a href="tel:+919824011921">
-                      <Phone className="w-5 h-5 mr-2" />
-                      Call: +91 98240 11921
-                    </a>
-                  </Button>
-                </motion.div>
-              </div>
-
-              {/* Course Details Cards - Right Side */}
-              <motion.div 
-                className="grid grid-cols-2 gap-4"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              >
-                {courseDetails.map((detail, index) => (
-                  <motion.div
-                    key={index}
-                    className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 transition-all duration-300 group relative overflow-hidden"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 + index * 0.1 }}
-                    whileHover={{ y: -5, scale: 1.02 }}
-                  >
-                    {/* Hover gradient */}
                     <motion.div 
-                      className={`absolute inset-0 bg-gradient-to-br ${detail.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                      className={`absolute inset-0 bg-gradient-to-br ${benefit.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
                     />
                     
                     <motion.div 
-                      className={`w-14 h-14 bg-gradient-to-br ${detail.color} rounded-xl flex items-center justify-center mb-4 relative`}
+                      className={`w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br ${benefit.gradient} rounded-lg sm:rounded-xl flex items-center justify-center mb-3 sm:mb-4 relative`}
                       whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <detail.icon className="w-7 h-7 text-white relative z-10" />
-                      <motion.div 
-                        className="absolute inset-0 rounded-xl bg-white/20"
-                        animate={{ opacity: [0, 0.3, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
-                      />
+                      <benefit.icon className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
                     </motion.div>
-                    <div className="text-sm text-muted-foreground mb-1">{detail.label}</div>
-                    <div className="text-lg font-bold text-foreground">{detail.value}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* Stats Section */}
-        <section className="py-16 bg-gradient-primary relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
-            <motion.div 
-              className="absolute top-0 left-0 w-64 h-64 bg-primary-foreground/20 rounded-full blur-3xl"
-              animate={{ x: [-20, 20, -20] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </div>
-          
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {stats.map((stat, index) => (
-                <AnimatedSection key={stat.label} delay={0.1 * index}>
-                  <motion.div 
-                    className="text-center p-6 rounded-2xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/10"
-                    whileHover={{ y: -5, scale: 1.02 }}
-                  >
-                    <div className="text-4xl md:text-5xl font-bold text-primary-foreground mb-2">
-                      <CountUp end={stat.value} suffix={stat.suffix} duration={2} />
+                    <div className="flex items-start gap-2 mb-2">
+                      <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                      <h3 className="text-sm sm:text-base text-foreground font-bold">{benefit.text}</h3>
                     </div>
-                    <div className="text-primary-foreground/70 font-medium">{stat.label}</div>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{benefit.desc}</p>
+                    <div className="mt-3 sm:mt-4 flex items-center text-primary text-xs sm:text-sm font-medium group-hover:gap-2 transition-all">
+                      Learn More <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                    </div>
                   </motion.div>
-                </AnimatedSection>
-              ))}
-            </div>
+                </Link>
+              </AnimatedSection>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Why Choose Us Section */}
-        <section className="py-20 bg-muted/30 relative overflow-hidden">
-          <motion.div 
-            className="absolute top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 8, repeat: Infinity }}
-          />
-          
-          <div className="container mx-auto px-4">
-            <AnimatedSection className="text-center mb-16">
-              <motion.span 
-                className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4"
-                whileHover={{ scale: 1.05 }}
-              >
-                <Zap className="w-4 h-4" />
-                Why Choose Us
-              </motion.span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                Why Choose <span className="text-gradient">Digital Marketing Academy?</span>
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                We follow a skill-first teaching approach, ensuring students gain real expertise through practical training and industry exposure.
-              </p>
-            </AnimatedSection>
+      {/* Interactive Course Timeline */}
+      <CourseTimeline />
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {benefits.map((benefit, index) => (
-                <AnimatedSection key={index} delay={index * 0.05}>
-                  <Link to={`/digital-marketing-academy/benefit/${benefit.slug}`}>
+      {/* Digital Marketing Curriculum */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-background relative overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <AnimatedSection className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <motion.span 
+              className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold mb-4"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Target className="w-3 h-3 sm:w-4 sm:h-4" />
+              Core Curriculum
+            </motion.span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              Digital Marketing <span className="text-gradient">Modules</span>
+            </h2>
+            <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-2">
+              Master every aspect of digital marketing with our comprehensive 9-module curriculum
+            </p>
+          </AnimatedSection>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {digitalMarketingCurriculum.map((module, index) => (
+              <AnimatedSection key={index} delay={index * 0.05}>
+                <Link to={`/digital-marketing-academy/${module.slug}`}>
+                  <motion.div 
+                    className="bg-card rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-border hover:border-primary/50 transition-all duration-300 h-full group cursor-pointer relative overflow-hidden"
+                    whileHover={{ y: -5 }}
+                  >
                     <motion.div 
-                      className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 transition-all duration-300 h-full group cursor-pointer relative overflow-hidden"
-                      whileHover={{ y: -8 }}
-                    >
-                      {/* Hover effect */}
+                      className={`absolute inset-0 bg-gradient-to-br ${module.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                    />
+                    
+                    <div className="flex items-start gap-3 sm:gap-4">
                       <motion.div 
-                        className={`absolute inset-0 bg-gradient-to-br ${benefit.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
-                      />
-                      
-                      <motion.div 
-                        className={`w-14 h-14 bg-gradient-to-br ${benefit.gradient} rounded-xl flex items-center justify-center mb-4 relative`}
+                        className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${module.color} rounded-lg sm:rounded-xl flex items-center justify-center`}
                         whileHover={{ scale: 1.1, rotate: 5 }}
                       >
-                        <benefit.icon className="w-7 h-7 text-white" />
-                        <motion.div 
-                          className="absolute inset-0 rounded-xl bg-white/20"
-                          animate={{ opacity: [0, 0.4, 0] }}
-                          transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
-                        />
+                        <module.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                       </motion.div>
-                      <div className="flex items-start gap-2 mb-2">
-                        <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <h3 className="text-foreground font-bold">{benefit.text}</h3>
-                      </div>
-                      <p className="text-sm text-muted-foreground">{benefit.desc}</p>
-                      <div className="mt-4 flex items-center text-primary text-sm font-medium group-hover:gap-2 transition-all">
-                        Learn More <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                      
-                      {/* Bottom accent */}
-                      <motion.div 
-                        className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r ${benefit.gradient}`}
-                        initial={{ width: 0 }}
-                        whileHover={{ width: "100%" }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    </motion.div>
-                  </Link>
-                </AnimatedSection>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Interactive Course Timeline */}
-        <CourseTimeline />
-
-        {/* Digital Marketing Curriculum */}
-        <section className="py-20 bg-background relative overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.02]" style={{
-            backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)",
-            backgroundSize: "30px 30px"
-          }} />
-          
-          <div className="container mx-auto px-4 relative z-10">
-            <AnimatedSection className="text-center mb-16">
-              <motion.span 
-                className="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold mb-4"
-                whileHover={{ scale: 1.05 }}
-              >
-                <BookOpen className="w-4 h-4" />
-                Complete Curriculum
-              </motion.span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                Digital Marketing <span className="text-gradient">Syllabus</span>
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-6">
-                In-depth training covering all aspects of digital marketing from fundamentals to advanced strategies
-              </p>
-              <Link to="/digital-marketing-syllabus">
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-                  <Button size="lg" className="gap-2">
-                    <BookOpen className="w-5 h-5" />
-                    View Complete 6-Month Syllabus
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </motion.div>
-              </Link>
-            </AnimatedSection>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-              {digitalMarketingCurriculum.map((module, index) => (
-                <AnimatedSection key={index} delay={index * 0.05}>
-                  <Link to={`/digital-marketing-academy/module/${module.slug}`}>
-                    <motion.div 
-                      className="bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 h-full group cursor-pointer"
-                      whileHover={{ y: -8 }}
-                    >
-                      <div className={`bg-gradient-to-r ${module.color} p-4 relative overflow-hidden`}>
-                        {/* Animated pattern */}
-                        <motion.div 
-                          className="absolute inset-0 opacity-20"
-                          style={{
-                            backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
-                            backgroundSize: "15px 15px"
-                          }}
-                          animate={{ x: [0, 15, 0] }}
-                          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                        />
-                        
-                        <div className="flex items-center gap-3 relative z-10">
-                          <motion.div 
-                            className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center"
-                            whileHover={{ scale: 1.1, rotate: 10 }}
-                          >
-                            <module.icon className="w-6 h-6 text-white" />
-                          </motion.div>
-                          <h3 className="text-lg font-bold text-white">{module.title}</h3>
-                        </div>
-                      </div>
-                      <div className="p-5">
-                        <ul className="space-y-2">
-                          {module.topics.slice(0, 4).map((topic, topicIndex) => (
-                            <motion.li 
-                              key={topicIndex} 
-                              className="flex items-start gap-2 text-sm text-muted-foreground"
-                              initial={{ opacity: 0, x: -10 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: topicIndex * 0.05 }}
-                            >
-                              <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                              {topic}
-                            </motion.li>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm sm:text-base lg:text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                          {module.title}
+                        </h3>
+                        <ul className="space-y-1">
+                          {module.topics.slice(0, 3).map((topic, i) => (
+                            <li key={i} className="flex items-start gap-1.5 text-[10px] sm:text-xs text-muted-foreground">
+                              <CheckCircle2 className="w-3 h-3 text-primary flex-shrink-0 mt-0.5" />
+                              <span className="line-clamp-1">{topic}</span>
+                            </li>
                           ))}
+                          {module.topics.length > 3 && (
+                            <li className="text-[10px] sm:text-xs text-primary font-medium">
+                              +{module.topics.length - 3} more topics
+                            </li>
+                          )}
                         </ul>
-                        <div className="mt-4 flex items-center text-primary text-sm font-medium group-hover:gap-2 transition-all">
-                          Explore Module <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                        </div>
                       </div>
-                    </motion.div>
-                  </Link>
-                </AnimatedSection>
-              ))}
-            </div>
+                    </div>
+                  </motion.div>
+                </Link>
+              </AnimatedSection>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* AI Skills Curriculum */}
-        <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-accent/10 relative overflow-hidden">
-          <motion.div 
-            className="absolute top-1/2 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
-            animate={{ 
-              scale: [1, 1.3, 1],
-              rotate: [0, 180, 360]
-            }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          />
-          
-          <div className="container mx-auto px-4 relative z-10">
-            <AnimatedSection className="text-center mb-16">
-              <motion.span 
-                className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4"
-                whileHover={{ scale: 1.05 }}
-              >
-                <Brain className="w-4 h-4" />
-                AI-Powered Skills
-              </motion.span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                Advanced AI-Based <span className="text-gradient">Creative Skills</span>
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                Master the latest AI tools for website designing, graphic design, and video creation
-              </p>
-            </AnimatedSection>
+      {/* AI Skills Curriculum */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-primary/5 via-background to-accent/10 relative overflow-hidden">
+        <motion.div 
+          className="absolute top-1/2 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-purple-500/10 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.3, 1],
+            rotate: [0, 180, 360]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        />
+        
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <AnimatedSection className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <motion.span 
+              className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold mb-4"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Brain className="w-3 h-3 sm:w-4 sm:h-4" />
+              AI-Powered Skills
+            </motion.span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              Advanced AI-Based <span className="text-gradient">Creative Skills</span>
+            </h2>
+            <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-2">
+              Master the latest AI tools for website designing, graphic design, and video creation
+            </p>
+          </AnimatedSection>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {aiSkillsCurriculum.map((module, index) => (
-                <AnimatedSection key={index} delay={index * 0.1}>
-                  <Link to={`/digital-marketing-academy/${module.slug}`} className="block h-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto">
+            {aiSkillsCurriculum.map((module, index) => (
+              <AnimatedSection key={index} delay={index * 0.1}>
+                <Link to={`/digital-marketing-academy/${module.slug}`} className="block h-full">
+                  <motion.div 
+                    className="bg-card rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-300 h-full group cursor-pointer relative"
+                    whileHover={{ y: -10, scale: 1.02 }}
+                  >
                     <motion.div 
-                      className="bg-card rounded-3xl overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-300 h-full group cursor-pointer relative"
-                      whileHover={{ y: -10, scale: 1.02 }}
-                    >
-                      {/* Glow effect on hover */}
+                      className={`absolute -inset-1 bg-gradient-to-br ${module.color} rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`}
+                    />
+                    
+                    <div className={`bg-gradient-to-br ${module.color} p-4 sm:p-6 text-center relative overflow-hidden`}>
                       <motion.div 
-                        className={`absolute -inset-1 bg-gradient-to-br ${module.color} rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`}
-                      />
-                      
-                      <div className={`bg-gradient-to-br ${module.color} p-6 text-center relative overflow-hidden`}>
-                        {/* Animated sparkles */}
-                        {[...Array(3)].map((_, i) => (
-                          <motion.div
-                            key={i}
-                            className="absolute"
-                            style={{ 
-                              left: `${20 + i * 30}%`, 
-                              top: `${20 + i * 20}%` 
-                            }}
-                            animate={{ 
-                              opacity: [0, 1, 0],
-                              scale: [0.5, 1, 0.5]
-                            }}
-                            transition={{ 
-                              duration: 2, 
-                              repeat: Infinity, 
-                              delay: i * 0.5 
-                            }}
+                        className="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 relative z-10"
+                        whileHover={{ scale: 1.1, rotate: 10 }}
+                      >
+                        <module.icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                      </motion.div>
+                      <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white relative z-10">{module.title}</h3>
+                    </div>
+                    <div className="p-4 sm:p-6 relative">
+                      <ul className="space-y-2 sm:space-y-3">
+                        {module.topics.map((topic, topicIndex) => (
+                          <motion.li 
+                            key={topicIndex} 
+                            className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm"
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: topicIndex * 0.1 }}
                           >
-                            <Sparkles className="w-4 h-4 text-white/50" />
-                          </motion.div>
+                            <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-primary flex-shrink-0 mt-0.5" />
+                            <span className="text-muted-foreground">{topic}</span>
+                          </motion.li>
                         ))}
-                        
-                        <motion.div 
-                          className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 relative z-10"
-                          whileHover={{ scale: 1.1, rotate: 10 }}
-                        >
-                          <module.icon className="w-8 h-8 text-white" />
-                        </motion.div>
-                        <h3 className="text-xl font-bold text-white relative z-10">{module.title}</h3>
+                      </ul>
+                      <div className="mt-4 flex items-center justify-center gap-2 text-primary text-xs sm:text-sm font-medium">
+                        <span>Learn More</span>
+                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
-                      <div className="p-6 relative">
-                        <ul className="space-y-3">
-                          {module.topics.map((topic, topicIndex) => (
-                            <motion.li 
-                              key={topicIndex} 
-                              className="flex items-start gap-3 text-sm"
-                              initial={{ opacity: 0, x: -10 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: topicIndex * 0.1 }}
-                            >
-                              <Sparkles className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                              <span className="text-muted-foreground">{topic}</span>
-                            </motion.li>
-                          ))}
-                        </ul>
-                        <div className="mt-4 flex items-center justify-center gap-2 text-primary font-medium">
-                          <span>Learn More</span>
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </div>
-                      </div>
-                    </motion.div>
-                  </Link>
-                </AnimatedSection>
-              ))}
-            </div>
+                    </div>
+                  </motion.div>
+                </Link>
+              </AnimatedSection>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
         {/* Practical Projects */}
         <section className="py-20 bg-muted/30 relative overflow-hidden">
