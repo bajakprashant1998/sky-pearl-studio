@@ -429,14 +429,14 @@ async function selectUniqueTopicAndCategory(
 }
 
 // ============================================================================
-// IMAGE GENERATION - Using Lovable AI Gateway
+// IMAGE GENERATION - Using Lovable AI Gateway with Gemini Fallback
 // ============================================================================
 
 async function generateBlogImage(
   topic: string, 
   category: string, 
   title: string, 
-  lovableApiKey: string
+  apiKey: string
 ): Promise<string | null> {
   try {
     const visualStyles = [
@@ -479,12 +479,13 @@ REQUIREMENTS:
 - Unique composition seed: ${uniqueSeed}
 - Should evoke themes of: growth, success, data, digital transformation`;
 
-    console.log("Generating image with Lovable AI for:", title);
+    console.log("Generating image for:", title);
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    // Try Lovable AI first
+    const lovableResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${lovableApiKey}`,
+        "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -494,21 +495,51 @@ REQUIREMENTS:
       }),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Lovable AI image API error:", response.status, errorText);
-      return null;
+    if (lovableResponse.ok) {
+      const data = await lovableResponse.json();
+      const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+      if (imageUrl) {
+        console.log("Successfully generated image via Lovable AI");
+        return imageUrl;
+      }
     }
 
-    const data = await response.json();
-    const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+    // If Lovable AI fails (402/429), try Gemini directly
+    if (lovableResponse.status === 402 || lovableResponse.status === 429) {
+      console.log("Lovable AI image credits exhausted, trying Gemini API directly");
+      
+      const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
+      if (GEMINI_API_KEY) {
+        const geminiResponse = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: imagePrompt }] }],
+              generationConfig: { responseModalities: ["image", "text"] }
+            }),
+          }
+        );
 
-    if (imageUrl) {
-      console.log("Successfully generated image for:", title);
-      return imageUrl;
+        if (geminiResponse.ok) {
+          const geminiData = await geminiResponse.json();
+          const parts = geminiData.candidates?.[0]?.content?.parts;
+          if (parts) {
+            for (const part of parts) {
+              if (part.inlineData?.mimeType?.startsWith('image/')) {
+                const base64Data = part.inlineData.data;
+                const mimeType = part.inlineData.mimeType;
+                console.log("Successfully generated image via Gemini API");
+                return `data:${mimeType};base64,${base64Data}`;
+              }
+            }
+          }
+        }
+      }
     }
 
-    console.log("No image in Lovable AI response");
+    console.log("Image generation failed - no image returned");
     return null;
   } catch (error) {
     console.error("Error generating image:", error);
@@ -577,6 +608,74 @@ async function uploadImageToStorage(
 // MAIN SERVER
 // ============================================================================
 
+// Helper function to generate content with AI (with fallback)
+async function generateContentWithAI(
+  systemPrompt: string,
+  userPrompt: string,
+  lovableApiKey: string,
+  geminiApiKey: string | undefined
+): Promise<string | null> {
+  // Try Lovable AI first
+  try {
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${lovableApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-3-flash-preview",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt }
+        ],
+        temperature: 0.9,
+        max_tokens: 8192,
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const content = data.choices?.[0]?.message?.content;
+      if (content) return content;
+    }
+
+    // Check for payment/rate limit errors
+    if (response.status === 402 || response.status === 429) {
+      console.log("Lovable AI credits exhausted, falling back to Gemini API");
+      if (!geminiApiKey) {
+        console.error("No GEMINI_API_KEY available for fallback");
+        return null;
+      }
+      
+      // Fallback to direct Gemini API
+      const geminiResponse = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
+            generationConfig: { temperature: 0.9, maxOutputTokens: 8192 }
+          }),
+        }
+      );
+
+      if (geminiResponse.ok) {
+        const geminiData = await geminiResponse.json();
+        return geminiData.candidates?.[0]?.content?.parts?.[0]?.text || null;
+      }
+    }
+
+    const errorText = await response.text();
+    console.error("AI content error:", response.status, errorText);
+    return null;
+  } catch (error) {
+    console.error("Error generating content:", error);
+    return null;
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -584,11 +683,12 @@ serve(async (req) => {
 
   try {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+    if (!LOVABLE_API_KEY && !GEMINI_API_KEY) {
+      throw new Error("No AI API key configured (LOVABLE_API_KEY or GEMINI_API_KEY required)");
     }
 
     if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
@@ -686,35 +786,16 @@ Remember: Provide ONLY valid JSON in your response. No markdown code blocks.`;
 
         console.log(`Generating article ${i + 1}: ${specificTopic} (${category}/${subcategory})`);
 
-        // Generate content using Lovable AI
-        const contentResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${LOVABLE_API_KEY}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            model: "google/gemini-3-flash-preview",
-            messages: [
-              { role: "system", content: systemPrompt },
-              { role: "user", content: userPrompt }
-            ],
-            temperature: 0.9,
-            max_tokens: 8192,
-          }),
-        });
-
-        if (!contentResponse.ok) {
-          const errorText = await contentResponse.text();
-          console.error(`AI content error for article ${i + 1}:`, contentResponse.status, errorText);
-          continue;
-        }
-
-        const contentData = await contentResponse.json();
-        const aiContent = contentData.choices?.[0]?.message?.content;
+        // Generate content using AI with fallback
+        const aiContent = await generateContentWithAI(
+          systemPrompt, 
+          userPrompt, 
+          LOVABLE_API_KEY || "", 
+          GEMINI_API_KEY
+        );
 
         if (!aiContent) {
-          console.error(`No content for article ${i + 1}`);
+          console.error(`No content generated for article ${i + 1}`);
           continue;
         }
 
@@ -766,9 +847,16 @@ Remember: Provide ONLY valid JSON in your response. No markdown code blocks.`;
 
         // Generate and upload image
         let imageUrl = null;
-        const base64Image = await generateBlogImage(specificTopic, category, articleData.title, LOVABLE_API_KEY);
-        if (base64Image) {
-          imageUrl = await uploadImageToStorage(supabase, base64Image, slug);
+        if (LOVABLE_API_KEY || GEMINI_API_KEY) {
+          const base64Image = await generateBlogImage(
+            specificTopic, 
+            category, 
+            articleData.title, 
+            LOVABLE_API_KEY || GEMINI_API_KEY || ""
+          );
+          if (base64Image) {
+            imageUrl = await uploadImageToStorage(supabase, base64Image, slug);
+          }
         }
 
         // Insert into database
