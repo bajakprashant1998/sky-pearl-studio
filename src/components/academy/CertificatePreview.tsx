@@ -143,304 +143,244 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 100, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 50, scale: 0.9 }}
-          transition={{ 
-            type: 'spring', 
-            stiffness: 100, 
-            damping: 20,
-            delay: 0.2
-          }}
-          className="relative mt-16 mx-auto max-w-4xl"
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 100 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="w-full max-w-4xl mx-auto px-2 sm:px-4"
         >
-          {/* Floating Sparkles */}
-          <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex gap-4">
-            {[...Array(5)].map((_, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20, scale: 0 }}
-                animate={{ 
-                  opacity: [0, 1, 0],
-                  y: [20, -20, -40],
-                  scale: [0, 1, 0.5],
-                }}
-                transition={{
-                  duration: 2,
-                  delay: i * 0.2,
-                  repeat: Infinity,
-                  repeatDelay: 3,
-                }}
-              >
-                <Sparkles className="w-5 h-5 text-yellow-400" />
-              </motion.div>
-            ))}
-          </div>
-
           {/* Section Header */}
-          <motion.div
+          <motion.div 
+            className="text-center mb-6 sm:mb-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-center mb-8"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 mb-4">
-              <Award className="w-5 h-5 text-yellow-500" />
-              <span className="text-sm font-medium text-yellow-500">Your Achievement Awaits</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/10 text-primary mb-3 sm:mb-4">
+              <Award className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-xs sm:text-sm font-medium">Course Completion Certificate</span>
             </div>
-            <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-2">
-              Certificate of Completion
-            </h2>
-            <p className="text-muted-foreground">
-              Upon completing the 6-month program, you'll receive this industry-recognized certificate
+            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-2">
+              Your Achievement Awaits
+            </h3>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto px-4">
+              Complete the 6-month program to earn your official certificate
             </p>
           </motion.div>
 
           {/* Certificate Card */}
           <motion.div
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
-            className="relative"
+            className="relative group"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            whileHover={{ scale: 1.01 }}
+            transition={{ duration: 0.3 }}
           >
-            {/* Glow Effect */}
-            <motion.div
-              animate={{
-                opacity: isHovered ? 0.8 : 0.4,
-                scale: isHovered ? 1.02 : 1,
-              }}
-              className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-cyan-500/20 to-blue-500/20 rounded-3xl blur-xl -z-10"
-            />
-
+            {/* Outer glow effect */}
+            <div className="absolute -inset-1 sm:-inset-2 bg-gradient-to-r from-primary/30 via-blue-500/30 to-primary/30 rounded-2xl sm:rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500" />
+            
             {/* Certificate Container */}
             <div 
               ref={certificateRef}
-              className="relative bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-2xl border-4 border-blue-500/30 overflow-hidden shadow-2xl"
-              style={{ backgroundColor: '#ffffff' }}
+              className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-xl sm:rounded-2xl overflow-hidden border border-slate-700/50 shadow-2xl"
             >
-              {/* Geometric Border Pattern - Top */}
-              <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 flex items-center justify-center overflow-hidden">
-                <div className="flex gap-1">
-                  {[...Array(30)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-4 h-4 bg-white/20 rotate-45 transform -translate-y-2"
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Geometric Border Pattern - Bottom */}
-              <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 flex items-center justify-center overflow-hidden">
-                <div className="flex gap-1">
-                  {[...Array(30)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-4 h-4 bg-white/20 rotate-45 transform translate-y-2"
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Side Decorations */}
-              <div className="absolute left-0 top-6 bottom-6 w-6 bg-gradient-to-b from-blue-600 via-cyan-500 to-blue-600 flex flex-col items-center justify-center overflow-hidden">
-                <div className="flex flex-col gap-1">
+              {/* Geometric top border */}
+              <div className="h-3 sm:h-4 md:h-6 bg-gradient-to-r from-primary via-blue-500 to-primary relative overflow-hidden">
+                <div className="absolute inset-0 flex">
                   {[...Array(20)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-4 h-4 bg-white/20 rotate-45 transform -translate-x-2"
-                    />
-                  ))}
-                </div>
-              </div>
-              <div className="absolute right-0 top-6 bottom-6 w-6 bg-gradient-to-b from-blue-600 via-cyan-500 to-blue-600 flex flex-col items-center justify-center overflow-hidden">
-                <div className="flex flex-col gap-1">
-                  {[...Array(20)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-4 h-4 bg-white/20 rotate-45 transform translate-x-2"
+                    <div 
+                      key={i} 
+                      className="flex-1 border-r border-white/20"
+                      style={{
+                        background: i % 2 === 0 
+                          ? 'linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.1) 50%)' 
+                          : 'linear-gradient(-135deg, transparent 50%, rgba(255,255,255,0.1) 50%)'
+                      }}
                     />
                   ))}
                 </div>
               </div>
 
-              {/* Certificate Content */}
-              <div className="relative px-8 lg:px-16 py-12 lg:py-16 ml-6 mr-6 mt-6 mb-6 bg-white dark:bg-slate-900">
-                {/* Company Logo & Name */}
-                <div className="text-center mb-6">
-                  <div className="flex items-center justify-center gap-3 mb-2">
+              {/* Inner content with padding */}
+              <div className="px-4 sm:px-6 md:px-10 lg:px-16 py-6 sm:py-10 lg:py-16">
+                {/* Company Logo & Header */}
+                <div className="flex flex-col items-center mb-4 sm:mb-6 lg:mb-8">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                     <img 
                       src="/dibull_logo.png" 
-                      alt="Digital Bull Logo" 
-                      className="w-12 h-12 object-contain"
-                      crossOrigin="anonymous"
+                      alt="Dibull Digital" 
+                      className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 object-contain"
                     />
-                    <div className="text-left">
-                      <h3 className="text-lg font-bold text-blue-600 tracking-wide">
-                        DIGITAL BULL
-                      </h3>
-                      <p className="text-xs text-slate-500 tracking-widest">
-                        TECHNOLOGY PVT. LTD
-                      </p>
+                    <div>
+                      <h4 className="text-base sm:text-lg lg:text-xl font-bold text-white">DIBULL DIGITAL</h4>
+                      <p className="text-[10px] sm:text-xs text-slate-400">Digital Marketing Academy</p>
                     </div>
                   </div>
+                  
+                  {/* Certificate Title */}
+                  <motion.h2 
+                    className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-300 bg-clip-text text-transparent text-center"
+                    animate={{ 
+                      backgroundPosition: isHovered ? ['0% 50%', '100% 50%'] : '0% 50%'
+                    }}
+                    transition={{ duration: 2, repeat: isHovered ? Infinity : 0 }}
+                    style={{ backgroundSize: '200% 200%' }}
+                  >
+                    Certificate of Completion
+                  </motion.h2>
                 </div>
 
-                {/* Certificate Title */}
-                <div className="text-center mb-6">
-                  <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent tracking-wider mb-2">
-                    CERTIFICATE
-                  </h1>
-                  <p className="text-lg text-slate-600 font-medium">
-                    Of Completion Digital Marketing Internship
-                  </p>
-                </div>
-
-                {/* Recipient Name */}
-                <div className="text-center mb-6">
-                  <p className="text-slate-500 mb-2">This is to certify that</p>
-                  <div className="relative inline-block w-full max-w-md">
+                {/* Recipient Section */}
+                <div className="text-center mb-4 sm:mb-6 lg:mb-8">
+                  <p className="text-slate-400 text-xs sm:text-sm mb-2">This is to certify that</p>
+                  <div className="relative inline-block w-full max-w-[200px] sm:max-w-xs md:max-w-md">
                     <Input
                       type="text"
                       value={userName}
                       onChange={(e) => setUserName(e.target.value)}
-                      placeholder="Enter Your Name"
-                      maxLength={50}
-                      className="text-center text-xl font-semibold border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent border-blue-300 focus:border-blue-500 placeholder:text-slate-400 text-slate-800"
+                      placeholder="Your Name Here"
+                      className="text-center text-lg sm:text-xl lg:text-2xl font-semibold bg-transparent border-0 border-b-2 border-amber-400/50 rounded-none text-white placeholder:text-slate-500 focus:border-amber-400 focus:ring-0 transition-colors"
+                    />
+                    <motion.div 
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent"
+                      initial={{ width: '0%' }}
+                      animate={{ width: userName ? '80%' : '0%' }}
+                      transition={{ duration: 0.3 }}
                     />
                   </div>
+                  <p className="text-slate-400 text-xs sm:text-sm mt-3 sm:mt-4">
+                    has successfully completed the
+                  </p>
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mt-2">
+                    6-Month Digital Marketing & AI Skills Program
+                  </h3>
                 </div>
 
-                {/* Certificate Body */}
-                <div className="text-center mb-8">
-                  <p className="text-slate-600 leading-relaxed max-w-2xl mx-auto">
-                    has successfully completed the <span className="font-semibold text-blue-600">Six-month Digital Marketing Internship</span> at 
-                    Digital Bull Technology Pvt. Ltd, demonstrating proficiency in key areas of digital marketing including:
+                {/* Skills Section */}
+                <div className="mb-6 sm:mb-8">
+                  <p className="text-center text-slate-400 text-xs sm:text-sm mb-3 sm:mb-4">Mastered Skills</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 sm:gap-2 lg:gap-3">
+                    {['SEO & Content', 'Social Media', 'Paid Advertising', 'Analytics & AI', 'Web Design', 'Video Marketing'].map((skill, index) => (
+                      <motion.div
+                        key={skill}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.1 * index }}
+                        className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-slate-800/50 rounded-lg border border-slate-700/50"
+                      >
+                        <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4 text-green-400 flex-shrink-0" />
+                        <span className="text-white text-[10px] sm:text-xs lg:text-sm truncate">{skill}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Signatures Section - Responsive stacking */}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-4 pt-4 sm:pt-6 border-t border-slate-700/50">
+                  {/* Director */}
+                  <div className="text-center order-2 sm:order-1">
+                    <div className="w-20 sm:w-24 lg:w-32 h-8 sm:h-10 lg:h-12 mb-1 sm:mb-2 border-b border-slate-500 flex items-end justify-center">
+                      <span className="text-slate-400 italic text-xs sm:text-sm lg:text-base font-signature">Digital Signature</span>
+                    </div>
+                    <p className="text-white text-xs sm:text-sm font-medium">Director</p>
+                    <p className="text-slate-500 text-[10px] sm:text-xs">Dibull Digital</p>
+                  </div>
+                  
+                  {/* Award Badge - Center */}
+                  <div className="relative order-1 sm:order-2">
+                    <motion.div 
+                      className="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-lg"
+                      animate={{ 
+                        boxShadow: isHovered 
+                          ? ['0 0 20px rgba(251,191,36,0.3)', '0 0 40px rgba(251,191,36,0.5)', '0 0 20px rgba(251,191,36,0.3)']
+                          : '0 0 20px rgba(251,191,36,0.3)'
+                      }}
+                      transition={{ duration: 1.5, repeat: isHovered ? Infinity : 0 }}
+                    >
+                      <Award className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 text-white" />
+                    </motion.div>
+                    <motion.div 
+                      className="absolute -inset-1 sm:-inset-2 border-2 border-amber-400/30 rounded-full"
+                      animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                  </div>
+                  
+                  {/* Manager */}
+                  <div className="text-center order-3">
+                    <div className="w-20 sm:w-24 lg:w-32 h-8 sm:h-10 lg:h-12 mb-1 sm:mb-2 border-b border-slate-500 flex items-end justify-center">
+                      <span className="text-slate-400 italic text-xs sm:text-sm lg:text-base font-signature">Digital Signature</span>
+                    </div>
+                    <p className="text-white text-xs sm:text-sm font-medium">Academy Head</p>
+                    <p className="text-slate-500 text-[10px] sm:text-xs">Training Division</p>
+                  </div>
+                </div>
+
+                {/* Issue Date */}
+                <div className="text-center mt-4 sm:mt-6">
+                  <p className="text-slate-500 text-[10px] sm:text-xs">
+                    Issue Date: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                  </p>
+                  <p className="text-slate-600 text-[9px] sm:text-[10px] mt-1">
+                    Certificate ID: DM-{new Date().getFullYear()}-PREVIEW
                   </p>
                 </div>
+              </div>
 
-                {/* Skills Grid */}
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-8 max-w-2xl mx-auto">
-                  {skills.map((skill, index) => (
-                    <motion.div
-                      key={skill}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.5 + index * 0.1 }}
-                      className="flex items-center gap-2 text-sm text-slate-600"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="truncate">{skill}</span>
-                    </motion.div>
+              {/* Geometric bottom border */}
+              <div className="h-3 sm:h-4 md:h-6 bg-gradient-to-r from-primary via-blue-500 to-primary relative overflow-hidden">
+                <div className="absolute inset-0 flex">
+                  {[...Array(20)].map((_, i) => (
+                    <div 
+                      key={i} 
+                      className="flex-1 border-r border-white/20"
+                      style={{
+                        background: i % 2 === 0 
+                          ? 'linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.1) 50%)' 
+                          : 'linear-gradient(-45deg, transparent 50%, rgba(255,255,255,0.1) 50%)'
+                      }}
+                    />
                   ))}
-                </div>
-
-                {/* Signatures Section */}
-                <div className="flex items-end justify-between max-w-2xl mx-auto mb-6">
-                  {/* Director Signature */}
-                  <div className="text-center">
-                    <div className="w-32 h-0.5 bg-slate-300 mb-2" />
-                    <p className="font-semibold text-slate-700">KRUNAL JANI</p>
-                    <p className="text-xs text-slate-500">DIRECTOR</p>
-                  </div>
-
-                  {/* Award Medal */}
-                  <div className="relative">
-                    <motion.div
-                      animate={{ 
-                        rotate: [0, 5, -5, 0],
-                        scale: [1, 1.05, 1],
-                      }}
-                      transition={{ 
-                        duration: 3, 
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                      }}
-                      className="relative"
-                    >
-                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-500 flex items-center justify-center shadow-lg">
-                        <Award className="w-10 h-10 text-white" />
-                      </div>
-                      {/* Ribbon */}
-                      <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex gap-1">
-                        <div className="w-4 h-8 bg-gradient-to-b from-red-500 to-red-600 transform -rotate-12 rounded-b" />
-                        <div className="w-4 h-8 bg-gradient-to-b from-red-500 to-red-600 transform rotate-12 rounded-b" />
-                      </div>
-                    </motion.div>
-                  </div>
-
-                  {/* Manager Signature */}
-                  <div className="text-center">
-                    <div className="w-32 h-0.5 bg-slate-300 mb-2" />
-                    <p className="font-semibold text-slate-700">MANAGER</p>
-                    <p className="text-xs text-slate-500">OPERATIONS</p>
-                  </div>
-                </div>
-
-                {/* Footer */}
-                <div className="text-center pt-4 border-t border-slate-200">
-                  <div className="flex items-center justify-center gap-6 text-xs text-slate-500">
-                    <div className="flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5" />
-                      <span>Issue Date: {new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Globe className="w-3.5 h-3.5" />
-                      <span>www.dibull.com</span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* CTA Buttons */}
-          <motion.div
+          {/* Action Buttons */}
+          <motion.div 
+            className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-6 sm:mt-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
+            transition={{ delay: 0.5 }}
           >
             <Button
               size="lg"
-              className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white shadow-lg shadow-blue-500/25"
-              asChild
-              onClick={triggerConfetti}
+              className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-white shadow-lg shadow-primary/25 w-full sm:w-auto"
+              onClick={() => window.location.href = '/contact-us'}
             >
-              <Link to="/contact?interest=academy">
-                <Award className="w-5 h-5 mr-2" />
-                Enroll Now to Earn Your Certificate
-              </Link>
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+              Enroll Now
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="border-blue-500/50 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50 min-w-[200px]"
+              className="border-slate-600 text-foreground hover:bg-slate-800/50 w-full sm:w-auto"
               onClick={handleDownloadPDF}
               disabled={isGenerating}
             >
               {isGenerating ? (
                 <>
-                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 mr-2 border-2 border-current border-t-transparent rounded-full animate-spin" />
                   Generating...
                 </>
               ) : (
                 <>
-                  <Download className="w-5 h-5 mr-2" />
+                  <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Download Preview
                 </>
               )}
             </Button>
           </motion.div>
-
-          {/* Helper Text */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="text-center text-sm text-muted-foreground mt-4"
-          >
-            Enter your name above to personalize and download your certificate preview
-          </motion.p>
         </motion.div>
       )}
     </AnimatePresence>

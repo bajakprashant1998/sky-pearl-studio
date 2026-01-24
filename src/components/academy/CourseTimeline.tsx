@@ -216,7 +216,7 @@ const CourseTimeline = () => {
             </div>
 
             {/* Central Timeline Line - Mobile */}
-            <div className="absolute left-6 top-0 bottom-0 w-1 bg-border lg:hidden">
+            <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-1 bg-border lg:hidden">
               <motion.div
                 className="w-full bg-gradient-to-b from-primary via-accent to-primary rounded-full"
                 style={{ height: lineHeight }}
@@ -312,17 +312,17 @@ const TimelineItem = ({ item, index, isExpanded, onToggle }: TimelineItemProps) 
       transition={{ duration: 0.6, delay: 0.1 }}
     >
       {/* Timeline Node */}
-      <div className="absolute left-6 lg:left-1/2 transform -translate-x-1/2 z-20">
+      <div className="absolute left-4 sm:left-6 lg:left-1/2 transform -translate-x-1/2 z-20">
         <motion.div
-          className={`w-14 h-14 rounded-full bg-gradient-to-br ${item.gradient} flex items-center justify-center shadow-lg cursor-pointer`}
+          className={`w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-gradient-to-br ${item.gradient} flex items-center justify-center shadow-lg cursor-pointer`}
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.95 }}
           onClick={onToggle}
         >
-          <Icon className="w-7 h-7 text-primary-foreground" />
+          <Icon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-primary-foreground" />
         </motion.div>
         <motion.div
-          className={`absolute -inset-2 rounded-full border-2 border-dashed ${
+          className={`absolute -inset-1 sm:-inset-2 rounded-full border-2 border-dashed ${
             isExpanded ? "border-primary" : "border-transparent"
           }`}
           animate={isExpanded ? { rotate: 360 } : { rotate: 0 }}
@@ -334,7 +334,7 @@ const TimelineItem = ({ item, index, isExpanded, onToggle }: TimelineItemProps) 
       <div
         className={`w-full lg:w-[calc(50%-4rem)] ${
           isLeft ? "lg:pr-8 lg:ml-0" : "lg:pl-8 lg:mr-0"
-        } ml-20 lg:ml-0`}
+        } ml-14 sm:ml-20 lg:ml-0`}
       >
         <motion.div
           className="bg-card/80 backdrop-blur-sm rounded-2xl border border-border hover:border-primary/50 transition-all duration-300 overflow-hidden cursor-pointer group"
