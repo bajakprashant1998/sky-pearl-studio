@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -17,6 +17,7 @@ import {
   ArrowRight, 
   Search,
   Tag,
+  ChevronDown,
   Sparkles,
   TrendingUp,
   Newspaper,
@@ -90,9 +91,12 @@ const getPatternStyle = (index: number) => {
   return patterns[index % patterns.length];
 };
 
+const POSTS_PER_PAGE = 15; // 5 rows x 3 columns
+
 const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [visibleCount, setVisibleCount] = useState(POSTS_PER_PAGE);
 
   const { data: allPosts = [], isLoading } = useBlogPosts();
   const { data: categories = blogCategories } = useBlogCategories();
@@ -108,8 +112,22 @@ const BlogPage = () => {
     });
   }, [allPosts, selectedCategory, searchQuery]);
 
+  // Reset visible count when filters change
+  useEffect(() => {
+    setVisibleCount(POSTS_PER_PAGE);
+  }, [selectedCategory, searchQuery]);
+
   const featuredPost = allPosts[0];
   const recentPosts = allPosts.slice(1);
+  
+  // Pagination logic
+  const displayPosts = selectedCategory === "All" && !searchQuery ? recentPosts : filteredPosts;
+  const visiblePosts = displayPosts.slice(0, visibleCount);
+  const hasMorePosts = visibleCount < displayPosts.length;
+  
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + POSTS_PER_PAGE);
+  };
 
   return (
     <>
@@ -494,87 +512,106 @@ const BlogPage = () => {
               </div>
             </AnimatedSection>
           ) : (
-            <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {(selectedCategory === "All" && !searchQuery ? recentPosts : filteredPosts).map((post, index) => {
-                const IconComponent = getCategoryIcon(post.category);
-                return (
-                  <StaggerItem key={post.id}>
-                    <Link to={`/blog/${post.slug}`}>
-                      <Card className="h-full overflow-hidden group hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-2 border-0 bg-card">
-                        {/* Icon Graphic Section */}
-                        <div className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
-                          {/* Pattern Overlay */}
-                          <div 
-                            className="absolute inset-0 opacity-10 text-white"
-                            style={getPatternStyle(index)}
-                          />
-                          
-                          {/* Floating Elements */}
-                          <div className="absolute top-4 right-4 w-16 h-16 bg-white/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
-                          <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/10 rounded-full blur-lg" />
-                          
-                          {/* Main Icon */}
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="relative group-hover:scale-110 transition-transform duration-500">
-                              <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
-                              <IconComponent className="relative w-16 h-16 lg:w-20 lg:h-20 text-white drop-shadow-lg" strokeWidth={1.5} />
+            <>
+              <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {visiblePosts.map((post, index) => {
+                  const IconComponent = getCategoryIcon(post.category);
+                  return (
+                    <StaggerItem key={post.id}>
+                      <Link to={`/blog/${post.slug}`}>
+                        <Card className="h-full overflow-hidden group hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-2 border-0 bg-card">
+                          {/* Icon Graphic Section */}
+                          <div className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
+                            {/* Pattern Overlay */}
+                            <div 
+                              className="absolute inset-0 opacity-10 text-white"
+                              style={getPatternStyle(index)}
+                            />
+                            
+                            {/* Floating Elements */}
+                            <div className="absolute top-4 right-4 w-16 h-16 bg-white/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
+                            <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/10 rounded-full blur-lg" />
+                            
+                            {/* Main Icon */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="relative group-hover:scale-110 transition-transform duration-500">
+                                <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
+                                <IconComponent className="relative w-16 h-16 lg:w-20 lg:h-20 text-white drop-shadow-lg" strokeWidth={1.5} />
+                              </div>
+                            </div>
+                            
+                            {/* Category Badge */}
+                            <Badge className="absolute top-4 left-4 bg-white/90 text-foreground backdrop-blur-sm shadow-lg">
+                              {post.category}
+                            </Badge>
+                            
+                            {/* Read Time Pill */}
+                            <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1.5">
+                              <Clock className="w-3.5 h-3.5 text-white" />
+                              <span className="text-white text-xs font-medium">{post.readTime}</span>
                             </div>
                           </div>
                           
-                          {/* Category Badge */}
-                          <Badge className="absolute top-4 left-4 bg-white/90 text-foreground backdrop-blur-sm shadow-lg">
-                            {post.category}
-                          </Badge>
-                          
-                          {/* Read Time Pill */}
-                          <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5 text-white" />
-                            <span className="text-white text-xs font-medium">{post.readTime}</span>
-                          </div>
-                        </div>
-                        
-                        {/* Content */}
-                        <CardContent className="p-6">
-                          <div className="flex items-center gap-3 mb-4 text-sm text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                              <Calendar className="w-4 h-4" />
-                              {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                            </span>
-                            <span className="w-1 h-1 rounded-full bg-muted-foreground" />
-                            <span className="flex items-center gap-1">
-                              <BookOpen className="w-4 h-4" />
-                              {post.tags.length} Topics
-                            </span>
-                          </div>
-                          
-                          <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
-                            {post.title}
-                          </h3>
-                          
-                          <p className="text-muted-foreground mb-4 line-clamp-2 text-sm leading-relaxed">
-                            {post.metaDescription}
-                          </p>
-                          
-                          <div className="flex flex-wrap gap-1.5 mb-4">
-                            {post.tags.slice(0, 3).map(tag => (
-                              <Badge key={tag} variant="secondary" className="text-xs px-2 py-0.5">
-                                {tag}
-                              </Badge>
-                            ))}
-                          </div>
-                          
-                          <div className="flex items-center text-primary font-medium text-sm pt-4 border-t border-border/50 group-hover:gap-3 gap-2 transition-all">
-                            <Rocket className="w-4 h-4" />
-                            Read Article
-                            <ArrowRight className="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" />
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  </StaggerItem>
-                );
-              })}
-            </StaggerContainer>
+                          {/* Content */}
+                          <CardContent className="p-6">
+                            <div className="flex items-center gap-3 mb-4 text-sm text-muted-foreground">
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-4 h-4" />
+                                {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                              </span>
+                              <span className="w-1 h-1 rounded-full bg-muted-foreground" />
+                              <span className="flex items-center gap-1">
+                                <BookOpen className="w-4 h-4" />
+                                {post.tags.length} Topics
+                              </span>
+                            </div>
+                            
+                            <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                              {post.title}
+                            </h3>
+                            
+                            <p className="text-muted-foreground mb-4 line-clamp-2 text-sm leading-relaxed">
+                              {post.metaDescription}
+                            </p>
+                            
+                            <div className="flex flex-wrap gap-1.5 mb-4">
+                              {post.tags.slice(0, 3).map(tag => (
+                                <Badge key={tag} variant="secondary" className="text-xs px-2 py-0.5">
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </div>
+                            
+                            <div className="flex items-center text-primary font-medium text-sm pt-4 border-t border-border/50 group-hover:gap-3 gap-2 transition-all">
+                              <Rocket className="w-4 h-4" />
+                              Read Article
+                              <ArrowRight className="w-4 h-4 ml-auto group-hover:translate-x-1 transition-transform" />
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    </StaggerItem>
+                  );
+                })}
+              </StaggerContainer>
+
+              {/* Load More Button */}
+              {hasMorePosts && (
+                <AnimatedSection direction="up" className="text-center mt-12">
+                  <p className="text-muted-foreground mb-4">
+                    Showing {visibleCount} of {displayPosts.length} articles
+                  </p>
+                  <Button 
+                    onClick={handleLoadMore} 
+                    size="lg"
+                    className="shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow"
+                  >
+                    <ChevronDown className="w-4 h-4 mr-2" />
+                    Load More Articles ({displayPosts.length - visibleCount} remaining)
+                  </Button>
+                </AnimatedSection>
+              )}
+            </>
           )}
         </div>
       </section>
