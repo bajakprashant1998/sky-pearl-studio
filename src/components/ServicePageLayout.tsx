@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Check, ArrowRight, ChevronRight, TrendingUp, Users, Zap, Award, Target, BarChart3, Star, CheckCircle2, Sparkles, Layers, Globe, Shield, Clock } from "lucide-react";
+import { ArrowLeft, Check, ArrowRight, ChevronRight, TrendingUp, Users, Zap, Award, Target, BarChart3, Star, CheckCircle2, Sparkles, Layers, Globe, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LucideIcon } from "lucide-react";
 import Navbar from "./Navbar";
@@ -11,17 +11,6 @@ import { ReactNode } from "react";
 import GrowthChart from "@/components/charts/GrowthChart";
 import ROICalculator from "@/components/charts/ROICalculator";
 import ChannelPerformance from "@/components/charts/ChannelPerformance";
-import { motion } from "framer-motion";
-
-// New Service Enhancement Components
-import ClientLogos from "@/components/services/ClientLogos";
-import ComparisonTable from "@/components/services/ComparisonTable";
-import IndustryResults from "@/components/services/IndustryResults";
-import ServiceFAQ from "@/components/services/ServiceFAQ";
-import RelatedServices from "@/components/services/RelatedServices";
-import ResultsTimeline from "@/components/services/ResultsTimeline";
-import VideoTestimonial from "@/components/services/VideoTestimonial";
-import QuickContactWidget from "@/components/services/QuickContactWidget";
 
 interface ServicePageLayoutProps {
   icon: LucideIcon;
@@ -51,17 +40,10 @@ const whyChooseUs = [
 ];
 
 const processSteps = [
-  { number: "01", title: "Discovery & Analysis", desc: "We dive deep into your business, competitors, and market to understand your unique needs.", duration: "Week 1-2", tools: ["Google Analytics", "SEMrush", "Ahrefs"] },
-  { number: "02", title: "Strategy Development", desc: "Create a customized roadmap aligned with your goals and budget.", duration: "Week 2-3", tools: ["Notion", "Miro", "Figma"] },
-  { number: "03", title: "Implementation", desc: "Execute the strategy with precision using industry best practices.", duration: "Week 3-8", tools: ["WordPress", "Shopify", "Custom"] },
-  { number: "04", title: "Optimization & Reporting", desc: "Continuous improvement based on data and transparent reporting.", duration: "Ongoing", tools: ["Data Studio", "Looker", "Tableau"] },
-];
-
-const trustBadges = [
-  { name: "Google Partner", color: "bg-blue-500" },
-  { name: "Meta Partner", color: "bg-indigo-500" },
-  { name: "Microsoft Ads", color: "bg-cyan-500" },
-  { name: "HubSpot Certified", color: "bg-orange-500" },
+  { number: "01", title: "Discovery & Analysis", desc: "We dive deep into your business, competitors, and market to understand your unique needs." },
+  { number: "02", title: "Strategy Development", desc: "Create a customized roadmap aligned with your goals and budget." },
+  { number: "03", title: "Implementation", desc: "Execute the strategy with precision using industry best practices." },
+  { number: "04", title: "Optimization & Reporting", desc: "Continuous improvement based on data and transparent reporting." },
 ];
 
 const ServicePageLayout = ({
@@ -87,14 +69,6 @@ const ServicePageLayout = ({
     }
   };
 
-  // Rotating subtitles for hero section
-  const rotatingSubtitles = [
-    subtitle,
-    "ROI-Focused Strategies",
-    "Data-Driven Excellence",
-    "Results That Matter"
-  ];
-
   return (
     <>
       <Helmet>
@@ -110,33 +84,8 @@ const ServicePageLayout = ({
       <Navbar />
 
       <main className="pt-20">
-        {/* Hero Section - Enhanced with Animated Background */}
+        {/* Hero Section - Enhanced with stats */}
         <section className="py-20 lg:py-28 bg-gradient-to-br from-primary/5 via-background to-accent/10 relative overflow-hidden">
-          {/* Animated Background Particles */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-64 h-64 rounded-full opacity-20"
-                style={{
-                  background: `radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 70%)`,
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                animate={{
-                  x: [0, 50, 0],
-                  y: [0, -30, 0],
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 8 + i * 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
-          </div>
-
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent rounded-full blur-3xl" />
@@ -161,13 +110,9 @@ const ServicePageLayout = ({
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <AnimatedSection delay={0.1}>
-                  <motion.div 
-                    className="w-20 h-20 bg-gradient-primary rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-primary/25"
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
+                  <div className="w-20 h-20 bg-gradient-primary rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-primary/25">
                     <Icon className="w-10 h-10 text-primary-foreground" />
-                  </motion.div>
+                  </div>
                 </AnimatedSection>
 
                 <AnimatedSection delay={0.15}>
@@ -203,37 +148,26 @@ const ServicePageLayout = ({
                 </AnimatedSection>
               </div>
 
-              {/* Stats Grid with Animated Counters */}
+              {/* Stats Grid */}
               <AnimatedSection delay={0.35}>
                 <div className="grid grid-cols-2 gap-4">
                   {stats.map((stat, index) => (
-                    <motion.div
+                    <div
                       key={index}
                       className="bg-card rounded-2xl p-6 border border-border hover:border-primary/30 hover:shadow-lg transition-all group"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      whileHover={{ y: -5 }}
                     >
-                      <motion.div 
-                        className={`w-12 h-12 rounded-xl bg-gradient-to-r ${stat.color} flex items-center justify-center mb-4`}
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                      >
+                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${stat.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                         <stat.icon className="w-6 h-6 text-white" />
-                      </motion.div>
+                      </div>
                       <div className="text-3xl font-bold text-foreground mb-1">{stat.value}</div>
                       <div className="text-sm text-muted-foreground">{stat.label}</div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </AnimatedSection>
             </div>
           </div>
         </section>
-
-        {/* NEW: Client Logos Section */}
-        <ClientLogos />
 
         {/* Extra Section (like SEO Checker) */}
         {extraSection}
@@ -256,33 +190,20 @@ const ServicePageLayout = ({
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {whyChooseUs.map((item, index) => (
                 <AnimatedSection key={index} delay={index * 0.1}>
-                  <motion.div 
-                    className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all h-full group text-center"
-                    whileHover={{ y: -8 }}
-                  >
-                    <motion.div 
-                      className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4"
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                    >
+                  <div className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all h-full group text-center">
+                    <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                       <item.icon className="w-8 h-8 text-primary-foreground" />
-                    </motion.div>
+                    </div>
                     <h3 className="text-lg font-bold mb-2">{item.title}</h3>
                     <p className="text-sm text-muted-foreground">{item.desc}</p>
-                  </motion.div>
+                  </div>
                 </AnimatedSection>
               ))}
             </div>
           </div>
         </section>
 
-        {/* NEW: Video Testimonial Section */}
-        <VideoTestimonial 
-          title={`See How We Deliver ${subtitle} Results`}
-          clientName="Leading Industry Brand"
-          result="Exceptional Growth Achieved"
-        />
-
-        {/* Subcategories Section - Enhanced with Badges */}
+        {/* Subcategories Section - Card Based with Colors */}
         <section className="py-20 bg-background">
           <div className="container mx-auto px-4">
             <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
@@ -308,31 +229,19 @@ const ServicePageLayout = ({
                   "from-indigo-500 to-blue-500",
                 ];
                 const colorClass = colors[index % colors.length];
-                const isPopular = index === 0; // First subcategory marked as popular
 
                 return (
                   <AnimatedSection key={subcategory.id} delay={index * 0.1}>
                     <Link
                       to={`/services/${slug}/${subcategory.id}`}
-                      className="block bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 hover-lift h-full group relative"
+                      className="block bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 hover-lift h-full group"
                     >
-                      {/* Popular Badge */}
-                      {isPopular && (
-                        <div className="absolute top-3 right-3 z-10 px-3 py-1 bg-amber-400 text-amber-900 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg">
-                          <Star className="w-3 h-3 fill-current" />
-                          POPULAR
-                        </div>
-                      )}
-
                       {/* Colored Header */}
                       <div className={`bg-gradient-to-r ${colorClass} p-6`}>
                         <div className="flex items-center justify-between">
-                          <motion.div 
-                            className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                          >
+                          <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                             <subcategory.icon className="w-7 h-7 text-white" />
-                          </motion.div>
+                          </div>
                           <ChevronRight className="w-6 h-6 text-white/70 group-hover:translate-x-1 transition-all" />
                         </div>
                         <h3 className="text-xl font-bold text-white mt-4">
@@ -359,15 +268,9 @@ const ServicePageLayout = ({
                             </li>
                           )}
                         </ul>
-
-                        {/* Timeline Badge */}
-                        <div className="mt-4 pt-4 border-t border-border flex items-center justify-between">
+                        <div className="mt-4 pt-4 border-t border-border">
                           <span className="text-sm font-medium text-primary group-hover:underline">
                             Explore Services →
-                          </span>
-                          <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                            <Clock className="w-3 h-3" />
-                            2-4 weeks
                           </span>
                         </div>
                       </div>
@@ -379,10 +282,7 @@ const ServicePageLayout = ({
           </div>
         </section>
 
-        {/* NEW: Comparison Table Section */}
-        <ComparisonTable serviceSlug={slug} />
-
-        {/* Process Section - Enhanced with Duration & Tools */}
+        {/* Process Section - Timeline Style */}
         <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-accent/10">
           <div className="container mx-auto px-4">
             <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
@@ -401,10 +301,7 @@ const ServicePageLayout = ({
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {processSteps.map((step, index) => (
                   <AnimatedSection key={index} delay={index * 0.15}>
-                    <motion.div 
-                      className="relative bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all h-full group"
-                      whileHover={{ y: -8 }}
-                    >
+                    <div className="relative bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all h-full group">
                       {/* Step Number */}
                       <div className="text-5xl font-bold text-primary/10 absolute top-4 right-4 group-hover:text-primary/20 transition-colors">
                         {step.number}
@@ -414,28 +311,13 @@ const ServicePageLayout = ({
                         <span className="text-lg font-bold text-white">{step.number}</span>
                       </div>
                       <h3 className="text-lg font-bold mb-2">{step.title}</h3>
-                      <p className="text-sm text-muted-foreground mb-4">{step.desc}</p>
-
-                      {/* Duration Badge */}
-                      <div className="flex items-center gap-2 text-xs text-primary font-medium mb-3">
-                        <Clock className="w-3 h-3" />
-                        {step.duration}
-                      </div>
-
-                      {/* Tools */}
-                      <div className="flex flex-wrap gap-1">
-                        {step.tools.slice(0, 2).map((tool, i) => (
-                          <span key={i} className="px-2 py-0.5 bg-muted text-muted-foreground text-xs rounded-full">
-                            {tool}
-                          </span>
-                        ))}
-                      </div>
+                      <p className="text-sm text-muted-foreground">{step.desc}</p>
 
                       {/* Connector Line */}
                       {index < processSteps.length - 1 && (
                         <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-primary/20" />
                       )}
-                    </motion.div>
+                    </div>
                   </AnimatedSection>
                 ))}
               </div>
@@ -443,10 +325,7 @@ const ServicePageLayout = ({
           </div>
         </section>
 
-        {/* NEW: Related Services Cross-Sell */}
-        <RelatedServices currentSlug={slug} />
-
-        {/* Data & Analytics Section with Results Timeline */}
+        {/* Data & Analytics Section with Charts */}
         <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <AnimatedSection className="text-center max-w-3xl mx-auto mb-16">
@@ -464,8 +343,7 @@ const ServicePageLayout = ({
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               <GrowthChart />
               <ROICalculator />
-              {/* NEW: Results Timeline Component */}
-              <ResultsTimeline serviceTitle={subtitle} />
+              <ChannelPerformance />
             </div>
           </div>
         </section>
@@ -487,19 +365,12 @@ const ServicePageLayout = ({
 
                 <ul className="space-y-4">
                   {benefits.map((benefit, index) => (
-                    <motion.li 
-                      key={index} 
-                      className="flex items-start gap-3"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                    >
+                    <li key={index} className="flex items-start gap-3 animate-fade-up" style={{ animationDelay: `${index * 0.1}s` }}>
                       <div className="w-6 h-6 bg-gradient-primary rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Check className="w-4 h-4 text-primary-foreground" />
                       </div>
                       <span className="text-foreground font-medium">{benefit}</span>
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
               </AnimatedSection>
@@ -534,67 +405,45 @@ const ServicePageLayout = ({
           </div>
         </section>
 
-        {/* NEW: Industry Results Section */}
-        <IndustryResults serviceTitle={subtitle} />
+        {/* Testimonial Section */}
+        <section className="py-20 bg-muted/30">
+          <div className="container mx-auto px-4">
+            <AnimatedSection>
+              <div className="max-w-4xl mx-auto bg-card rounded-3xl p-8 lg:p-12 border border-border text-center relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2" />
+                <div className="absolute bottom-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-2xl translate-x-1/2 translate-y-1/2" />
 
-        {/* NEW: FAQ Section with Schema */}
-        <ServiceFAQ serviceTitle={subtitle} serviceSlug={slug} />
+                <div className="relative">
+                  <div className="flex justify-center gap-1 mb-6">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-6 h-6 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
 
-        {/* CTA Section - Enhanced with Trust Badges */}
-        <section className="py-20 bg-gradient-to-br from-primary/10 via-background to-accent/20 relative overflow-hidden">
-          {/* Animated background */}
-          <motion.div
-            className="absolute inset-0 opacity-30"
-            animate={{
-              background: [
-                "radial-gradient(circle at 0% 0%, hsl(var(--primary) / 0.2) 0%, transparent 50%)",
-                "radial-gradient(circle at 100% 100%, hsl(var(--primary) / 0.2) 0%, transparent 50%)",
-                "radial-gradient(circle at 0% 0%, hsl(var(--primary) / 0.2) 0%, transparent 50%)",
-              ],
-            }}
-            transition={{ duration: 10, repeat: Infinity }}
-          />
+                  <blockquote className="text-xl lg:text-2xl font-medium mb-6 text-foreground">
+                    "Digital Bull Technology transformed our online presence. Their {subtitle.toLowerCase()} expertise helped us achieve 300% growth in organic traffic within 6 months."
+                  </blockquote>
 
-          <div className="container mx-auto px-4 relative z-10">
+                  <div>
+                    <p className="font-semibold text-foreground">Marketing Director</p>
+                    <p className="text-sm text-muted-foreground">Fortune 500 Company</p>
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 bg-gradient-to-br from-primary/10 via-background to-accent/20">
+          <div className="container mx-auto px-4">
             <AnimatedSection className="text-center max-w-3xl mx-auto">
-              {/* Urgency Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 text-amber-800 rounded-full text-sm font-medium mb-6"
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-                </span>
-                Limited slots available this month
-              </motion.div>
-
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
                 Ready to Transform Your <span className="text-gradient">{subtitle}</span>?
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
                 Get a free consultation and discover how we can help you achieve your business goals.
               </p>
-
-              {/* Trust Badges */}
-              <div className="flex flex-wrap justify-center gap-3 mb-8">
-                {trustBadges.map((badge, index) => (
-                  <motion.div
-                    key={badge.name}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-card border border-border rounded-full text-xs font-medium"
-                  >
-                    <div className={`w-2 h-2 rounded-full ${badge.color}`} />
-                    {badge.name}
-                  </motion.div>
-                ))}
-              </div>
-
               <div className="flex flex-wrap justify-center gap-4">
                 <Button variant="hero" size="lg" asChild>
                   <Link to="/contact">
@@ -603,16 +452,13 @@ const ServicePageLayout = ({
                   </Link>
                 </Button>
                 <Button variant="heroOutline" size="lg" asChild>
-                  <Link to="/case-studies">View Case Studies</Link>
+                  <Link to="/free-tools">Try Free Tools</Link>
                 </Button>
               </div>
             </AnimatedSection>
           </div>
         </section>
       </main>
-
-      {/* NEW: Quick Contact Floating Widget */}
-      <QuickContactWidget serviceName={subtitle} />
 
       <Footer />
     </>
