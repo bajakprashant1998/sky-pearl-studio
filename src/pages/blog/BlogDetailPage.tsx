@@ -106,11 +106,21 @@ function parseContentToSections(content: string) {
   
   parts.forEach((part, index) => {
     if (index === 0 && !part.startsWith('## ')) {
-      // First part is intro
-      sections.push({ type: 'intro', content: part.trim() });
+      // First part is intro - clean any standalone # symbols
+      const cleanedIntro = part
+        .replace(/^#+\s*$/gm, '') // Remove lines that are just #
+        .replace(/\s+#+\s*$/gm, '') // Remove trailing # at end of lines
+        .trim();
+      if (cleanedIntro) {
+        sections.push({ type: 'intro', content: cleanedIntro });
+      }
     } else if (part.startsWith('## ')) {
       const lines = part.split('\n');
-      const title = lines[0].replace('## ', '').trim();
+      // Clean section title - remove all # prefixes and suffixes
+      const title = lines[0]
+        .replace(/^#{1,6}\s*/, '')  // Remove leading ##
+        .replace(/\s*#{1,6}$/, '')  // Remove trailing #
+        .trim();
       const sectionContent = lines.slice(1).join('\n').trim();
       
       // Check if this is an actionable tip section
@@ -193,8 +203,13 @@ function formatSectionContent(content: string) {
     }
 
     // Ignore standalone markdown symbols that sometimes leak into generated content
-    // (e.g. a line that is just "#")
-    if (/^#{1,6}$/.test(line)) {
+    // (e.g. a line that is just "#" or "##" or "###" etc.)
+    if (/^#{1,6}\s*$/.test(line)) {
+      continue;
+    }
+    
+    // Also skip lines that are just # with optional whitespace
+    if (/^\s*#+\s*$/.test(line)) {
       continue;
     }
 
@@ -407,6 +422,43 @@ const BlogDetailPage = () => {
     if (!post) return [];
     return parseContentToSections(post.content);
   }, [post]);
+
+  // Category to related services mapping
+  const getRelatedServices = (category: string) => {
+    const serviceMap: Record<string, { title: string; href: string; description: string; gradient: string; icon: React.ElementType }[]> = {
+      "SEO": [
+        { title: "SEO Services", href: "/services/seo", description: "Boost your search rankings and organic traffic", gradient: "from-emerald-500 to-teal-600", icon: Target },
+        { title: "Content Marketing", href: "/services/content-marketing", description: "Create content that drives results", gradient: "from-violet-500 to-purple-600", icon: BookOpen },
+        { title: "Analytics & AI", href: "/services/analytics-ai", description: "Data-driven insights for growth", gradient: "from-blue-500 to-indigo-600", icon: LineChart },
+      ],
+      "AI Marketing": [
+        { title: "AI Marketing", href: "/services/ai-marketing", description: "Leverage AI for smarter marketing", gradient: "from-fuchsia-500 to-pink-600", icon: Brain },
+        { title: "Analytics & AI", href: "/services/analytics-ai", description: "Advanced analytics solutions", gradient: "from-blue-500 to-indigo-600", icon: LineChart },
+        { title: "PPC Advertising", href: "/services/ppc", description: "AI-optimized paid campaigns", gradient: "from-amber-500 to-orange-600", icon: BarChart3 },
+      ],
+      "Web Development": [
+        { title: "Web Design", href: "/services/web-design", description: "Modern, responsive websites", gradient: "from-cyan-500 to-sky-600", icon: Code },
+        { title: "Custom Development", href: "/services/custom-development", description: "Tailored web solutions", gradient: "from-slate-500 to-gray-600", icon: Code },
+        { title: "E-commerce", href: "/services/ecommerce-marketing", description: "Online store solutions", gradient: "from-green-500 to-emerald-600", icon: ShoppingCart },
+      ],
+      "Social Media": [
+        { title: "Social Media", href: "/services/social-media", description: "Grow your social presence", gradient: "from-pink-500 to-rose-600", icon: Share2 },
+        { title: "Content Marketing", href: "/services/content-marketing", description: "Engaging content strategy", gradient: "from-violet-500 to-purple-600", icon: BookOpen },
+        { title: "Video Marketing", href: "/services/video-marketing", description: "Video content that converts", gradient: "from-red-500 to-rose-600", icon: Video },
+      ],
+      "Content Marketing": [
+        { title: "Content Marketing", href: "/services/content-marketing", description: "Strategic content creation", gradient: "from-violet-500 to-purple-600", icon: BookOpen },
+        { title: "SEO Services", href: "/services/seo", description: "SEO-optimized content", gradient: "from-emerald-500 to-teal-600", icon: Target },
+        { title: "Social Media", href: "/services/social-media", description: "Content distribution", gradient: "from-pink-500 to-rose-600", icon: Share2 },
+      ],
+      "E-commerce": [
+        { title: "E-commerce Marketing", href: "/services/ecommerce-marketing", description: "Grow your online store", gradient: "from-green-500 to-emerald-600", icon: ShoppingCart },
+        { title: "Amazon Marketing", href: "/services/amazon-marketing", description: "Dominate Amazon marketplace", gradient: "from-amber-500 to-orange-600", icon: ShoppingCart },
+        { title: "PPC Advertising", href: "/services/ppc", description: "Drive targeted traffic", gradient: "from-blue-500 to-indigo-600", icon: BarChart3 },
+      ],
+    };
+    return serviceMap[category] || serviceMap["SEO"];
+  };
 
   if (isLoading) {
     return (
@@ -987,6 +1039,34 @@ const BlogDetailPage = () => {
                             {copied ? <Check className="w-5 h-5 text-primary" /> : <Copy className="w-5 h-5" />}
                           </button>
                         </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </AnimatedSection>
+
+                {/* Related Services Section */}
+                <AnimatedSection direction="up">
+                  <Card className="border-0 shadow-lg rounded-2xl overflow-hidden">
+                    <div className="bg-gradient-to-r from-primary/10 to-accent/10 px-8 py-5 border-b border-border">
+                      <h3 className="font-bold text-xl text-foreground flex items-center gap-2">
+                        <Rocket className="w-5 h-5 text-primary" />
+                        Related Services
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-1">Explore our expert services in {post.category}</p>
+                    </div>
+                    <CardContent className="p-6">
+                      <div className="grid sm:grid-cols-3 gap-4">
+                        {getRelatedServices(post.category).map((service, idx) => (
+                          <Link key={idx} to={service.href}>
+                            <div className="group p-4 rounded-xl border border-border hover:border-primary/50 hover:bg-primary/5 transition-all">
+                              <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                                <service.icon className="w-5 h-5 text-white" />
+                              </div>
+                              <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-1">{service.title}</h4>
+                              <p className="text-xs text-muted-foreground line-clamp-2">{service.description}</p>
+                            </div>
+                          </Link>
+                        ))}
                       </div>
                     </CardContent>
                   </Card>

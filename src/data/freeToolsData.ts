@@ -28,7 +28,13 @@ export interface FreeTool {
   gradient: string;
   features: string[];
   howItWorks: string[];
+  category: 'seo' | 'content' | 'design' | 'technical';
+  isPopular?: boolean;
+  isNew?: boolean;
+  usageCount?: string;
 }
+
+export type ToolCategory = 'all' | 'seo' | 'content' | 'design' | 'technical';
 
 export const freeToolsData: FreeTool[] = [
   {
@@ -52,7 +58,10 @@ export const freeToolsData: FreeTool[] = [
       "Our tool crawls and analyzes your page",
       "Receive detailed SEO report",
       "Get actionable recommendations"
-    ]
+    ],
+    category: "seo",
+    isPopular: true,
+    usageCount: "15K+"
   },
   {
     id: "speed-test",
@@ -75,7 +84,10 @@ export const freeToolsData: FreeTool[] = [
       "Select device type (mobile/desktop)",
       "Run the speed test",
       "Get detailed performance report"
-    ]
+    ],
+    category: "technical",
+    isPopular: true,
+    usageCount: "12K+"
   },
   {
     id: "ai-content-generator",
@@ -98,7 +110,10 @@ export const freeToolsData: FreeTool[] = [
       "Enter your topic or keywords",
       "Choose tone and style",
       "Generate and refine content"
-    ]
+    ],
+    category: "content",
+    isPopular: true,
+    usageCount: "18K+"
   },
   {
     id: "ai-image-generator",
@@ -121,7 +136,10 @@ export const freeToolsData: FreeTool[] = [
       "Select style and dimensions",
       "Generate image",
       "Download in high resolution"
-    ]
+    ],
+    category: "design",
+    isNew: true,
+    usageCount: "8K+"
   },
   {
     id: "keyword-research",
@@ -144,7 +162,10 @@ export const freeToolsData: FreeTool[] = [
       "Select target location",
       "Analyze keyword metrics",
       "Export keyword list"
-    ]
+    ],
+    category: "seo",
+    isPopular: true,
+    usageCount: "10K+"
   },
   {
     id: "backlink-checker",
@@ -167,7 +188,9 @@ export const freeToolsData: FreeTool[] = [
       "Scan backlink profile",
       "Review link quality metrics",
       "Export detailed report"
-    ]
+    ],
+    category: "seo",
+    usageCount: "6K+"
   },
   {
     id: "competitor-analyzer",
@@ -190,7 +213,9 @@ export const freeToolsData: FreeTool[] = [
       "Run comprehensive analysis",
       "Compare with your site",
       "Identify opportunities"
-    ]
+    ],
+    category: "seo",
+    usageCount: "5K+"
   },
   {
     id: "meta-tag-generator",
@@ -213,7 +238,9 @@ export const freeToolsData: FreeTool[] = [
       "Generate meta tags",
       "Preview in search results",
       "Copy optimized tags"
-    ]
+    ],
+    category: "technical",
+    usageCount: "7K+"
   },
   {
     id: "headline-analyzer",
@@ -236,7 +263,9 @@ export const freeToolsData: FreeTool[] = [
       "Get instant analysis",
       "Review improvement tips",
       "Test alternative versions"
-    ]
+    ],
+    category: "content",
+    usageCount: "4K+"
   },
   {
     id: "schema-markup-generator",
@@ -259,7 +288,9 @@ export const freeToolsData: FreeTool[] = [
       "Fill in required fields",
       "Generate markup code",
       "Add to your website"
-    ]
+    ],
+    category: "technical",
+    usageCount: "3K+"
   },
   {
     id: "hashtag-generator",
@@ -282,7 +313,10 @@ export const freeToolsData: FreeTool[] = [
       "Select social media platform",
       "Get hashtag suggestions",
       "Copy and use in your posts"
-    ]
+    ],
+    category: "content",
+    isNew: true,
+    usageCount: "9K+"
   },
   {
     id: "robots-txt-generator",
@@ -305,7 +339,9 @@ export const freeToolsData: FreeTool[] = [
       "Add allow/disallow rules",
       "Set sitemap URL",
       "Download robots.txt file"
-    ]
+    ],
+    category: "technical",
+    usageCount: "2K+"
   },
   {
     id: "domain-authority-checker",
@@ -328,7 +364,9 @@ export const freeToolsData: FreeTool[] = [
       "Check authority score",
       "View detailed metrics",
       "Get improvement tips"
-    ]
+    ],
+    category: "seo",
+    usageCount: "4K+"
   },
   {
     id: "ssl-checker",
@@ -351,7 +389,9 @@ export const freeToolsData: FreeTool[] = [
       "Check SSL status",
       "View certificate details",
       "Get security recommendations"
-    ]
+    ],
+    category: "technical",
+    usageCount: "3K+"
   },
   {
     id: "color-palette-generator",
@@ -374,7 +414,9 @@ export const freeToolsData: FreeTool[] = [
       "Generate palette variations",
       "Preview in mockups",
       "Export color codes"
-    ]
+    ],
+    category: "design",
+    usageCount: "5K+"
   }
 ];
 
