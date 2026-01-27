@@ -44,9 +44,12 @@ import {
   TrendingUp,
   Zap,
   Award,
-  Settings
+  Settings,
+  ExternalLink,
+  Link2
 } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
+import { injectSeoLinks, getCategoryAuthorityLinks, getRecommendedReading } from "@/utils/blogSeoLinks";
 
 // Category to icon mapping for visual variety
 const getCategoryIcon = (category: string) => {
@@ -184,7 +187,7 @@ function formatContent(content: string) {
 }
 
 // Simple content formatter for inline use
-function formatSectionContent(content: string) {
+function formatSectionContent(content: string, injectLinks: boolean = false, currentSlug?: string) {
   // Don't strip markdown headings yet - we need to convert them to HTML first
   const lines = content.split('\n');
   let result = '';
@@ -250,6 +253,12 @@ function formatSectionContent(content: string) {
   
   if (inList) {
     result += '</ul>';
+  }
+  
+  // Inject SEO links if enabled
+  if (injectLinks) {
+    const { content: linkedContent } = injectSeoLinks(result, currentSlug);
+    return linkedContent;
   }
   
   return result;
@@ -876,12 +885,15 @@ const BlogDetailPage = () => {
                         <Card className="border-0 shadow-lg rounded-2xl bg-card">
                           <CardContent className="p-8">
                             <div 
-                              className="prose prose-lg max-w-none text-muted-foreground leading-relaxed"
+                              className="prose prose-lg max-w-none text-muted-foreground leading-relaxed [&_a]:text-primary [&_a]:hover:text-primary/80 [&_a]:underline [&_a]:decoration-primary/30 [&_a]:hover:decoration-primary [&_a]:transition-colors"
                               style={{ lineHeight: '1.8' }}
                               dangerouslySetInnerHTML={{ 
-                                __html: section.content
-                                  .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-foreground">$1</strong>')
-                                  .replace(/\n\n/g, '</p><p class="mb-4">')
+                                __html: injectSeoLinks(
+                                  section.content
+                                    .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-foreground">$1</strong>')
+                                    .replace(/\n\n/g, '</p><p class="mb-4">'),
+                                  slug
+                                ).content
                               }} 
                             />
                           </CardContent>
@@ -903,11 +915,11 @@ const BlogDetailPage = () => {
                               {section.title}
                             </h2>
                             
-                            {/* Section Content */}
+                            {/* Section Content with SEO Links */}
                             <div 
-                              className="prose prose-lg max-w-none text-muted-foreground"
+                              className="prose prose-lg max-w-none text-muted-foreground [&_a]:text-primary [&_a]:hover:text-primary/80 [&_a]:underline [&_a]:decoration-primary/30 [&_a]:hover:decoration-primary [&_a]:transition-colors [&_a]:font-medium"
                               style={{ lineHeight: '1.8' }}
-                              dangerouslySetInnerHTML={{ __html: formatSectionContent(section.content) }}
+                              dangerouslySetInnerHTML={{ __html: formatSectionContent(section.content, true, slug) }}
                             />
                           </CardContent>
                         </Card>
@@ -926,11 +938,11 @@ const BlogDetailPage = () => {
                             </h3>
                           </div>
                           
-                          {/* Tip Content */}
+                          {/* Tip Content with SEO Links */}
                           <div 
-                            className="text-foreground leading-relaxed"
+                            className="text-foreground leading-relaxed [&_a]:text-primary [&_a]:hover:text-primary/80 [&_a]:underline [&_a]:decoration-primary/30 [&_a]:hover:decoration-primary [&_a]:transition-colors"
                             style={{ lineHeight: '1.8' }}
-                            dangerouslySetInnerHTML={{ __html: formatSectionContent(section.content) }}
+                            dangerouslySetInnerHTML={{ __html: formatSectionContent(section.content, true, slug) }}
                           />
                         </CardContent>
                       </Card>
@@ -945,9 +957,9 @@ const BlogDetailPage = () => {
                     <Card className="border-0 shadow-lg rounded-2xl bg-card">
                       <CardContent className="p-8">
                         <div 
-                          className="prose prose-lg max-w-none text-muted-foreground"
+                          className="prose prose-lg max-w-none text-muted-foreground [&_a]:text-primary [&_a]:hover:text-primary/80 [&_a]:underline [&_a]:decoration-primary/30 [&_a]:hover:decoration-primary [&_a]:transition-colors"
                           style={{ lineHeight: '1.8' }}
-                          dangerouslySetInnerHTML={{ __html: formatSectionContent(post.content) }}
+                          dangerouslySetInnerHTML={{ __html: formatSectionContent(post.content, true, slug) }}
                         />
                       </CardContent>
                     </Card>
@@ -1071,6 +1083,91 @@ const BlogDetailPage = () => {
                     </CardContent>
                   </Card>
                 </AnimatedSection>
+
+                {/* Authority Resources Section - External High-Quality Links */}
+                <AnimatedSection direction="up">
+                  <Card className="border-0 shadow-lg rounded-2xl overflow-hidden">
+                    <div className="bg-gradient-to-r from-blue-500/10 to-indigo-500/10 px-8 py-5 border-b border-border">
+                      <h3 className="font-bold text-xl text-foreground flex items-center gap-2">
+                        <ExternalLink className="w-5 h-5 text-blue-600" />
+                        Authority Resources
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-1">Trusted external sources for deeper learning</p>
+                    </div>
+                    <CardContent className="p-6">
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        {getCategoryAuthorityLinks(post.category).map((resource, idx) => (
+                          <a 
+                            key={idx} 
+                            href={resource.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex items-start gap-3 p-4 rounded-xl border border-border hover:border-blue-500/50 hover:bg-blue-500/5 transition-all"
+                          >
+                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                              <Globe className="w-5 h-5 text-white" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold text-foreground group-hover:text-blue-600 transition-colors mb-1 flex items-center gap-1">
+                                {resource.title}
+                                <ExternalLink className="w-3 h-3 opacity-50" />
+                              </h4>
+                              <p className="text-xs text-muted-foreground truncate">{resource.href}</p>
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </AnimatedSection>
+
+                {/* Recommended Reading Section - Internal Blog Links */}
+                {relatedPosts.length > 0 && (
+                  <AnimatedSection direction="up">
+                    <Card className="border-0 shadow-lg rounded-2xl overflow-hidden">
+                      <div className="bg-gradient-to-r from-violet-500/10 to-purple-500/10 px-8 py-5 border-b border-border">
+                        <h3 className="font-bold text-xl text-foreground flex items-center gap-2">
+                          <BookOpen className="w-5 h-5 text-violet-600" />
+                          Recommended Reading
+                        </h3>
+                        <p className="text-sm text-muted-foreground mt-1">Continue learning with related articles</p>
+                      </div>
+                      <CardContent className="p-6">
+                        <div className="space-y-4">
+                          {relatedPosts.map((relatedPost, idx) => (
+                            <Link 
+                              key={idx} 
+                              to={`/blog/${relatedPost.slug}`}
+                              className="group flex items-start gap-4 p-4 rounded-xl border border-border hover:border-violet-500/50 hover:bg-violet-500/5 transition-all"
+                            >
+                              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${getCategoryGradient(relatedPost.category)} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                                {(() => {
+                                  const IconComponent = getCategoryIcon(relatedPost.category);
+                                  return <IconComponent className="w-6 h-6 text-white" />;
+                                })()}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-semibold text-foreground group-hover:text-violet-600 transition-colors mb-1 line-clamp-2">
+                                  {relatedPost.title}
+                                </h4>
+                                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                                  <span className="flex items-center gap-1">
+                                    <Clock className="w-3 h-3" />
+                                    {relatedPost.readTime}
+                                  </span>
+                                  <Badge variant="outline" className="text-[10px] py-0.5">
+                                    {relatedPost.category}
+                                  </Badge>
+                                </div>
+                              </div>
+                              <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-violet-600 group-hover:translate-x-1 transition-all flex-shrink-0" />
+                            </Link>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </AnimatedSection>
+                )}
               </div>
 
               {/* Floating Social Share Buttons - Desktop only */}
@@ -1187,6 +1284,44 @@ const BlogDetailPage = () => {
                           About Our Team
                         </Button>
                       </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* SEO Optimized Badge Card */}
+                <Card className="border-0 shadow-lg rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-200/50 dark:border-emerald-800/50">
+                  <CardContent className="p-5">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+                        <Link2 className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm text-foreground">SEO Optimized</h4>
+                        <p className="text-xs text-muted-foreground">Enhanced with quality links</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2 text-xs">
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-background/60">
+                        <span className="text-muted-foreground flex items-center gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-primary"></div>
+                          Internal Links
+                        </span>
+                        <span className="font-semibold text-foreground">3-5</span>
+                      </div>
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-background/60">
+                        <span className="text-muted-foreground flex items-center gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                          Authority Links
+                        </span>
+                        <span className="font-semibold text-foreground">1-3</span>
+                      </div>
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-background/60">
+                        <span className="text-muted-foreground flex items-center gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                          SEO Score
+                        </span>
+                        <span className="font-semibold text-emerald-600">Excellent</span>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
