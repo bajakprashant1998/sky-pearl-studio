@@ -391,10 +391,12 @@ const DigitalMarketingAcademy = () => {
               <Button 
                 size="lg" 
                 className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-white shadow-lg shadow-primary/25 text-sm sm:text-base"
-                onClick={() => window.location.href = '/contact-us'}
+                asChild
               >
-                <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                Enroll Now - ₹35,000
+                <Link to="/contact?interest=academy">
+                  <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                  Enroll Now - ₹25,000/Month
+                </Link>
               </Button>
               <Button 
                 size="lg" 
@@ -408,21 +410,33 @@ const DigitalMarketingAcademy = () => {
             </div>
 
             {/* Course Highlights */}
-            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
               {courseDetails.map((detail, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + index * 0.1 }}
-                  className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+                  className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:border-white/40 transition-all duration-300"
                 >
-                  <div className={`p-1.5 sm:p-2 rounded-lg bg-gradient-to-br ${detail.gradient}`}>
-                    <detail.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-base sm:text-lg lg:text-xl font-bold text-white">{detail.value}</p>
-                    <p className="text-[10px] sm:text-xs text-slate-400">{detail.label}</p>
+                  {/* Gradient overlay on hover */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${detail.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300`} />
+                  
+                  <div className="relative p-4 sm:p-5 flex flex-col items-center text-center">
+                    {/* Icon with gradient background */}
+                    <div className={`p-2.5 sm:p-3 rounded-xl bg-gradient-to-br ${detail.gradient} mb-3 shadow-lg`}>
+                      <detail.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                    </div>
+                    
+                    {/* Label */}
+                    <p className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-medium mb-1">
+                      {detail.label}
+                    </p>
+                    
+                    {/* Value */}
+                    <p className="text-sm sm:text-base lg:text-lg font-bold text-white leading-tight">
+                      {detail.value}
+                    </p>
                   </div>
                 </motion.div>
               ))}
@@ -561,7 +575,7 @@ const DigitalMarketingAcademy = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {digitalMarketingCurriculum.map((module, index) => (
               <AnimatedSection key={index} delay={index * 0.05}>
-                <Link to={`/digital-marketing-academy/${module.slug}`}>
+                <Link to={`/digital-marketing-academy/module/${module.slug}`}>
                   <motion.div 
                     className="bg-card rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-border hover:border-primary/50 transition-all duration-300 h-full group cursor-pointer relative overflow-hidden"
                     whileHover={{ y: -5 }}
