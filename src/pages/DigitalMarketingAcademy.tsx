@@ -332,7 +332,7 @@ const DigitalMarketingAcademy = () => {
         <Navbar />
 
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20">
+      <section ref={heroRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-primary/20" />
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
