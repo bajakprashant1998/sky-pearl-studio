@@ -368,7 +368,7 @@ const AcademyModuleDetailPage = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             {prevModule ? (
-              <Link to={`/digital-marketing-academy/${prevModule.slug}`}>
+              <Link to={`/digital-marketing-academy/module/${prevModule.slug}`}>
                 <Button variant="outline" className="gap-2">
                   <ArrowLeft className="w-4 h-4" />
                   {prevModule.shortTitle}
@@ -383,7 +383,7 @@ const AcademyModuleDetailPage = () => {
             </Link>
             
             {nextModule ? (
-              <Link to={`/digital-marketing-academy/${nextModule.slug}`}>
+              <Link to={`/digital-marketing-academy/module/${nextModule.slug}`}>
                 <Button variant="outline" className="gap-2">
                   {nextModule.shortTitle}
                   <ArrowLeft className="w-4 h-4 rotate-180" />
