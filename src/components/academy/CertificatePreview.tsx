@@ -356,10 +356,12 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
             <Button
               size="lg"
               className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-white shadow-lg shadow-primary/25 w-full sm:w-auto"
-              onClick={() => window.location.href = '/contact-us'}
+              asChild
             >
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-              Enroll Now
+              <Link to="/contact?interest=academy">
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                Enroll Now
+              </Link>
             </Button>
             <Button
               size="lg"

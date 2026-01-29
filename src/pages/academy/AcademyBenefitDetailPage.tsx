@@ -50,7 +50,7 @@ const AcademyBenefitDetailPage = () => {
           name="keywords"
           content="digital marketing ahmedabad, digital marketing agency ahmedabad, digital marketing company in ahmedabad, marketing agency in ahmedabad, social media marketing agency in ahmedabad, digital marketing academy, digital marketing course ahmedabad"
         />
-        <link rel="canonical" href={`https://dibull.com/digital-marketing-academy/${benefit.slug}`} />
+        <link rel="canonical" href={`https://dibull.com/digital-marketing-academy/benefit/${benefit.slug}`} />
         <meta property="og:title" content={`${benefit.fullTitle} | Digital Marketing Academy`} />
         <meta property="og:description" content={benefit.description} />
         <meta property="og:type" content="article" />
@@ -209,7 +209,7 @@ const AcademyBenefitDetailPage = () => {
                   const OtherIcon = otherBenefit.icon;
                   return (
                     <AnimatedSection key={otherBenefit.id} delay={index * 0.05}>
-                      <Link to={`/digital-marketing-academy/${otherBenefit.slug}`}>
+                      <Link to={`/digital-marketing-academy/benefit/${otherBenefit.slug}`}>
                         <div className="bg-card rounded-xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300 h-full group">
                           <div className={`w-12 h-12 bg-gradient-to-br ${otherBenefit.gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                             <OtherIcon className="w-6 h-6 text-white" />
