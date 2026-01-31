@@ -365,7 +365,7 @@ const DigitalMarketingAcademy = () => {
               delay: 0.2
             }} className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-primary/10 border border-primary/20 mb-4 sm:mb-6">
               <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-              <span className="text-xs sm:text-sm font-medium text-blue-50">6-Month Practical Training Program</span>
+              <span className="text-xs font-medium text-blue-50 sm:text-base">6-Month Practical Training Program</span>
             </motion.div>
 
             {/* Heading */}
