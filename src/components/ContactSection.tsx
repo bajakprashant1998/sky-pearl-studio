@@ -4,24 +4,28 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AnimatedSection from "./AnimatedSection";
 import TurnstileWidget from "@/components/TurnstileWidget";
-
 const ContactSection = () => {
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: ""
   });
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const {
+      name,
+      value
+    } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
-
   const validateForm = () => {
     if (!formData.name.trim()) return "Name is required";
     if (!formData.email.trim()) return "Email is required";
@@ -31,44 +35,38 @@ const ContactSection = () => {
     if (!captchaToken) return "Please complete the CAPTCHA verification";
     return null;
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const error = validateForm();
     if (error) {
       toast({
         variant: "destructive",
         title: "Validation Error",
-        description: error,
+        description: error
       });
       return;
     }
-
     setLoading(true);
-
     try {
       const response = await fetch("https://email.dibull.com", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
-          captchaToken: captchaToken,
-        }),
+          captchaToken: captchaToken
+        })
       });
-
       if (!response.ok) {
         throw new Error("Failed to send message");
       }
-
       toast({
         title: "Success!",
-        description: "Your message has been sent successfully.",
+        description: "Your message has been sent successfully."
       });
 
       // Clear form
@@ -79,24 +77,20 @@ const ContactSection = () => {
         message: ""
       });
       setCaptchaToken(null);
-
     } catch (error) {
       console.error("Submission Error:", error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to send message. Please try again later.",
+        description: "Failed to send message. Please try again later."
       });
     } finally {
       setLoading(false);
     }
   };
-
   const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
-
-  return (
-    <section id="contact" className="py-16 md:py-24">
-      <div className="container mx-auto px-4">
+  return <section id="contact" className="py-16 md:py-24">
+      <div className="container mx-auto px-0">
         <div className="relative bg-gradient-primary rounded-3xl p-6 sm:p-8 md:p-12 lg:p-16 overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -116,10 +110,7 @@ const ContactSection = () => {
               </p>
 
               <div className="space-y-4">
-                <a
-                  href="mailto:info@dibull.com"
-                  className="flex items-center gap-4 group hover:opacity-90 transition-opacity p-2 rounded-lg hover:bg-white/5"
-                >
+                <a href="mailto:info@dibull.com" className="flex items-center gap-4 group hover:opacity-90 transition-opacity p-2 rounded-lg hover:bg-white/5">
                   <div className="w-12 h-12 bg-primary-foreground/20 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
                     <Mail className="w-6 h-6 text-primary-foreground" />
                   </div>
@@ -128,10 +119,7 @@ const ContactSection = () => {
                   </span>
                 </a>
 
-                <a
-                  href="tel:+919824011921"
-                  className="flex items-center gap-4 group hover:opacity-90 transition-opacity p-2 rounded-lg hover:bg-white/5"
-                >
+                <a href="tel:+919824011921" className="flex items-center gap-4 group hover:opacity-90 transition-opacity p-2 rounded-lg hover:bg-white/5">
                   <div className="w-12 h-12 bg-primary-foreground/20 rounded-xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
                     <Phone className="w-6 h-6 text-primary-foreground" />
                   </div>
@@ -164,105 +152,51 @@ const ContactSection = () => {
                     <label htmlFor="name" className="block text-sm font-semibold text-foreground mb-2 ml-1">
                       Full Name
                     </label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      placeholder="John Doe"
-                      className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
-                    />
+                    <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} required placeholder="John Doe" className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200" />
                   </div>
 
                   <div>
                     <label htmlFor="email" className="block text-sm font-semibold text-foreground mb-2 ml-1">
                       Email Address
                     </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="john@example.com"
-                      className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
-                    />
+                    <input id="email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="john@example.com" className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200" />
                   </div>
 
                   <div>
                     <label htmlFor="phone" className="block text-sm font-semibold text-foreground mb-2 ml-1">
                       Phone Number
                     </label>
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      placeholder="+91 98765 43210"
-                      className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
-                    />
+                    <input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} required placeholder="+91 98765 43210" className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200" />
                   </div>
 
                   <div>
                     <label htmlFor="message" className="block text-sm font-semibold text-foreground mb-2 ml-1">
                       Message
                     </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={4}
-                      placeholder="Tell us about your project or requirements..."
-                      className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 resize-none"
-                    />
+                    <textarea id="message" name="message" value={formData.message} onChange={handleChange} required rows={4} placeholder="Tell us about your project or requirements..." className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 resize-none" />
                   </div>
 
                   <div className="py-2">
-                    {siteKey ? (
-                      <TurnstileWidget
-                        siteKey={siteKey}
-                        onVerify={(token) => setCaptchaToken(token)}
-                        onError={() => {
-                          toast({
-                            variant: "destructive",
-                            title: "Verification Failed",
-                            description: "CAPTCHA verification failed. Please try again.",
-                          });
-                          setCaptchaToken(null);
-                        }}
-                      />
-                    ) : (
-                      <div className="p-4 bg-destructive/10 text-destructive text-sm rounded-lg">
+                    {siteKey ? <TurnstileWidget siteKey={siteKey} onVerify={token => setCaptchaToken(token)} onError={() => {
+                    toast({
+                      variant: "destructive",
+                      title: "Verification Failed",
+                      description: "CAPTCHA verification failed. Please try again."
+                    });
+                    setCaptchaToken(null);
+                  }} /> : <div className="p-4 bg-destructive/10 text-destructive text-sm rounded-lg">
                         Error: CAPTCHA site key is missing.
-                      </div>
-                    )}
+                      </div>}
                   </div>
 
-                  <Button
-                    type="submit"
-                    variant="hero"
-                    size="lg"
-                    className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
+                  <Button type="submit" variant="hero" size="lg" className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300" disabled={loading}>
+                    {loading ? <>
                         <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                         Sending Message...
-                      </>
-                    ) : (
-                      <>
+                      </> : <>
                         Send Message
                         <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </>
-                    )}
+                      </>}
                   </Button>
                 </form>
               </div>
@@ -270,8 +204,6 @@ const ContactSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default ContactSection;
