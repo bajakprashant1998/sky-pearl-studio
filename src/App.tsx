@@ -23,6 +23,9 @@ import AIMarketingPage from "./pages/services/AIMarketingPage";
 import TrainingProgramsPage from "./pages/services/TrainingProgramsPage";
 import SaaSProductsPage from "./pages/services/SaaSProductsPage";
 import BrandingDesignPage from "./pages/services/BrandingDesignPage";
+import MarketingAutomationPage from "./pages/services/MarketingAutomationPage";
+import ConversionUXPage from "./pages/services/ConversionUXPage";
+import GrowthHackingPage from "./pages/services/GrowthHackingPage";
 import SubcategoryPage from "./pages/services/subcategory/SubcategoryPage";
 import FeatureDetailPage from "./pages/services/subcategory/FeatureDetailPage";
 import BenefitDetailPage from "./pages/services/subcategory/BenefitDetailPage";
@@ -84,6 +87,9 @@ const App = () => (
             <Route path="/services/training-programs" element={<TrainingProgramsPage />} />
             <Route path="/services/saas-products" element={<SaaSProductsPage />} />
             <Route path="/services/branding-design" element={<BrandingDesignPage />} />
+            <Route path="/services/marketing-automation-crm" element={<MarketingAutomationPage />} />
+            <Route path="/services/conversion-ui-ux" element={<ConversionUXPage />} />
+            <Route path="/services/growth-hacking" element={<GrowthHackingPage />} />
             <Route path="/services/:serviceSlug/:subcategoryId" element={<SubcategoryPage />} />
             <Route path="/services/:serviceSlug/:subcategoryId/feature/:itemSlug" element={<FeatureDetailPage />} />
             <Route path="/services/:serviceSlug/:subcategoryId/benefit/:itemSlug" element={<BenefitDetailPage />} />
