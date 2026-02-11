@@ -57,6 +57,14 @@ import AIVideoEditingPage from "./pages/academy/AIVideoEditingPage";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
 
+import AdminRoute from "@/components/admin/AdminRoute";
+import AdminLogin from "@/pages/admin/AdminLogin";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import AdminPages from "@/pages/admin/AdminPages";
+import AdminPageEditor from "@/pages/admin/AdminPageEditor";
+import AdminBlog from "@/pages/admin/AdminBlog";
+import AdminSettings from "@/pages/admin/AdminSettings";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -116,6 +124,14 @@ const App = () => (
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+            <Route path="/admin/pages" element={<AdminRoute><AdminPages /></AdminRoute>} />
+            <Route path="/admin/pages/:pageId" element={<AdminRoute><AdminPageEditor /></AdminRoute>} />
+            <Route path="/admin/blog" element={<AdminRoute><AdminBlog /></AdminRoute>} />
+            <Route path="/admin/settings" element={<AdminRoute><AdminSettings /></AdminRoute>} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
