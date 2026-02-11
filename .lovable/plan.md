@@ -1,213 +1,243 @@
 
 
-# Broken Links & Cross-Navigation Fix Plan
+# Comprehensive Website Enhancement Plan
 
-## Summary of Issues Found
-
-After thorough investigation of the codebase, I found **5 critical broken link patterns** across the website that need to be fixed:
-
-| # | Location | Issue | Current Link | Should Be |
-|---|----------|-------|--------------|-----------|
-| 1 | `AcademyBenefitDetailPage.tsx` (Line 212) | "Explore Other Benefits" cards link missing `/benefit/` prefix | `/digital-marketing-academy/${slug}` | `/digital-marketing-academy/benefit/${slug}` |
-| 2 | `AcademyModuleDetailPage.tsx` (Lines 371, 386) | Prev/Next module navigation missing `/module/` prefix | `/digital-marketing-academy/${slug}` | `/digital-marketing-academy/module/${slug}` |
-| 3 | `CertificatePreview.tsx` (Line 359) | "Start Your Journey" button links to non-existent page | `/contact-us` | `/contact` |
-| 4 | `Footer.tsx` (Line 27) | "Digital Marketing Classes" links to non-existent page | `/digital-marketing-classes` | `/digital-marketing-academy` |
-| 5 | `AcademyBenefitDetailPage.tsx` (Line 53) | Canonical URL missing `/benefit/` prefix | `dibull.com/digital-marketing-academy/${slug}` | `dibull.com/digital-marketing-academy/benefit/${slug}` |
+This plan covers all three requested features in a phased approach. Each phase can be completed independently.
 
 ---
 
-## Route Structure Reference
+## Phase 1: Admin Dashboard System
 
-From `App.tsx`, the correct routes are:
-- `/digital-marketing-academy` - Main academy page
-- `/digital-marketing-academy/benefit/:benefitSlug` - Benefit detail pages
-- `/digital-marketing-academy/module/:moduleSlug` - Module detail pages
-- `/digital-marketing-academy/ai-website-designing` - AI Website page
-- `/digital-marketing-academy/ai-graphic-designing` - AI Graphic page
-- `/digital-marketing-academy/ai-video-editing` - AI Video page
-- `/contact` - Contact page (NOT `/contact-us`)
+### 1.1 Database Setup
 
----
+Create the following tables via database migrations:
 
-## Phase 1: Fix Academy Benefit Detail Page
+**user_roles table** (for secure role management):
+- `id` (uuid, primary key)
+- `user_id` (uuid, references auth.users)
+- `role` (enum: admin, editor)
+- Unique constraint on user_id + role
 
-**File: `src/pages/academy/AcademyBenefitDetailPage.tsx`**
+**page_seo_settings table** (for managing SEO/OG metadata per page):
+- `id` (uuid, primary key)
+- `page_path` (text, unique) - e.g. "/services/seo", "/about-us"
+- `meta_title` (text)
+- `meta_description` (text)
+- `meta_keywords` (text)
+- `og_title` (text)
+- `og_description` (text)
+- `og_image` (text)
+- `og_type` (text, default "website")
+- `canonical_url` (text)
+- `updated_by` (uuid)
+- `created_at`, `updated_at` timestamps
 
-### 1.1 Fix "Explore Other Benefits" Links (Line 212)
+**page_content table** (for editable content sections):
+- `id` (uuid, primary key)
+- `page_path` (text)
+- `section_key` (text) - e.g. "hero_title", "hero_subtitle"
+- `content` (jsonb) - flexible content storage
+- `updated_by` (uuid)
+- `created_at`, `updated_at` timestamps
+- Unique constraint on page_path + section_key
 
-**Current Code:**
-```tsx
-<Link to={`/digital-marketing-academy/${otherBenefit.slug}`}>
-```
+**Security functions:**
+- `has_role(user_id, role)` security definer function
+- RLS policies restricting writes to admin role only, reads public for published content
 
-**Fixed Code:**
-```tsx
-<Link to={`/digital-marketing-academy/benefit/${otherBenefit.slug}`}>
-```
+### 1.2 Initial Admin Account
 
-### 1.2 Fix Canonical URL (Line 53)
+- Register `info@dibull.com` via Supabase Auth (email + password)
+- Auto-confirm this email for immediate access
+- Insert admin role into `user_roles` table
+- Admin can change password from the dashboard
 
-**Current Code:**
-```tsx
-<link rel="canonical" href={`https://dibull.com/digital-marketing-academy/${benefit.slug}`} />
-```
+### 1.3 Admin Dashboard Pages
 
-**Fixed Code:**
-```tsx
-<link rel="canonical" href={`https://dibull.com/digital-marketing-academy/benefit/${benefit.slug}`} />
-```
+New routes added to the app:
 
----
+- `/admin/login` - Admin login page
+- `/admin` - Dashboard home with overview stats
+- `/admin/pages` - List of all website pages with SEO status
+- `/admin/pages/:pageId` - Edit page SEO metadata and content
+- `/admin/blog` - Manage blog posts (existing blog_posts table)
+- `/admin/settings` - Change password, general settings
 
-## Phase 2: Fix Academy Module Detail Page
+### 1.4 Admin UI Components
 
-**File: `src/pages/academy/AcademyModuleDetailPage.tsx`**
+- **AdminLayout** - Sidebar navigation with protected route wrapper
+- **PageSEOEditor** - Form to edit meta title, description, keywords, OG tags, canonical URL
+- **ContentEditor** - Rich content editor for page sections (hero text, descriptions, CTA text)
+- **AdminRoute** - Protected route component that checks `has_role` before allowing access
+- **BlogManager** - CRUD interface for blog posts using existing table
 
-### 2.1 Fix Previous Module Navigation (Line 371)
+### 1.5 Page Content Integration
 
-**Current Code:**
-```tsx
-<Link to={`/digital-marketing-academy/${prevModule.slug}`}>
-```
-
-**Fixed Code:**
-```tsx
-<Link to={`/digital-marketing-academy/module/${prevModule.slug}`}>
-```
-
-### 2.2 Fix Next Module Navigation (Line 386)
-
-**Current Code:**
-```tsx
-<Link to={`/digital-marketing-academy/${nextModule.slug}`}>
-```
-
-**Fixed Code:**
-```tsx
-<Link to={`/digital-marketing-academy/module/${nextModule.slug}`}>
-```
-
----
-
-## Phase 3: Fix Certificate Preview Component
-
-**File: `src/components/academy/CertificatePreview.tsx`**
-
-### 3.1 Fix "Start Your Journey" Button (Line 359)
-
-**Current Code:**
-```tsx
-onClick={() => window.location.href = '/contact-us'}
-```
-
-**Fixed Code:**
-```tsx
-// Replace with proper Link component and correct path
-asChild
->
-  <Link to="/contact?interest=academy">
-```
-
-Note: This also requires importing `Link` from `react-router-dom` at the top of the file if not already imported.
+Each public page will check the `page_content` and `page_seo_settings` tables for overrides:
+- If admin has set custom SEO for a page path, those values are used in Helmet
+- If no custom SEO exists, the existing hardcoded defaults remain as fallbacks
+- Content sections use a `usePageContent(pagePath, sectionKey)` hook
 
 ---
 
-## Phase 4: Fix Footer Link
+## Phase 2: Open Graph Metadata for Social Crawlers
 
-**File: `src/components/Footer.tsx`**
+### The Problem
+This is a client-side React SPA. Social crawlers (Facebook, Twitter) do not execute JavaScript, so they only see the static HTML in `index.html` - which shows homepage metadata for every page.
 
-### 4.1 Fix Digital Marketing Classes Link (Line 27)
+### The Solution: Crawler Detection Edge Function
 
-**Current Code:**
-```tsx
-{ name: "Digital Marketing Classes", href: "/digital-marketing-classes" },
-```
+**Create a backend function `og-renderer`** that:
+1. Receives the page URL path
+2. Looks up `page_seo_settings` table for that path
+3. If a social crawler user-agent is detected (facebookexternalhit, Twitterbot, LinkedInBot, etc.), returns a minimal HTML page with correct OG tags
+4. For regular users, serves the normal SPA
 
-**Fixed Code:**
-```tsx
-{ name: "Digital Marketing Academy", href: "/digital-marketing-academy" },
-```
+**Implementation:**
+- Create edge function `supabase/functions/og-renderer/index.ts`
+- The function checks the `User-Agent` header for known crawler patterns
+- For crawlers: returns a simple HTML page with the correct `<meta property="og:...">` tags fetched from the database
+- For normal users: redirects to the SPA
 
----
+**Vercel Integration:**
+- Update `vercel.json` to add a middleware/rewrite rule that routes crawler traffic through the edge function
+- Add rewrite: requests with crawler user-agents go to the edge function URL
 
-## Files to Modify
+**Fallback for all pages:**
+- Every page already uses `react-helmet-async` for client-side OG tags (works for Google)
+- The edge function handles Facebook/Twitter/LinkedIn specifically
+- Each page's Helmet tags will also be updated to use data from `page_seo_settings` when available
 
-| File | Changes |
-|------|---------|
-| `src/pages/academy/AcademyBenefitDetailPage.tsx` | Fix "Explore Other Benefits" links and canonical URL |
-| `src/pages/academy/AcademyModuleDetailPage.tsx` | Fix prev/next module navigation links |
-| `src/components/academy/CertificatePreview.tsx` | Fix "Start Your Journey" button to use `/contact` with Link component |
-| `src/components/Footer.tsx` | Fix "Digital Marketing Classes" link to point to Academy page |
-
----
-
-## Technical Details
-
-### AcademyBenefitDetailPage.tsx Changes
-
-```tsx
-// Line 53: Fix canonical URL
-<link rel="canonical" href={`https://dibull.com/digital-marketing-academy/benefit/${benefit.slug}`} />
-
-// Line 212: Fix benefit card links
-<Link to={`/digital-marketing-academy/benefit/${otherBenefit.slug}`}>
-```
-
-### AcademyModuleDetailPage.tsx Changes
-
-```tsx
-// Line 371: Fix previous module link
-<Link to={`/digital-marketing-academy/module/${prevModule.slug}`}>
-
-// Line 386: Fix next module link  
-<Link to={`/digital-marketing-academy/module/${nextModule.slug}`}>
-```
-
-### CertificatePreview.tsx Changes
-
-```tsx
-// Import Link at top if not present
-import { Link } from "react-router-dom";
-
-// Line 357-362: Replace button with Link
-<Button
-  size="lg"
-  className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-white shadow-lg shadow-primary/25 w-full sm:w-auto"
-  asChild
->
-  <Link to="/contact?interest=academy">
-    <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-    Start Your Journey
-    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
-  </Link>
-</Button>
-```
-
-### Footer.tsx Changes
-
-```tsx
-// Line 27: Update link name and path
-{ name: "Digital Marketing Academy", href: "/digital-marketing-academy" },
-```
+### Pre-populated SEO Data
+- Seed the `page_seo_settings` table with entries for all major pages (homepage, all 17 service pages, academy, blog, contact, about, etc.)
+- Use the existing hardcoded meta titles/descriptions as initial values
 
 ---
 
-## Validation
+## Phase 3: Mobile Responsiveness Fixes
 
-After implementation, all these routes should work correctly:
+Based on the mobile inspection, here are the issues to fix:
 
-1. `/digital-marketing-academy/benefit/in-depth-training` -> "Explore Other Benefits" cards should navigate to other benefit pages
-2. `/digital-marketing-academy/module/digital-marketing-fundamentals` -> Prev/Next buttons should navigate between modules
-3. Certificate "Start Your Journey" button should go to `/contact?interest=academy`
-4. Footer "Digital Marketing Academy" link should go to `/digital-marketing-academy`
+### 3.1 Navbar Mobile Menu
+- Ensure hamburger menu toggle works smoothly
+- Fix any overflow issues in the mobile services dropdown
+- Ensure dropdown doesn't extend beyond viewport
+
+### 3.2 Hero Section
+- Fix text sizing on very small screens (below 375px)
+- Ensure CTA buttons stack properly and don't overflow
+- Hide the floating stat cards on mobile (they overlap content)
+
+### 3.3 Services Section
+- Ensure service cards use single-column layout on mobile
+- Fix card padding and icon sizing for small screens
+
+### 3.4 Stats Section
+- Switch from 4-column to 2-column grid on mobile, 1-column on very small screens
+- Fix counter text sizing
+
+### 3.5 Service Page Layout
+- Fix hero section padding on mobile
+- Ensure subcategory cards stack in single column
+- Fix the "Why Choose Us" and "Process" sections for mobile
+- Ensure charts/calculators are responsive
+
+### 3.6 Footer
+- Already uses accordion on mobile (good)
+- Fix newsletter input width to not overflow on small screens
+- Fix contact info spacing
+
+### 3.7 WhatsApp Button
+- Ensure it doesn't overlap with the sticky mobile CTA bar
+- Adjust positioning for notched devices
+
+### 3.8 Blog & Academy Pages
+- Fix blog card grid for mobile
+- Ensure blog article content doesn't overflow (tables, code blocks, images)
+- Fix academy timeline and certificate preview for mobile
+
+### 3.9 Global Fixes
+- Add `overflow-x: hidden` on body/root to prevent horizontal scroll
+- Ensure all `container` elements have proper padding on mobile
+- Fix any hardcoded widths that cause horizontal overflow
 
 ---
 
-## Impact
+## Technical Architecture
 
-- All cross-navigation on academy pages will work correctly
-- Users can seamlessly browse between benefits, modules, and related content
-- SEO canonical URLs will be correct for proper indexing
-- No more 404 errors from broken internal links
-- Better user experience with consistent navigation
+### New Files to Create
+
+```text
+src/pages/admin/AdminLogin.tsx
+src/pages/admin/AdminDashboard.tsx
+src/pages/admin/AdminPages.tsx
+src/pages/admin/AdminPageEditor.tsx
+src/pages/admin/AdminBlog.tsx
+src/pages/admin/AdminSettings.tsx
+src/components/admin/AdminLayout.tsx
+src/components/admin/AdminRoute.tsx
+src/components/admin/PageSEOEditor.tsx
+src/components/admin/ContentEditor.tsx
+src/hooks/usePageSeo.ts
+src/hooks/usePageContent.ts
+src/hooks/useAdmin.ts
+supabase/functions/og-renderer/index.ts
+```
+
+### Files to Modify
+
+```text
+src/App.tsx                        - Add admin routes
+index.html                         - Update fallback OG tags with absolute URLs
+vercel.json                        - Add crawler rewrite rules
+src/pages/Index.tsx                - Use usePageSeo hook
+src/components/ServicePageLayout.tsx - Use usePageSeo hook
+src/components/HeroSection.tsx     - Mobile responsiveness fixes
+src/components/ServicesSection.tsx  - Mobile grid fixes
+src/components/StatsSection.tsx    - Mobile grid fixes
+src/components/Navbar.tsx          - Mobile menu fixes
+src/components/Footer.tsx          - Mobile spacing fixes
+src/components/WhatsAppButton.tsx  - Position adjustment
+src/index.css                      - Add overflow-x hidden, mobile utilities
++ All service pages, blog pages, academy pages (Helmet updates)
+```
+
+### Database Migrations
+
+1. Create `app_role` enum type
+2. Create `user_roles` table with RLS
+3. Create `has_role` security definer function
+4. Create `page_seo_settings` table with RLS
+5. Create `page_content` table with RLS
+6. Seed initial admin user role
+7. Seed initial SEO settings for all pages
+
+### Edge Function
+
+- `og-renderer`: Detects crawler user-agents and returns proper HTML with OG tags from database
+
+---
+
+## Implementation Order
+
+1. Database tables and security functions (migrations)
+2. Admin authentication and protected routes
+3. Admin dashboard UI (pages list, SEO editor, content editor)
+4. Page SEO hook integration across all pages
+5. OG renderer edge function for social crawlers
+6. Vercel config update for crawler routing
+7. Mobile responsiveness fixes (all components)
+8. Seed initial SEO data for all pages
+9. Testing and verification
+
+---
+
+## Security Considerations
+
+- Admin roles stored in separate `user_roles` table (not on profiles)
+- `has_role` function uses `SECURITY DEFINER` to prevent RLS recursion
+- All admin mutations require authenticated user with admin role
+- Edge function uses service role key for database reads (server-side only)
+- Password changes through standard auth API
+- No client-side role checks for authorization
 
