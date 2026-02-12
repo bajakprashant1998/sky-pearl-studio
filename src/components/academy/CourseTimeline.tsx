@@ -206,7 +206,7 @@ const CourseTimeline = () => {
         {/* Main Layout: Timeline + Radar Chart */}
         <div className="lg:flex lg:gap-8 lg:items-start relative">
           {/* Timeline Container */}
-          <div ref={containerRef} className="relative lg:flex-1">
+          <div ref={containerRef} className="relative lg:flex-1 flex-1">
             {/* Central Timeline Line - Desktop */}
             <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-border hidden lg:block transform -translate-x-1/2">
               <motion.div
@@ -269,9 +269,11 @@ const CourseTimeline = () => {
             </motion.p>
           </div>
 
-          {/* Skills Radar Chart - Sticky Sidebar (bounded to this section) */}
-          <div className="hidden lg:block lg:w-80 lg:self-start lg:sticky lg:top-28">
-            <SkillsRadarChart scrollProgress={scrollYProgress} />
+          {/* Skills Radar Chart - Desktop (bounded to section) */}
+          <div className="hidden lg:flex lg:w-80 lg:flex-shrink-0">
+            <div className="sticky top-28 h-fit">
+              <SkillsRadarChart scrollProgress={scrollYProgress} />
+            </div>
           </div>
         </div>
 
