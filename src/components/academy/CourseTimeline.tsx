@@ -269,11 +269,9 @@ const CourseTimeline = () => {
             </motion.p>
           </div>
 
-          {/* Skills Radar Chart - Desktop (bounded to section) */}
-          <div className="hidden lg:flex lg:w-80 lg:flex-shrink-0">
-            <div className="sticky top-28 h-fit">
-              <SkillsRadarChart scrollProgress={scrollYProgress} />
-            </div>
+          {/* Skills Radar Chart - Sticky (stays visible throughout timeline) */}
+          <div className="hidden lg:block lg:w-80 sticky top-28 h-fit">
+            <SkillsRadarChart scrollProgress={scrollYProgress} />
           </div>
         </div>
 
