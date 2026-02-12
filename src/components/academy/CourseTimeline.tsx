@@ -204,11 +204,16 @@ const CourseTimeline = () => {
         </div>
 
         {/* Main Layout: Timeline + Radar Chart */}
-        <div className="lg:flex lg:gap-8 lg:items-start relative">
+        <div className="relative" ref={containerRef}>
+          {/* Skills Radar Chart - Sticky Sidebar (Desktop only) */}
+          <div className="hidden lg:block float-right w-80 ml-8 sticky top-28 z-10">
+            <SkillsRadarChart scrollProgress={scrollYProgress} />
+          </div>
+
           {/* Timeline Container */}
-          <div ref={containerRef} className="relative lg:flex-1 flex-1">
+          <div className="relative">
             {/* Central Timeline Line - Desktop */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-border hidden lg:block transform -translate-x-1/2">
+            <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-border hidden lg:block transform -translate-x-1/2 lg:left-[calc((100%-352px)/2)]">
               <motion.div
                 className="w-full bg-gradient-to-b from-primary via-accent to-primary rounded-full"
                 style={{ height: lineHeight }}
@@ -268,11 +273,8 @@ const CourseTimeline = () => {
               🎓 You're Certified & Career Ready!
             </motion.p>
           </div>
-
-          {/* Skills Radar Chart - Sticky (stays visible throughout timeline) */}
-          <div className="hidden lg:block lg:w-80 sticky top-28 h-fit">
-            <SkillsRadarChart scrollProgress={scrollYProgress} />
-          </div>
+          {/* Clear float */}
+          <div className="clear-both" />
         </div>
 
         {/* Mobile Radar Chart */}
