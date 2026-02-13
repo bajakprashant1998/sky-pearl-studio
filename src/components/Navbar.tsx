@@ -121,7 +121,15 @@ const Navbar = () => {
               Home
             </Link>
 
-            {/* Services Dropdown */}
+            {/* Services Link & Dropdown */}
+            <Link
+              to="/services"
+              className={`px-4 py-2 rounded-lg ${navLinkClass(location.pathname === "/services")}`}
+            >
+              Services
+            </Link>
+
+            {/* Services Dropdown - Categories */}
             <div
               className="relative"
               onMouseEnter={() => {
@@ -132,9 +140,9 @@ const Navbar = () => {
               onMouseLeave={() => setServicesOpen(false)}
             >
               <button 
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg ${navLinkClass(location.pathname.includes("/services"))}`}
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg ${navLinkClass(location.pathname.includes("/services/"))}`}
               >
-                Services
+                Categories
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} />
               </button>
 
