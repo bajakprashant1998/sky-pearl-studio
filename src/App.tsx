@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import ServicesPage from "./pages/services/ServicesPage";
 import SEOPage from "./pages/services/SEOPage";
 import PPCPage from "./pages/services/PPCPage";
 import WebDesignPage from "./pages/services/WebDesignPage";
@@ -78,6 +79,7 @@ const App = () => (
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/services" element={<ServicesPage />} />
             <Route path="/services/seo" element={<SEOPage />} />
             <Route path="/services/ppc" element={<PPCPage />} />
             <Route path="/services/web-design" element={<WebDesignPage />} />
