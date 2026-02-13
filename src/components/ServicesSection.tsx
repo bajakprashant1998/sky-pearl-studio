@@ -131,7 +131,7 @@ const ServicesSection = () => {
             <p className="text-muted-foreground mb-6">
               Explore all {services.length} services we offer across SEO, PPC, Social Media, Content Marketing, and more
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
               {services.slice(8).map((service, index) => <motion.div key={service.id} initial={{
               opacity: 0,
               y: 20
@@ -150,6 +150,10 @@ const ServicesSection = () => {
                   </Link>
                 </motion.div>)}
             </div>
+            <Link to="/services" className="inline-flex items-center gap-2 text-primary font-semibold hover:underline group">
+              View All {services.length} Services
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </AnimatedSection>
       </div>
