@@ -105,7 +105,7 @@ export interface ServiceCategory {
   stats?: ServiceStat[];
 }
 
-export const services: ServiceCategory[] = [
+const _services: ServiceCategory[] = [
   {
     id: "seo",
     slug: "seo",
@@ -1893,6 +1893,34 @@ export const services: ServiceCategory[] = [
     ],
   },
 ];
+
+// Desired display order
+const serviceOrder = [
+  "web-design",
+  "conversion-ui-ux",
+  "branding",
+  "custom-development",
+  "marketing-automation",
+  "email-marketing",
+  "analytics",
+  "ai-marketing",
+  "seo",
+  "ppc",
+  "social-media",
+  "programmatic",
+  "video",
+  "cro",
+  "ecommerce",
+  "amazon",
+  "content-marketing",
+  "saas",
+  "training",
+  "growth-hacking",
+];
+
+export const services: ServiceCategory[] = serviceOrder
+  .map((id) => _services.find((s) => s.id === id))
+  .filter((s): s is ServiceCategory => s !== undefined);
 
 export const getServiceBySlug = (slug: string): ServiceCategory | undefined => {
   return services.find((service) => service.slug === slug);
