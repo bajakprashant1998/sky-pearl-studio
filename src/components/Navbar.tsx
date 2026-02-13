@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { 
+import {
+  Rocket,
   Menu, 
   X, 
   ChevronDown, 
@@ -324,6 +325,15 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
 
+            {/* Growth Strategy */}
+            <Link
+              to="/growth-strategy"
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg ${navLinkClass(location.pathname === "/growth-strategy")}`}
+            >
+              <Rocket className="w-4 h-4" />
+              Strategy
+            </Link>
+
             {/* Free Tools */}
             <Link
               to="/free-tools"
@@ -554,6 +564,15 @@ const Navbar = () => {
                     ))}
                   </div>
                 </div>
+
+                <Link
+                  to="/growth-strategy"
+                  className="flex items-center gap-3 text-foreground hover:text-primary font-medium transition-colors py-3 px-4 rounded-xl hover:bg-muted"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Rocket className="w-4 h-4 text-primary" />
+                  Growth Strategy
+                </Link>
 
                 <Link
                   to="/free-tools"
