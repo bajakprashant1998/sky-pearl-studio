@@ -10,6 +10,16 @@ const TermsOfService = () => {
                 <meta name="description" content="Read Digital Bull Technology's Terms of Service. Understand the rules, regulations, and conditions for using our digital marketing services and website." />
                 <meta name="keywords" content="terms of service, terms and conditions, user agreement, Digital Bull terms, service agreement" />
                 <link rel="canonical" href="https://dibull.com/terms-of-service" />
+                <meta property="og:title" content="Terms of Service | Digital Bull Technology" />
+                <meta property="og:description" content="Read Digital Bull Technology's Terms of Service for using our digital marketing services and website." />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://dibull.com/terms-of-service" />
+                <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+                <meta property="og:site_name" content="Digital Bull Technology" />
+                <meta name="twitter:card" content="summary" />
+                <meta name="twitter:title" content="Terms of Service | Digital Bull Technology" />
+                <meta name="twitter:description" content="Terms and conditions for using Digital Bull Technology services." />
+                <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
                 <meta name="robots" content="index, follow" />
             </Helmet>
 

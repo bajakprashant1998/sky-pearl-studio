@@ -10,6 +10,16 @@ const PrivacyPolicy = () => {
                 <meta name="description" content="Read Digital Bull Technology's Privacy Policy to understand how we collect, use, and protect your personal information. Your privacy matters to us." />
                 <meta name="keywords" content="privacy policy, data protection, personal information, Digital Bull privacy, GDPR compliance" />
                 <link rel="canonical" href="https://dibull.com/privacy-policy" />
+                <meta property="og:title" content="Privacy Policy | Digital Bull Technology" />
+                <meta property="og:description" content="Read Digital Bull Technology's Privacy Policy to understand how we collect, use, and protect your personal information." />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://dibull.com/privacy-policy" />
+                <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+                <meta property="og:site_name" content="Digital Bull Technology" />
+                <meta name="twitter:card" content="summary" />
+                <meta name="twitter:title" content="Privacy Policy | Digital Bull Technology" />
+                <meta name="twitter:description" content="Read Digital Bull Technology's Privacy Policy." />
+                <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
                 <meta name="robots" content="index, follow" />
             </Helmet>
 

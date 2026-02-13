@@ -154,7 +154,12 @@ const ContactUs = () => {
         <meta property="og:description" content="Get in touch for a free digital marketing consultation. Expert SEO, PPC, and web design services." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://dibull.com/contact" />
-        <meta name="twitter:card" content="summary" />
+        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Contact Digital Bull Technology | Free Consultation" />
+        <meta name="twitter:description" content="Get in touch for a free digital marketing consultation." />
+        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
         <meta name="robots" content="index, follow" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>

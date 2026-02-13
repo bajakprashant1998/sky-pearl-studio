@@ -75,6 +75,14 @@ const ToolDetailPage = () => {
         <link rel="canonical" href={`https://dibull.com/free-tools/${tool.slug}`} />
         <meta property="og:title" content={`${tool.title} | Digital Bull Technology`} />
         <meta property="og:description" content={tool.shortDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://dibull.com/free-tools/${tool.slug}`} />
+        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${tool.title} | Digital Bull Technology`} />
+        <meta name="twitter:description" content={tool.shortDescription} />
+        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
       </Helmet>
 
       <Navbar />

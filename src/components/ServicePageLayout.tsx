@@ -77,7 +77,14 @@ const ServicePageLayout = ({
         <meta property="og:title" content={`${title} | Digital Bull Technology`} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://dibull.com/services/${slug}`} />
+        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
         <link rel="canonical" href={`https://dibull.com/services/${slug}`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${title} | Digital Bull Technology`} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 

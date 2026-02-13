@@ -54,7 +54,14 @@ const ServicesPage = () => {
           content="Explore 20+ digital marketing services including SEO, PPC, Web Design, Social Media, AI Marketing, and more."
         />
         <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://sky-pearl-studio.lovable.app/services" />
+        <meta property="og:url" content="https://dibull.com/services" />
+        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
+        <link rel="canonical" href="https://dibull.com/services" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Digital Marketing Services | Digital Bull" />
+        <meta name="twitter:description" content="Explore 20+ digital marketing services including SEO, PPC, Web Design, Social Media, AI Marketing, and more." />
+        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
