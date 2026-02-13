@@ -204,9 +204,9 @@ const CourseTimeline = () => {
         </div>
 
         {/* Main Layout: Timeline + Radar Chart */}
-        <div className="lg:grid lg:grid-cols-[1fr_320px] lg:gap-8 relative">
-          {/* Timeline Container */}
-          <div ref={containerRef} className="relative">
+        <div className="relative" ref={containerRef}>
+          {/* Timeline Container - Float Left */}
+          <div className="lg:float-left lg:w-[calc(100%-360px)] lg:pr-8 relative">
             {/* Timeline Line - Left side */}
             <div className="absolute left-4 sm:left-6 lg:left-8 top-0 bottom-0 w-1 bg-border">
               <motion.div
@@ -262,11 +262,14 @@ const CourseTimeline = () => {
           </div>
 
           {/* Skills Radar Chart - Sticky Sidebar (Desktop only) */}
-          <div className="hidden lg:block">
-            <div className="sticky top-28">
+          <div className="hidden lg:block lg:float-right lg:w-[320px]">
+            <div className="sticky top-28 h-fit">
               <SkillsRadarChart scrollProgress={scrollYProgress} />
             </div>
           </div>
+
+          {/* Clearfix */}
+          <div className="clear-both"></div>
         </div>
 
         {/* Mobile Radar Chart */}
