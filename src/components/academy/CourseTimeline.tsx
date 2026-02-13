@@ -204,24 +204,11 @@ const CourseTimeline = () => {
         </div>
 
         {/* Main Layout: Timeline + Radar Chart */}
-        <div className="relative" ref={containerRef}>
-          {/* Skills Radar Chart - Sticky Sidebar (Desktop only) */}
-          <div className="hidden lg:block float-right w-80 ml-8 sticky top-28 z-10">
-            <SkillsRadarChart scrollProgress={scrollYProgress} />
-          </div>
-
+        <div className="lg:grid lg:grid-cols-[1fr_320px] lg:gap-8 relative">
           {/* Timeline Container */}
-          <div className="relative">
-            {/* Central Timeline Line - Desktop */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-border hidden lg:block transform -translate-x-1/2 lg:left-[calc((100%-352px)/2)]">
-              <motion.div
-                className="w-full bg-gradient-to-b from-primary via-accent to-primary rounded-full"
-                style={{ height: lineHeight }}
-              />
-            </div>
-
-            {/* Central Timeline Line - Mobile */}
-            <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-1 bg-border lg:hidden">
+          <div ref={containerRef} className="relative">
+            {/* Timeline Line - Left side */}
+            <div className="absolute left-4 sm:left-6 lg:left-8 top-0 bottom-0 w-1 bg-border">
               <motion.div
                 className="w-full bg-gradient-to-b from-primary via-accent to-primary rounded-full"
                 style={{ height: lineHeight }}
@@ -229,7 +216,7 @@ const CourseTimeline = () => {
             </div>
 
             {/* Timeline Items */}
-            <div className="space-y-12 lg:space-y-24">
+            <div className="space-y-12 lg:space-y-16">
               {timelineData.map((item, index) => (
                 <TimelineItem
                   key={item.month}
@@ -243,19 +230,19 @@ const CourseTimeline = () => {
 
             {/* Completion Node */}
             <motion.div
-              className="flex justify-center mt-16"
+              className="flex items-center gap-6 mt-16 ml-0 pl-0"
               initial={{ opacity: 0, scale: 0 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, type: "spring" }}
             >
-              <div className="relative">
+              <div className="relative ml-[0.25rem] sm:ml-[0.5rem] lg:ml-[0.75rem]">
                 <motion.div
-                  className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/30"
+                  className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/30"
                   animate={{ boxShadow: ["0 0 20px hsl(var(--primary) / 0.3)", "0 0 40px hsl(var(--primary) / 0.5)", "0 0 20px hsl(var(--primary) / 0.3)"] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <Award className="w-10 h-10 text-primary-foreground" />
+                  <Award className="w-7 h-7 lg:w-8 lg:h-8 text-primary-foreground" />
                 </motion.div>
                 <motion.div
                   className="absolute -inset-2 rounded-full border-2 border-primary/30"
@@ -263,18 +250,23 @@ const CourseTimeline = () => {
                   transition={{ duration: 2, repeat: Infinity }}
                 />
               </div>
+              <motion.p
+                className="text-lg font-semibold text-foreground"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+              >
+                🎓 You're Certified & Career Ready!
+              </motion.p>
             </motion.div>
-            <motion.p
-              className="text-center mt-4 text-lg font-semibold text-foreground"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              🎓 You're Certified & Career Ready!
-            </motion.p>
           </div>
-          {/* Clear float */}
-          <div className="clear-both" />
+
+          {/* Skills Radar Chart - Sticky Sidebar (Desktop only) */}
+          <div className="hidden lg:block">
+            <div className="sticky top-28">
+              <SkillsRadarChart scrollProgress={scrollYProgress} />
+            </div>
+          </div>
         </div>
 
         {/* Mobile Radar Chart */}
@@ -300,44 +292,30 @@ interface TimelineItemProps {
 }
 
 const TimelineItem = ({ item, index, isExpanded, onToggle }: TimelineItemProps) => {
-  const isLeft = index % 2 === 0;
   const Icon = item.icon;
 
   return (
     <motion.div
-      className={`relative flex items-center gap-8 ${
-        isLeft ? "lg:flex-row" : "lg:flex-row-reverse"
-      } flex-row`}
-      initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
+      className="relative flex items-start gap-6 pl-0"
+      initial={{ opacity: 0, x: -30 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay: 0.1 }}
+      transition={{ duration: 0.5, delay: 0.1 }}
     >
       {/* Timeline Node */}
-      <div className="absolute left-4 sm:left-6 lg:left-1/2 transform -translate-x-1/2 z-20">
+      <div className="flex-shrink-0 z-20 ml-[0.25rem] sm:ml-[0.5rem] lg:ml-[0.75rem]">
         <motion.div
-          className={`w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-gradient-to-br ${item.gradient} flex items-center justify-center shadow-lg cursor-pointer`}
+          className={`w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-gradient-to-br ${item.gradient} flex items-center justify-center shadow-lg cursor-pointer -translate-x-1/2`}
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.95 }}
           onClick={onToggle}
         >
           <Icon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-primary-foreground" />
         </motion.div>
-        <motion.div
-          className={`absolute -inset-1 sm:-inset-2 rounded-full border-2 border-dashed ${
-            isExpanded ? "border-primary" : "border-transparent"
-          }`}
-          animate={isExpanded ? { rotate: 360 } : { rotate: 0 }}
-          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-        />
       </div>
 
       {/* Content Card */}
-      <div
-        className={`w-full lg:w-[calc(50%-4rem)] ${
-          isLeft ? "lg:pr-8 lg:ml-0" : "lg:pl-8 lg:mr-0"
-        } ml-14 sm:ml-20 lg:ml-0`}
-      >
+      <div className="flex-1 -mt-1">
         <motion.div
           className="bg-card/80 backdrop-blur-sm rounded-2xl border border-border hover:border-primary/50 transition-all duration-300 overflow-hidden cursor-pointer group"
           whileHover={{ y: -5 }}
@@ -415,9 +393,6 @@ const TimelineItem = ({ item, index, isExpanded, onToggle }: TimelineItemProps) 
           </AnimatePresence>
         </motion.div>
       </div>
-
-      {/* Spacer for alternating layout */}
-      <div className="hidden lg:block lg:w-[calc(50%-4rem)]" />
     </motion.div>
   );
 };
