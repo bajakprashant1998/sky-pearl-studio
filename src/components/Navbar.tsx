@@ -299,7 +299,7 @@ const Navbar = () => {
                       <div className="bg-muted/50 p-4 border-t border-border flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <Sparkles className="w-4 h-4 text-primary" />
-                          <span>17 Services • 100+ Subcategories</span>
+                          <span>20 Services • 100+ Subcategories</span>
                         </div>
                         <Link
                           to="/free-tools"
