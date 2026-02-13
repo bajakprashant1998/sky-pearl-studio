@@ -19,7 +19,15 @@ const staticRoutes = [
     '/terms-of-service',
     '/cookie-policy',
     '/free-tools',
-    '/digital-marketing-classes'
+    '/digital-marketing-academy',
+    '/digital-marketing-syllabus',
+    '/digital-marketing-academy/ai-website-designing',
+    '/digital-marketing-academy/ai-graphic-designing',
+    '/digital-marketing-academy/ai-video-editing',
+    '/our-verticals',
+    '/services',
+    '/growth-strategy',
+    '/blog',
 ];
 
 const slugify = (text: string) => {

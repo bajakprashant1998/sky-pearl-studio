@@ -132,7 +132,14 @@ const Careers = () => {
         <meta property="og:title" content="Careers at Digital Bull Technology | We're Hiring" />
         <meta property="og:description" content="Join our team of digital marketing experts. Remote-first culture, professional development, and competitive benefits." />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dibull.com/careers" />
+        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
         <link rel="canonical" href="https://dibull.com/careers" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Careers at Digital Bull Technology | We're Hiring" />
+        <meta name="twitter:description" content="Join our team of digital marketing experts. Remote-first culture with great benefits." />
+        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
         <meta name="robots" content="index, follow" />
       </Helmet>
 

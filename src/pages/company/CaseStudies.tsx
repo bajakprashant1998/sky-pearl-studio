@@ -25,7 +25,12 @@ const CaseStudies = () => {
         <meta property="og:description" content="See how we've helped industry leaders achieve 450%+ traffic growth, 1M+ app installs, and 3.5x revenue increases." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://dibull.com/case-studies" />
+        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Case Studies | Digital Bull Technology Success Stories" />
+        <meta name="twitter:description" content="See how we've helped industry leaders achieve 450%+ traffic growth and 3.5x revenue increases." />
+        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
         <meta name="robots" content="index, follow" />
       </Helmet>
 

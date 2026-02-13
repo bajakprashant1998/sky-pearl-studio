@@ -118,9 +118,12 @@ const AboutUs = () => {
                 <meta property="og:description" content="Full-service digital growth company specializing in AI, SaaS, Marketing, and Training." />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://dibull.com/about-us" />
+                <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+                <meta property="og:site_name" content="Digital Bull Technology" />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="About Us | Digital Bull Technology" />
                 <meta name="twitter:description" content="Full-service digital growth company specializing in AI, SaaS, Marketing, and Training." />
+                <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
                 <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
             </Helmet>
 

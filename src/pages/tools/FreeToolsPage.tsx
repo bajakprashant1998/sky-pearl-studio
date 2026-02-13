@@ -86,6 +86,13 @@ const FreeToolsPage = () => {
         <meta property="og:title" content="Free Marketing Tools | Digital Bull Technology" />
         <meta property="og:description" content="Access 15+ free marketing tools to boost your digital presence. SEO checker, AI generators, and more." />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dibull.com/free-tools" />
+        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Free Marketing Tools | Digital Bull Technology" />
+        <meta name="twitter:description" content="Access 15+ free marketing tools to boost your digital presence." />
+        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
       </Helmet>
 
       <Navbar />

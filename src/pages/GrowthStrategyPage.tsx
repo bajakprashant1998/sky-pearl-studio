@@ -267,7 +267,14 @@ const GrowthStrategyPage = () => {
           content="A strategic business growth roadmap — 5 stages from digital foundation to market dominance."
         />
         <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://sky-pearl-studio.lovable.app/growth-strategy" />
+        <meta property="og:url" content="https://dibull.com/growth-strategy" />
+        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
+        <link rel="canonical" href="https://dibull.com/growth-strategy" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Growth Strategy Blueprint | Digital Bull" />
+        <meta name="twitter:description" content="A strategic business growth roadmap — 5 stages from digital foundation to market dominance." />
+        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
