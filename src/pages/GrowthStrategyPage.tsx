@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import {
   ArrowRight,
   Rocket,
@@ -22,12 +23,43 @@ import {
   Users,
   Cpu,
   LineChart,
+  Sparkles,
+  ArrowUpRight,
+  Store,
+  GraduationCap,
+  Factory,
+  Briefcase,
+  HeartPulse,
+  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import AnimatedSection, { FloatingElement } from "@/components/AnimatedSection";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+/* ─── Animated Counter ─── */
+const AnimatedCounter = ({ target, suffix = "", prefix = "", duration = 2 }: { target: number; suffix?: string; prefix?: string; duration?: number }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [display, setDisplay] = useState("0");
+
+  useEffect(() => {
+    if (!isInView) return;
+    const controls = animate(0, target, {
+      duration,
+      ease: "easeOut",
+      onUpdate: (v) => setDisplay(Math.round(v).toString()),
+    });
+    return controls.stop;
+  }, [isInView, target, duration]);
+
+  return (
+    <span ref={ref}>
+      {prefix}{display}{suffix}
+    </span>
+  );
+};
 
 /* ─── Data ─── */
 
@@ -37,26 +69,32 @@ const visionPillars = [
     title: "Systems Thinking",
     description:
       "We build interconnected growth systems — not isolated campaigns. Every piece amplifies the next.",
+    stat: "20+",
+    statLabel: "Integrated Services",
   },
   {
     icon: Cpu,
     title: "Automation First",
     description:
       "Eliminate repetitive tasks, reduce human error, and let your team focus on high-impact decisions.",
+    stat: "80%",
+    statLabel: "Tasks Automated",
   },
   {
     icon: LineChart,
     title: "Data-Driven Growth",
     description:
       "Every move is measurable. We rely on real-time analytics, not assumptions, to scale what works.",
+    stat: "5:1",
+    statLabel: "Average ROI",
   },
 ];
 
 const trustStats = [
-  { value: "10+", label: "Years of Experience" },
-  { value: "500+", label: "Clients Served" },
-  { value: "30+", label: "Industries" },
-  { value: "98%", label: "Client Retention" },
+  { value: 10, suffix: "+", label: "Years of Experience" },
+  { value: 500, suffix: "+", label: "Clients Served" },
+  { value: 30, suffix: "+", label: "Industries" },
+  { value: 98, suffix: "%", label: "Client Retention" },
 ];
 
 interface StageService {
@@ -74,6 +112,7 @@ interface Stage {
   emotionalLine: string;
   icon: typeof Rocket;
   accent: string;
+  accentBg: string;
 }
 
 const stages: Stage[] = [
@@ -98,6 +137,7 @@ const stages: Stage[] = [
     emotionalLine: "Your business finally looks and feels like a market leader.",
     icon: Building2,
     accent: "from-blue-500 to-cyan-500",
+    accentBg: "bg-blue-500/10",
   },
   {
     number: 2,
@@ -121,6 +161,7 @@ const stages: Stage[] = [
     emotionalLine: "Your systems work for you — even while you sleep.",
     icon: Zap,
     accent: "from-violet-500 to-purple-500",
+    accentBg: "bg-violet-500/10",
   },
   {
     number: 3,
@@ -145,6 +186,7 @@ const stages: Stage[] = [
     emotionalLine: "Your brand becomes impossible to ignore.",
     icon: TrendingUp,
     accent: "from-emerald-500 to-teal-500",
+    accentBg: "bg-emerald-500/10",
   },
   {
     number: 4,
@@ -166,6 +208,7 @@ const stages: Stage[] = [
     emotionalLine: "Every click works harder. Every rupee counts.",
     icon: Target,
     accent: "from-orange-500 to-amber-500",
+    accentBg: "bg-orange-500/10",
   },
   {
     number: 5,
@@ -186,6 +229,7 @@ const stages: Stage[] = [
     emotionalLine: "You're no longer competing — you're setting the standard.",
     icon: Crown,
     accent: "from-rose-500 to-pink-500",
+    accentBg: "bg-rose-500/10",
   },
 ];
 
@@ -223,24 +267,64 @@ const visionCards = [
     title: "Market Authority",
     description:
       "Your brand is the first name people think of in your industry. Organic search traffic flows in daily, and competitors model their strategy after yours.",
+    metric: "Top 3",
+    metricLabel: "Industry Ranking",
   },
   {
     icon: DollarSign,
     title: "Stable Revenue",
     description:
       "Predictable, recurring revenue streams powered by automated funnels, optimised ad spend, and a loyal customer base that keeps growing.",
+    metric: "3×",
+    metricLabel: "Revenue Growth",
   },
   {
     icon: Layers,
     title: "Scalable Infrastructure",
     description:
       "Systems, processes, and a trained team that can handle 10x growth without breaking. You scale the business — not the chaos.",
+    metric: "10×",
+    metricLabel: "Growth Capacity",
+  },
+];
+
+const audienceSegments = [
+  { icon: Store, title: "E-commerce Brands", description: "Looking to scale revenue and optimise conversion funnels across platforms." },
+  { icon: Factory, title: "B2B Companies", description: "Needing predictable lead generation and sales pipeline automation." },
+  { icon: Briefcase, title: "Startups & Scale-ups", description: "Ready to build a systematic growth engine from the ground up." },
+  { icon: HeartPulse, title: "Healthcare & Education", description: "Wanting to build trust, authority, and digital-first patient/student experiences." },
+  { icon: GraduationCap, title: "Professional Services", description: "Seeking thought leadership positioning and high-quality lead magnets." },
+  { icon: Building2, title: "Enterprise Teams", description: "Requiring integrated marketing automation and cross-channel analytics." },
+];
+
+const faqs = [
+  {
+    q: "How long does it take to see results from this growth strategy?",
+    a: "Most clients see measurable improvements within the first 60–90 days. The full 5-stage system typically delivers compounding returns within 6–12 months, depending on your starting point and industry.",
+  },
+  {
+    q: "Do I need to implement all 5 stages?",
+    a: "Not necessarily — we tailor the roadmap to your current state. Some businesses already have a strong foundation and can start at Stage 2 or 3. We assess where you are and build from there.",
+  },
+  {
+    q: "What makes this different from hiring a regular marketing agency?",
+    a: "Traditional agencies sell isolated services. We architect an interconnected growth system where every service amplifies the others — creating compounding returns instead of linear results.",
+  },
+  {
+    q: "How much does this growth strategy cost?",
+    a: "Investment varies based on your business size, goals, and which stages you need. We offer a free strategy consultation to map out a custom plan with transparent pricing.",
+  },
+  {
+    q: "Can you work with our existing marketing team?",
+    a: "Absolutely. We often work alongside in-house teams, providing strategy, automation, and specialised execution while upskilling your team through our training programs.",
   },
 ];
 
 /* ─── Page ─── */
 
 const GrowthStrategyPage = () => {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
@@ -282,39 +366,54 @@ const GrowthStrategyPage = () => {
 
       <main className="pt-20">
         {/* ═══════════════ HERO ═══════════════ */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-blue-900 via-blue-700 to-primary py-24 lg:py-36">
+        <section className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-primary py-28 lg:py-40">
+          {/* Animated grid pattern */}
+          <div className="absolute inset-0 pointer-events-none opacity-[0.07]">
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'linear-gradient(hsl(0 0% 100%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100%) 1px, transparent 1px)',
+              backgroundSize: '60px 60px',
+            }} />
+          </div>
+
           {/* Floating orbs */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <FloatingElement className="absolute top-10 left-[10%]" duration={6}>
-              <div className="w-72 h-72 rounded-full bg-accent/20 blur-3xl" />
+              <div className="w-80 h-80 rounded-full bg-cyan-400/15 blur-3xl" />
             </FloatingElement>
             <FloatingElement className="absolute bottom-10 right-[8%]" duration={8} distance={15}>
-              <div className="w-96 h-96 rounded-full bg-primary/30 blur-3xl" />
+              <div className="w-[28rem] h-[28rem] rounded-full bg-blue-400/20 blur-3xl" />
             </FloatingElement>
             <FloatingElement className="absolute top-1/3 right-1/4" duration={5} distance={8}>
-              <div className="w-48 h-48 rounded-full bg-accent/10 blur-2xl" />
+              <div className="w-48 h-48 rounded-full bg-violet-400/10 blur-2xl" />
             </FloatingElement>
           </div>
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <AnimatedSection direction="fade" delay={0.1}>
-                <Badge variant="secondary" className="mb-6 bg-white/10 text-white border-white/20 text-sm px-4 py-1.5">
-                  Strategic Growth Blueprint
-                </Badge>
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Badge variant="secondary" className="mb-6 bg-white/10 text-white border-white/20 text-sm px-5 py-2 backdrop-blur-sm">
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Strategic Growth Blueprint
+                  </Badge>
+                </motion.div>
               </AnimatedSection>
 
               <AnimatedSection direction="up" delay={0.2}>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-                  Build. Automate. Scale.{" "}
-                  <span className="block mt-2 bg-gradient-to-r from-cyan-300 to-blue-200 bg-clip-text text-transparent">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
+                  Build. Automate. Scale.
+                  <span className="block mt-3 bg-gradient-to-r from-cyan-300 via-blue-200 to-cyan-300 bg-clip-text text-transparent animate-gradient-x">
                     Your Business Growth Blueprint.
                   </span>
                 </h1>
               </AnimatedSection>
 
               <AnimatedSection direction="up" delay={0.35}>
-                <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed">
+                <p className="text-lg md:text-xl text-blue-100/90 max-w-2xl mx-auto mb-12 leading-relaxed">
                   A step-by-step system that connects 20 digital services into one
                   unstoppable growth engine — so you stop guessing and start scaling
                   with predictable revenue.
@@ -323,12 +422,12 @@ const GrowthStrategyPage = () => {
 
               <AnimatedSection direction="up" delay={0.5}>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button variant="hero" size="lg" className="bg-white text-primary hover:bg-white/90 shadow-xl" asChild>
+                  <Button size="lg" className="bg-white text-blue-900 hover:bg-white/90 shadow-2xl text-base px-8 py-6 font-bold rounded-xl" asChild>
                     <Link to="/contact">
-                      Start Your Growth Journey <ArrowRight className="w-5 h-5 ml-1" />
+                      Start Your Growth Journey <ArrowRight className="w-5 h-5 ml-2" />
                     </Link>
                   </Button>
-                  <Button variant="heroOutline" size="lg" className="border-white/30 text-white hover:bg-white/10 hover:text-white hover:border-white/50" asChild>
+                  <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:text-white hover:border-white/50 text-base px-8 py-6 rounded-xl backdrop-blur-sm" asChild>
                     <Link to="/services">See Our Services</Link>
                   </Button>
                 </div>
@@ -337,64 +436,90 @@ const GrowthStrategyPage = () => {
 
             {/* Floating metric cards */}
             <AnimatedSection direction="up" delay={0.7}>
-              <div className="flex flex-wrap justify-center gap-4 mt-16 max-w-3xl mx-auto">
+              <div className="flex flex-wrap justify-center gap-5 mt-20 max-w-4xl mx-auto">
                 {[
-                  { label: "Revenue Growth", value: "3×" },
-                  { label: "Automation", value: "80%" },
-                  { label: "Lead Quality", value: "+150%" },
-                  { label: "ROI Average", value: "5:1" },
-                ].map((m) => (
+                  { label: "Revenue Growth", value: "3×", icon: TrendingUp },
+                  { label: "Automation", value: "80%", icon: Cpu },
+                  { label: "Lead Quality", value: "+150%", icon: Target },
+                  { label: "ROI Average", value: "5:1", icon: BarChart3 },
+                ].map((m, i) => (
                   <motion.div
                     key={m.label}
-                    className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-5 py-3 text-center"
-                    whileHover={{ scale: 1.05, y: -4 }}
+                    className="bg-white/[0.08] backdrop-blur-xl border border-white/[0.15] rounded-2xl px-6 py-4 text-center min-w-[140px] group"
+                    whileHover={{ scale: 1.08, y: -6 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8 + i * 0.1 }}
                   >
-                    <p className="text-2xl font-bold text-white">{m.value}</p>
-                    <p className="text-xs text-blue-200">{m.label}</p>
+                    <m.icon className="w-5 h-5 text-cyan-300 mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                    <p className="text-2xl font-extrabold text-white">{m.value}</p>
+                    <p className="text-xs text-blue-200/80 mt-1">{m.label}</p>
                   </motion.div>
                 ))}
               </div>
             </AnimatedSection>
+
+            {/* Scroll indicator */}
+            <motion.div
+              className="flex justify-center mt-16"
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+            >
+              <ChevronDown className="w-6 h-6 text-white/40" />
+            </motion.div>
           </div>
         </section>
 
         {/* ═══════════════ VISION & AUTHORITY ═══════════════ */}
-        <section className="py-20 lg:py-28 bg-background">
+        <section className="py-24 lg:py-32 bg-background relative">
           <div className="container mx-auto px-4">
-            <AnimatedSection direction="up" className="text-center max-w-3xl mx-auto mb-16">
-              <Badge variant="outline" className="mb-4">Our Approach</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <AnimatedSection direction="up" className="text-center max-w-3xl mx-auto mb-20">
+              <Badge variant="outline" className="mb-4 text-xs uppercase tracking-widest">Our Approach</Badge>
+              <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-5 leading-tight">
                 Stop Marketing at Random.{" "}
                 <span className="text-gradient">Start Growing by Design.</span>
               </h2>
-              <p className="text-muted-foreground text-lg">
+              <p className="text-muted-foreground text-lg leading-relaxed">
                 Modern businesses don't need more campaigns — they need a system.
                 We architect interconnected digital ecosystems that generate
                 compounding returns, predictable revenue, and real market authority.
               </p>
             </AnimatedSection>
 
-            <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="grid md:grid-cols-3 gap-8 mb-20">
               {visionPillars.map((p, i) => (
                 <AnimatedSection key={p.title} direction="up" delay={i * 0.15}>
-                  <div className="bg-card border border-border rounded-2xl p-8 text-center hover-lift h-full">
-                    <div className="w-16 h-16 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
-                      <p.icon className="w-8 h-8 text-primary" />
+                  <motion.div
+                    className="relative bg-card border border-border rounded-2xl p-8 text-center hover-lift h-full overflow-hidden group"
+                    whileHover={{ borderColor: "hsl(217, 91%, 50%)" }}
+                  >
+                    {/* Gradient glow on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative z-10">
+                      <div className="w-16 h-16 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
+                        <p.icon className="w-8 h-8 text-primary" />
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground mb-3">{p.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed mb-5">{p.description}</p>
+                      <div className="pt-4 border-t border-border">
+                        <p className="text-2xl font-extrabold text-gradient">{p.stat}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{p.statLabel}</p>
+                      </div>
                     </div>
-                    <h3 className="text-xl font-bold text-foreground mb-3">{p.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{p.description}</p>
-                  </div>
+                  </motion.div>
                 </AnimatedSection>
               ))}
             </div>
 
-            {/* Trust stats */}
+            {/* Animated trust stats */}
             <AnimatedSection direction="up" delay={0.3}>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto bg-muted/50 rounded-2xl p-8 border border-border">
                 {trustStats.map((s) => (
                   <div key={s.label} className="text-center">
-                    <p className="text-3xl md:text-4xl font-extrabold text-gradient">{s.value}</p>
-                    <p className="text-sm text-muted-foreground mt-1">{s.label}</p>
+                    <p className="text-4xl md:text-5xl font-extrabold text-gradient">
+                      <AnimatedCounter target={s.value} suffix={s.suffix} />
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-2">{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -402,26 +527,68 @@ const GrowthStrategyPage = () => {
           </div>
         </section>
 
-        {/* ═══════════════ GROWTH ROADMAP ═══════════════ */}
-        <section className="py-20 lg:py-28 bg-muted/30">
+        {/* ═══════════════ WHO THIS IS FOR ═══════════════ */}
+        <section className="py-24 lg:py-32 bg-muted/30">
           <div className="container mx-auto px-4">
-            <AnimatedSection direction="up" className="text-center max-w-3xl mx-auto mb-20">
-              <Badge variant="outline" className="mb-4">The Roadmap</Badge>
+            <AnimatedSection direction="up" className="text-center max-w-3xl mx-auto mb-16">
+              <Badge variant="outline" className="mb-4 text-xs uppercase tracking-widest">Built For Ambitious Businesses</Badge>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Who Is This <span className="text-gradient">Growth Blueprint</span> For?
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Whether you're a startup building from scratch or an enterprise scaling to new markets — this framework adapts to your business.
+              </p>
+            </AnimatedSection>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {audienceSegments.map((seg, i) => (
+                <AnimatedSection key={seg.title} direction="up" delay={i * 0.08}>
+                  <motion.div
+                    className="flex items-start gap-4 bg-card border border-border rounded-xl p-6 h-full group cursor-default"
+                    whileHover={{ y: -4, boxShadow: "0 12px 24px -8px hsl(217 91% 50% / 0.12)" }}
+                  >
+                    <div className="w-12 h-12 shrink-0 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      <seg.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-foreground mb-1">{seg.title}</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{seg.description}</p>
+                    </div>
+                  </motion.div>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════ GROWTH ROADMAP ═══════════════ */}
+        <section className="py-24 lg:py-32 bg-background relative">
+          {/* Subtle background pattern */}
+          <div className="absolute inset-0 pointer-events-none opacity-[0.02]">
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'radial-gradient(circle, hsl(217 91% 50%) 1px, transparent 1px)',
+              backgroundSize: '30px 30px',
+            }} />
+          </div>
+
+          <div className="container mx-auto px-4 relative z-10">
+            <AnimatedSection direction="up" className="text-center max-w-3xl mx-auto mb-20">
+              <Badge variant="outline" className="mb-4 text-xs uppercase tracking-widest">The Roadmap</Badge>
+              <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-5 leading-tight">
                 5 Stages to{" "}
                 <span className="text-gradient">Unstoppable Growth</span>
               </h2>
-              <p className="text-muted-foreground text-lg">
+              <p className="text-muted-foreground text-lg leading-relaxed">
                 Each stage builds on the last. Together they form a complete
                 digital growth system — from a solid foundation to market
                 dominance.
               </p>
             </AnimatedSection>
 
-            <div className="relative max-w-4xl mx-auto">
+            <div className="relative max-w-5xl mx-auto">
               {/* Vertical timeline line */}
-              <div className="absolute left-6 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/60 via-accent/40 to-primary/20 hidden md:block" />
-              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/60 via-accent/40 to-primary/20 md:hidden" />
+              <div className="absolute left-6 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-accent/40 to-primary/20 hidden md:block" />
+              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-accent/40 to-primary/20 md:hidden" />
 
               {stages.map((stage, idx) => {
                 const isEven = idx % 2 === 0;
@@ -429,67 +596,85 @@ const GrowthStrategyPage = () => {
                   <AnimatedSection
                     key={stage.number}
                     direction={isEven ? "left" : "right"}
-                    delay={idx * 0.12}
-                    className="relative mb-16 last:mb-0"
+                    delay={idx * 0.1}
+                    className="relative mb-20 last:mb-0"
                   >
-                    {/* Timeline dot */}
-                    <div
-                      className={`absolute left-6 md:left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-gradient-to-br ${stage.accent} flex items-center justify-center z-10 shadow-lg border-4 border-background`}
+                    {/* Timeline dot with glow */}
+                    <motion.div
+                      className={`absolute left-6 md:left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-gradient-to-br ${stage.accent} flex items-center justify-center z-10 shadow-lg border-4 border-background`}
+                      whileInView={{ scale: [0.8, 1.1, 1] }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: idx * 0.1 }}
                     >
-                      <span className="text-white font-bold text-sm">{stage.number}</span>
-                    </div>
+                      <stage.icon className="w-6 h-6 text-white" />
+                    </motion.div>
+
+                    {/* Connector line glow dot */}
+                    <div className={`absolute left-6 md:left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-gradient-to-br ${stage.accent} opacity-20 blur-xl z-0`} />
 
                     {/* Card */}
                     <div
-                      className={`ml-16 md:ml-0 md:w-[calc(50%-40px)] ${
+                      className={`ml-20 md:ml-0 md:w-[calc(50%-50px)] ${
                         isEven ? "md:mr-auto md:pr-0" : "md:ml-auto md:pl-0"
                       }`}
                     >
-                      <div className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-md hover:shadow-xl transition-shadow">
-                        <div className="flex items-center gap-3 mb-4">
-                          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${stage.accent} flex items-center justify-center`}>
-                            <stage.icon className="w-5 h-5 text-white" />
-                          </div>
-                          <div>
-                            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                              Stage {stage.number}
-                            </p>
-                            <h3 className="text-xl font-bold text-foreground">{stage.name}</h3>
-                          </div>
-                        </div>
+                      <motion.div
+                        className="bg-card border border-border rounded-2xl p-7 md:p-9 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+                        whileHover={{ y: -4 }}
+                      >
+                        {/* Stage number watermark */}
+                        <span className="absolute -right-2 -top-4 text-[8rem] font-extrabold text-primary/[0.03] leading-none select-none pointer-events-none">
+                          {stage.number}
+                        </span>
 
-                        <p className="text-sm font-semibold text-primary mb-2">{stage.objective}</p>
-                        <p className="text-muted-foreground text-sm leading-relaxed mb-5">{stage.description}</p>
-
-                        {/* Services tags */}
-                        <div className="flex flex-wrap gap-2 mb-5">
-                          {stage.services.map((svc) => (
-                            <Link
-                              key={svc.slug}
-                              to={`/services/${svc.slug}`}
-                              className="inline-flex items-center gap-1 text-xs font-medium bg-primary/10 text-primary px-3 py-1.5 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
-                            >
-                              {svc.name}
-                              <ChevronRight className="w-3 h-3" />
-                            </Link>
-                          ))}
-                        </div>
-
-                        {/* Outcomes */}
-                        <div className="space-y-2 mb-4">
-                          {stage.outcomes.map((o) => (
-                            <div key={o} className="flex items-start gap-2">
-                              <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
-                              <span className="text-sm text-muted-foreground">{o}</span>
+                        <div className="relative z-10">
+                          <div className="flex items-center gap-3 mb-5">
+                            <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${stage.accent} flex items-center justify-center shadow-sm`}>
+                              <stage.icon className="w-5 h-5 text-white" />
                             </div>
-                          ))}
-                        </div>
+                            <div>
+                              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                                Stage {stage.number}
+                              </p>
+                              <h3 className="text-xl font-bold text-foreground">{stage.name}</h3>
+                            </div>
+                          </div>
 
-                        {/* Emotional line */}
-                        <p className="text-sm font-semibold italic text-foreground/80 border-l-2 border-primary/40 pl-3">
-                          {stage.emotionalLine}
-                        </p>
-                      </div>
+                          <p className="text-sm font-semibold text-primary mb-3">{stage.objective}</p>
+                          <p className="text-muted-foreground text-sm leading-relaxed mb-6">{stage.description}</p>
+
+                          {/* Services tags */}
+                          <div className="flex flex-wrap gap-2 mb-6">
+                            {stage.services.map((svc) => (
+                              <Link
+                                key={svc.slug}
+                                to={`/services/${svc.slug}`}
+                                className="inline-flex items-center gap-1 text-xs font-medium bg-primary/10 text-primary px-3 py-1.5 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+                              >
+                                {svc.name}
+                                <ChevronRight className="w-3 h-3" />
+                              </Link>
+                            ))}
+                          </div>
+
+                          {/* Outcomes */}
+                          <div className="space-y-2.5 mb-5">
+                            {stage.outcomes.map((o) => (
+                              <div key={o} className="flex items-start gap-2.5">
+                                <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
+                                <span className="text-sm text-muted-foreground">{o}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Emotional line */}
+                          <div className={`${stage.accentBg} rounded-lg px-4 py-3`}>
+                            <p className="text-sm font-semibold italic text-foreground/80">
+                              "{stage.emotionalLine}"
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
                     </div>
                   </AnimatedSection>
                 );
@@ -499,32 +684,43 @@ const GrowthStrategyPage = () => {
         </section>
 
         {/* ═══════════════ TRANSFORMATION ═══════════════ */}
-        <section className="py-20 lg:py-28 bg-gradient-to-b from-blue-900 to-blue-700 text-white overflow-hidden">
-          <div className="container mx-auto px-4">
+        <section className="py-24 lg:py-32 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white overflow-hidden relative">
+          {/* Grid pattern */}
+          <div className="absolute inset-0 pointer-events-none opacity-[0.05]">
+            <div className="absolute inset-0" style={{
+              backgroundImage: 'linear-gradient(hsl(0 0% 100%) 1px, transparent 1px), linear-gradient(90deg, hsl(0 0% 100%) 1px, transparent 1px)',
+              backgroundSize: '40px 40px',
+            }} />
+          </div>
+
+          <div className="container mx-auto px-4 relative z-10">
             <AnimatedSection direction="up" className="text-center max-w-3xl mx-auto mb-16">
-              <Badge variant="secondary" className="mb-4 bg-white/10 text-white border-white/20">
+              <Badge variant="secondary" className="mb-4 bg-white/10 text-white border-white/20 text-xs uppercase tracking-widest">
                 The Transformation
               </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              <h2 className="text-3xl md:text-5xl font-bold mb-5 leading-tight">
                 From Scattered Marketing to a{" "}
                 <span className="text-cyan-300">Scalable Growth System</span>
               </h2>
-              <p className="text-blue-200 text-lg">
+              <p className="text-blue-200/80 text-lg">
                 See the difference between businesses that market randomly and
                 those that follow a strategic growth system.
               </p>
             </AnimatedSection>
 
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
               <AnimatedSection direction="left" delay={0.1}>
-                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
+                <div className="bg-white/[0.04] backdrop-blur-sm border border-white/10 rounded-2xl p-8 h-full">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
-                      <X2Icon className="w-5 h-5 text-red-400" />
+                    <div className="w-12 h-12 rounded-xl bg-red-500/20 flex items-center justify-center">
+                      <X2Icon className="w-6 h-6 text-red-400" />
                     </div>
-                    <h3 className="text-xl font-bold">Before</h3>
+                    <div>
+                      <h3 className="text-xl font-bold">Before</h3>
+                      <p className="text-xs text-red-300/80">Without a growth system</p>
+                    </div>
                   </div>
-                  <ul className="space-y-3">
+                  <ul className="space-y-4">
                     {[
                       "Disconnected campaigns with no unified strategy",
                       "Manual processes eating up your team's time",
@@ -532,8 +728,8 @@ const GrowthStrategyPage = () => {
                       "Wasted ad spend on unoptimised channels",
                       "No clear ROI measurement",
                     ].map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-blue-200 text-sm">
-                        <span className="text-red-400 mt-1">✗</span>
+                      <li key={item} className="flex items-start gap-3 text-blue-200/80 text-sm">
+                        <span className="text-red-400 mt-0.5 shrink-0">✗</span>
                         {item}
                       </li>
                     ))}
@@ -542,43 +738,52 @@ const GrowthStrategyPage = () => {
               </AnimatedSection>
 
               <AnimatedSection direction="right" delay={0.2}>
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                <div className="bg-white/[0.08] backdrop-blur-sm border border-emerald-400/20 rounded-2xl p-8 h-full relative overflow-hidden">
+                  {/* Subtle glow */}
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
+                        <CheckCircle2 className="w-6 h-6 text-emerald-400" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold">After</h3>
+                        <p className="text-xs text-emerald-300/80">With our growth blueprint</p>
+                      </div>
                     </div>
-                    <h3 className="text-xl font-bold">After</h3>
+                    <ul className="space-y-4">
+                      {[
+                        "Unified strategy where every service amplifies the next",
+                        "80% of repetitive tasks fully automated",
+                        "Predictable lead flow and stable recurring revenue",
+                        "Every rupee optimised with data-backed decisions",
+                        "Real-time dashboards showing exact ROI",
+                      ].map((item) => (
+                        <li key={item} className="flex items-start gap-3 text-blue-100 text-sm">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="space-y-3">
-                    {[
-                      "Unified strategy where every service amplifies the next",
-                      "80% of repetitive tasks fully automated",
-                      "Predictable lead flow and stable recurring revenue",
-                      "Every rupee optimised with data-backed decisions",
-                      "Real-time dashboards showing exact ROI",
-                    ].map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-blue-100 text-sm">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               </AnimatedSection>
             </div>
 
             {/* Transformation metrics */}
             <AnimatedSection direction="up" delay={0.4}>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto mt-16">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-20">
                 {[
-                  { label: "Revenue Increase", value: "200%+" },
-                  { label: "Lead Quality", value: "3× Better" },
-                  { label: "Time Saved", value: "40 hrs/mo" },
-                  { label: "Cost Efficiency", value: "+65%" },
+                  { label: "Revenue Increase", value: 200, suffix: "%+" },
+                  { label: "Lead Quality", value: 3, suffix: "× Better" },
+                  { label: "Time Saved", value: 40, suffix: " hrs/mo" },
+                  { label: "Cost Efficiency", value: 65, suffix: "%", prefix: "+" },
                 ].map((m) => (
-                  <div key={m.label} className="text-center">
-                    <p className="text-3xl font-extrabold text-white">{m.value}</p>
-                    <p className="text-xs text-blue-300 mt-1">{m.label}</p>
+                  <div key={m.label} className="text-center bg-white/[0.05] rounded-xl p-5 border border-white/10">
+                    <p className="text-3xl md:text-4xl font-extrabold text-white">
+                      <AnimatedCounter target={m.value} suffix={m.suffix} prefix={m.prefix || ""} />
+                    </p>
+                    <p className="text-xs text-blue-300/80 mt-2">{m.label}</p>
                   </div>
                 ))}
               </div>
@@ -587,11 +792,11 @@ const GrowthStrategyPage = () => {
         </section>
 
         {/* ═══════════════ WHY THIS WORKS ═══════════════ */}
-        <section className="py-20 lg:py-28 bg-background">
+        <section className="py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-4">
             <AnimatedSection direction="up" className="text-center max-w-3xl mx-auto mb-16">
-              <Badge variant="outline" className="mb-4">The Philosophy</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              <Badge variant="outline" className="mb-4 text-xs uppercase tracking-widest">The Philosophy</Badge>
+              <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-5 leading-tight">
                 Why This Strategy{" "}
                 <span className="text-gradient">Actually Works</span>
               </h2>
@@ -602,26 +807,29 @@ const GrowthStrategyPage = () => {
             </AnimatedSection>
 
             {/* Philosophy flow */}
-            <div className="flex flex-col md:flex-row items-stretch gap-4 max-w-5xl mx-auto mb-16">
+            <div className="flex flex-col md:flex-row items-stretch gap-4 max-w-6xl mx-auto mb-20">
               {philosophyPillars.map((p, i) => (
                 <AnimatedSection key={p.label} direction="up" delay={i * 0.1} className="flex-1">
-                  <div className="relative bg-card border border-border rounded-2xl p-6 text-center hover-lift h-full flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-                      <p.icon className="w-7 h-7 text-primary" />
+                  <motion.div
+                    className="relative bg-card border border-border rounded-2xl p-6 text-center hover-lift h-full flex flex-col items-center group"
+                    whileHover={{ borderColor: "hsl(217, 91%, 50%)" }}
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                      <p.icon className="w-7 h-7 text-primary group-hover:text-primary-foreground transition-colors" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground mb-2">{p.label}</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">{p.description}</p>
                     {i < philosophyPillars.length - 1 && (
                       <ArrowRight className="hidden md:block absolute -right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-primary z-10" />
                     )}
-                  </div>
+                  </motion.div>
                 </AnimatedSection>
               ))}
             </div>
 
             {/* Key principles */}
             <AnimatedSection direction="up" delay={0.3}>
-              <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
                 {[
                   {
                     icon: BarChart3,
@@ -639,15 +847,19 @@ const GrowthStrategyPage = () => {
                     desc: "Each stage amplifies the last. Growth doesn't just add up — it multiplies.",
                   },
                 ].map((item) => (
-                  <div key={item.title} className="flex items-start gap-4 bg-muted/50 rounded-xl p-5 border border-border">
-                    <div className="w-10 h-10 shrink-0 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <item.icon className="w-5 h-5 text-primary" />
+                  <motion.div
+                    key={item.title}
+                    className="flex items-start gap-4 bg-muted/50 rounded-2xl p-6 border border-border"
+                    whileHover={{ y: -4 }}
+                  >
+                    <div className="w-12 h-12 shrink-0 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <item.icon className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-foreground mb-1">{item.title}</h4>
-                      <p className="text-sm text-muted-foreground">{item.desc}</p>
+                      <h4 className="font-bold text-foreground mb-1.5">{item.title}</h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </AnimatedSection>
@@ -655,15 +867,15 @@ const GrowthStrategyPage = () => {
         </section>
 
         {/* ═══════════════ FUTURE VISION ═══════════════ */}
-        <section className="py-20 lg:py-28 bg-muted/30">
+        <section className="py-24 lg:py-32 bg-muted/30">
           <div className="container mx-auto px-4">
             <AnimatedSection direction="up" className="text-center max-w-3xl mx-auto mb-16">
-              <Badge variant="outline" className="mb-4">Your Future</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              <Badge variant="outline" className="mb-4 text-xs uppercase tracking-widest">Your Future</Badge>
+              <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-5 leading-tight">
                 Where Will Your Business Be in{" "}
                 <span className="text-gradient">12 Months?</span>
               </h2>
-              <p className="text-muted-foreground text-lg">
+              <p className="text-muted-foreground text-lg leading-relaxed">
                 Imagine waking up to a business that runs on systems, generates
                 leads on autopilot, and is recognised as a market leader. That's
                 what this roadmap delivers.
@@ -673,13 +885,72 @@ const GrowthStrategyPage = () => {
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               {visionCards.map((card, i) => (
                 <AnimatedSection key={card.title} direction="up" delay={i * 0.15}>
-                  <div className="bg-card border border-border rounded-2xl p-8 text-center hover-lift h-full">
-                    <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-5">
-                      <card.icon className="w-8 h-8 text-primary" />
+                  <motion.div
+                    className="bg-card border border-border rounded-2xl p-8 text-center hover-lift h-full group relative overflow-hidden"
+                    whileHover={{ borderColor: "hsl(217, 91%, 50%)" }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative z-10">
+                      <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-5 group-hover:from-primary/30 group-hover:to-accent/30 transition-colors">
+                        <card.icon className="w-8 h-8 text-primary" />
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground mb-3">{card.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed text-sm mb-5">{card.description}</p>
+                      <div className="pt-4 border-t border-border">
+                        <p className="text-2xl font-extrabold text-gradient">{card.metric}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{card.metricLabel}</p>
+                      </div>
                     </div>
-                    <h3 className="text-xl font-bold text-foreground mb-3">{card.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed text-sm">{card.description}</p>
-                  </div>
+                  </motion.div>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════ FAQ ═══════════════ */}
+        <section className="py-24 lg:py-32 bg-background">
+          <div className="container mx-auto px-4">
+            <AnimatedSection direction="up" className="text-center max-w-3xl mx-auto mb-16">
+              <Badge variant="outline" className="mb-4 text-xs uppercase tracking-widest">Common Questions</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Frequently Asked <span className="text-gradient">Questions</span>
+              </h2>
+            </AnimatedSection>
+
+            <div className="max-w-3xl mx-auto space-y-4">
+              {faqs.map((faq, i) => (
+                <AnimatedSection key={i} direction="up" delay={i * 0.05}>
+                  <motion.div
+                    className="bg-card border border-border rounded-xl overflow-hidden"
+                    whileHover={{ borderColor: "hsl(217 91% 50% / 0.3)" }}
+                  >
+                    <button
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      className="w-full flex items-center justify-between p-6 text-left"
+                    >
+                      <span className="font-semibold text-foreground pr-4">{faq.q}</span>
+                      <motion.div
+                        animate={{ rotate: openFaq === i ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <ChevronDown className="w-5 h-5 text-muted-foreground shrink-0" />
+                      </motion.div>
+                    </button>
+                    <motion.div
+                      initial={false}
+                      animate={{
+                        height: openFaq === i ? "auto" : 0,
+                        opacity: openFaq === i ? 1 : 0,
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-6 pb-6 text-muted-foreground leading-relaxed">
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  </motion.div>
                 </AnimatedSection>
               ))}
             </div>
@@ -687,32 +958,49 @@ const GrowthStrategyPage = () => {
         </section>
 
         {/* ═══════════════ CONVERSION CTA ═══════════════ */}
-        <section className="py-20 lg:py-28 bg-gradient-to-b from-primary to-blue-700 text-white">
-          <div className="container mx-auto px-4 text-center">
+        <section className="py-24 lg:py-32 bg-gradient-to-br from-primary via-blue-700 to-blue-900 text-white relative overflow-hidden">
+          {/* Background effects */}
+          <div className="absolute inset-0 pointer-events-none">
+            <FloatingElement className="absolute top-10 left-[15%]" duration={7}>
+              <div className="w-64 h-64 rounded-full bg-cyan-400/10 blur-3xl" />
+            </FloatingElement>
+            <FloatingElement className="absolute bottom-10 right-[10%]" duration={9} distance={12}>
+              <div className="w-80 h-80 rounded-full bg-white/5 blur-3xl" />
+            </FloatingElement>
+          </div>
+
+          <div className="container mx-auto px-4 text-center relative z-10">
             <AnimatedSection direction="scale">
               <div className="max-w-3xl mx-auto">
-                <Lightbulb className="w-12 h-12 mx-auto text-cyan-300 mb-6" />
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight">
+                <motion.div
+                  className="w-16 h-16 mx-auto rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center mb-8"
+                  animate={{ rotate: [0, 5, -5, 0] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                >
+                  <Lightbulb className="w-8 h-8 text-cyan-300" />
+                </motion.div>
+
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
                   Your Growth Story Starts{" "}
                   <span className="text-cyan-300">Right Here.</span>
                 </h2>
-                <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-lg md:text-xl text-blue-100/80 mb-10 max-w-2xl mx-auto leading-relaxed">
                   The best time to build a scalable growth system was a year ago.
                   The second-best time is today. Let's design your roadmap — together.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-                  <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-xl text-base px-8" asChild>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                  <Button size="lg" className="bg-white text-blue-900 hover:bg-white/90 shadow-2xl text-base px-10 py-6 font-bold rounded-xl" asChild>
                     <Link to="/contact">
-                      Book Your Free Strategy Call <ArrowRight className="w-5 h-5 ml-1" />
+                      Book Your Free Strategy Call <ArrowUpRight className="w-5 h-5 ml-2" />
                     </Link>
                   </Button>
                 </div>
 
                 {/* Trust indicators */}
-                <div className="flex flex-wrap justify-center gap-6 text-sm text-blue-200">
+                <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-blue-200/80">
                   {["No commitment required", "Free consultation", "Custom roadmap", "Results guaranteed"].map((t) => (
-                    <span key={t} className="flex items-center gap-1.5">
+                    <span key={t} className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-cyan-400" />
                       {t}
                     </span>
