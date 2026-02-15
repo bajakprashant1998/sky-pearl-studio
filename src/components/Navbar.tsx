@@ -68,8 +68,8 @@ const Navbar = () => {
   const navLinkClass = (isActive: boolean = false) => 
     `relative text-sm font-medium transition-all duration-300 ${
       isActive 
-        ? "text-primary" 
-        : "text-muted-foreground hover:text-foreground"
+        ? "text-primary bg-primary/10" 
+        : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
     }`;
 
   const dropdownVariants = {
@@ -90,35 +90,44 @@ const Navbar = () => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled 
-          ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-lg shadow-black/5" 
-          : "bg-background/80 backdrop-blur-lg border-b border-transparent"
+          ? "bg-background/60 backdrop-blur-3xl border-b border-primary/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)]" 
+          : "bg-background/40 backdrop-blur-2xl border-b border-transparent"
       }`}
     >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+      {/* Subtle top accent line */}
+      <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent transition-opacity duration-500 ${scrolled ? 'opacity-100' : 'opacity-0'}`} />
+      
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="flex items-center justify-between h-16 lg:h-[76px]">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <motion.img 
-              src="/dibull_logo.png" 
-              alt="Digital Bull Logo" 
-              className="w-10 h-10 rounded-xl shadow-md group-hover:shadow-lg transition-shadow"
-              whileHover={{ scale: 1.05, rotate: 5 }}
-              transition={{ type: "spring", stiffness: 400 }}
-            />
+          <Link to="/" className="flex items-center gap-3 group">
+            <motion.div
+              className="relative"
+              whileHover={{ scale: 1.08, rotate: 3 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
+            >
+              <img 
+                src="/dibull_logo.png" 
+                alt="Digital Bull Logo" 
+                className="w-11 h-11 rounded-xl shadow-md group-hover:shadow-lg group-hover:shadow-primary/25 transition-all duration-300"
+              />
+              <div className="absolute inset-0 rounded-xl bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300" />
+            </motion.div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent leading-tight">
+              <span className="text-lg font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors duration-300">
                 Digital Bull
               </span>
-              <span className="text-[10px] text-muted-foreground font-medium tracking-wide leading-none">
+              <span className="text-[10px] text-muted-foreground font-medium tracking-widest uppercase leading-none">
                 Technology Pvt Ltd
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-0.5 bg-muted/30 rounded-xl px-1.5 py-1 border border-border/30">
             {/* Home */}
             <Link
               to="/"
@@ -449,8 +458,8 @@ const Navbar = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:flex items-center gap-3">
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button variant="hero" className="shadow-lg shadow-primary/25" asChild>
+            <motion.div whileHover={{ scale: 1.04, y: -1 }} whileTap={{ scale: 0.97 }}>
+              <Button variant="hero" className="shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300" asChild>
                 <Link to="/contact">
                   Get Started
                   <ArrowRight className="w-4 h-4 ml-1" />
