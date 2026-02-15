@@ -107,9 +107,14 @@ const Navbar = () => {
               whileHover={{ scale: 1.05, rotate: 5 }}
               transition={{ type: "spring", stiffness: 400 }}
             />
-            <span className="text-xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-              Digital Bull
-            </span>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent leading-tight">
+                Digital Bull
+              </span>
+              <span className="text-[10px] text-muted-foreground font-medium tracking-wide leading-none">
+                Technology Pvt Ltd
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
