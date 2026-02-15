@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 
 const categoryFilters = [
   { label: "All", value: "all" },
@@ -29,6 +29,50 @@ const serviceColors = [
   "from-fuchsia-500 to-purple-500",
   "from-lime-500 to-green-500",
 ];
+
+const AnimatedCounter = ({ end, suffix, label }: { end: number; suffix: string; label: string }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated.current) {
+          hasAnimated.current = true;
+          const duration = 1500;
+          const steps = 40;
+          const increment = end / steps;
+          let current = 0;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= end) {
+              setCount(end);
+              clearInterval(timer);
+            } else {
+              setCount(Math.floor(current));
+            }
+          }, duration / steps);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [end]);
+
+  return (
+    <div ref={ref} className="flex flex-col items-center">
+      <motion.span
+        className="text-2xl md:text-3xl font-bold text-foreground tabular-nums"
+        key={count}
+      >
+        {count}{suffix}
+      </motion.span>
+      <span className="text-sm text-muted-foreground mt-1">{label}</span>
+    </div>
+  );
+};
 
 const ServicesPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -150,24 +194,16 @@ const ServicesPage = () => {
                 </motion.div>
 
                 {/* Quick Stats */}
-                <motion.div
-                  className="mt-10 flex flex-wrap justify-center gap-8 text-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
+                <div className="mt-10 flex flex-wrap justify-center gap-8 md:gap-12 text-center">
                   {[
-                    { value: "20+", label: "Services" },
-                    { value: "100+", label: "Subcategories" },
-                    { value: "500+", label: "Clients Served" },
-                    { value: "98%", label: "Satisfaction" },
+                    { end: 20, suffix: "+", label: "Services" },
+                    { end: 100, suffix: "+", label: "Subcategories" },
+                    { end: 500, suffix: "+", label: "Clients Served" },
+                    { end: 98, suffix: "%", label: "Satisfaction" },
                   ].map((stat) => (
-                    <div key={stat.label} className="flex flex-col items-center">
-                      <span className="text-2xl md:text-3xl font-bold text-foreground">{stat.value}</span>
-                      <span className="text-sm text-muted-foreground mt-1">{stat.label}</span>
-                    </div>
+                    <AnimatedCounter key={stat.label} end={stat.end} suffix={stat.suffix} label={stat.label} />
                   ))}
-                </motion.div>
+                </div>
               </div>
             </AnimatedSection>
           </div>
