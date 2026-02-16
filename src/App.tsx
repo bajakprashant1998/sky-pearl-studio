@@ -56,6 +56,7 @@ import AIGraphicDesigningPage from "./pages/academy/AIGraphicDesigningPage";
 import AIVideoEditingPage from "./pages/academy/AIVideoEditingPage";
 
 import GrowthStrategyPage from "./pages/GrowthStrategyPage";
+import GrowthStageDetailPage from "./pages/GrowthStageDetailPage";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
 
@@ -122,6 +123,7 @@ const App = () => (
             <Route path="/our-verticals/upcoming/:slug" element={<UpcomingVerticalDetailPage />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/growth-strategy" element={<GrowthStrategyPage />} />
+            <Route path="/growth-strategy/:stageSlug" element={<GrowthStageDetailPage />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/case-studies/:slug" element={<CaseStudyDetailPage />} />
