@@ -104,6 +104,7 @@ interface StageService {
 
 interface Stage {
   number: number;
+  slug: string;
   name: string;
   objective: string;
   description: string;
@@ -118,6 +119,7 @@ interface Stage {
 const stages: Stage[] = [
   {
     number: 1,
+    slug: "digital-foundation",
     name: "Digital Foundation",
     objective: "Build your online home — a website that actually gets customers",
     description:
@@ -141,6 +143,7 @@ const stages: Stage[] = [
   },
   {
     number: 2,
+    slug: "automation-intelligence",
     name: "Automation & Intelligence",
     objective: "Set up smart tools that work for you 24/7 — even while you sleep",
     description:
@@ -165,6 +168,7 @@ const stages: Stage[] = [
   },
   {
     number: 3,
+    slug: "traffic-audience-growth",
     name: "Traffic & Audience Growth",
     objective: "Get the right people to find and visit your business online",
     description:
@@ -190,6 +194,7 @@ const stages: Stage[] = [
   },
   {
     number: 4,
+    slug: "conversion-revenue-optimisation",
     name: "Conversion & Revenue Optimisation",
     objective: "Turn more visitors into paying customers — without spending more on ads",
     description:
@@ -212,6 +217,7 @@ const stages: Stage[] = [
   },
   {
     number: 5,
+    slug: "scale-authority",
     name: "Scale & Authority",
     objective: "Become the go-to name in your industry and grow without limits",
     description:
@@ -677,11 +683,19 @@ const GrowthStrategyPage = () => {
                           </div>
 
                           {/* Emotional line */}
-                          <div className={`${stage.accentBg} rounded-lg px-4 py-3`}>
+                          <div className={`${stage.accentBg} rounded-lg px-4 py-3 mb-5`}>
                             <p className="text-sm font-semibold italic text-foreground/80">
                               "{stage.emotionalLine}"
                             </p>
                           </div>
+
+                          {/* Learn More link */}
+                          <Link
+                            to={`/growth-strategy/${stage.slug}`}
+                            className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline transition-colors"
+                          >
+                            Learn more about this stage <ArrowRight className="w-4 h-4" />
+                          </Link>
                         </div>
                       </motion.div>
                     </div>
