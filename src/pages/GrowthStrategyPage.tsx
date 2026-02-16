@@ -66,27 +66,27 @@ const AnimatedCounter = ({ target, suffix = "", prefix = "", duration = 2 }: { t
 const visionPillars = [
   {
     icon: Layers,
-    title: "Systems Thinking",
+    title: "Everything Works Together",
     description:
-      "We build interconnected growth systems — not isolated campaigns. Every piece amplifies the next.",
+      "Think of it like a machine — every part connects. Your website, social media, ads, and emails all work as one team instead of doing random, disconnected things.",
     stat: "20+",
-    statLabel: "Integrated Services",
+    statLabel: "Services Connected",
   },
   {
     icon: Cpu,
-    title: "Automation First",
+    title: "Let Technology Do the Work",
     description:
-      "Eliminate repetitive tasks, reduce human error, and let your team focus on high-impact decisions.",
+      "Instead of your team doing boring, repetitive tasks (like sending follow-up emails one by one), we set up smart tools that do it automatically — saving time and money.",
     stat: "80%",
     statLabel: "Tasks Automated",
   },
   {
     icon: LineChart,
-    title: "Data-Driven Growth",
+    title: "Decisions Based on Real Numbers",
     description:
-      "Every move is measurable. We rely on real-time analytics, not assumptions, to scale what works.",
+      "No guessing. We track everything — which ads bring customers, which pages people love, and where money is being wasted — so every decision is backed by real data.",
     stat: "5:1",
-    statLabel: "Average ROI",
+    statLabel: "Average Return on Investment",
   },
 ];
 
@@ -119,9 +119,9 @@ const stages: Stage[] = [
   {
     number: 1,
     name: "Digital Foundation",
-    objective: "Build a conversion-ready digital presence",
+    objective: "Build your online home — a website that actually gets customers",
     description:
-      "Before driving any traffic, your digital assets must be engineered to convert. We design and develop high-performance websites, craft compelling brand identities, and create user experiences that turn visitors into customers — from day one.",
+      "Think of this like building a shop. Before you invite anyone in, the shop needs to look professional, be easy to walk through, and make people want to buy. We create a beautiful, fast website that works perfectly on phones and computers, design a logo and brand identity people remember, and make sure everything is set up so visitors actually take action — like calling you, filling out a form, or buying something.",
     services: [
       { name: "Website Design", slug: "web-design" },
       { name: "Conversion UI/UX", slug: "conversion-ui-ux" },
@@ -129,10 +129,10 @@ const stages: Stage[] = [
       { name: "Custom Development", slug: "custom-development" },
     ],
     outcomes: [
-      "Professional, mobile-optimised website",
-      "Conversion-focused user journeys",
-      "Consistent, memorable brand identity",
-      "Scalable technology architecture",
+      "A professional website that works great on all devices",
+      "A clear path for visitors to become customers",
+      "A brand look & feel that people remember",
+      "A strong technical setup that can grow with your business",
     ],
     emotionalLine: "Your business finally looks and feels like a market leader.",
     icon: Building2,
@@ -142,9 +142,9 @@ const stages: Stage[] = [
   {
     number: 2,
     name: "Automation & Intelligence",
-    objective: "Automate workflows and unlock intelligent decision-making",
+    objective: "Set up smart tools that work for you 24/7 — even while you sleep",
     description:
-      "With a strong foundation in place, we layer in intelligent automation. Email sequences, CRM pipelines, AI-powered insights, and SaaS tools work around the clock — so your business scales without scaling headcount.",
+      "Imagine hiring a super-efficient assistant who never sleeps and never forgets. That's what automation does. We set up systems that automatically send welcome emails to new customers, follow up with people who showed interest, track what's working and what's not, and give you simple reports showing exactly how your business is doing — all without you lifting a finger.",
     services: [
       { name: "Marketing Automation", slug: "marketing-automation-crm" },
       { name: "Email Marketing", slug: "email-marketing" },
@@ -153,10 +153,10 @@ const stages: Stage[] = [
       { name: "SaaS Products", slug: "saas-products" },
     ],
     outcomes: [
-      "Automated lead nurturing & follow-ups",
-      "Real-time business intelligence dashboards",
-      "AI-driven campaign optimisation",
-      "Reduced operational overhead by up to 80%",
+      "Automatic follow-up emails that nurture interested people into buyers",
+      "Simple dashboards showing how your business is performing",
+      "AI tools that help you make smarter marketing decisions",
+      "Up to 80% less time spent on repetitive manual work",
     ],
     emotionalLine: "Your systems work for you — even while you sleep.",
     icon: Zap,
@@ -166,9 +166,9 @@ const stages: Stage[] = [
   {
     number: 3,
     name: "Traffic & Audience Growth",
-    objective: "Generate predictable, high-quality traffic at scale",
+    objective: "Get the right people to find and visit your business online",
     description:
-      "Now we drive the right audience to your optimised assets. Through a multi-channel acquisition strategy spanning search, social, content, and programmatic advertising, we create a reliable pipeline of qualified prospects.",
+      "Now that your 'shop' looks great and runs smartly, it's time to bring in visitors. Think of this like putting up signs on every major road pointing to your store. We help people find you when they search on Google (that's SEO), run targeted ads on Google and social media so you appear in front of the exact people who need your services, create helpful content (blogs, videos, social posts) that builds trust and attracts customers naturally.",
     services: [
       { name: "SEO Services", slug: "seo" },
       { name: "PPC Advertising", slug: "ppc" },
@@ -178,10 +178,10 @@ const stages: Stage[] = [
       { name: "Programmatic Ads", slug: "programmatic-advertising" },
     ],
     outcomes: [
-      "Top search rankings for key terms",
-      "Profitable paid acquisition channels",
-      "Engaged social media communities",
-      "Consistent, high-value content engine",
+      "Your business shows up at the top when people search on Google",
+      "Paid ads that actually make more money than they cost",
+      "An active social media presence that attracts followers and customers",
+      "Helpful blogs and videos that bring visitors to your site every day",
     ],
     emotionalLine: "Your brand becomes impossible to ignore.",
     icon: TrendingUp,
@@ -191,40 +191,40 @@ const stages: Stage[] = [
   {
     number: 4,
     name: "Conversion & Revenue Optimisation",
-    objective: "Maximise revenue per visitor",
+    objective: "Turn more visitors into paying customers — without spending more on ads",
     description:
-      "Traffic alone is meaningless without conversion. We optimise every touchpoint — from landing pages to checkout flows — to squeeze maximum revenue from every visitor, on every platform.",
+      "Getting visitors is only half the job — now we need to turn them into buyers. Imagine 100 people walk into your shop, but only 2 buy something. We work on increasing that to 5, 10, or even 20 buyers — from the same 100 visitors. We do this by improving your website's checkout process, testing different headlines and layouts to see what works best, and optimising your product listings on marketplaces like Amazon.",
     services: [
       { name: "CRO Services", slug: "conversion-optimization" },
       { name: "E-commerce Marketing", slug: "ecommerce-marketing" },
       { name: "Amazon Marketing", slug: "amazon-marketing" },
     ],
     outcomes: [
-      "30–50% improvement in conversion rates",
-      "Higher average order values",
-      "Optimised marketplace performance",
-      "Data-backed A/B testing culture",
+      "30–50% more visitors turning into actual customers",
+      "Customers spending more per purchase on average",
+      "Better performance on Amazon and online marketplaces",
+      "Continuous testing to keep improving results over time",
     ],
-    emotionalLine: "Every click works harder. Every rupee counts.",
+    emotionalLine: "Every visitor counts. Every rupee works harder.",
     icon: Target,
     accent: "from-orange-500 to-amber-500",
     accentBg: "bg-orange-500/10",
   },
   {
     number: 5,
-    name: "Scale & Authority Expansion",
-    objective: "Achieve market dominance and scalable infrastructure",
+    name: "Scale & Authority",
+    objective: "Become the go-to name in your industry and grow without limits",
     description:
-      "With all systems performing, we shift focus to authority building and aggressive scaling. Your team is trained, your brand is recognised, and your growth infrastructure is designed to compound quarter after quarter.",
+      "At this point, your business is running smoothly, customers are flowing in, and revenue is growing. Now it's time to become the biggest name in your space. We train your team so they can handle growth confidently, implement advanced strategies that keep multiplying your results, and position your brand as THE authority that competitors look up to. This is where growth stops being linear and starts compounding — like interest in a savings account.",
     services: [
       { name: "Training Programs", slug: "training-programs" },
       { name: "Growth Hacking", slug: "growth-hacking" },
     ],
     outcomes: [
-      "Recognised as an industry authority",
-      "In-house team trained on advanced strategies",
-      "Scalable, self-sustaining growth engine",
-      "Compound growth quarter over quarter",
+      "People in your industry know and trust your brand",
+      "Your own team is skilled enough to drive growth independently",
+      "A self-sustaining system that keeps growing on its own",
+      "Results that multiply every quarter, not just add up",
     ],
     emotionalLine: "You're no longer competing — you're setting the standard.",
     icon: Crown,
@@ -237,52 +237,52 @@ const philosophyPillars = [
   {
     icon: Building2,
     label: "Build",
-    description: "Engineer a digital foundation that's designed to convert, not just exist.",
+    description: "First, create a professional online presence — your website, brand, and tools — that makes people trust you instantly.",
   },
   {
     icon: Cpu,
     label: "Automate",
-    description: "Replace manual chaos with intelligent, scalable systems.",
+    description: "Set up smart systems that handle repetitive tasks automatically, so your team can focus on what matters most.",
   },
   {
     icon: Eye,
     label: "Attract",
-    description: "Drive predictable, qualified traffic through every major channel.",
+    description: "Bring the right people to your business through Google, social media, ads, and helpful content.",
   },
   {
     icon: Target,
     label: "Convert",
-    description: "Optimise every touchpoint to maximise revenue per visitor.",
+    description: "Turn those visitors into actual paying customers by making it easy and compelling to take action.",
   },
   {
     icon: Rocket,
     label: "Scale",
-    description: "Compound your results with authority, training, and infrastructure.",
+    description: "Once everything works, multiply your results and become the #1 name in your industry.",
   },
 ];
 
 const visionCards = [
   {
     icon: Globe,
-    title: "Market Authority",
+    title: "People Know Your Name",
     description:
-      "Your brand is the first name people think of in your industry. Organic search traffic flows in daily, and competitors model their strategy after yours.",
+      "When someone in your industry needs a solution, your brand is the first one they think of. People find you easily on Google, recommend you to friends, and your competitors wish they had your reputation.",
     metric: "Top 3",
     metricLabel: "Industry Ranking",
   },
   {
     icon: DollarSign,
-    title: "Stable Revenue",
+    title: "Money Comes In Predictably",
     description:
-      "Predictable, recurring revenue streams powered by automated funnels, optimised ad spend, and a loyal customer base that keeps growing.",
+      "No more unpredictable months. You have a steady stream of customers coming in through automated systems — like having a 24/7 salesperson that never takes a day off.",
     metric: "3×",
     metricLabel: "Revenue Growth",
   },
   {
     icon: Layers,
-    title: "Scalable Infrastructure",
+    title: "You Can Handle 10× More Business",
     description:
-      "Systems, processes, and a trained team that can handle 10x growth without breaking. You scale the business — not the chaos.",
+      "Your systems, your team, and your processes are ready to handle massive growth. If business suddenly doubles or triples, nothing breaks — everything just scales up smoothly.",
     metric: "10×",
     metricLabel: "Growth Capacity",
   },
@@ -299,24 +299,32 @@ const audienceSegments = [
 
 const faqs = [
   {
-    q: "How long does it take to see results from this growth strategy?",
-    a: "Most clients see measurable improvements within the first 60–90 days. The full 5-stage system typically delivers compounding returns within 6–12 months, depending on your starting point and industry.",
+    q: "I'm new to online business — is this for me?",
+    a: "Absolutely! This strategy is designed for businesses of all sizes, including those just starting online. We explain everything in plain language, handle all the technical work, and guide you step by step. You don't need to be tech-savvy — that's our job.",
   },
   {
-    q: "Do I need to implement all 5 stages?",
-    a: "Not necessarily — we tailor the roadmap to your current state. Some businesses already have a strong foundation and can start at Stage 2 or 3. We assess where you are and build from there.",
+    q: "How long until I start seeing results?",
+    a: "You'll see early improvements within 60–90 days (like a better website and first leads coming in). The full impact — where all 5 stages work together and results start multiplying — typically happens within 6–12 months. Think of it like planting a garden: early sprouts come quickly, but the big harvest takes a growing season.",
   },
   {
-    q: "What makes this different from hiring a regular marketing agency?",
-    a: "Traditional agencies sell isolated services. We architect an interconnected growth system where every service amplifies the others — creating compounding returns instead of linear results.",
+    q: "Do I have to do all 5 stages at once?",
+    a: "No! We look at where your business is right now and start from there. If you already have a good website, we might skip Stage 1 and start with automation or getting more traffic. It's completely customised to your needs.",
   },
   {
-    q: "How much does this growth strategy cost?",
-    a: "Investment varies based on your business size, goals, and which stages you need. We offer a free strategy consultation to map out a custom plan with transparent pricing.",
+    q: "How is this different from just hiring someone to run ads?",
+    a: "Running ads alone is like putting a sign outside a messy shop — people come in but leave without buying. Our approach first makes sure your 'shop' (website) is ready, then sets up automation, THEN drives visitors. Everything works together, so you get much better results for the same investment.",
   },
   {
-    q: "Can you work with our existing marketing team?",
-    a: "Absolutely. We often work alongside in-house teams, providing strategy, automation, and specialised execution while upskilling your team through our training programs.",
+    q: "How much does this cost?",
+    a: "It depends on your business size and which stages you need. We offer a free consultation where we assess your current situation and give you a custom plan with clear, upfront pricing — no surprises or hidden fees.",
+  },
+  {
+    q: "I already have a team — can you work with them?",
+    a: "Yes! We love working with existing teams. We can handle the strategy and technical parts while your team focuses on what they do best. We also train your team so they grow more skilled over time.",
+  },
+  {
+    q: "What if I don't understand digital marketing terms?",
+    a: "That's perfectly fine. We explain everything in simple language without jargon. Our reports show clear numbers like 'how many people visited your site' and 'how many became customers' — not confusing technical terms. We're your partner, not your professor.",
   },
 ];
 
@@ -414,9 +422,9 @@ const GrowthStrategyPage = () => {
 
               <AnimatedSection direction="up" delay={0.35}>
                 <p className="text-lg md:text-xl text-blue-100/90 max-w-2xl mx-auto mb-12 leading-relaxed">
-                  A step-by-step system that connects 20 digital services into one
-                  unstoppable growth engine — so you stop guessing and start scaling
-                  with predictable revenue.
+                  We take 20 powerful online tools and connect them into one simple,
+                  step-by-step plan — so you stop wasting money on random marketing
+                  and start growing your business with a clear roadmap.
                 </p>
               </AnimatedSection>
 
@@ -476,13 +484,14 @@ const GrowthStrategyPage = () => {
             <AnimatedSection direction="up" className="text-center max-w-3xl mx-auto mb-20">
               <Badge variant="outline" className="mb-4 text-xs uppercase tracking-widest">Our Approach</Badge>
               <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-5 leading-tight">
-                Stop Marketing at Random.{" "}
-                <span className="text-gradient">Start Growing by Design.</span>
+                Stop Doing Random Things Online.{" "}
+                <span className="text-gradient">Start Growing With a Plan.</span>
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Modern businesses don't need more campaigns — they need a system.
-                We architect interconnected digital ecosystems that generate
-                compounding returns, predictable revenue, and real market authority.
+                Many businesses throw money at ads, post randomly on social media,
+                and hope something works. That's not a strategy — that's guessing.
+                We replace the guesswork with a proven system where every piece
+                supports the others, like gears in a well-oiled machine.
               </p>
             </AnimatedSection>
 
@@ -579,9 +588,9 @@ const GrowthStrategyPage = () => {
                 <span className="text-gradient">Unstoppable Growth</span>
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Each stage builds on the last. Together they form a complete
-                digital growth system — from a solid foundation to market
-                dominance.
+                Think of these 5 stages like building a house: you start with a strong
+                foundation, then add walls, plumbing, and finally the finishing touches.
+                Each step only works well because the previous one was done right.
               </p>
             </AnimatedSection>
 
@@ -703,8 +712,9 @@ const GrowthStrategyPage = () => {
                 <span className="text-cyan-300">Scalable Growth System</span>
               </h2>
               <p className="text-blue-200/80 text-lg">
-                See the difference between businesses that market randomly and
-                those that follow a strategic growth system.
+                Here's a simple side-by-side look at what happens when businesses
+                try to figure out online marketing on their own vs. when they follow
+                a structured growth plan.
               </p>
             </AnimatedSection>
 
@@ -722,11 +732,11 @@ const GrowthStrategyPage = () => {
                   </div>
                   <ul className="space-y-4">
                     {[
-                      "Disconnected campaigns with no unified strategy",
-                      "Manual processes eating up your team's time",
-                      "Unpredictable revenue and inconsistent leads",
-                      "Wasted ad spend on unoptimised channels",
-                      "No clear ROI measurement",
+                      "Posting on social media randomly with no clear plan",
+                      "Spending hours on tasks that could be automated",
+                      "Some months are great, others are terrible — no consistency",
+                      "Spending money on ads but not sure if they're working",
+                      "No way to track what's actually bringing in customers",
                     ].map((item) => (
                       <li key={item} className="flex items-start gap-3 text-blue-200/80 text-sm">
                         <span className="text-red-400 mt-0.5 shrink-0">✗</span>
@@ -753,11 +763,11 @@ const GrowthStrategyPage = () => {
                     </div>
                     <ul className="space-y-4">
                       {[
-                        "Unified strategy where every service amplifies the next",
-                        "80% of repetitive tasks fully automated",
-                        "Predictable lead flow and stable recurring revenue",
-                        "Every rupee optimised with data-backed decisions",
-                        "Real-time dashboards showing exact ROI",
+                        "One clear plan where everything — website, ads, social media — works together",
+                        "Smart tools handle repetitive work, saving 40+ hours every month",
+                        "Customers come in steadily and predictably, month after month",
+                        "Every rupee spent on marketing is tracked, measured, and optimised",
+                        "Simple dashboards show exactly what's working and what's not",
                       ].map((item) => (
                         <li key={item} className="flex items-start gap-3 text-blue-100 text-sm">
                           <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
@@ -797,12 +807,13 @@ const GrowthStrategyPage = () => {
             <AnimatedSection direction="up" className="text-center max-w-3xl mx-auto mb-16">
               <Badge variant="outline" className="mb-4 text-xs uppercase tracking-widest">The Philosophy</Badge>
               <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-5 leading-tight">
-                Why This Strategy{" "}
+                Why This Approach{" "}
                 <span className="text-gradient">Actually Works</span>
               </h2>
               <p className="text-muted-foreground text-lg">
-                Most agencies sell services. We architect outcomes. Here's the
-                five-part philosophy that drives predictable, compounding growth.
+                Instead of selling you one service and hoping for the best, we
+                follow a simple 5-step formula. Here's why it works better than
+                doing random marketing activities.
               </p>
             </AnimatedSection>
 
@@ -833,18 +844,18 @@ const GrowthStrategyPage = () => {
                 {[
                   {
                     icon: BarChart3,
-                    title: "Measurable ROI",
-                    desc: "Every action has a metric. Every metric has a dashboard. No guesswork.",
+                    title: "You Can See What's Working",
+                    desc: "Every action we take is measured with real numbers. No vague promises — you see exactly how many people visited, how many became customers, and how much revenue each campaign brings in.",
                   },
                   {
                     icon: Shield,
-                    title: "Predictable Revenue",
-                    desc: "Systems-driven growth removes the rollercoaster. You know what's coming next quarter.",
+                    title: "No More Rollercoaster Months",
+                    desc: "With a proper system in place, your revenue becomes predictable. You'll know roughly how many leads and sales to expect each month, making business planning much easier.",
                   },
                   {
                     icon: Brain,
-                    title: "Compounding Returns",
-                    desc: "Each stage amplifies the last. Growth doesn't just add up — it multiplies.",
+                    title: "Results Keep Multiplying",
+                    desc: "Each stage makes the next one more powerful. A great website makes your ads work better. Better ads bring more data. More data makes everything smarter. It's like a snowball effect.",
                   },
                 ].map((item) => (
                   <motion.div
@@ -876,9 +887,10 @@ const GrowthStrategyPage = () => {
                 <span className="text-gradient">12 Months?</span>
               </h2>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Imagine waking up to a business that runs on systems, generates
-                leads on autopilot, and is recognised as a market leader. That's
-                what this roadmap delivers.
+                Close your eyes and picture this: your business runs smoothly
+                with smart systems, new customers come in every single day without
+                you chasing them, and everyone in your industry knows your name.
+                That's not a dream — that's what this roadmap is built to deliver.
               </p>
             </AnimatedSection>
 
