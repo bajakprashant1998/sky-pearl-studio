@@ -628,13 +628,14 @@ const GrowthStrategyPage = () => {
                     <div className={`absolute left-6 md:left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-gradient-to-br ${stage.accent} opacity-20 blur-xl z-0`} />
 
                     {/* Card */}
-                    <div
-                      className={`ml-20 md:ml-0 md:w-[calc(50%-50px)] ${
+                    <Link
+                      to={`/growth-strategy/${stage.slug}`}
+                      className={`block ml-20 md:ml-0 md:w-[calc(50%-50px)] ${
                         isEven ? "md:mr-auto md:pr-0" : "md:ml-auto md:pl-0"
                       }`}
                     >
                       <motion.div
-                        className="bg-card border border-border rounded-2xl p-7 md:p-9 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+                        className="bg-card border border-border rounded-2xl p-7 md:p-9 shadow-sm hover:shadow-xl transition-all duration-300 group relative overflow-hidden cursor-pointer"
                         whileHover={{ y: -4 }}
                       >
                         {/* Stage number watermark */}
@@ -661,14 +662,12 @@ const GrowthStrategyPage = () => {
                           {/* Services tags */}
                           <div className="flex flex-wrap gap-2 mb-6">
                             {stage.services.map((svc) => (
-                              <Link
+                              <span
                                 key={svc.slug}
-                                to={`/services/${svc.slug}`}
-                                className="inline-flex items-center gap-1 text-xs font-medium bg-primary/10 text-primary px-3 py-1.5 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+                                className="inline-flex items-center gap-1 text-xs font-medium bg-primary/10 text-primary px-3 py-1.5 rounded-full"
                               >
                                 {svc.name}
-                                <ChevronRight className="w-3 h-3" />
-                              </Link>
+                              </span>
                             ))}
                           </div>
 
@@ -689,16 +688,13 @@ const GrowthStrategyPage = () => {
                             </p>
                           </div>
 
-                          {/* Learn More link */}
-                          <Link
-                            to={`/growth-strategy/${stage.slug}`}
-                            className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline transition-colors"
-                          >
-                            Learn more about this stage <ArrowRight className="w-4 h-4" />
-                          </Link>
+                          {/* Learn More */}
+                          <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary group-hover:underline transition-colors">
+                            Learn more about this stage <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </span>
                         </div>
                       </motion.div>
-                    </div>
+                    </Link>
                   </AnimatedSection>
                 );
               })}
