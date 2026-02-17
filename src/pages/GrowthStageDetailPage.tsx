@@ -318,6 +318,56 @@ const StageNavigation = ({ stage }: { stage: ReturnType<typeof getStageBySlug> }
   );
 };
 
+/* ─── Progress Timeline ─── */
+const StageProgressTimeline = ({ currentStageNumber }: { currentStageNumber: number }) => (
+  <section className="bg-muted/40 border-b border-border py-6">
+    <div className="container mx-auto px-4 max-w-4xl">
+      <div className="flex items-center justify-between relative">
+        {/* Connecting line */}
+        <div className="absolute top-5 md:top-6 left-0 right-0 h-0.5 bg-border z-0" />
+        <div
+          className="absolute top-5 md:top-6 left-0 h-0.5 bg-primary z-0 transition-all duration-500"
+          style={{ width: `${((currentStageNumber - 1) / 4) * 100}%` }}
+        />
+
+        {growthStages.map((s) => {
+          const isCompleted = s.number < currentStageNumber;
+          const isCurrent = s.number === currentStageNumber;
+          return (
+            <Link
+              key={s.number}
+              to={`/growth-strategy/${s.slug}`}
+              className="relative z-10 flex flex-col items-center group"
+            >
+              <motion.div
+                className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center border-2 transition-all ${
+                  isCurrent
+                    ? `bg-gradient-to-br ${s.accent} border-primary text-white shadow-lg scale-110`
+                    : isCompleted
+                    ? "bg-primary border-primary text-primary-foreground"
+                    : "bg-background border-border text-muted-foreground group-hover:border-primary/50"
+                }`}
+                whileHover={{ scale: isCurrent ? 1.1 : 1.15 }}
+              >
+                {isCompleted ? (
+                  <CheckCircle2 className="w-5 h-5" />
+                ) : (
+                  <s.icon className="w-4 h-4 md:w-5 md:h-5" />
+                )}
+              </motion.div>
+              <span className={`text-[10px] md:text-xs font-semibold mt-2 text-center max-w-[60px] md:max-w-[80px] leading-tight ${
+                isCurrent ? "text-primary" : isCompleted ? "text-foreground" : "text-muted-foreground"
+              }`}>
+                {s.name}
+              </span>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+);
+
 /* ─── All Stages Overview ─── */
 const AllStagesOverview = ({ currentStageNumber }: { currentStageNumber: number }) => (
   <section className="py-20 lg:py-28 bg-background border-t border-border">
@@ -419,6 +469,7 @@ const GrowthStageDetailPage = () => {
 
       <main className="pt-20">
         <StageBreadcrumb stageName={stage.name} />
+        <StageProgressTimeline currentStageNumber={stage.number} />
         <StageHero stage={stage} />
         <StageOverview stage={stage} />
         <StageSteps stage={stage} />
