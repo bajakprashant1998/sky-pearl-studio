@@ -30,6 +30,62 @@ const staticRoutes = [
     '/blog',
 ];
 
+// Academy benefit slugs
+const academyBenefitSlugs = [
+    'ai-integrated-syllabus',
+    'in-depth-training',
+    'daily-practical-sessions',
+    'expert-trainers',
+    'small-batch-sizes',
+    'portfolio-development',
+    'career-guidance',
+    'certification-support',
+];
+
+// Academy module slugs
+const academyModuleSlugs = [
+    'digital-marketing-fundamentals',
+    'website-landing-page-fundamentals',
+    'search-engine-optimization',
+    'content-marketing',
+    'social-media-marketing',
+    'paid-advertising-performance-marketing',
+    'email-whatsapp-marketing',
+    'analytics-data-tracking',
+    'online-reputation-management',
+];
+
+// Growth strategy stage slugs
+const growthStageSlugs = [
+    'digital-foundation',
+    'automation-intelligence',
+    'traffic-audience-growth',
+    'conversion-revenue-optimisation',
+    'scale-authority',
+];
+
+// Live vertical slugs
+const liveVerticalSlugs = [
+    'cadbull',
+    'shuttech',
+    'castingscreen',
+    'civilengi',
+    'dibull',
+    'gift-city-property',
+];
+
+// Upcoming vertical slugs
+const upcomingVerticalSlugs = [
+    'hireforjob',
+    'kundlichart',
+    'makeonindia',
+    'gametoxic',
+    'drugseffect',
+    'yourdesignstory',
+    'hindifilmcinema',
+    'filesbundle',
+];
+
 const slugify = (text: string) => {
     return text
         .toLowerCase()
@@ -37,68 +93,90 @@ const slugify = (text: string) => {
         .replace(/(^-|-$)/g, '');
 };
 
+interface SitemapUrl {
+    loc: string;
+    priority: string;
+    changefreq: string;
+}
+
 const generateSitemap = () => {
-    const urls: string[] = [];
+    const urls: SitemapUrl[] = [];
 
     // Add static routes
     staticRoutes.forEach(route => {
-        urls.push(`${BASE_URL}${route}`);
+        const priority = route === '' ? '1.0' : route === '/services' || route === '/blog' ? '0.9' : '0.8';
+        urls.push({ loc: `${BASE_URL}${route}`, priority, changefreq: 'weekly' });
     });
 
     // Add Services and Subservices
     services.forEach(service => {
-        // Service Category
-        urls.push(`${BASE_URL}/services/${service.slug}`);
+        urls.push({ loc: `${BASE_URL}/services/${service.slug}`, priority: '0.9', changefreq: 'weekly' });
 
         service.subcategories.forEach(sub => {
-            // Service Subcategory
-            urls.push(`${BASE_URL}/services/${service.slug}/${sub.id}`);
+            urls.push({ loc: `${BASE_URL}/services/${service.slug}/${sub.id}`, priority: '0.8', changefreq: 'weekly' });
 
-            // Features
             sub.items.forEach(item => {
                 const featureSlug = slugify(item.name);
-                urls.push(`${BASE_URL}/services/${service.slug}/${sub.id}/feature/${featureSlug}`);
+                urls.push({ loc: `${BASE_URL}/services/${service.slug}/${sub.id}/feature/${featureSlug}`, priority: '0.7', changefreq: 'monthly' });
             });
 
-            // Benefits
-            // Get detailed data to access benefits
-            const subData = getSubcategoryData(
-                sub.id,
-                sub.title,
-                service.title,
-                sub.items.map(i => i.name)
-            );
-
+            const subData = getSubcategoryData(sub.id, sub.title, service.title, sub.items.map(i => i.name));
             subData.keyBenefits.forEach(benefit => {
                 const benefitSlug = slugify(benefit);
-                urls.push(`${BASE_URL}/services/${service.slug}/${sub.id}/benefit/${benefitSlug}`);
+                urls.push({ loc: `${BASE_URL}/services/${service.slug}/${sub.id}/benefit/${benefitSlug}`, priority: '0.7', changefreq: 'monthly' });
             });
         });
     });
 
     // Add Free Tools
     freeToolsData.forEach(tool => {
-        urls.push(`${BASE_URL}/free-tools/${tool.slug}`);
+        urls.push({ loc: `${BASE_URL}/free-tools/${tool.slug}`, priority: '0.8', changefreq: 'weekly' });
     });
 
     // Add Case Studies
     caseStudiesData.forEach(study => {
-        urls.push(`${BASE_URL}/case-studies/${study.slug}`);
+        urls.push({ loc: `${BASE_URL}/case-studies/${study.slug}`, priority: '0.8', changefreq: 'monthly' });
     });
 
     // Add Impact Pages
     businessImpactData.forEach(impact => {
-        urls.push(`${BASE_URL}/impact/${impact.slug}`);
+        urls.push({ loc: `${BASE_URL}/impact/${impact.slug}`, priority: '0.7', changefreq: 'monthly' });
+    });
+
+    // Add Growth Strategy Stages
+    growthStageSlugs.forEach(slug => {
+        urls.push({ loc: `${BASE_URL}/growth-strategy/${slug}`, priority: '0.8', changefreq: 'monthly' });
+    });
+
+    // Add Academy Benefits
+    academyBenefitSlugs.forEach(slug => {
+        urls.push({ loc: `${BASE_URL}/digital-marketing-academy/benefit/${slug}`, priority: '0.7', changefreq: 'monthly' });
+    });
+
+    // Add Academy Modules
+    academyModuleSlugs.forEach(slug => {
+        urls.push({ loc: `${BASE_URL}/digital-marketing-academy/module/${slug}`, priority: '0.7', changefreq: 'monthly' });
+    });
+
+    // Add Live Verticals
+    liveVerticalSlugs.forEach(slug => {
+        urls.push({ loc: `${BASE_URL}/our-verticals/${slug}`, priority: '0.7', changefreq: 'monthly' });
+    });
+
+    // Add Upcoming Verticals
+    upcomingVerticalSlugs.forEach(slug => {
+        urls.push({ loc: `${BASE_URL}/our-verticals/upcoming/${slug}`, priority: '0.6', changefreq: 'monthly' });
     });
 
     // Generate XML
+    const today = new Date().toISOString().split('T')[0];
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(url => `  <url>
-    <loc>${url}</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+${urls.map(u => `  <url>
+    <loc>${u.loc}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority}</priority>
   </url>`).join('\n')}
 </urlset>`;
 
