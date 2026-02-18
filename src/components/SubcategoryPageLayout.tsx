@@ -1,13 +1,14 @@
-import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Check, ArrowRight, Star, ChevronDown, ChevronUp, Sparkles, TrendingUp, Users, Zap, Award, Target, BarChart3, CheckCircle2, Shield, Clock, Globe, Layers, PieChart } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowLeft, Check, ArrowRight, Star, ChevronDown, ChevronUp, TrendingUp, Users, Zap, Award, Target, CheckCircle2, Shield, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LucideIcon } from "lucide-react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { Helmet } from "react-helmet-async";
-import { useState } from "react";
-import { getSubcategoryData, processIcons, benefitIcons, SubcategoryDetail } from "@/data/subcategoryData";
+import { useState, useEffect, useRef } from "react";
+import { getSubcategoryData, processIcons, benefitIcons } from "@/data/subcategoryData";
 import { cn } from "@/lib/utils";
+import { motion, useInView } from "framer-motion";
 
 interface SubcategoryPageLayoutProps {
   serviceIcon: LucideIcon;
@@ -31,6 +32,30 @@ const whyChoosePoints = [
   { icon: Users, title: "Expert Team", desc: "Industry specialists dedicated to your success" },
   { icon: Globe, title: "Global Experience", desc: "Serving clients across diverse industries worldwide" },
 ];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.5, delay: i * 0.1, ease: "easeOut" as const }
+  })
+};
+
+const AnimatedBar = ({ value, color }: { value: number; color: string }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true });
+
+  return (
+    <div ref={ref} className="h-3 bg-muted rounded-full overflow-hidden">
+      <motion.div
+        className={`h-full ${color} rounded-full`}
+        initial={{ width: 0 }}
+        animate={isInView ? { width: `${value}%` } : { width: 0 }}
+        transition={{ duration: 1, delay: 0.3, ease: "easeOut" as const }}
+      />
+    </div>
+  );
+};
 
 const SubcategoryPageLayout = ({
   serviceIcon: ServiceIcon,
@@ -75,22 +100,31 @@ const SubcategoryPageLayout = ({
       <Navbar />
 
       <main className="pt-20">
-        {/* Hero Section - Enhanced with colorful gradient */}
+        {/* Hero Section */}
         <section className="py-16 lg:py-24 bg-gradient-to-br from-primary via-primary/90 to-accent relative overflow-hidden text-white">
-          {/* Background decorations */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-          </div>
+          <motion.div
+            className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"
+            animate={{ scale: [1.2, 1, 1.2], opacity: [0.25, 0.15, 0.25] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          />
 
-          {/* Decorative pattern */}
           <div className="absolute inset-0 opacity-5" style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }} />
 
           <div className="container mx-auto px-4 relative z-10">
             {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 text-sm text-white/70 mb-8 flex-wrap">
+            <motion.nav
+              className="flex items-center gap-2 text-sm text-white/70 mb-8 flex-wrap"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
               <Link to="/" className="hover:text-white transition-colors">Home</Link>
               <span>/</span>
               <Link to={`/services/${serviceSlug}`} className="hover:text-white transition-colors">
@@ -98,27 +132,52 @@ const SubcategoryPageLayout = ({
               </Link>
               <span>/</span>
               <span className="text-white">{subcategoryTitle}</span>
-            </nav>
+            </motion.nav>
 
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="animate-fade-up">
-                <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+              <div>
+                <motion.div
+                  className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-6 shadow-lg"
+                  initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  transition={{ duration: 0.5, type: "spring" }}
+                >
                   <ServiceIcon className="w-10 h-10 text-white" />
-                </div>
+                </motion.div>
 
-                <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-full text-sm font-medium mb-4">
+                <motion.span
+                  className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-full text-sm font-medium mb-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
                   {serviceTitle}
-                </span>
+                </motion.span>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                <motion.h1
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15, duration: 0.5 }}
+                >
                   {subcategoryTitle}
-                </h1>
+                </motion.h1>
 
-                <p className="text-xl text-white/80 leading-relaxed mb-8">
+                <motion.p
+                  className="text-xl text-white/80 leading-relaxed mb-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                >
                   {subcategoryData.description}
-                </p>
+                </motion.p>
 
-                <div className="flex flex-wrap gap-4">
+                <motion.div
+                  className="flex flex-wrap gap-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.25, duration: 0.5 }}
+                >
                   <Button variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90" asChild>
                     <Link to="/contact">
                       Get Started <ArrowRight className="w-4 h-4 ml-2" />
@@ -127,30 +186,44 @@ const SubcategoryPageLayout = ({
                   <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10" asChild>
                     <Link to="/contact">Free Consultation</Link>
                   </Button>
-                </div>
+                </motion.div>
               </div>
 
               {/* Stats Grid */}
-              <div className="animate-fade-up grid grid-cols-2 gap-4" style={{ animationDelay: "0.2s" }}>
+              <motion.div
+                className="grid grid-cols-2 gap-4"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+              >
                 {stats.map((stat, index) => (
-                  <div
+                  <motion.div
                     key={index}
                     className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/10 hover:bg-white/20 transition-colors"
+                    whileHover={{ y: -4, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 300 }}
                   >
                     <stat.icon className="w-8 h-8 text-white/80 mx-auto mb-3" />
                     <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
                     <div className="text-sm text-white/70">{stat.label}</div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
 
-        {/* What's Included Section - Enhanced Cards */}
+        {/* What's Included */}
         <section className="py-20 bg-background">
           <div className="container mx-auto px-4">
-            <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-up">
+            <motion.div
+              className="text-center max-w-3xl mx-auto mb-16"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeUp}
+              custom={0}
+            >
               <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
                 Complete Service Package
               </span>
@@ -160,7 +233,7 @@ const SubcategoryPageLayout = ({
               <p className="text-lg text-muted-foreground">
                 Comprehensive solutions tailored to your specific needs
               </p>
-            </div>
+            </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {items.map((item, index) => {
@@ -176,25 +249,36 @@ const SubcategoryPageLayout = ({
                 const colorClass = colors[index % colors.length];
 
                 return (
-                  <Link
+                  <motion.div
                     key={index}
-                    to={`/services/${serviceSlug}/${subcategoryId}/feature/${itemSlug}`}
-                    className="block group animate-fade-up"
-                    style={{ animationDelay: `${0.1 + index * 0.05}s` }}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={fadeUp}
+                    custom={index}
                   >
-                    <div className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all h-full">
-                      <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${colorClass} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                        <Check className="w-7 h-7 text-white" />
-                      </div>
-                      <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{item.name}</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Professional {item.name.toLowerCase()} services to boost your online presence and drive results.
-                      </p>
-                      <span className="text-sm font-medium text-primary flex items-center">
-                        Learn more <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                      </span>
-                    </div>
-                  </Link>
+                    <Link
+                      to={`/services/${serviceSlug}/${subcategoryId}/feature/${itemSlug}`}
+                      className="block group"
+                    >
+                      <motion.div
+                        className="bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all h-full"
+                        whileHover={{ y: -6 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${colorClass} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
+                          <Check className="w-7 h-7 text-white" />
+                        </div>
+                        <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{item.name}</h3>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Professional {item.name.toLowerCase()} services to boost your online presence and drive results.
+                        </p>
+                        <span className="text-sm font-medium text-primary flex items-center">
+                          Learn more <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
                 );
               })}
             </div>
@@ -205,7 +289,12 @@ const SubcategoryPageLayout = ({
         <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="animate-fade-up">
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
                 <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
                   Why Choose Us
                 </span>
@@ -217,7 +306,14 @@ const SubcategoryPageLayout = ({
                 </p>
                 <div className="grid sm:grid-cols-2 gap-4">
                   {whyChoosePoints.map((point, index) => (
-                    <div key={index} className="flex items-start gap-3">
+                    <motion.div
+                      key={index}
+                      className="flex items-start gap-3"
+                      initial={{ opacity: 0, y: 15 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                    >
                       <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                         <point.icon className="w-5 h-5 text-primary" />
                       </div>
@@ -225,13 +321,18 @@ const SubcategoryPageLayout = ({
                         <h4 className="font-semibold mb-1">{point.title}</h4>
                         <p className="text-sm text-muted-foreground">{point.desc}</p>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
               {/* Infographic */}
-              <div className="animate-fade-up" style={{ animationDelay: "0.2s" }}>
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
                 <div className="bg-card rounded-3xl p-8 border border-border shadow-xl">
                   <h3 className="text-xl font-bold mb-6 text-center">Our Impact</h3>
                   <div className="space-y-6">
@@ -246,25 +347,27 @@ const SubcategoryPageLayout = ({
                           <span className="text-sm font-medium">{item.label}</span>
                           <span className="text-sm font-bold text-primary">{item.value}%</span>
                         </div>
-                        <div className="h-3 bg-muted rounded-full overflow-hidden">
-                          <div
-                            className={`h-full ${item.color} rounded-full transition-all duration-1000`}
-                            style={{ width: `${item.value}%` }}
-                          />
-                        </div>
+                        <AnimatedBar value={item.value} color={item.color} />
                       </div>
                     ))}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
 
-        {/* Key Benefits Grid - Colorful Cards */}
+        {/* Key Benefits Grid */}
         <section className="py-20 bg-background">
           <div className="container mx-auto px-4">
-            <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-up">
+            <motion.div
+              className="text-center max-w-3xl mx-auto mb-16"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeUp}
+              custom={0}
+            >
               <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold mb-4">
                 Key Benefits
               </span>
@@ -274,7 +377,7 @@ const SubcategoryPageLayout = ({
               <p className="text-lg text-muted-foreground">
                 Discover how our services can transform your business
               </p>
-            </div>
+            </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {subcategoryData.keyBenefits.map((benefit, index) => {
@@ -298,34 +401,50 @@ const SubcategoryPageLayout = ({
                 ];
 
                 return (
-                  <Link
+                  <motion.div
                     key={index}
-                    to={`/services/${serviceSlug}/${subcategoryId}/benefit/${benefitSlug}`}
-                    className="block group h-full animate-fade-up"
-                    style={{ animationDelay: `${index * 0.05}s` }}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={fadeUp}
+                    custom={index}
                   >
-                    <div
-                      className={`${bgColors[index % bgColors.length]} rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all h-full flex flex-col`}
+                    <Link
+                      to={`/services/${serviceSlug}/${subcategoryId}/benefit/${benefitSlug}`}
+                      className="block group h-full"
                     >
-                      <div className="w-14 h-14 bg-white dark:bg-card rounded-xl flex items-center justify-center mb-4 shadow-md group-hover:scale-110 transition-transform">
-                        <BenefitIcon className={`w-7 h-7 ${iconColors[index % iconColors.length]}`} />
-                      </div>
-                      <p className="text-foreground font-semibold group-hover:text-primary transition-colors mb-3">{benefit}</p>
-                      <div className="mt-auto flex items-center text-sm font-medium text-primary">
-                        Learn more <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </Link>
+                      <motion.div
+                        className={`${bgColors[index % bgColors.length]} rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-xl transition-all h-full flex flex-col`}
+                        whileHover={{ y: -6 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        <div className="w-14 h-14 bg-white dark:bg-card rounded-xl flex items-center justify-center mb-4 shadow-md group-hover:scale-110 transition-transform">
+                          <BenefitIcon className={`w-7 h-7 ${iconColors[index % iconColors.length]}`} />
+                        </div>
+                        <p className="text-foreground font-semibold group-hover:text-primary transition-colors mb-3">{benefit}</p>
+                        <div className="mt-auto flex items-center text-sm font-medium text-primary">
+                          Learn more <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
                 );
               })}
             </div>
           </div>
         </section>
 
-        {/* Process Section - Timeline with Colors */}
+        {/* Process Section */}
         <section className="py-20 bg-gradient-to-br from-primary/5 via-background to-accent/10">
           <div className="container mx-auto px-4">
-            <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-up">
+            <motion.div
+              className="text-center max-w-3xl mx-auto mb-16"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeUp}
+              custom={0}
+            >
               <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
                 Our Process
               </span>
@@ -335,7 +454,7 @@ const SubcategoryPageLayout = ({
               <p className="text-lg text-muted-foreground">
                 A proven approach to delivering exceptional {subcategoryTitle} results
               </p>
-            </div>
+            </motion.div>
 
             <div className="max-w-4xl mx-auto">
               {subcategoryData.processSteps.map((step, index) => {
@@ -343,52 +462,82 @@ const SubcategoryPageLayout = ({
                 const colors = ["bg-blue-500", "bg-purple-500", "bg-amber-500", "bg-green-500", "bg-rose-500"];
 
                 return (
-                  <div
+                  <motion.div
                     key={index}
-                    className="flex gap-6 mb-8 last:mb-0 animate-fade-up"
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    className="flex gap-6 mb-8 last:mb-0"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={fadeUp}
+                    custom={index}
                   >
-                    {/* Step Number & Line */}
                     <div className="flex flex-col items-center">
-                      <div className={`w-14 h-14 ${colors[index % colors.length]} rounded-full flex items-center justify-center text-white font-bold shadow-lg`}>
+                      <motion.div
+                        className={`w-14 h-14 ${colors[index % colors.length]} rounded-full flex items-center justify-center text-white font-bold shadow-lg`}
+                        whileHover={{ scale: 1.15 }}
+                      >
                         {index + 1}
-                      </div>
+                      </motion.div>
                       {index < subcategoryData.processSteps.length - 1 && (
                         <div className="w-0.5 h-full bg-gradient-to-b from-primary/50 to-transparent mt-4" />
                       )}
                     </div>
 
-                    {/* Step Content */}
-                    <div className="flex-1 bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-lg transition-all">
+                    <motion.div
+                      className="flex-1 bg-card rounded-2xl p-6 border border-border hover:border-primary/50 hover:shadow-lg transition-all"
+                      whileHover={{ x: 4 }}
+                    >
                       <div className="flex items-center gap-3 mb-3">
                         <StepIcon className="w-5 h-5 text-primary" />
                         <h3 className="text-xl font-bold">{step.title}</h3>
                       </div>
                       <p className="text-muted-foreground">{step.description}</p>
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                 );
               })}
             </div>
           </div>
         </section>
 
-        {/* Testimonial Section */}
+        {/* Testimonial */}
         {subcategoryData.testimonialSnippet && (
           <section className="py-20 bg-background">
             <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto bg-gradient-to-br from-primary via-primary/90 to-accent rounded-3xl p-8 lg:p-12 text-white relative overflow-hidden animate-fade-up">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-xl" />
+              <motion.div
+                className="max-w-4xl mx-auto bg-gradient-to-br from-primary via-primary/90 to-accent rounded-3xl p-8 lg:p-12 text-white relative overflow-hidden"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <motion.div
+                  className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"
+                  animate={{ scale: [1, 1.3, 1] }}
+                  transition={{ duration: 6, repeat: Infinity }}
+                />
+                <motion.div
+                  className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-xl"
+                  animate={{ scale: [1.3, 1, 1.3] }}
+                  transition={{ duration: 6, repeat: Infinity, delay: 1 }}
+                />
 
                 <div className="relative text-center">
                   <div className="flex justify-center gap-1 mb-6">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-6 h-6 fill-amber-400 text-amber-400" />
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.1 }}
+                      >
+                        <Star className="w-6 h-6 fill-amber-400 text-amber-400" />
+                      </motion.div>
                     ))}
                   </div>
 
-                  <blockquote className="text-xl lg:text-2xl font-medium mb-6">
+                  <blockquote className="text-xl lg:text-2xl font-medium mb-6 italic">
                     "{subcategoryData.testimonialSnippet.quote}"
                   </blockquote>
 
@@ -397,7 +546,7 @@ const SubcategoryPageLayout = ({
                     <p className="text-sm text-white/70">{subcategoryData.testimonialSnippet.company}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </section>
         )}
@@ -405,7 +554,14 @@ const SubcategoryPageLayout = ({
         {/* FAQ Section */}
         <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-4">
-            <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-up">
+            <motion.div
+              className="text-center max-w-3xl mx-auto mb-16"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeUp}
+              custom={0}
+            >
               <span className="inline-block px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold mb-4">
                 FAQ
               </span>
@@ -415,14 +571,18 @@ const SubcategoryPageLayout = ({
               <p className="text-lg text-muted-foreground">
                 Get answers to common questions about our {subcategoryTitle} services
               </p>
-            </div>
+            </motion.div>
 
             <div className="max-w-3xl mx-auto space-y-4">
               {subcategoryData.faqs.map((faq, index) => (
-                <div
+                <motion.div
                   key={index}
-                  className="bg-card rounded-2xl border border-border overflow-hidden animate-fade-up"
-                  style={{ animationDelay: `${index * 0.05}s` }}
+                  className="bg-card rounded-2xl border border-border overflow-hidden"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeUp}
+                  custom={index}
                 >
                   <button
                     onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
@@ -443,16 +603,27 @@ const SubcategoryPageLayout = ({
                   >
                     <p className="px-6 pb-6 text-muted-foreground">{faq.answer}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 bg-background">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center animate-fade-up">
+        <section className="py-20 bg-background relative overflow-hidden">
+          <motion.div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl"
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 10, repeat: Infinity }}
+          />
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div
+              className="max-w-4xl mx-auto text-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
                 Ready to Transform Your <span className="text-gradient">{subcategoryTitle}</span>?
               </h2>
@@ -472,18 +643,24 @@ const SubcategoryPageLayout = ({
                   </Link>
                 </Button>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Related Services */}
         <section className="py-16 bg-muted/30">
           <div className="container mx-auto px-4">
-            <div className="text-center max-w-3xl mx-auto mb-12 animate-fade-up">
+            <motion.div
+              className="text-center max-w-3xl mx-auto mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
               <h2 className="text-2xl md:text-3xl font-bold mb-4">
                 Explore More <span className="text-gradient">{serviceTitle}</span>
               </h2>
-            </div>
+            </motion.div>
             <div className="flex justify-center">
               <Button variant="outline" size="lg" asChild>
                 <Link to={`/services/${serviceSlug}`}>
