@@ -10,6 +10,7 @@ import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import FeaturedBlogCarousel from "@/components/FeaturedBlogCarousel";
+import HowWeWorkSection from "@/components/HowWeWorkSection";
 
 const Index = () => {
   const jsonLd = {
@@ -44,15 +45,9 @@ const Index = () => {
       "name": "Ahmedabad"
     },
     "knowsAbout": [
-      "Digital Marketing",
-      "SEO Services",
-      "Social Media Marketing",
-      "PPC Advertising",
-      "Web Design",
-      "Content Marketing",
-      "Email Marketing",
-      "Branding",
-      "E-commerce Marketing"
+      "Digital Marketing", "SEO Services", "Social Media Marketing",
+      "PPC Advertising", "Web Design", "Content Marketing",
+      "Email Marketing", "Branding", "E-commerce Marketing"
     ],
     "foundingDate": "2020",
     "numberOfEmployees": "10-50"
@@ -98,12 +93,39 @@ const Index = () => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" }
+    ]
+  };
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://dibull.com"
-      }
+        "@type": "Question",
+        "name": "What industries do you specialize in?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We have extensive experience across diverse industries including technology, healthcare, e-commerce, finance, education, real estate, and manufacturing." }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does it take to see results from digital marketing?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Results timeline varies by service: PPC and social media ads can show results within days, while SEO typically takes 3-6 months for significant improvements." }
+      },
+      {
+        "@type": "Question",
+        "name": "What makes Digital Bull Technology different from other agencies?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We combine data-driven strategies with creative excellence. Our team brings 15+ years of experience, and we focus on measurable outcomes with a 98% client satisfaction rate." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer customized packages or only fixed plans?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We offer both standard packages and customized marketing strategies based on your specific goals, budget, and industry requirements." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you measure and report campaign performance?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We use advanced analytics tools to track KPIs like traffic, conversions, ROI, and engagement, with detailed monthly reports and real-time dashboard access." }
+      },
     ]
   };
 
@@ -111,14 +133,8 @@ const Index = () => {
     <>
       <Helmet>
         <title>Best Digital Marketing Agency in Ahmedabad | SEO, PPC & Social Media - Digital Bull Technology</title>
-        <meta
-          name="description"
-          content="Digital Bull Technology is the leading digital marketing agency in Ahmedabad. We offer expert SEO, PPC advertising, social media marketing, content marketing & web design services. Best marketing company in Ahmedabad for business growth."
-        />
-        <meta
-          name="keywords"
-          content="digital marketing ahmedabad, digital marketing agency ahmedabad, digital marketing company in ahmedabad, marketing agency in ahmedabad, social media marketing agency in ahmedabad, social media marketing agency ahmedabad, best digital marketing agency in ahmedabad, social media agency in ahmedabad, marketing company in ahmedabad, social media marketing in ahmedabad, digital marketing services ahmedabad, advertising companies in ahmedabad, digital marketing service in ahmedabad, digital marketing services in ahmedabad, SEO services ahmedabad, PPC advertising ahmedabad, web design ahmedabad, content marketing ahmedabad"
-        />
+        <meta name="description" content="Digital Bull Technology is the leading digital marketing agency in Ahmedabad. We offer expert SEO, PPC advertising, social media marketing, content marketing & web design services. Best marketing company in Ahmedabad for business growth." />
+        <meta name="keywords" content="digital marketing ahmedabad, digital marketing agency ahmedabad, digital marketing company in ahmedabad, marketing agency in ahmedabad, social media marketing agency in ahmedabad, social media marketing agency ahmedabad, best digital marketing agency in ahmedabad, social media agency in ahmedabad, marketing company in ahmedabad, social media marketing in ahmedabad, digital marketing services ahmedabad, advertising companies in ahmedabad, digital marketing service in ahmedabad, digital marketing services in ahmedabad, SEO services ahmedabad, PPC advertising ahmedabad, web design ahmedabad, content marketing ahmedabad" />
         <link rel="canonical" href="https://dibull.com" />
         <meta property="og:title" content="Best Digital Marketing Agency in Ahmedabad | Digital Bull Technology" />
         <meta property="og:description" content="Leading digital marketing company in Ahmedabad offering SEO, PPC, social media marketing & web design services. Get results that matter with the best marketing agency in Ahmedabad." />
@@ -142,12 +158,14 @@ const Index = () => {
         <script type="application/ld+json">{JSON.stringify(localBusinessJsonLd)}</script>
         <script type="application/ld+json">{JSON.stringify(websiteJsonLd)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
       </Helmet>
 
       <main className="min-h-screen">
         <Navbar />
         <HeroSection />
         <ServicesSection />
+        <HowWeWorkSection />
         <StatsSection />
         <FeaturedBlogCarousel />
         <BusinessImpactSection />
