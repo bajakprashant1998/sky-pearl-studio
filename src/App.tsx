@@ -67,6 +67,8 @@ import AdminPages from "@/pages/admin/AdminPages";
 import AdminPageEditor from "@/pages/admin/AdminPageEditor";
 import AdminBlog from "@/pages/admin/AdminBlog";
 import AdminSettings from "@/pages/admin/AdminSettings";
+import AdminLeads from "@/pages/admin/AdminLeads";
+import WebDesignLandingPage from "@/pages/WebDesignLandingPage";
 
 const queryClient = new QueryClient();
 
@@ -130,12 +132,15 @@ const App = () => (
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
+            {/* Landing Page */}
+            <Route path="/websitedesignlandingpage" element={<WebDesignLandingPage />} />
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             <Route path="/admin/pages" element={<AdminRoute><AdminPages /></AdminRoute>} />
             <Route path="/admin/pages/:pageId" element={<AdminRoute><AdminPageEditor /></AdminRoute>} />
             <Route path="/admin/blog" element={<AdminRoute><AdminBlog /></AdminRoute>} />
+            <Route path="/admin/leads" element={<AdminRoute><AdminLeads /></AdminRoute>} />
             <Route path="/admin/settings" element={<AdminRoute><AdminSettings /></AdminRoute>} />
 
             <Route path="*" element={<NotFound />} />
