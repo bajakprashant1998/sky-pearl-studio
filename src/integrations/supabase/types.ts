@@ -71,6 +71,51 @@ export type Database = {
         }
         Relationships: []
       }
+      leads: {
+        Row: {
+          budget: string | null
+          business_name: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          name: string
+          phone: string | null
+          source: string
+          status: string
+          updated_at: string
+          website_type: string | null
+        }
+        Insert: {
+          budget?: string | null
+          business_name?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          phone?: string | null
+          source?: string
+          status?: string
+          updated_at?: string
+          website_type?: string | null
+        }
+        Update: {
+          budget?: string | null
+          business_name?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string | null
+          source?: string
+          status?: string
+          updated_at?: string
+          website_type?: string | null
+        }
+        Relationships: []
+      }
       page_content: {
         Row: {
           content: Json

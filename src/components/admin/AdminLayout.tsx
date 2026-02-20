@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAdmin } from "@/hooks/useAdmin";
-import { LayoutDashboard, FileText, BookOpen, Settings, LogOut, Menu, X } from "lucide-react";
+import { LayoutDashboard, FileText, BookOpen, Settings, LogOut, Menu, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -8,6 +8,7 @@ const navItems = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { to: "/admin/pages", label: "Pages & SEO", icon: FileText },
   { to: "/admin/blog", label: "Blog Posts", icon: BookOpen },
+  { to: "/admin/leads", label: "Leads", icon: Users },
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
