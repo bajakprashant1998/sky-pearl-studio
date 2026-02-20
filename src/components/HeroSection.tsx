@@ -36,7 +36,7 @@ const HeroSection = () => {
     <section
       ref={sectionRef}
       id="home"
-      className="relative min-h-screen flex items-center pt-20 overflow-hidden"
+      className="relative min-h-screen flex items-center pt-20"
     >
       {/* Animated Background */}
       <div className="absolute inset-0">
@@ -68,7 +68,7 @@ const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <motion.div className="container mx-auto px-4 relative z-10" style={{ y, opacity }}>
+      <motion.div className="container mx-auto px-4 relative z-10 py-8" style={{ y, opacity }}>
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Column */}
           <div className="text-center lg:text-left space-y-8">
@@ -169,7 +169,7 @@ const HeroSection = () => {
           </div>
 
           {/* Right Column - Stats Dashboard */}
-          <div className="relative hidden lg:block">
+          <div className="relative hidden lg:block px-6 pt-8 pb-4">
             <motion.div 
               className="relative"
               initial={{ opacity: 0, x: 50 }}
@@ -193,7 +193,7 @@ const HeroSection = () => {
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <motion.div 
                     className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 border border-primary/20"
-                    whileHover={{ scale: 1.02, borderColor: "hsl(var(--primary) / 0.5)" }}
+                    whileHover={{ scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
                     <div className="flex items-center gap-2 mb-2">
@@ -208,7 +208,7 @@ const HeroSection = () => {
                   </motion.div>
                   <motion.div 
                     className="bg-gradient-to-br from-accent/10 to-accent/5 rounded-xl p-4 border border-accent/20"
-                    whileHover={{ scale: 1.02, borderColor: "hsl(var(--accent) / 0.5)" }}
+                    whileHover={{ scale: 1.02 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
                     <div className="flex items-center gap-2 mb-2">
@@ -236,54 +236,28 @@ const HeroSection = () => {
                     />
                   ))}
                 </div>
-              </div>
 
-              {/* Floating Cards */}
-              <motion.div 
-                className="absolute -top-6 -right-6 bg-card rounded-2xl p-4 shadow-xl border border-border"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <motion.div className="flex items-center gap-3" animate={{ y: [-2, 2, -2] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}>
-                  <div className="w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center">
-                    <Award className="w-5 h-5 text-green-600" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">$12M+</div>
-                    <div className="text-xs text-muted-foreground">Revenue Generated</div>
-                  </div>
-                </motion.div>
-              </motion.div>
-
-              <motion.div 
-                className="absolute -bottom-4 -left-6 bg-card rounded-2xl p-4 shadow-xl border border-border"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <motion.div className="flex items-center gap-3" animate={{ y: [2, -2, 2] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}>
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Star className="w-5 h-5 text-primary fill-primary" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">4.9/5</div>
-                    <div className="text-xs text-muted-foreground">Client Rating</div>
-                  </div>
-                </motion.div>
-              </motion.div>
-
-              {/* Notification */}
-              <motion.div 
-                className="absolute top-1/2 -right-12 bg-card rounded-xl p-3 shadow-lg border border-green-500/20"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.2 }}
-              >
-                <motion.div animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 2, repeat: Infinity }}>
-                  <div className="flex items-center gap-2">
+                {/* Info row inside card (replacing floating cards) */}
+                <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
+                  <motion.div className="flex items-center gap-2" animate={{ y: [-2, 2, -2] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}>
+                    <div className="w-8 h-8 bg-green-500/10 rounded-full flex items-center justify-center">
+                      <Award className="w-4 h-4 text-green-600" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-foreground">$12M+</div>
+                      <div className="text-xs text-muted-foreground">Revenue</div>
+                    </div>
+                  </motion.div>
+                  <motion.div className="flex items-center gap-2" animate={{ y: [2, -2, 2] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}>
+                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                      <Star className="w-4 h-4 text-primary fill-primary" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-foreground">4.9/5</div>
+                      <div className="text-xs text-muted-foreground">Client Rating</div>
+                    </div>
+                  </motion.div>
+                  <motion.div className="flex items-center gap-2" animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 2, repeat: Infinity }}>
                     <div className="w-8 h-8 bg-green-500/10 rounded-full flex items-center justify-center">
                       <CheckCircle2 className="w-4 h-4 text-green-600" />
                     </div>
@@ -291,9 +265,9 @@ const HeroSection = () => {
                       <div className="text-xs font-medium text-foreground">New Lead</div>
                       <div className="text-[10px] text-muted-foreground">Just now</div>
                     </div>
-                  </div>
-                </motion.div>
-              </motion.div>
+                  </motion.div>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
