@@ -545,36 +545,59 @@ const WebDesignLandingPage = () => {
         </section>
 
         {/* ── PROCESS ── */}
-        <section className="py-24 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <SectionWrapper className="text-center mb-16">
+        <section className="py-24 bg-muted/30 relative overflow-hidden">
+          {/* Decorative background */}
+          <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <SectionWrapper className="text-center mb-20">
               <span className="text-primary font-semibold text-sm uppercase tracking-wider">Our Process</span>
               <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mt-3 mb-4">From Idea to Live in 4 Steps</h2>
+              <p className="text-muted-foreground max-w-xl mx-auto">A streamlined process designed to deliver your dream website — fast, transparent, and stress-free.</p>
             </SectionWrapper>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+            {/* Desktop timeline connector */}
+            <div className="hidden lg:block absolute top-[55%] left-[12%] right-[12%] h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
               {[
-                { step: "01", title: "Discovery Call", desc: "We learn about your business, goals, and target audience.", icon: Phone },
-                { step: "02", title: "Design & Review", desc: "Our designers create mockups and iterate until you love it.", icon: Palette },
-                { step: "03", title: "Development", desc: "We build your website with clean code and full functionality.", icon: Code2 },
-                { step: "04", title: "Launch & Support", desc: "We go live and provide ongoing support to ensure success.", icon: Zap },
+                { step: "01", title: "Discovery Call", desc: "We learn about your business, goals, audience, and competitors to build the perfect strategy.", icon: Phone, color: "from-primary/20 to-primary/5", borderColor: "border-primary/30", duration: "15 min call" },
+                { step: "02", title: "Design & Review", desc: "Our designers craft pixel-perfect mockups. We iterate together until you absolutely love it.", icon: Palette, color: "from-accent/20 to-accent/5", borderColor: "border-accent/30", duration: "3-5 days" },
+                { step: "03", title: "Development", desc: "We build with clean, modern code — responsive, SEO-optimized, and blazing fast.", icon: Code2, color: "from-primary/20 to-primary/5", borderColor: "border-primary/30", duration: "5-10 days" },
+                { step: "04", title: "Launch & Support", desc: "We deploy your site, run QA checks, and provide ongoing support to keep it thriving.", icon: Zap, color: "from-accent/20 to-accent/5", borderColor: "border-accent/30", duration: "Ongoing" },
               ].map((step, i) => (
                 <SectionWrapper key={step.step}>
-                  <div className="text-center relative">
-                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary/30">
-                      <step.icon className="w-8 h-8 text-primary-foreground" />
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-accent rounded-full flex items-center justify-center text-accent-foreground text-xs font-black">
+                  <motion.div
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className={`relative bg-card border ${step.borderColor} rounded-2xl p-6 text-center h-full group hover:shadow-xl transition-shadow`}
+                  >
+                    {/* Step number badge */}
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-xs font-black shadow-lg shadow-primary/30 z-10">
                       {step.step}
                     </div>
-                    <h3 className="font-bold text-foreground mb-2">{step.title}</h3>
-                    <p className="text-sm text-muted-foreground">{step.desc}</p>
+
+                    {/* Icon */}
+                    <div className={`w-16 h-16 bg-gradient-to-br ${step.color} rounded-2xl flex items-center justify-center mx-auto mt-4 mb-5 group-hover:scale-110 transition-transform duration-300`}>
+                      <step.icon className="w-7 h-7 text-primary" />
+                    </div>
+
+                    <h3 className="font-bold text-lg text-foreground mb-2">{step.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">{step.desc}</p>
+
+                    {/* Duration tag */}
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">
+                      <Clock className="w-3 h-3" />
+                      {step.duration}
+                    </span>
+
+                    {/* Arrow connector for desktop */}
                     {i < 3 && (
-                      <div className="hidden lg:block absolute top-8 -right-4 text-muted-foreground">
-                        <ChevronRight className="w-8 h-8" />
+                      <div className="hidden lg:flex absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-card border border-border rounded-full items-center justify-center shadow-sm">
+                        <ArrowRight className="w-4 h-4 text-primary" />
                       </div>
                     )}
-                  </div>
+                  </motion.div>
                 </SectionWrapper>
               ))}
             </div>
