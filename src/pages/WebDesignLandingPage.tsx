@@ -89,10 +89,10 @@ const websiteTypes = [
 ];
 
 const budgetRanges = [
-  "₹15,000 – ₹30,000",
-  "₹30,000 – ₹60,000",
-  "₹60,000 – ₹1,00,000",
-  "₹1,00,000+",
+  "$100 – $300",
+  "$300 – $600",
+  "$600 – $1,000",
+  "$1,000+",
   "Let's discuss",
 ];
 
@@ -222,7 +222,7 @@ const WebDesignLandingPage = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
             >
-              We design high-converting, visually stunning websites that establish credibility, attract more customers, and grow your revenue — from ₹15,000.
+              We design high-converting, visually stunning websites that establish credibility, attract more customers, and grow your revenue — starting at just $100.
             </motion.p>
 
             <motion.div
@@ -241,6 +241,27 @@ const WebDesignLandingPage = () => {
                 </span>
                 See Our Work
               </button>
+            </motion.div>
+
+            {/* USP Highlights */}
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.35 }}
+              className="flex flex-wrap justify-center gap-4 mb-12"
+            >
+              <div className="flex items-center gap-2 bg-card/80 backdrop-blur border border-primary/30 rounded-full px-5 py-2.5 shadow-sm">
+                <Zap className="w-5 h-5 text-primary" />
+                <span className="text-sm font-bold text-foreground">Get Website in Just 48 Hours</span>
+              </div>
+              <div className="flex items-center gap-2 bg-card/80 backdrop-blur border border-accent/30 rounded-full px-5 py-2.5 shadow-sm">
+                <Globe className="w-5 h-5 text-accent" />
+                <span className="text-sm font-bold text-foreground">Demo Website in Just $10</span>
+              </div>
+              <div className="flex items-center gap-2 bg-card/80 backdrop-blur border border-primary/30 rounded-full px-5 py-2.5 shadow-sm">
+                <TrendingUp className="w-5 h-5 text-primary" />
+                <span className="text-sm font-bold text-foreground">Starting at $100</span>
+              </div>
             </motion.div>
 
             {/* Stats */}
@@ -274,7 +295,7 @@ const WebDesignLandingPage = () => {
         {/* ── TRUST BAR ── */}
         <section className="bg-primary py-4 overflow-hidden">
           <div className="flex animate-marquee-slow gap-12 text-primary-foreground text-sm font-medium whitespace-nowrap">
-            {["✓ Custom Website Design", "✓ Mobile Responsive", "✓ SEO Optimized", "✓ Fast Delivery", "✓ Affordable Pricing", "✓ Post-Launch Support", "✓ 150+ Happy Clients", "✓ 10+ Years Experience", "✓ Custom Website Design", "✓ Mobile Responsive", "✓ SEO Optimized", "✓ Fast Delivery", "✓ Affordable Pricing", "✓ Post-Launch Support"].map((item, i) => (
+            {["✓ Custom Website Design", "✓ Mobile Responsive", "✓ SEO Optimized", "⚡ Get Website in Just 48 Hours", "✓ Demo Website in Just $10", "✓ Starting at $100", "✓ Post-Launch Support", "✓ 150+ Happy Clients", "✓ 10+ Years Experience", "✓ Custom Website Design", "✓ Mobile Responsive", "✓ SEO Optimized", "⚡ Get Website in Just 48 Hours", "✓ Demo Website in Just $10", "✓ Starting at $100", "✓ Post-Launch Support"].map((item, i) => (
               <span key={i}>{item}</span>
             ))}
           </div>
