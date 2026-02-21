@@ -5,8 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Users, Mail, Phone, Building2, Globe, DollarSign, MessageSquare, Clock, CheckCircle2, XCircle, Search, Filter, Download } from "lucide-react";
+import { Users, Mail, Phone, Building2, Globe, DollarSign, MessageSquare, Clock, CheckCircle2, XCircle, Search, Filter, Download, Trash2, StickyNote, AlertTriangle } from "lucide-react";
 
 type Lead = {
   id: string;
@@ -36,6 +37,7 @@ const AdminLeads = () => {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
   const { data: leads = [], isLoading } = useQuery({
     queryKey: ["admin-leads"],
@@ -57,6 +59,19 @@ const AdminLeads = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-leads"] });
       toast({ title: "Status updated successfully" });
+    },
+  });
+
+  const deleteLead = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("leads").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-leads"] });
+      toast({ title: "Lead deleted successfully" });
+      setSelectedLead(null);
+      setDeleteConfirmId(null);
     },
   });
 
@@ -208,7 +223,7 @@ const AdminLeads = () => {
                           </span>
                         </td>
                         <td className="px-5 py-4">
-                          <div className="flex gap-2">
+                          <div className="flex gap-2 items-center">
                             <button
                               onClick={() => setSelectedLead(lead)}
                               className="text-xs text-primary hover:underline font-medium"
@@ -224,6 +239,13 @@ const AdminLeads = () => {
                                 <option key={k} value={k}>{v.label}</option>
                               ))}
                             </select>
+                            <button
+                              onClick={() => setDeleteConfirmId(lead.id)}
+                              className="text-xs text-destructive hover:text-destructive/80 p-1"
+                              title="Delete lead"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -275,6 +297,51 @@ const AdminLeads = () => {
                     <Button variant="outline" className="w-full" size="sm"><Phone className="w-4 h-4 mr-2" /> Call</Button>
                   </a>
                 )}
+              </div>
+              <div className="mt-3 pt-3 border-t border-border">
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  className="w-full"
+                  onClick={() => setDeleteConfirmId(selectedLead.id)}
+                >
+                  <Trash2 className="w-4 h-4 mr-2" /> Delete Lead
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Delete Confirmation Modal */}
+        {deleteConfirmId && (
+          <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4" onClick={() => setDeleteConfirmId(null)}>
+            <div
+              className="bg-card rounded-2xl border border-border p-6 max-w-sm w-full shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
+                  <AlertTriangle className="w-5 h-5 text-destructive" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-foreground">Delete Lead</h3>
+                  <p className="text-xs text-muted-foreground">This action cannot be undone</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground mb-6">Are you sure you want to permanently delete this lead? All associated data will be lost.</p>
+              <div className="flex gap-3">
+                <Button variant="outline" size="sm" className="flex-1" onClick={() => setDeleteConfirmId(null)}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  className="flex-1"
+                  disabled={deleteLead.isPending}
+                  onClick={() => deleteLead.mutate(deleteConfirmId)}
+                >
+                  {deleteLead.isPending ? "Deleting..." : "Delete"}
+                </Button>
               </div>
             </div>
           </div>
