@@ -495,7 +495,7 @@ const WebDesignLandingPage = () => {
                 <div className="mt-6 bg-primary rounded-2xl p-6 text-primary-foreground">
                   <div className="flex items-center gap-2 mb-3">
                     <Sparkles className="w-5 h-5" />
-                    <span className="font-bold text-lg">Starting at ₹15,000</span>
+                    <span className="font-bold text-lg">Starting at 100 USD</span>
                   </div>
                   <p className="text-primary-foreground/80 text-sm mb-4">Professional 5-page website with mobile design, SEO setup, and 3 months of free support.</p>
                   <Button onClick={scrollToForm} variant="secondary" className="w-full bg-primary-foreground text-primary font-bold hover:bg-primary-foreground/90">
