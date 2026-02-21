@@ -520,14 +520,14 @@ const WebDesignLandingPage = () => {
                 <SectionWrapper key={t.name}>
                   <motion.div
                     whileHover={{ y: -4 }}
-                    className="bg-card border border-border rounded-2xl p-7 hover:border-primary/30 hover:shadow-lg transition-all"
+                    className="bg-card border border-border rounded-2xl p-7 h-full flex flex-col hover:border-primary/30 hover:shadow-lg transition-all"
                   >
                     <div className="flex gap-1 mb-4">
                       {Array.from({ length: t.rating }).map((_, j) => (
                         <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
-                    <p className="text-foreground italic mb-6 leading-relaxed">"{t.text}"</p>
+                    <p className="text-foreground italic mb-6 leading-relaxed flex-1">"{t.text}"</p>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold text-sm">
                         {t.name.charAt(0)}
