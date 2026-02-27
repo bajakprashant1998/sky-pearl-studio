@@ -1,10 +1,10 @@
 import { getServiceBySlug } from "@/data/services";
 import ServicePageLayout from "@/components/ServicePageLayout";
+import ServiceExtraSections from "@/components/ServiceExtraSections";
 import NotFound from "@/pages/NotFound";
 
 const VideoMarketingPage = () => {
   const service = getServiceBySlug("video-marketing");
-
   if (!service) return <NotFound />;
 
   return (
@@ -18,6 +18,7 @@ const VideoMarketingPage = () => {
       ctaText={service.ctaText}
       slug={service.slug}
       stats={service.stats}
+      extraSection={<ServiceExtraSections slug="video-marketing" subtitle={service.subtitle} />}
     />
   );
 };
