@@ -20,7 +20,7 @@ const ServicesSection = () => {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <motion.div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full text-secondary-foreground text-sm font-medium mb-4" whileHover={{ scale: 1.05 }}>
               <Sparkles className="w-4 h-4" />
-              17+ Digital Services
+              20+ Online Business Growth Services
             </motion.div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
               Digital Marketing Solutions That{" "}
