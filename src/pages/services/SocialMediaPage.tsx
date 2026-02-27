@@ -1,10 +1,10 @@
 import { getServiceBySlug } from "@/data/services";
 import ServicePageLayout from "@/components/ServicePageLayout";
+import ServiceExtraSections from "@/components/ServiceExtraSections";
 import NotFound from "@/pages/NotFound";
 
 const SocialMediaPage = () => {
   const service = getServiceBySlug("social-media");
-
   if (!service) return <NotFound />;
 
   return (
@@ -18,6 +18,7 @@ const SocialMediaPage = () => {
       ctaText={service.ctaText}
       slug={service.slug}
       stats={service.stats}
+      extraSection={<ServiceExtraSections slug="social-media" subtitle={service.subtitle} />}
     />
   );
 };
