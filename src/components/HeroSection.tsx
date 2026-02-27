@@ -297,34 +297,6 @@ const HeroSection = () => {
         </div>
       </motion.div>
 
-      {/* Trusted By Marquee */}
-      <motion.div
-        className="relative z-10 py-6 border-t border-border/50 bg-muted/30 backdrop-blur-sm"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-      >
-        <div className="container mx-auto px-4">
-          <p className="text-center text-xs font-medium text-muted-foreground uppercase tracking-widest mb-4">
-            Trusted by 500+ businesses across India
-          </p>
-          <div className="relative overflow-hidden">
-            <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-muted/80 to-transparent z-10" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-muted/80 to-transparent z-10" />
-            <motion.div
-              className="flex gap-8 items-center whitespace-nowrap"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            >
-              {[...clients, ...clients].map((name, i) => (
-                <span key={i} className="text-sm font-semibold text-muted-foreground/60 hover:text-primary transition-colors flex-shrink-0 px-3 py-2 bg-card rounded-lg border border-border/50">
-                  {name}
-                </span>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-      </motion.div>
     </section>
   );
 };
