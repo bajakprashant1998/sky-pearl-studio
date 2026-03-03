@@ -284,46 +284,63 @@ const DigitalMarketingAcademy = () => {
       <Helmet>
         <title>Digital Marketing Academy Ahmedabad | 6-Month Practical Training Course - Digital Bull Technology</title>
         <meta name="description" content="Join the best Digital Marketing Academy in Ahmedabad. 6-month practical training with AI skills, live projects & career support. ₹25,000/month. Enroll now for expert training in SEO, social media, PPC & more!" />
-        <meta name="keywords" content="digital marketing ahmedabad, digital marketing agency ahmedabad, digital marketing company in ahmedabad, marketing agency in ahmedabad, social media marketing agency in ahmedabad, social media marketing agency ahmedabad, best digital marketing agency in ahmedabad, social media agency in ahmedabad, marketing company in ahmedabad, social media marketing in ahmedabad, digital marketing services ahmedabad, advertising companies in ahmedabad, digital marketing service in ahmedabad, digital marketing services in ahmedabad, digital marketing academy, digital marketing course ahmedabad, digital marketing training, AI marketing course, SEO training ahmedabad" />
+        <meta name="keywords" content="digital marketing ahmedabad, digital marketing agency ahmedabad, digital marketing company in ahmedabad, marketing agency in ahmedabad, social media marketing agency in ahmedabad, best digital marketing agency in ahmedabad, digital marketing academy, digital marketing course ahmedabad, digital marketing training, AI marketing course, SEO training ahmedabad" />
         <link rel="canonical" href="https://dibull.com/digital-marketing-academy" />
+        <link rel="alternate" hrefLang="en-in" href="https://dibull.com/digital-marketing-academy" />
         <meta property="og:title" content="Digital Marketing Academy Ahmedabad | Best Training Institute - Digital Bull" />
         <meta property="og:description" content="Learn Digital Marketing & AI skills with practical training. 6-month course with live projects & career support. ₹25,000/month. Best digital marketing academy in Ahmedabad!" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://dibull.com/digital-marketing-academy" />
         <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
+        <meta property="og:locale" content="en_IN" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Digital Marketing Academy Ahmedabad | 6-Month Training" />
         <meta name="twitter:description" content="Best digital marketing training in Ahmedabad. Practical + AI skills. ₹25,000/month. Enroll now!" />
-        <meta name="robots" content="index, follow" />
+        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="geo.region" content="IN-GJ" />
+        <meta name="geo.placename" content="Ahmedabad" />
+        <meta name="language" content="en-IN" />
+        <meta name="author" content="Digital Bull Technology" />
         <script type="application/ld+json">
           {JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "EducationalOrganization",
-          "name": "Digital Marketing Academy - Digital Bull Technology",
-          "description": "Professional digital marketing training institute in Ahmedabad offering practical, career-focused courses in digital marketing and AI skills.",
+          "@type": "Course",
+          "name": "Digital Marketing & AI Skills Training",
+          "description": "Professional 6-month digital marketing training with AI skills, live projects & career support in Ahmedabad.",
+          "provider": {
+            "@type": "Organization",
+            "name": "Digital Bull Technology",
+            "url": "https://dibull.com"
+          },
           "url": "https://dibull.com/digital-marketing-academy",
-          "logo": "https://dibull.com/dibull_logo.png",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "A 823 Moneyplant High street, Jagatpur Road, Near GOTA Cross road",
-            "addressLocality": "Ahmedabad",
-            "addressRegion": "Gujarat",
-            "addressCountry": "IN"
-          },
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+91 9824011921",
-            "contactType": "admissions"
-          },
+          "coursePrerequisites": "No prior experience required",
+          "timeRequired": "P6M",
           "offers": {
             "@type": "Offer",
-            "name": "6-Month Digital Marketing Course",
             "price": "25000",
             "priceCurrency": "INR",
-            "priceValidUntil": "2026-12-31"
+            "availability": "https://schema.org/InStock"
+          },
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "Blended",
+            "instructor": {
+              "@type": "Organization",
+              "name": "Digital Bull Technology"
+            }
           }
         })}
         </script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" },
+            { "@type": "ListItem", "position": 2, "name": "Digital Marketing Academy", "item": "https://dibull.com/digital-marketing-academy" }
+          ]
+        })}</script>
       </Helmet>
 
       <main className="min-h-screen">

@@ -73,26 +73,53 @@ const FreeToolsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Free Marketing Tools | SEO Checker, AI Content Generator & More | Digital Bull</title>
+        <title>Free Marketing Tools | SEO Checker, AI Content Generator & More | Digital Bull Ahmedabad</title>
         <meta
           name="description"
           content="Access 15+ free marketing tools including SEO checker, website speed test, AI content generator, keyword research tool, and more. Boost your digital marketing for free."
         />
         <meta
           name="keywords"
-          content="free SEO tools, free marketing tools, SEO checker, speed test, AI content generator, keyword research, backlink checker, meta tag generator"
+          content="free SEO tools, free marketing tools, SEO checker, speed test, AI content generator, keyword research, backlink checker, meta tag generator, digital marketing tools ahmedabad"
         />
         <link rel="canonical" href="https://dibull.com/free-tools" />
+        <link rel="alternate" hrefLang="en-in" href="https://dibull.com/free-tools" />
         <meta property="og:title" content="Free Marketing Tools | Digital Bull Technology" />
         <meta property="og:description" content="Access 15+ free marketing tools to boost your digital presence. SEO checker, AI generators, and more." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://dibull.com/free-tools" />
         <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
         <meta property="og:site_name" content="Digital Bull Technology" />
+        <meta property="og:locale" content="en_IN" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Free Marketing Tools | Digital Bull Technology" />
         <meta name="twitter:description" content="Access 15+ free marketing tools to boost your digital presence." />
         <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="geo.region" content="IN-GJ" />
+        <meta name="geo.placename" content="Ahmedabad" />
+        <meta name="language" content="en-IN" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" },
+            { "@type": "ListItem", "position": 2, "name": "Free Tools", "item": "https://dibull.com/free-tools" }
+          ]
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "Free Marketing Tools",
+          "description": "Collection of free digital marketing tools by Digital Bull Technology",
+          "numberOfItems": freeToolsData.length,
+          "itemListElement": freeToolsData.map((tool, i) => ({
+            "@type": "ListItem",
+            "position": i + 1,
+            "name": tool.title,
+            "url": `https://dibull.com/free-tools/${tool.slug}`
+          }))
+        })}</script>
       </Helmet>
 
       <Navbar />

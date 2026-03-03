@@ -140,16 +140,37 @@ const OurVerticals = () => {
         <title>Our Verticals | Digital Bull Technology - Global Digital Ecosystems</title>
         <meta 
           name="description" 
-          content="Explore Digital Bull Technology's diverse portfolio of industry-leading digital platforms across architecture, engineering, technology, real estate, entertainment, and more." 
+          content="Explore Digital Bull Technology's diverse portfolio of industry-leading digital platforms across architecture, engineering, technology, real estate, entertainment, and more in Ahmedabad." 
         />
         <meta 
           name="keywords" 
-          content="digital platforms, technology verticals, CAD library, job portal, real estate, gaming, healthcare, creative platforms, Digital Bull" 
+          content="digital platforms, technology verticals, CAD library, job portal, real estate, gaming, healthcare, creative platforms, Digital Bull, Ahmedabad" 
         />
         <link rel="canonical" href="https://dibull.com/our-verticals" />
+        <link rel="alternate" hrefLang="en-in" href="https://dibull.com/our-verticals" />
         <meta property="og:title" content="Our Verticals | Digital Bull Technology" />
         <meta property="og:description" content="Building world-class digital platforms across industries." />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dibull.com/our-verticals" />
+        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
+        <meta property="og:locale" content="en_IN" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Our Verticals | Digital Bull Technology" />
+        <meta name="twitter:description" content="Building world-class digital platforms across industries." />
+        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="geo.region" content="IN-GJ" />
+        <meta name="geo.placename" content="Ahmedabad" />
+        <meta name="language" content="en-IN" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" },
+            { "@type": "ListItem", "position": 2, "name": "Our Verticals", "item": "https://dibull.com/our-verticals" }
+          ]
+        })}</script>
       </Helmet>
 
       <Navbar />

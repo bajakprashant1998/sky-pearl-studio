@@ -354,12 +354,13 @@ const GrowthStrategyPage = () => {
   return (
     <>
       <Helmet>
-        <title>Growth Strategy Blueprint | Digital Bull</title>
+        <title>Growth Strategy Blueprint | 5-Stage Digital Growth Plan | Digital Bull Ahmedabad</title>
         <meta
           name="description"
-          content="Discover our 5-stage growth strategy that transforms businesses from scattered marketing to scalable, automated revenue systems. Build. Automate. Scale."
+          content="Discover our 5-stage growth strategy that transforms businesses from scattered marketing to scalable, automated revenue systems. Build. Automate. Scale. Best digital marketing strategy in Ahmedabad."
         />
-        <meta property="og:title" content="Growth Strategy Blueprint | Digital Bull" />
+        <meta name="keywords" content="growth strategy, digital marketing strategy, business growth plan, marketing automation, SEO strategy, PPC strategy, digital marketing ahmedabad" />
+        <meta property="og:title" content="Growth Strategy Blueprint | Digital Bull Technology" />
         <meta
           property="og:description"
           content="A strategic business growth roadmap — 5 stages from digital foundation to market dominance."
@@ -368,12 +369,26 @@ const GrowthStrategyPage = () => {
         <meta property="og:url" content="https://dibull.com/growth-strategy" />
         <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
         <meta property="og:site_name" content="Digital Bull Technology" />
+        <meta property="og:locale" content="en_IN" />
         <link rel="canonical" href="https://dibull.com/growth-strategy" />
+        <link rel="alternate" hrefLang="en-in" href="https://dibull.com/growth-strategy" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Growth Strategy Blueprint | Digital Bull" />
         <meta name="twitter:description" content="A strategic business growth roadmap — 5 stages from digital foundation to market dominance." />
         <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="geo.region" content="IN-GJ" />
+        <meta name="geo.placename" content="Ahmedabad" />
+        <meta name="language" content="en-IN" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" },
+            { "@type": "ListItem", "position": 2, "name": "Growth Strategy", "item": "https://dibull.com/growth-strategy" }
+          ]
+        })}</script>
       </Helmet>
 
       <Navbar />

@@ -81,20 +81,49 @@ const SubcategoryPageLayout = ({
     "description": subcategoryData.description,
     "provider": {
       "@type": "Organization",
-      "name": "Digital Bull Technology Pvt LTD"
+      "name": "Digital Bull Technology Pvt LTD",
+      "url": "https://dibull.com"
     },
-    "serviceType": serviceTitle
+    "serviceType": serviceTitle,
+    "areaServed": { "@type": "City", "name": "Ahmedabad" },
+    "url": `https://dibull.com/services/${serviceSlug}/${subcategoryId}`
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" },
+      { "@type": "ListItem", "position": 2, "name": serviceTitle, "item": `https://dibull.com/services/${serviceSlug}` },
+      { "@type": "ListItem", "position": 3, "name": subcategoryTitle, "item": `https://dibull.com/services/${serviceSlug}/${subcategoryId}` }
+    ]
   };
 
   return (
     <>
       <Helmet>
-        <title>{subcategoryTitle} - {serviceTitle} | Digital Bull Technology</title>
+        <title>{subcategoryTitle} - {serviceTitle} | Digital Bull Technology Ahmedabad</title>
         <meta name="description" content={subcategoryData.description} />
+        <meta name="keywords" content={`${subcategoryTitle.toLowerCase()}, ${serviceTitle.toLowerCase()}, digital marketing ahmedabad`} />
         <meta property="og:title" content={`${subcategoryTitle} | Digital Bull Technology`} />
         <meta property="og:description" content={subcategoryData.description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://dibull.com/services/${serviceSlug}/${subcategoryId}`} />
+        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
+        <meta property="og:site_name" content="Digital Bull Technology" />
+        <meta property="og:locale" content="en_IN" />
         <link rel="canonical" href={`https://dibull.com/services/${serviceSlug}/${subcategoryId}`} />
+        <link rel="alternate" hrefLang="en-in" href={`https://dibull.com/services/${serviceSlug}/${subcategoryId}`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${subcategoryTitle} | Digital Bull Technology`} />
+        <meta name="twitter:description" content={subcategoryData.description} />
+        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="geo.region" content="IN-GJ" />
+        <meta name="geo.placename" content="Ahmedabad" />
+        <meta name="language" content="en-IN" />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
       </Helmet>
 
       <Navbar />
