@@ -126,24 +126,39 @@ const AboutUs = () => {
     return (
         <>
             <Helmet>
-                <title>About Us | Digital Bull Technology - Digital Marketing Agency</title>
+                <title>About Us | Digital Bull Technology - Best Digital Marketing Agency Ahmedabad</title>
                 <meta
                     name="description"
-                    content="Digital Bull Technology Pvt LTD is a full-service digital growth company specializing in AI, SaaS, Marketing, and Training. 15+ years of experience, 500+ projects delivered."
+                    content="Digital Bull Technology Pvt LTD is a full-service digital growth company specializing in AI, SaaS, Marketing, and Training. 15+ years of experience, 500+ projects delivered in Ahmedabad."
                 />
-                <meta name="keywords" content="digital marketing agency, digital bull technology, SEO company, PPC agency, web design, AI marketing, SaaS development" />
+                <meta name="keywords" content="digital marketing agency ahmedabad, about digital bull technology, SEO company ahmedabad, PPC agency, web design, AI marketing, SaaS development, marketing company ahmedabad" />
                 <link rel="canonical" href="https://dibull.com/about-us" />
-                <meta property="og:title" content="About Us | Digital Bull Technology" />
-                <meta property="og:description" content="Full-service digital growth company specializing in AI, SaaS, Marketing, and Training." />
+                <link rel="alternate" hrefLang="en-in" href="https://dibull.com/about-us" />
+                <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+                <meta name="geo.region" content="IN-GJ" />
+                <meta name="geo.placename" content="Ahmedabad" />
+                <meta name="language" content="en-IN" />
+                <meta name="author" content="Digital Bull Technology" />
+                <meta property="og:title" content="About Us | Digital Bull Technology - Digital Marketing Agency Ahmedabad" />
+                <meta property="og:description" content="Full-service digital growth company specializing in AI, SaaS, Marketing, and Training. Best marketing agency in Ahmedabad." />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://dibull.com/about-us" />
                 <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
                 <meta property="og:site_name" content="Digital Bull Technology" />
+                <meta property="og:locale" content="en_IN" />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="About Us | Digital Bull Technology" />
                 <meta name="twitter:description" content="Full-service digital growth company specializing in AI, SaaS, Marketing, and Training." />
                 <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
                 <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+                <script type="application/ld+json">{JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "BreadcrumbList",
+                    "itemListElement": [
+                        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" },
+                        { "@type": "ListItem", "position": 2, "name": "About Us", "item": "https://dibull.com/about-us" }
+                    ]
+                })}</script>
             </Helmet>
 
             <Navbar />

@@ -10,16 +10,21 @@ const CookiePolicy = () => {
                 <title>Cookie Policy | Digital Bull Technology</title>
                 <meta name="description" content="Learn about how Digital Bull Technology uses cookies to improve your user experience." />
                 <link rel="canonical" href="https://dibull.com/cookie-policy" />
+                <link rel="alternate" hrefLang="en-in" href="https://dibull.com/cookie-policy" />
                 <meta property="og:title" content="Cookie Policy | Digital Bull Technology" />
                 <meta property="og:description" content="Learn about how Digital Bull Technology uses cookies to improve your user experience." />
                 <meta property="og:type" content="website" />
                 <meta property="og:url" content="https://dibull.com/cookie-policy" />
                 <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
                 <meta property="og:site_name" content="Digital Bull Technology" />
+                <meta property="og:locale" content="en_IN" />
                 <meta name="twitter:card" content="summary" />
                 <meta name="twitter:title" content="Cookie Policy | Digital Bull Technology" />
                 <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
                 <meta name="robots" content="index, follow" />
+                <meta name="geo.region" content="IN-GJ" />
+                <meta name="geo.placename" content="Ahmedabad" />
+                <meta name="language" content="en-IN" />
             </Helmet>
 
             <Navbar />

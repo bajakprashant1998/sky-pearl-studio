@@ -126,21 +126,34 @@ const Careers = () => {
   return (
     <>
       <Helmet>
-        <title>Careers | Join Digital Bull Technology | Digital Marketing Jobs</title>
-        <meta name="description" content="Join Digital Bull Technology's team of digital marketing experts. We're hiring SEO specialists, PPC managers, content creators, and developers. Remote-first culture with great benefits." />
-        <meta name="keywords" content="digital marketing jobs, SEO careers, PPC jobs, marketing agency careers, remote marketing jobs, Ahmedabad jobs, Digital Bull careers" />
-        <meta property="og:title" content="Careers at Digital Bull Technology | We're Hiring" />
+        <title>Careers | Join Digital Bull Technology | Digital Marketing Jobs Ahmedabad</title>
+        <meta name="description" content="Join Digital Bull Technology's team of digital marketing experts in Ahmedabad. We're hiring SEO specialists, PPC managers, content creators, and developers. Remote-first culture with great benefits." />
+        <meta name="keywords" content="digital marketing jobs ahmedabad, SEO careers, PPC jobs, marketing agency careers, remote marketing jobs, Ahmedabad jobs, Digital Bull careers" />
+        <meta property="og:title" content="Careers at Digital Bull Technology | We're Hiring in Ahmedabad" />
         <meta property="og:description" content="Join our team of digital marketing experts. Remote-first culture, professional development, and competitive benefits." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://dibull.com/careers" />
         <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
         <meta property="og:site_name" content="Digital Bull Technology" />
+        <meta property="og:locale" content="en_IN" />
         <link rel="canonical" href="https://dibull.com/careers" />
+        <link rel="alternate" hrefLang="en-in" href="https://dibull.com/careers" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Careers at Digital Bull Technology | We're Hiring" />
         <meta name="twitter:description" content="Join our team of digital marketing experts. Remote-first culture with great benefits." />
         <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
-        <meta name="robots" content="index, follow" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="geo.region" content="IN-GJ" />
+        <meta name="geo.placename" content="Ahmedabad" />
+        <meta name="language" content="en-IN" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" },
+            { "@type": "ListItem", "position": 2, "name": "Careers", "item": "https://dibull.com/careers" }
+          ]
+        })}</script>
       </Helmet>
 
       <Navbar />

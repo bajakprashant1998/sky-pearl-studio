@@ -11,27 +11,40 @@ const CaseStudies = () => {
   return (
     <>
       <Helmet>
-        <title>Case Studies | Client Success Stories | Digital Bull Technology</title>
+        <title>Case Studies | Client Success Stories | Digital Bull Technology Ahmedabad</title>
         <meta
           name="description"
-          content="Explore our case studies showcasing how Digital Bull Technology helped HireForJob, Cadbull, CastingScreen, and other industry leaders achieve massive growth through SEO, PPC, and digital marketing strategies."
+          content="Explore our case studies showcasing how Digital Bull Technology helped HireForJob, Cadbull, CastingScreen, and other industry leaders achieve massive growth through SEO, PPC, and digital marketing strategies in Ahmedabad."
         />
         <meta
           name="keywords"
-          content="case studies, digital marketing success stories, SEO case study, PPC results, client success, HireForJob, Cadbull, CastingScreen, marketing ROI"
+          content="case studies, digital marketing success stories, SEO case study, PPC results, client success, HireForJob, Cadbull, CastingScreen, marketing ROI, digital marketing ahmedabad"
         />
         <link rel="canonical" href="https://dibull.com/case-studies" />
+        <link rel="alternate" hrefLang="en-in" href="https://dibull.com/case-studies" />
         <meta property="og:title" content="Case Studies | Digital Bull Technology Success Stories" />
         <meta property="og:description" content="See how we've helped industry leaders achieve 450%+ traffic growth, 1M+ app installs, and 3.5x revenue increases." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://dibull.com/case-studies" />
         <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
         <meta property="og:site_name" content="Digital Bull Technology" />
+        <meta property="og:locale" content="en_IN" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Case Studies | Digital Bull Technology Success Stories" />
         <meta name="twitter:description" content="See how we've helped industry leaders achieve 450%+ traffic growth and 3.5x revenue increases." />
         <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
-        <meta name="robots" content="index, follow" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="geo.region" content="IN-GJ" />
+        <meta name="geo.placename" content="Ahmedabad" />
+        <meta name="language" content="en-IN" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" },
+            { "@type": "ListItem", "position": 2, "name": "Case Studies", "item": "https://dibull.com/case-studies" }
+          ]
+        })}</script>
       </Helmet>
 
       <Navbar />
