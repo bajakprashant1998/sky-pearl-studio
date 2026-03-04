@@ -21,5 +21,5 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://dibull.com/sitemap.xml
+Sitemap: https://dibull.com/dynamic-sitemap.xml
 Sitemap: https://dibull.com/news-sitemap.xml
