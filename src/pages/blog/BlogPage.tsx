@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
+import SeoHead from "@/components/SeoHead";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -95,33 +95,51 @@ const POSTS_PER_PAGE = 15; // 5 rows x 3 columns
 
 const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(POSTS_PER_PAGE);
 
   const { data: allPosts = [], isLoading } = useBlogPosts();
   const { data: categories = blogCategories } = useBlogCategories();
 
+  // Get subcategory tags for selected category
+  const subcategoryTags = useMemo(() => {
+    if (selectedCategory === "All") return [];
+    const categoryPosts = allPosts.filter(p => p.category === selectedCategory);
+    const tagCounts = new Map<string, number>();
+    categoryPosts.forEach(post => {
+      post.tags.forEach(tag => {
+        tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+      });
+    });
+    return Array.from(tagCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 15)
+      .map(([tag, count]) => ({ tag, count }));
+  }, [allPosts, selectedCategory]);
+
   const filteredPosts = useMemo(() => {
     return allPosts.filter(post => {
       const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
+      const matchesTag = !selectedTag || post.tags.some(t => t.toLowerCase() === selectedTag.toLowerCase());
       const matchesSearch = !searchQuery || 
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.metaDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-      return matchesCategory && matchesSearch;
+      return matchesCategory && matchesTag && matchesSearch;
     });
-  }, [allPosts, selectedCategory, searchQuery]);
+  }, [allPosts, selectedCategory, selectedTag, searchQuery]);
 
   // Reset visible count when filters change
   useEffect(() => {
     setVisibleCount(POSTS_PER_PAGE);
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, selectedTag, searchQuery]);
 
   const featuredPost = allPosts[0];
   const recentPosts = allPosts.slice(1);
   
   // Pagination logic
-  const displayPosts = selectedCategory === "All" && !searchQuery ? recentPosts : filteredPosts;
+  const displayPosts = selectedCategory === "All" && !searchQuery && !selectedTag ? recentPosts : filteredPosts;
   const visiblePosts = displayPosts.slice(0, visibleCount);
   const hasMorePosts = visibleCount < displayPosts.length;
   
@@ -131,79 +149,29 @@ const BlogPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Blog | Digital Marketing Insights & Trends | Digital Bull Technology</title>
-        <meta 
-          name="description" 
-          content="Stay updated with the latest digital marketing trends, SEO strategies, AI marketing insights, and web development best practices from Digital Bull experts in Ahmedabad." 
-        />
-        <meta 
-          name="keywords" 
-          content="digital marketing blog, SEO tips, AI marketing, web development, social media marketing, online business growth, Digital Bull, Ahmedabad digital marketing" 
-        />
-        <link rel="canonical" href="https://dibull.com/blog" />
-        
-        {/* Open Graph */}
-        <meta property="og:title" content="Blog | Digital Marketing Insights & Trends | Digital Bull Technology" />
-        <meta property="og:description" content="Expert insights on digital marketing, SEO, AI, and web development from Ahmedabad's leading digital agency." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://dibull.com/blog" />
-        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
-        <meta property="og:site_name" content="Digital Bull Technology" />
-        
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Blog | Digital Marketing Insights & Trends" />
-        <meta name="twitter:description" content="Expert insights on digital marketing, SEO, AI, and web development." />
-        
-        {/* Additional SEO */}
-        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-        <meta name="author" content="Digital Bull Technology" />
-        <meta name="geo.region" content="IN-GJ" />
-        <meta name="geo.placename" content="Ahmedabad" />
-        
-        {/* Blog Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Blog",
-            "name": "Digital Bull Technology Blog",
-            "description": "Expert insights on digital marketing, SEO, AI, and web development",
-            "url": "https://dibull.com/blog",
-            "publisher": {
-              "@type": "Organization",
-              "name": "Digital Bull Technology",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://dibull.com/dibull_logo.png"
-              }
-            },
-            "inLanguage": "en-IN"
-          })}
-        </script>
-        
-        {/* BreadcrumbList Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://dibull.com"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Blog",
-                "item": "https://dibull.com/blog"
-              }
-            ]
-          })}
-        </script>
-      </Helmet>
+      <SeoHead
+        title="Blog | Digital Marketing Insights & Trends | Digital Bull Technology"
+        description="Stay updated with the latest digital marketing trends, SEO strategies, AI marketing insights, and web development best practices from Digital Bull experts in Ahmedabad."
+        keywords="digital marketing blog, SEO tips, AI marketing, web development, social media marketing, online business growth, Digital Bull, Ahmedabad digital marketing"
+        canonical="https://dibull.com/blog"
+        breadcrumbs={[
+          { name: "Home", url: "https://dibull.com" },
+          { name: "Blog", url: "https://dibull.com/blog" },
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          "name": "Digital Bull Technology Blog",
+          "description": "Expert insights on digital marketing, SEO, AI, and web development",
+          "url": "https://dibull.com/blog",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Digital Bull Technology",
+            "logo": { "@type": "ImageObject", "url": "https://dibull.com/dibull_logo.png" }
+          },
+          "inLanguage": "en-IN"
+        }}
+      />
 
       <Navbar />
 
@@ -320,7 +288,7 @@ const BlogPage = () => {
                     key={category}
                     variant={selectedCategory === category ? "default" : "ghost"}
                     size="sm"
-                    onClick={() => setSelectedCategory(category)}
+                    onClick={() => { setSelectedCategory(category); setSelectedTag(null); }}
                     className={`whitespace-nowrap rounded-full px-4 transition-all duration-300 ${
                       selectedCategory === category 
                         ? "shadow-lg shadow-primary/25 scale-105" 
@@ -342,6 +310,37 @@ const BlogPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Subcategory Tag Filter */}
+      {selectedCategory !== "All" && subcategoryTags.length > 0 && (
+        <section className="py-3 border-b border-border/20 bg-muted/30">
+          <div className="container px-4">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-medium text-muted-foreground hidden md:block mr-1">Topics:</span>
+              <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide flex-1">
+                <Badge
+                  variant={!selectedTag ? "default" : "outline"}
+                  className="cursor-pointer whitespace-nowrap px-3 py-1 text-xs transition-all hover:scale-105"
+                  onClick={() => setSelectedTag(null)}
+                >
+                  All Topics
+                </Badge>
+                {subcategoryTags.map(({ tag, count }) => (
+                  <Badge
+                    key={tag}
+                    variant={selectedTag === tag ? "default" : "outline"}
+                    className="cursor-pointer whitespace-nowrap px-3 py-1 text-xs transition-all hover:scale-105"
+                    onClick={() => setSelectedTag(selectedTag === tag ? null : tag)}
+                  >
+                    {tag}
+                    <span className="ml-1 opacity-60">{count}</span>
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Featured Post - Ultra Premium with Animated Border */}
       {selectedCategory === "All" && !searchQuery && featuredPost && !isLoading && (
@@ -506,7 +505,7 @@ const BlogPage = () => {
                 </div>
                 <h3 className="text-xl font-semibold mb-2">No articles found</h3>
                 <p className="text-muted-foreground mb-6">Try adjusting your search or filter criteria</p>
-                <Button onClick={() => { setSearchQuery(""); setSelectedCategory("All"); }}>
+                <Button onClick={() => { setSearchQuery(""); setSelectedCategory("All"); setSelectedTag(null); }}>
                   Clear Filters
                 </Button>
               </div>

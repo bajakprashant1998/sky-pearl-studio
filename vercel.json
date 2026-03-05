@@ -5,6 +5,10 @@
             "destination": "https://xnqttssopfhsyhoyouhi.supabase.co/functions/v1/sitemap"
         },
         {
+            "source": "/news-sitemap.xml",
+            "destination": "https://xnqttssopfhsyhoyouhi.supabase.co/functions/v1/news-sitemap"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }
