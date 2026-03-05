@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import SeoHead from "@/components/SeoHead";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ServicesSection from "@/components/ServicesSection";
@@ -131,35 +131,14 @@ const Index = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Best Digital Marketing Agency in Ahmedabad | SEO, PPC & Social Media - Digital Bull Technology</title>
-        <meta name="description" content="Digital Bull Technology is the leading digital marketing agency in Ahmedabad. We offer expert SEO, PPC advertising, social media marketing, content marketing & web design services. Best marketing company in Ahmedabad for business growth." />
-        <meta name="keywords" content="digital marketing ahmedabad, digital marketing agency ahmedabad, digital marketing company in ahmedabad, marketing agency in ahmedabad, social media marketing agency in ahmedabad, social media marketing agency ahmedabad, best digital marketing agency in ahmedabad, social media agency in ahmedabad, marketing company in ahmedabad, social media marketing in ahmedabad, digital marketing services ahmedabad, advertising companies in ahmedabad, digital marketing service in ahmedabad, digital marketing services in ahmedabad, SEO services ahmedabad, PPC advertising ahmedabad, web design ahmedabad, content marketing ahmedabad" />
-        <link rel="canonical" href="https://dibull.com" />
-        <meta property="og:title" content="Best Digital Marketing Agency in Ahmedabad | Digital Bull Technology" />
-        <meta property="og:description" content="Leading digital marketing company in Ahmedabad offering SEO, PPC, social media marketing & web design services. Get results that matter with the best marketing agency in Ahmedabad." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://dibull.com" />
-        <meta property="og:image" content="https://dibull.com/dibull_logo.png" />
-        <meta property="og:locale" content="en_IN" />
-        <meta property="og:site_name" content="Digital Bull Technology" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Best Digital Marketing Agency in Ahmedabad | Digital Bull Technology" />
-        <meta name="twitter:description" content="Top digital marketing company in Ahmedabad - SEO, PPC, social media & web design experts. Grow your business with the best marketing agency in Ahmedabad." />
-        <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
-        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-        <meta name="geo.region" content="IN-GJ" />
-        <meta name="geo.placename" content="Ahmedabad" />
-        <meta name="author" content="Digital Bull Technology" />
-        <meta name="language" content="en-IN" />
-        <meta name="revisit-after" content="7 days" />
-        <meta name="rating" content="general" />
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-        <script type="application/ld+json">{JSON.stringify(localBusinessJsonLd)}</script>
-        <script type="application/ld+json">{JSON.stringify(websiteJsonLd)}</script>
-        <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
-        <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
-      </Helmet>
+      <SeoHead
+        title="Best Digital Marketing Agency in Ahmedabad | SEO, PPC & Social Media - Digital Bull Technology"
+        description="Digital Bull Technology is the leading digital marketing agency in Ahmedabad. We offer expert SEO, PPC advertising, social media marketing, content marketing & web design services. Best marketing company in Ahmedabad for business growth."
+        keywords="digital marketing ahmedabad, digital marketing agency ahmedabad, digital marketing company in ahmedabad, marketing agency in ahmedabad, social media marketing agency in ahmedabad, best digital marketing agency in ahmedabad, SEO services ahmedabad, PPC advertising ahmedabad, web design ahmedabad, content marketing ahmedabad"
+        canonical="https://dibull.com"
+        breadcrumbs={[{ name: "Home", url: "https://dibull.com" }]}
+        jsonLd={[jsonLd, localBusinessJsonLd, websiteJsonLd, faqJsonLd]}
+      />
 
       <main className="min-h-screen">
         <Navbar />
