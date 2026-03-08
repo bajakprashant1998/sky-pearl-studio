@@ -148,6 +148,7 @@ const App = () => (
               <Route path="/cookie-policy" element={<CookiePolicy />} />
               {/* Landing Page */}
               <Route path="/websitedesignlandingpage" element={<WebDesignLandingPage />} />
+              <Route path="/quote-calculator" element={<QuoteCalculator />} />
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminDashboard /></AdminRoute></Suspense>} />
