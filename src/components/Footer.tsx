@@ -87,37 +87,7 @@ const Footer = () => {
               </p>
             </div>
 
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-              <div className="relative">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="w-full sm:w-80 px-5 py-3.5 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                  required
-                />
-                <Mail className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 pointer-events-none" />
-              </div>
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-6 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 transition-all"
-              >
-                {isSubscribed ? (
-                  <>
-                    <span>Subscribed!</span>
-                    <Sparkles className="w-4 h-4" />
-                  </>
-                ) : (
-                  <>
-                    <span>Subscribe</span>
-                    <Send className="w-4 h-4" />
-                  </>
-                )}
-              </motion.button>
-            </form>
+            <NewsletterSignup source="footer" variant="footer" />
           </motion.div>
         </div>
       </div>
