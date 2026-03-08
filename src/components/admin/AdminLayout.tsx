@@ -12,6 +12,7 @@ const navItems = [
   { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { to: "/admin/revenue", label: "Revenue Forecast", icon: TrendingUp },
   { to: "/admin/ai-agent", label: "AI Agent", icon: Sparkles },
+  { to: "/admin/content-writer", label: "Content Writer", icon: PenTool },
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
