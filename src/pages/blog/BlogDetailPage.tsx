@@ -1326,6 +1326,13 @@ const BlogDetailPage = () => {
         </section>
       </div>
 
+      {/* Comments Section */}
+      {post && (
+        <section className="container px-4 py-16 max-w-4xl mx-auto">
+          <BlogComments blogPostId={post.id} />
+        </section>
+      )}
+
       {/* Back to Top Button */}
       <AnimatePresence>
         {showBackToTop && (
