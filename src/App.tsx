@@ -87,8 +87,8 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <WhatsAppButton />
         <BrowserRouter>
+          <WhatsAppButton />
           <ScrollToTop />
           <Suspense fallback={<PageLoader />}>
             <Routes>
