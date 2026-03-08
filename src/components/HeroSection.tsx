@@ -175,7 +175,7 @@ const HeroSection = () => {
               <Button variant="hero" size="lg" className="group text-base px-8 relative overflow-hidden" asChild>
                 <Link to="/contact">
                   <span className="relative z-10 flex items-center">
-                    Get Free Consultation
+                    {ctaPrimary}
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
