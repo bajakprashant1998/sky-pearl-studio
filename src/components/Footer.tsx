@@ -40,14 +40,6 @@ const Footer = () => {
     { icon: Instagram, href: "https://www.instagram.com/digitalbulltechnology?igsh=MWxjbTJtMHkxNTBoNg==", label: "Instagram", color: "hover:bg-gradient-to-br hover:from-[#833AB4] hover:via-[#FD1D1D] hover:to-[#F77737]" },
   ];
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      setIsSubscribed(true);
-      setEmail("");
-      setTimeout(() => setIsSubscribed(false), 3000);
-    }
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
