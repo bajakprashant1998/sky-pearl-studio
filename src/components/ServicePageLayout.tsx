@@ -6,7 +6,8 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { Helmet } from "react-helmet-async";
 import { Subcategory, ServiceStat } from "@/data/services";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { useDynamicFAQs } from "@/hooks/useDynamicContent";
 import GrowthChart from "@/components/charts/GrowthChart";
 import ROICalculator from "@/components/charts/ROICalculator";
 import ChannelPerformance from "@/components/charts/ChannelPerformance";
@@ -89,7 +90,7 @@ const comparisonData = [
   { feature: "AI-Powered Insights", us: true, others: false },
 ];
 
-const faqs = [
+const staticFaqs = [
   { q: "How long does it take to see results?", a: "Most clients see measurable results within 30-90 days depending on the service. We set clear KPIs and milestones from day one." },
   { q: "What is your pricing structure?", a: "We offer flexible pricing tailored to your business needs—monthly retainers, project-based, or performance-based models. Contact us for a custom quote." },
   { q: "Do you offer a free consultation?", a: "Yes! We provide a free, no-obligation consultation and audit to understand your needs and recommend the best strategy." },
@@ -163,6 +164,14 @@ const ServicePageLayout = ({
 }: ServicePageLayoutProps) => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const { data: dbFaqs } = useDynamicFAQs(`/services/${slug}`);
+
+  const faqs = useMemo(() => {
+    if (dbFaqs && dbFaqs.length > 0) {
+      return dbFaqs.map((f: any) => ({ q: f.question, a: f.answer }));
+    }
+    return staticFaqs;
+  }, [dbFaqs]);
 
   // Auto-rotate testimonials
   useEffect(() => {
