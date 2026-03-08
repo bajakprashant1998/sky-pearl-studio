@@ -257,7 +257,7 @@ const HeroSection = () => {
                       <Users className="w-5 h-5 text-accent" />
                       <span className="text-xs text-muted-foreground">Leads</span>
                     </div>
-                    <div className="text-2xl font-bold text-foreground">10.2M</div>
+                    <div className="text-2xl font-bold text-foreground">{dashboardLeads}</div>
                     <div className="text-xs text-green-600 mt-1 flex items-center gap-1">
                       <motion.span animate={{ y: [-1, 1, -1] }} transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}>↑</motion.span>
                       8% vs last month
