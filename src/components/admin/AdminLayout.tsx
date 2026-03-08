@@ -15,6 +15,7 @@ const navItems = [
   { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
   { to: "/admin/client-logos", label: "Client Logos", icon: Image },
   { to: "/admin/media", label: "Media Library", icon: FolderOpen },
+  { to: "/admin/academy", label: "Academy", icon: GraduationCap },
   { to: "/admin/leads", label: "Leads", icon: Users },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { to: "/admin/client-projects", label: "Client Projects", icon: Briefcase },

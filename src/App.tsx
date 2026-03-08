@@ -185,6 +185,7 @@ const App = () => (
               <Route path="/admin/client-logos" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminClientLogos /></AdminRoute></Suspense>} />
               <Route path="/admin/media" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminMediaLibrary /></AdminRoute></Suspense>} />
               <Route path="/admin/navigation" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminNavigation /></AdminRoute></Suspense>} />
+              <Route path="/admin/academy" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminAcademy /></AdminRoute></Suspense>} />
               <Route path="/admin/ab-testing" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminABTesting /></AdminRoute></Suspense>} />
               <Route path="/admin/referrals" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminReferrals /></AdminRoute></Suspense>} />
               <Route path="/admin/bulk-email" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminBulkEmail /></AdminRoute></Suspense>} />
