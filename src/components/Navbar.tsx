@@ -18,7 +18,10 @@ import {
   BookOpen,
   Users,
   Phone,
-  Briefcase
+  Briefcase,
+  Sun,
+  Moon,
+  Languages,
 } from "lucide-react";
 import { services } from "@/data/services";
 import { motion, AnimatePresence } from "framer-motion";
