@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import AnimatedSection, { FloatingElement, CountUp } from "@/components/AnimatedSection";
 import CourseTimeline from "@/components/academy/CourseTimeline";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { GraduationCap, CheckCircle2, Clock, IndianRupee, Users, Award, BookOpen, Palette, TrendingUp, Briefcase, Mail, Phone, ArrowRight, Sparkles, Target, Globe, Search, Share2, BarChart3, MessageSquare, FileText, Zap, Brain, Star, Building2, Laptop, Film, Shield, HeartHandshake, Rocket, MousePointerClick, CircleDollarSign, Heart, UserCheck, Play, Calendar } from "lucide-react";
+import { useRef, useState } from "react";
+import { GraduationCap, CheckCircle2, Clock, IndianRupee, Users, Award, BookOpen, Palette, TrendingUp, Briefcase, Mail, Phone, ArrowRight, Sparkles, Target, Globe, Search, Share2, BarChart3, MessageSquare, FileText, Zap, Brain, Star, Building2, Laptop, Film, Shield, HeartHandshake, Rocket, MousePointerClick, CircleDollarSign, Heart, UserCheck, Play, Calendar, ChevronDown, Wrench, Trophy, BadgeCheck, Flame } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
 const DigitalMarketingAcademy = () => {
   const heroRef = useRef<HTMLElement>(null);
   const {
