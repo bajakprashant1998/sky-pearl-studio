@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import SeoHead from "@/components/SeoHead";
+import NewsletterSignup from "@/components/NewsletterSignup";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
