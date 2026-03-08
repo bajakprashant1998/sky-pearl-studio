@@ -1,6 +1,7 @@
 import { getServiceBySlug } from "@/data/services";
 import ServicePageLayout from "@/components/ServicePageLayout";
 import NotFound from "@/pages/NotFound";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -305,13 +306,91 @@ const WebDesignExtraSection = () => (
   </>
 );
 
+const webDesignServiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://dibull.com/services/web-design#service",
+  "name": "Website Design & Development in Ahmedabad – Digital Bull Technology",
+  "description": "Professional website design and development services in Ahmedabad. We build high-performance, responsive, SEO-optimized websites using React, WordPress, Shopify, and custom solutions that convert visitors into customers.",
+  "url": "https://dibull.com/services/web-design",
+  "image": "https://dibull.com/dibull_logo.png",
+  "priceRange": "₹₹-₹₹₹₹",
+  "telephone": "+91-9313401885",
+  "email": "info@dibull.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Ahmedabad",
+    "addressLocality": "Ahmedabad",
+    "addressRegion": "Gujarat",
+    "postalCode": "380015",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "23.0225",
+    "longitude": "72.5714"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Ahmedabad" },
+    { "@type": "State", "name": "Gujarat" },
+    { "@type": "Country", "name": "India" }
+  ],
+  "serviceType": ["Website Design", "Web Development", "E-commerce Development", "WordPress Development", "React Development", "UI/UX Design"],
+  "knowsAbout": ["React", "WordPress", "Shopify", "Next.js", "Tailwind CSS", "Figma", "Responsive Design", "Core Web Vitals", "Web Accessibility"],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Web Design Packages",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Website Design & Development" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "E-commerce Website Development" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "WordPress Website Development" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Landing Page Design" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website Redesign & Optimization" } }
+    ]
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "95",
+    "bestRating": "5"
+  },
+  "review": [
+    {
+      "@type": "Review",
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+      "author": { "@type": "Person", "name": "Vikas Sharma" },
+      "reviewBody": "Digital Bull designed our e-commerce website and the results exceeded expectations. Beautiful design, fast loading, and our sales increased by 200%."
+    },
+    {
+      "@type": "Review",
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+      "author": { "@type": "Person", "name": "Meera Joshi" },
+      "reviewBody": "Professional team that delivered a stunning, responsive website on time. Their attention to UX details is remarkable."
+    }
+  ],
+  "potentialAction": {
+    "@type": "CommunicateAction",
+    "target": "https://dibull.com/contact",
+    "name": "Get Free Website Consultation"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/company/digital-bull-technology",
+    "https://www.instagram.com/dibulltechnology",
+    "https://www.facebook.com/dibulltechnology"
+  ]
+};
+
 const WebDesignPage = () => {
   const service = getServiceBySlug("web-design");
 
   if (!service) return <NotFound />;
 
   return (
-    <ServicePageLayout
+    <>
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(webDesignServiceSchema)}</script>
+      </Helmet>
+      <ServicePageLayout
       icon={service.icon}
       title={service.title}
       subtitle={service.subtitle}
@@ -321,8 +400,9 @@ const WebDesignPage = () => {
       ctaText={service.ctaText}
       slug={service.slug}
       stats={service.stats}
-      extraSection={<WebDesignExtraSection />}
-    />
+        extraSection={<WebDesignExtraSection />}
+      />
+    </>
   );
 };
 
