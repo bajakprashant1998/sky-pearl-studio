@@ -3,8 +3,9 @@ import { CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import AnimatedSection from "./AnimatedSection";
 import { motion } from "framer-motion";
+import { usePageContent } from "@/hooks/usePageContent";
 
-const features = [
+const staticFeatures = [
   "Data-driven strategies for measurable results",
   "Dedicated account managers for personalized support",
   "Transparent reporting and real-time analytics",
@@ -13,10 +14,27 @@ const features = [
   "Flexible packages tailored to your budget",
 ];
 
+const staticStats = [
+  { label: "Client Retention", value: "94%" },
+  { label: "Avg. ROI Increase", value: "320%" },
+  { label: "Projects Completed", value: "1,500+" },
+];
+
 const AboutSection = () => {
+  const { data: dbContent } = usePageContent("/", "about");
+
+  const content = dbContent as Record<string, any> | null;
+  const badge = content?.badge || "Why Choose Us";
+  const heading = content?.heading || "A Partner Committed to Your";
+  const headingHighlight = content?.headingHighlight || "Growth";
+  const description = content?.description || "With over 15 years of experience, we've helped hundreds of businesses transform their digital presence and achieve remarkable growth.";
+  const features: string[] = content?.features && Array.isArray(content.features) ? content.features : staticFeatures;
+  const stats: { label: string; value: string }[] = content?.stats && Array.isArray(content.stats) ? content.stats : staticStats;
+  const ctaText = content?.ctaText || "Learn More About Us";
+  const ctaLink = content?.ctaLink || "/about-us";
+
   return (
     <section id="about" className="py-24 relative overflow-hidden">
-      {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-[0.02]" style={{
         backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)",
         backgroundSize: "24px 24px"
@@ -28,7 +46,6 @@ const AboutSection = () => {
           <AnimatedSection direction="left">
             <div className="relative">
               <div className="relative aspect-square max-w-lg mx-auto">
-                {/* Rotated background */}
                 <motion.div
                   className="absolute inset-0 bg-gradient-primary rounded-3xl"
                   initial={{ rotate: 0 }}
@@ -52,11 +69,7 @@ const AboutSection = () => {
                     </div>
 
                     <div className="space-y-4">
-                      {[
-                        { label: "Client Retention", value: "94%" },
-                        { label: "Avg. ROI Increase", value: "320%" },
-                        { label: "Projects Completed", value: "1,500+" },
-                      ].map((stat, i) => (
+                      {stats.map((stat, i) => (
                         <motion.div
                           key={stat.label}
                           className="flex justify-between items-center p-4 bg-muted rounded-xl group hover:bg-primary/5 transition-colors"
@@ -74,7 +87,6 @@ const AboutSection = () => {
                 </div>
               </div>
 
-              {/* Floating Badges */}
               <motion.div
                 className="absolute -bottom-6 -right-6 bg-card rounded-2xl p-4 shadow-xl border border-border"
                 animate={{ y: [-5, 5, -5] }}
@@ -118,15 +130,14 @@ const AboutSection = () => {
                   whileHover={{ scale: 1.05 }}
                 >
                   <Sparkles className="w-4 h-4" />
-                  Why Choose Us
+                  {badge}
                 </motion.span>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                  A Partner Committed to Your{" "}
-                  <span className="text-gradient">Growth</span>
+                  {heading}{" "}
+                  <span className="text-gradient">{headingHighlight}</span>
                 </h2>
                 <p className="text-lg text-muted-foreground">
-                  With over 15 years of experience, we've helped hundreds of businesses
-                  transform their digital presence and achieve remarkable growth.
+                  {description}
                 </p>
               </div>
 
@@ -147,8 +158,8 @@ const AboutSection = () => {
               </div>
 
               <Button variant="hero" size="lg" className="group" asChild>
-                <Link to="/about-us">
-                  Learn More About Us
+                <Link to={ctaLink}>
+                  {ctaText}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
