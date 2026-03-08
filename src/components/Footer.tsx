@@ -24,7 +24,16 @@ const Footer = () => {
       { name: "Careers", href: "/careers" },
       { name: "Digital Marketing Academy", href: "/digital-marketing-academy" },
       { name: "Case Studies", href: "/case-studies" },
+      { name: "Our Verticals", href: "/verticals" },
+      { name: "Blog", href: "/blog" },
+      { name: "Free SEO Tools", href: "/free-tools" },
       { name: "Contact", href: "/contact" },
+    ],
+    resources: [
+      { name: "Referral Program", href: "/referral" },
+      { name: "Client Portal", href: "/client-portal" },
+      { name: "Quote Calculator", href: "/quote-calculator" },
+      { name: "Growth Strategy", href: "/growth-strategy" },
     ],
     legal: [
       { name: "Privacy Policy", href: "/privacy-policy" },
