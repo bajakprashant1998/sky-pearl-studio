@@ -70,6 +70,7 @@ const AdminPageEditor = lazy(() => import("@/pages/admin/AdminPageEditor"));
 const AdminBlog = lazy(() => import("@/pages/admin/AdminBlog"));
 const AdminSettings = lazy(() => import("@/pages/admin/AdminSettings"));
 const AdminLeads = lazy(() => import("@/pages/admin/AdminLeads"));
+const AdminTestimonials = lazy(() => import("@/pages/admin/AdminTestimonials"));
 const WebDesignLandingPage = lazy(() => import("@/pages/WebDesignLandingPage"));
 
 const queryClient = new QueryClient();
