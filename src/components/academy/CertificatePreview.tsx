@@ -76,61 +76,69 @@ const CertificatePreview: React.FC<CertificatePreviewProps> = ({ scrollProgress,
     toast.loading('Generating your certificate...', { id: 'pdf-generation' });
 
     try {
-      // Get the certificate element
       const element = certificateRef.current;
-      
-      // Create a clone for PDF generation to avoid affecting the display
-      const clone = element.cloneNode(true) as HTMLElement;
-      clone.style.position = 'absolute';
-      clone.style.left = '-9999px';
-      clone.style.top = '0';
-      clone.style.width = '900px';
-      clone.style.background = 'white';
-      document.body.appendChild(clone);
 
-      // Wait for images to load
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      // Generate canvas from the certificate
-      const canvas = await html2canvas(clone, {
-        scale: 2,
+      // Capture the certificate as-is (dark theme preserved)
+      const canvas = await html2canvas(element, {
+        scale: 3,
         useCORS: true,
         allowTaint: true,
-        backgroundColor: '#ffffff',
+        backgroundColor: null, // Transparent — preserves the element's own background
         logging: false,
-        width: 900,
-        height: clone.offsetHeight,
+        windowWidth: 900,
+        onclone: (clonedDoc, clonedElement) => {
+          // Ensure the cloned element has proper dimensions and visibility
+          clonedElement.style.width = '900px';
+          clonedElement.style.maxWidth = '900px';
+          clonedElement.style.overflow = 'visible';
+          clonedElement.style.opacity = '1';
+          clonedElement.style.transform = 'none';
+          // Force all child animations to their final state
+          const allAnimated = clonedElement.querySelectorAll('*');
+          allAnimated.forEach((el) => {
+            const htmlEl = el as HTMLElement;
+            htmlEl.style.opacity = '1';
+            htmlEl.style.transform = 'none';
+            htmlEl.style.animation = 'none';
+            htmlEl.style.transition = 'none';
+          });
+        },
       });
 
-      // Remove the clone
-      document.body.removeChild(clone);
+      // A4 landscape dimensions
+      const A4_W = 297;
+      const A4_H = 210;
+      const MARGIN = 10;
+      const contentW = A4_W - MARGIN * 2;
 
-      // Calculate PDF dimensions (A4 landscape for certificate)
-      const imgWidth = 297; // A4 landscape width in mm
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      
-      // Create PDF
+      const imgAspect = canvas.height / canvas.width;
+      const contentH = contentW * imgAspect;
+
+      // If the certificate is taller than the page, scale down to fit
+      const finalH = Math.min(contentH, A4_H - MARGIN * 2);
+      const finalW = finalH / imgAspect;
+
       const pdf = new jsPDF({
         orientation: 'landscape',
         unit: 'mm',
         format: 'a4',
       });
 
-      // Add image to PDF
+      // Fill page with dark background to match certificate
+      pdf.setFillColor(15, 23, 42); // slate-900
+      pdf.rect(0, 0, A4_W, A4_H, 'F');
+
       const imgData = canvas.toDataURL('image/png', 1.0);
-      const pageHeight = 210; // A4 landscape height in mm
-      const yOffset = (pageHeight - imgHeight) / 2; // Center vertically
+      const xOffset = (A4_W - finalW) / 2;
+      const yOffset = (A4_H - finalH) / 2;
 
-      pdf.addImage(imgData, 'PNG', 0, Math.max(0, yOffset), imgWidth, imgHeight);
+      pdf.addImage(imgData, 'PNG', xOffset, yOffset, finalW, finalH);
 
-      // Generate filename with user's name
       const sanitizedName = userName.trim().replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
-      const filename = `Digital_Marketing_Certificate_${sanitizedName}.pdf`;
-
-      // Download PDF
-      pdf.save(filename);
+      pdf.save(`Digital_Marketing_Certificate_${sanitizedName}.pdf`);
 
       toast.success('Certificate downloaded successfully!', { id: 'pdf-generation' });
+      triggerConfetti();
     } catch (error) {
       console.error('Error generating PDF:', error);
       toast.error('Failed to generate certificate. Please try again.', { id: 'pdf-generation' });
