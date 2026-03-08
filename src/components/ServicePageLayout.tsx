@@ -205,12 +205,11 @@ const ServicePageLayout = ({
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": `${title} Packages`,
-      "itemListElement": subcategories.slice(0, 5).map((sub, i) => ({
+      "itemListElement": subcategories.slice(0, 5).map((sub) => ({
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
-          "name": sub.title,
-          "description": sub.description
+          "name": sub.title
         }
       }))
     }
