@@ -73,6 +73,8 @@ const AdminLeads = lazy(() => import("@/pages/admin/AdminLeads"));
 const AdminTestimonials = lazy(() => import("@/pages/admin/AdminTestimonials"));
 const AdminRevenueForecasting = lazy(() => import("@/pages/admin/AdminRevenueForecasting"));
 const AdminAIAgent = lazy(() => import("@/pages/admin/AdminAIAgent"));
+const AdminContentWriter = lazy(() => import("@/pages/admin/AdminContentWriter"));
+const QuoteCalculator = lazy(() => import("@/pages/QuoteCalculator"));
 const WebDesignLandingPage = lazy(() => import("@/pages/WebDesignLandingPage"));
 
 const queryClient = new QueryClient();
