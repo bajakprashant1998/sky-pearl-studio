@@ -1,14 +1,20 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAdmin } from "@/hooks/useAdmin";
-import { LayoutDashboard, FileText, BookOpen, Settings, LogOut, Menu, Users, MessageSquareQuote, TrendingUp, Sparkles, PenTool, MessageCircle, FlaskConical, Gift, Activity, Mail, Briefcase, Wifi } from "lucide-react";
+import { LayoutDashboard, FileText, BookOpen, Settings, LogOut, Menu, Users, MessageSquareQuote, TrendingUp, Sparkles, PenTool, MessageCircle, FlaskConical, Gift, Activity, Mail, Briefcase, Wifi, Globe, FolderOpen, HelpCircle, Image, Navigation, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 const navItems = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/admin/site-settings", label: "Site Settings", icon: Globe },
+  { to: "/admin/navigation", label: "Navigation", icon: Navigation },
   { to: "/admin/pages", label: "Pages & SEO", icon: FileText },
   { to: "/admin/blog", label: "Blog Posts", icon: BookOpen },
   { to: "/admin/comments", label: "Comments", icon: MessageCircle },
+  { to: "/admin/portfolio", label: "Portfolio", icon: Palette },
+  { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
+  { to: "/admin/client-logos", label: "Client Logos", icon: Image },
+  { to: "/admin/media", label: "Media Library", icon: FolderOpen },
   { to: "/admin/leads", label: "Leads", icon: Users },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { to: "/admin/client-projects", label: "Client Projects", icon: Briefcase },

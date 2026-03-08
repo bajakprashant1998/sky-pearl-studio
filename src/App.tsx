@@ -82,6 +82,12 @@ const AdminActivityLog = lazy(() => import("@/pages/admin/AdminActivityLog"));
 const AdminBulkEmail = lazy(() => import("@/pages/admin/AdminBulkEmail"));
 const AdminUptimeMonitor = lazy(() => import("@/pages/admin/AdminUptimeMonitor"));
 const AdminClientProjects = lazy(() => import("@/pages/admin/AdminClientProjects"));
+const AdminSiteSettings = lazy(() => import("@/pages/admin/AdminSiteSettings"));
+const AdminPortfolio = lazy(() => import("@/pages/admin/AdminPortfolio"));
+const AdminFAQs = lazy(() => import("@/pages/admin/AdminFAQs"));
+const AdminClientLogos = lazy(() => import("@/pages/admin/AdminClientLogos"));
+const AdminMediaLibrary = lazy(() => import("@/pages/admin/AdminMediaLibrary"));
+const AdminNavigation = lazy(() => import("@/pages/admin/AdminNavigation"));
 const ReferralPage = lazy(() => import("@/pages/ReferralPage"));
 const ClientPortal = lazy(() => import("@/pages/ClientPortal"));
 const QuoteCalculator = lazy(() => import("@/pages/QuoteCalculator"));
@@ -172,6 +178,12 @@ const App = () => (
               <Route path="/admin/leads" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminLeads /></AdminRoute></Suspense>} />
               <Route path="/admin/testimonials" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminTestimonials /></AdminRoute></Suspense>} />
               <Route path="/admin/client-projects" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminClientProjects /></AdminRoute></Suspense>} />
+              <Route path="/admin/site-settings" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminSiteSettings /></AdminRoute></Suspense>} />
+              <Route path="/admin/portfolio" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminPortfolio /></AdminRoute></Suspense>} />
+              <Route path="/admin/faqs" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminFAQs /></AdminRoute></Suspense>} />
+              <Route path="/admin/client-logos" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminClientLogos /></AdminRoute></Suspense>} />
+              <Route path="/admin/media" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminMediaLibrary /></AdminRoute></Suspense>} />
+              <Route path="/admin/navigation" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminNavigation /></AdminRoute></Suspense>} />
               <Route path="/admin/ab-testing" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminABTesting /></AdminRoute></Suspense>} />
               <Route path="/admin/referrals" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminReferrals /></AdminRoute></Suspense>} />
               <Route path="/admin/bulk-email" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminBulkEmail /></AdminRoute></Suspense>} />
