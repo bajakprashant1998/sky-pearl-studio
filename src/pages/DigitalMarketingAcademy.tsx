@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import AnimatedSection, { FloatingElement, CountUp } from "@/components/AnimatedSection";
 import CourseTimeline from "@/components/academy/CourseTimeline";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { GraduationCap, CheckCircle2, Clock, IndianRupee, Users, Award, BookOpen, Palette, TrendingUp, Briefcase, Mail, Phone, ArrowRight, Sparkles, Target, Globe, Search, Share2, BarChart3, MessageSquare, FileText, Zap, Brain, Star, Building2, Laptop, Film, Shield, HeartHandshake, Rocket, MousePointerClick, CircleDollarSign, Heart, UserCheck, Play, Calendar } from "lucide-react";
+import { useRef, useState } from "react";
+import { GraduationCap, CheckCircle2, Clock, IndianRupee, Users, Award, BookOpen, Palette, TrendingUp, Briefcase, Mail, Phone, ArrowRight, Sparkles, Target, Globe, Search, Share2, BarChart3, MessageSquare, FileText, Zap, Brain, Star, Building2, Laptop, Film, Shield, HeartHandshake, Rocket, MousePointerClick, CircleDollarSign, Heart, UserCheck, Play, Calendar, ChevronDown, Wrench, Trophy, BadgeCheck, Flame } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
 const DigitalMarketingAcademy = () => {
   const heroRef = useRef<HTMLElement>(null);
   const {
@@ -406,8 +408,19 @@ const DigitalMarketingAcademy = () => {
               portfolio that gets you hired.
             </p>
 
+            {/* Next Batch Urgency */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              transition={{ delay: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/15 border border-amber-500/30 mb-6"
+            >
+              <Flame className="w-4 h-4 text-amber-400 animate-pulse" />
+              <span className="text-xs sm:text-sm font-semibold text-amber-300">Next Batch Starting Soon — Limited Seats Available!</span>
+            </motion.div>
+
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
+            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-6 sm:mb-8">
               <Button size="lg" className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-white shadow-lg shadow-primary/25 text-sm sm:text-base" asChild>
                 <Link to="/contact?interest=academy">
                   <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
@@ -419,6 +432,37 @@ const DigitalMarketingAcademy = () => {
                 View Full Syllabus
               </Button>
             </div>
+
+            {/* Social Proof Strip */}
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ delay: 0.7 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mb-6"
+            >
+              <div className="flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  {[
+                    "bg-gradient-to-br from-blue-400 to-blue-600",
+                    "bg-gradient-to-br from-green-400 to-green-600",
+                    "bg-gradient-to-br from-purple-400 to-purple-600",
+                    "bg-gradient-to-br from-amber-400 to-amber-600",
+                    "bg-gradient-to-br from-rose-400 to-rose-600",
+                  ].map((bg, i) => (
+                    <div key={i} className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full ${bg} border-2 border-slate-800 flex items-center justify-center`}>
+                      <span className="text-[10px] sm:text-xs font-bold text-white">{["A", "R", "P", "S", "M"][i]}</span>
+                    </div>
+                  ))}
+                </div>
+                <span className="text-xs sm:text-sm text-slate-300 font-medium">500+ Students Trained</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 fill-amber-400" />
+                ))}
+                <span className="text-xs sm:text-sm text-slate-300 ml-1">4.9/5 Rating</span>
+              </div>
+            </motion.div>
 
             {/* Course Highlights */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
@@ -690,6 +734,58 @@ const DigitalMarketingAcademy = () => {
         </div>
       </section>
 
+      {/* Tools You'll Master */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-muted/30 relative overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6">
+          <AnimatedSection className="text-center mb-8 sm:mb-12">
+            <motion.span className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold mb-4" whileHover={{ scale: 1.05 }}>
+              <Wrench className="w-3 h-3 sm:w-4 sm:h-4" />
+              Industry Tools
+            </motion.span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              50+ Tools <span className="text-gradient">You'll Master</span>
+            </h2>
+            <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto">
+              Get hands-on training with every major tool used in the digital marketing industry
+            </p>
+          </AnimatedSection>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 max-w-5xl mx-auto">
+            {[
+              { name: "Google Ads", icon: Target, color: "from-blue-500 to-blue-600" },
+              { name: "Google Analytics", icon: BarChart3, color: "from-amber-500 to-orange-500" },
+              { name: "SEMrush", icon: Search, color: "from-orange-500 to-red-500" },
+              { name: "Canva Pro", icon: Palette, color: "from-purple-500 to-pink-500" },
+              { name: "ChatGPT", icon: Brain, color: "from-green-500 to-emerald-500" },
+              { name: "Meta Ads", icon: Share2, color: "from-blue-600 to-indigo-600" },
+              { name: "WordPress", icon: Globe, color: "from-cyan-500 to-blue-500" },
+              { name: "Ahrefs", icon: Search, color: "from-blue-500 to-blue-700" },
+              { name: "Mailchimp", icon: Mail, color: "from-amber-400 to-yellow-500" },
+              { name: "MidJourney", icon: Sparkles, color: "from-violet-500 to-purple-600" },
+              { name: "Hootsuite", icon: Share2, color: "from-green-500 to-teal-500" },
+              { name: "Figma", icon: Palette, color: "from-pink-500 to-red-500" },
+            ].map((tool, i) => (
+              <AnimatedSection key={tool.name} delay={i * 0.03}>
+                <motion.div 
+                  className="bg-card rounded-xl p-3 sm:p-4 border border-border hover:border-primary/50 transition-all duration-300 text-center group"
+                  whileHover={{ y: -5, scale: 1.05 }}
+                >
+                  <motion.div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${tool.color} rounded-lg sm:rounded-xl flex items-center justify-center mx-auto mb-2`}
+                    whileHover={{ rotate: 10 }}
+                  >
+                    <tool.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  </motion.div>
+                  <p className="text-[10px] sm:text-xs font-semibold text-foreground">{tool.name}</p>
+                </motion.div>
+              </AnimatedSection>
+            ))}
+          </div>
+          <AnimatedSection className="text-center mt-6">
+            <p className="text-sm text-muted-foreground">...and 40+ more industry-standard tools</p>
+          </AnimatedSection>
+        </div>
+      </section>
+
         {/* Practical Projects */}
         <section className="py-20 bg-muted/30 relative overflow-hidden">
           <div className="container mx-auto px-4">
@@ -906,6 +1002,111 @@ const DigitalMarketingAcademy = () => {
                   </motion.div>
                 </AnimatedSection>)}
             </div>
+          </div>
+        </section>
+
+        {/* Digital Bull vs Others Comparison */}
+        <section className="py-12 sm:py-16 lg:py-20 bg-background relative overflow-hidden">
+          <div className="container mx-auto px-4 sm:px-6">
+            <AnimatedSection className="text-center mb-8 sm:mb-12">
+              <motion.span className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold mb-4" whileHover={{ scale: 1.05 }}>
+                <Trophy className="w-3 h-3 sm:w-4 sm:h-4" />
+                Why We're Different
+              </motion.span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                Digital Bull Academy <span className="text-gradient">vs Others</span>
+              </h2>
+            </AnimatedSection>
+
+            <AnimatedSection>
+              <div className="max-w-4xl mx-auto overflow-x-auto">
+                <table className="w-full text-sm sm:text-base">
+                  <thead>
+                    <tr className="border-b-2 border-primary/20">
+                      <th className="text-left py-4 px-3 sm:px-6 font-semibold text-foreground">Feature</th>
+                      <th className="py-4 px-3 sm:px-6 text-center">
+                        <span className="inline-flex items-center gap-1.5 font-bold text-primary">
+                          <BadgeCheck className="w-4 h-4 sm:w-5 sm:h-5" />
+                          Digital Bull
+                        </span>
+                      </th>
+                      <th className="py-4 px-3 sm:px-6 text-center font-semibold text-muted-foreground">Others</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { feature: "Training Duration", us: "6 Months In-Depth", them: "2-3 Months" },
+                      { feature: "AI Skills Included", us: "Yes — 3 Full Modules", them: "Rarely or Basic" },
+                      { feature: "Batch Size", us: "Max 15 Students", them: "30-50+ Students" },
+                      { feature: "Daily Practical Hours", us: "8 Hours Hands-On", them: "1-2 Hours Theory" },
+                      { feature: "Tools Access", us: "50+ Premium Tools", them: "5-10 Free Tools" },
+                      { feature: "Portfolio Building", us: "10+ Real Projects", them: "1-2 Dummy Projects" },
+                      { feature: "Career Support", us: "Lifetime Support", them: "Limited / None" },
+                      { feature: "Industry Certifications", us: "5+ Certifications", them: "1 Certificate" },
+                    ].map((row, i) => (
+                      <motion.tr 
+                        key={i} 
+                        className="border-b border-border hover:bg-muted/50 transition-colors"
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.05 }}
+                      >
+                        <td className="py-3 sm:py-4 px-3 sm:px-6 font-medium text-foreground">{row.feature}</td>
+                        <td className="py-3 sm:py-4 px-3 sm:px-6 text-center">
+                          <span className="inline-flex items-center gap-1.5 text-primary font-semibold">
+                            <CheckCircle2 className="w-4 h-4 text-green-500" />
+                            {row.us}
+                          </span>
+                        </td>
+                        <td className="py-3 sm:py-4 px-3 sm:px-6 text-center text-muted-foreground">{row.them}</td>
+                      </motion.tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </AnimatedSection>
+          </div>
+        </section>
+
+        {/* Academy FAQ */}
+        <section className="py-12 sm:py-16 lg:py-20 bg-muted/30 relative overflow-hidden">
+          <div className="container mx-auto px-4 sm:px-6">
+            <AnimatedSection className="text-center mb-8 sm:mb-12">
+              <motion.span className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold mb-4" whileHover={{ scale: 1.05 }}>
+                <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4" />
+                FAQs
+              </motion.span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                Frequently Asked <span className="text-gradient">Questions</span>
+              </h2>
+            </AnimatedSection>
+
+            <AnimatedSection>
+              <div className="max-w-3xl mx-auto">
+                <Accordion type="single" collapsible className="space-y-3">
+                  {[
+                    { q: "Do I need any prior experience in digital marketing?", a: "No, absolutely not! Our course starts from the fundamentals and progressively builds to advanced concepts. Whether you're a complete beginner, student, or working professional — our structured curriculum is designed for everyone." },
+                    { q: "What is the course fee and payment structure?", a: "The course fee is ₹25,000 per month for 6 months. We offer flexible payment options — you can pay monthly. Contact us for any special payment plans." },
+                    { q: "What are the class timings?", a: "Classes run from 10:00 AM to 6:30 PM, Monday to Saturday. This includes theory sessions, practical workshops, and hands-on project work throughout the day." },
+                    { q: "Will I get placement assistance after the course?", a: "Yes! We provide lifetime career support including resume building, mock interviews, LinkedIn optimization, and direct connections with our 30+ hiring partners. Our placement rate is over 90%." },
+                    { q: "What certifications will I receive?", a: "You'll receive our Digital Marketing & AI Course Completion Certificate, plus guidance for Google Ads, Google Analytics, Meta Blueprint, and HubSpot certifications — totaling 5+ industry-recognized certifications." },
+                    { q: "Is this an online or offline course?", a: "This is a classroom-based, in-person training program at our Ahmedabad center. We believe hands-on, face-to-face training delivers the best results for practical skill building." },
+                    { q: "Can I start freelancing after this course?", a: "Absolutely! We include a complete freelancing roadmap — from setting up profiles on Upwork and Fiverr to client acquisition strategies and pricing. Many of our students start freelancing even before completing the course." },
+                    { q: "What makes this course different from YouTube tutorials?", a: "Unlike scattered YouTube content, our program offers a structured 6-month curriculum with daily practical sessions, real project work, personalized mentorship, industry tools access, and career support — things you simply can't get from free tutorials." },
+                  ].map((faq, i) => (
+                    <AccordionItem key={i} value={`faq-${i}`} className="bg-card rounded-xl border border-border px-4 sm:px-6">
+                      <AccordionTrigger className="text-sm sm:text-base font-semibold text-foreground hover:text-primary text-left py-4">
+                        {faq.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-sm text-muted-foreground pb-4">
+                        {faq.a}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </AnimatedSection>
           </div>
         </section>
 
