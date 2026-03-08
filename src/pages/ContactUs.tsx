@@ -118,7 +118,7 @@ const ContactUs = () => {
 
   const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
-  const jsonLd = {
+  const contactPageJsonLd = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
     "name": "Contact Digital Bull Technology",
@@ -135,6 +135,62 @@ const ContactUs = () => {
         "addressCountry": "IN"
       }
     }
+  };
+
+  const localBusinessJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Digital Bull Technology",
+    "image": "https://dibull.com/dibull_logo.png",
+    "description": "Leading digital marketing agency in Ahmedabad offering SEO, PPC, social media marketing, content marketing, and web design services.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "A 823 Moneyplant High Street, Jagatpur Road, Near GOTA Cross Road",
+      "addressLocality": "Ahmedabad",
+      "addressRegion": "Gujarat",
+      "postalCode": "382481",
+      "addressCountry": "IN"
+    },
+    "telephone": "+91-9824011921",
+    "email": "info@dibull.com",
+    "url": "https://dibull.com",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "23.0707",
+      "longitude": "72.5177"
+    },
+    "openingHours": [
+      "Mo-Sa 09:00-19:00",
+      "Su closed"
+    ],
+    "priceRange": "$$",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "127",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Ahmedabad"
+      },
+      {
+        "@type": "State",
+        "name": "Gujarat"
+      },
+      {
+        "@type": "Country",
+        "name": "India"
+      }
+    ],
+    "sameAs": [
+      "https://www.facebook.com/share/1GGViEsE5a/?mibextid=wwXIfr",
+      "https://x.com/digital_1221?s=21&t=gZqAEY-otu1upyCHIOj4Uw",
+      "https://www.linkedin.com/company/digitalbulltechnology/",
+      "https://www.instagram.com/digitalbulltechnology?igsh=MWxjbTJtMHkxNTBoNg=="
+    ]
   };
 
   return (
