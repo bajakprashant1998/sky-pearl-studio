@@ -155,17 +155,26 @@ const App = () => (
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/cookie-policy" element={<CookiePolicy />} />
-              {/* Landing Page */}
+              {/* Public Pages */}
               <Route path="/websitedesignlandingpage" element={<WebDesignLandingPage />} />
               <Route path="/quote-calculator" element={<QuoteCalculator />} />
+              <Route path="/referral" element={<ReferralPage />} />
+              <Route path="/client-portal" element={<ClientPortal />} />
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminDashboard /></AdminRoute></Suspense>} />
               <Route path="/admin/pages" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminPages /></AdminRoute></Suspense>} />
               <Route path="/admin/pages/:pageId" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminPageEditor /></AdminRoute></Suspense>} />
               <Route path="/admin/blog" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminBlog /></AdminRoute></Suspense>} />
+              <Route path="/admin/comments" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminComments /></AdminRoute></Suspense>} />
               <Route path="/admin/leads" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminLeads /></AdminRoute></Suspense>} />
               <Route path="/admin/testimonials" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminTestimonials /></AdminRoute></Suspense>} />
+              <Route path="/admin/client-projects" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminClientProjects /></AdminRoute></Suspense>} />
+              <Route path="/admin/ab-testing" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminABTesting /></AdminRoute></Suspense>} />
+              <Route path="/admin/referrals" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminReferrals /></AdminRoute></Suspense>} />
+              <Route path="/admin/bulk-email" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminBulkEmail /></AdminRoute></Suspense>} />
+              <Route path="/admin/activity-log" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminActivityLog /></AdminRoute></Suspense>} />
+              <Route path="/admin/uptime" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminUptimeMonitor /></AdminRoute></Suspense>} />
               <Route path="/admin/settings" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminSettings /></AdminRoute></Suspense>} />
               <Route path="/admin/revenue" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminRevenueForecasting /></AdminRoute></Suspense>} />
               <Route path="/admin/ai-agent" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminAIAgent /></AdminRoute></Suspense>} />
