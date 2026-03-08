@@ -116,7 +116,7 @@ const HeroSection = () => {
                 </motion.svg>
               </span>
               <br />
-              <span className="text-muted-foreground text-[0.65em]">Drive More</span>{" "}
+              <span className="text-muted-foreground text-[0.65em]">{headingLine2Prefix}</span>{" "}
               <span className="relative inline-block h-[1.15em] overflow-hidden align-bottom">
                 <motion.span
                   key={wordIndex}
