@@ -2,13 +2,13 @@ import { Facebook, Twitter, Linkedin, Instagram, MapPin, Phone, Mail, ArrowRight
 import { Link } from "react-router-dom";
 import { services } from "@/data/services";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
