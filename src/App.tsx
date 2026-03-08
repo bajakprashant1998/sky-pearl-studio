@@ -70,6 +70,7 @@ const AdminPageEditor = lazy(() => import("@/pages/admin/AdminPageEditor"));
 const AdminBlog = lazy(() => import("@/pages/admin/AdminBlog"));
 const AdminSettings = lazy(() => import("@/pages/admin/AdminSettings"));
 const AdminLeads = lazy(() => import("@/pages/admin/AdminLeads"));
+const AdminTestimonials = lazy(() => import("@/pages/admin/AdminTestimonials"));
 const WebDesignLandingPage = lazy(() => import("@/pages/WebDesignLandingPage"));
 
 const queryClient = new QueryClient();
@@ -150,6 +151,7 @@ const App = () => (
               <Route path="/admin/pages/:pageId" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminPageEditor /></AdminRoute></Suspense>} />
               <Route path="/admin/blog" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminBlog /></AdminRoute></Suspense>} />
               <Route path="/admin/leads" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminLeads /></AdminRoute></Suspense>} />
+              <Route path="/admin/testimonials" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminTestimonials /></AdminRoute></Suspense>} />
               <Route path="/admin/settings" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminSettings /></AdminRoute></Suspense>} />
 
               <Route path="*" element={<NotFound />} />
