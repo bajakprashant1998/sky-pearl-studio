@@ -104,6 +104,7 @@ const App = () => (
         <BrowserRouter>
           <WhatsAppButton />
           <ScrollToTop />
+          <LiveChatWidget />
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<Index />} />
