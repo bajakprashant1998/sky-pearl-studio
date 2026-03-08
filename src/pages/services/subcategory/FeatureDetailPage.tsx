@@ -226,6 +226,7 @@ const FeatureDetailPage = () => {
                 <meta name="twitter:description" content={content.description} />
                 <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
                 <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+                <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
             </Helmet>
 
             <Navbar />
