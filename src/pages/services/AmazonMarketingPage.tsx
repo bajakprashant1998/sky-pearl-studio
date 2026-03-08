@@ -36,6 +36,7 @@ const AmazonMarketingPage = () => {
       stats={service.stats}
       extraSection={<ServiceExtraSections slug="amazon-marketing" subtitle={service.subtitle} />}
     />
+    </>
   );
 };
 

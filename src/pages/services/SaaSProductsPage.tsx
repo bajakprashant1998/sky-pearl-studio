@@ -36,6 +36,7 @@ const SaaSProductsPage = () => {
       stats={service.stats}
       extraSection={<ServiceExtraSections slug="saas-products" subtitle={service.subtitle} />}
     />
+    </>
   );
 };
 

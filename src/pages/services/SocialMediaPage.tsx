@@ -36,6 +36,7 @@ const SocialMediaPage = () => {
       stats={service.stats}
       extraSection={<ServiceExtraSections slug="social-media" subtitle={service.subtitle} />}
     />
+    </>
   );
 };
 

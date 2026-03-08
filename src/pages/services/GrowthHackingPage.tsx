@@ -36,6 +36,7 @@ const GrowthHackingPage = () => {
       stats={service.stats}
       extraSection={<ServiceExtraSections slug="growth-hacking" subtitle={service.subtitle} />}
     />
+    </>
   );
 };
 

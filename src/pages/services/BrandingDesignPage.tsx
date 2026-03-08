@@ -36,6 +36,7 @@ const BrandingDesignPage = () => {
       stats={service.stats}
       extraSection={<ServiceExtraSections slug="branding-design" subtitle={service.subtitle} />}
     />
+    </>
   );
 };
 

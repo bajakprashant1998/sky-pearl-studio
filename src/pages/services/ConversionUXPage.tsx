@@ -36,6 +36,7 @@ const ConversionUXPage = () => {
       stats={service.stats}
       extraSection={<ServiceExtraSections slug="conversion-ui-ux" subtitle={service.subtitle} />}
     />
+    </>
   );
 };
 

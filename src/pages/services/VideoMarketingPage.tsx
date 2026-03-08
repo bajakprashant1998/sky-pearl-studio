@@ -36,6 +36,7 @@ const VideoMarketingPage = () => {
       stats={service.stats}
       extraSection={<ServiceExtraSections slug="video-marketing" subtitle={service.subtitle} />}
     />
+    </>
   );
 };
 

@@ -36,6 +36,7 @@ const AnalyticsAIPage = () => {
       stats={service.stats}
       extraSection={<ServiceExtraSections slug="analytics-ai-technology" subtitle={service.subtitle} />}
     />
+    </>
   );
 };
 

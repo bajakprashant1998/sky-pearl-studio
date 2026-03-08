@@ -36,6 +36,7 @@ const EmailMarketingPage = () => {
       stats={service.stats}
       extraSection={<ServiceExtraSections slug="email-marketing" subtitle={service.subtitle} />}
     />
+    </>
   );
 };
 
