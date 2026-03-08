@@ -3,6 +3,7 @@ import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import AnimatedSection from "./AnimatedSection";
 import { Button } from "./ui/button";
+import { usePortfolioItems } from "@/hooks/useDynamicContent";
 
 import akyca from "@/assets/portfolio/akyca.webp";
 import betterviewtourism from "@/assets/portfolio/betterviewtourism.webp";
@@ -14,7 +15,7 @@ import hireforjob from "@/assets/portfolio/hireforjob.webp";
 import rentalyacht from "@/assets/portfolio/rentalyacht.webp";
 import tapovanschool from "@/assets/portfolio/tapovanschool.webp";
 
-const projects = [
+const staticProjects = [
   { name: "Cadbull", image: cadbull, category: "Web Design", color: "from-blue-500 to-cyan-500" },
   { name: "HireForJob", image: hireforjob, category: "Job Portal", color: "from-green-500 to-emerald-500" },
   { name: "Gujarat Voyage", image: gujaratvoyage, category: "Tourism", color: "from-amber-500 to-orange-500" },
@@ -24,6 +25,17 @@ const projects = [
 ];
 
 const PortfolioShowcase = () => {
+  const { data: dbItems } = usePortfolioItems(true);
+
+  const projects = dbItems && dbItems.length > 0
+    ? dbItems.map((item: any) => ({
+        name: item.title,
+        image: item.image_url || "",
+        category: item.category || "Web Design",
+        color: "from-blue-500 to-cyan-500",
+        websiteUrl: item.website_url,
+      }))
+    : staticProjects;
   return (
     <section className="py-16 sm:py-20 lg:py-24 bg-background relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.02]" style={{
