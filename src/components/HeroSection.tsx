@@ -3,6 +3,7 @@ import { ArrowRight, Play, CheckCircle2, Star, Users, TrendingUp, Award, Zap, Ta
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { useSiteSettings } from "@/hooks/useDynamicContent";
 
 const clients = [
   "HireForJob", "Cadbull", "CastingScreen", "Shuttech",
@@ -20,6 +21,7 @@ const features = [
 const rotatingWords = ["Revenue", "Leads", "Growth", "Impact"];
 
 const HeroSection = () => {
+  const { data: settings } = useSiteSettings("hero");
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -29,6 +31,22 @@ const HeroSection = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   const [wordIndex, setWordIndex] = useState(0);
+  
+  const badgeText = settings?.hero_badge || "Rated #1 Digital Agency in India";
+  const headingLine1 = settings?.hero_heading_line1 || "Scale Your";
+  const headingHighlight = settings?.hero_heading_highlight || "Business";
+  const headingLine2Prefix = settings?.hero_heading_line2_prefix || "Drive More";
+  const description = settings?.hero_description || "We help ambitious businesses increase revenue, generate qualified leads, and dominate their market through strategic digital marketing solutions.";
+  const ctaPrimary = settings?.hero_cta_primary || "Get Free Consultation";
+  const ctaSecondary = settings?.hero_cta_secondary || "View Success Stories";
+  const trustGoogle = settings?.hero_trust_google || "Google Partner";
+  const trustClients = settings?.hero_trust_clients || "500+ Clients";
+  const trustYears = settings?.hero_trust_years || "15+ Years";
+  const dashboardTraffic = settings?.hero_dashboard_traffic || "+247%";
+  const dashboardLeads = settings?.hero_dashboard_leads || "10.2M";
+  const dashboardRevenue = settings?.hero_dashboard_revenue || "$12M+";
+  const dashboardRating = settings?.hero_dashboard_rating || "4.9/5";
+
   useEffect(() => {
     const interval = setInterval(() => setWordIndex(i => (i + 1) % rotatingWords.length), 2500);
     return () => clearInterval(interval);
@@ -80,7 +98,7 @@ const HeroSection = () => {
                   </motion.div>
                 ))}
               </div>
-              <span className="text-sm font-medium text-foreground">Rated #1 Digital Agency in India</span>
+              <span className="text-sm font-medium text-foreground">{badgeText}</span>
             </motion.div>
 
             {/* Heading with rotating word */}
@@ -90,15 +108,15 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              Scale Your{" "}
+              {headingLine1}{" "}
               <span className="relative inline-block">
-                <span className="text-gradient">Business</span>
+                <span className="text-gradient">{headingHighlight}</span>
                 <motion.svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none" initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 1 }} transition={{ duration: 1, delay: 0.8 }}>
                   <motion.path d="M2 10C50 2 150 2 198 10" stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.2, delay: 0.8 }} />
                 </motion.svg>
               </span>
               <br />
-              <span className="text-muted-foreground text-[0.65em]">Drive More</span>{" "}
+              <span className="text-muted-foreground text-[0.65em]">{headingLine2Prefix}</span>{" "}
               <span className="relative inline-block h-[1.15em] overflow-hidden align-bottom">
                 <motion.span
                   key={wordIndex}
@@ -120,8 +138,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              We help ambitious businesses increase revenue, generate qualified leads, and
-              dominate their market through strategic digital marketing solutions.
+              {description}
             </motion.p>
 
             {/* Features List */}
@@ -158,7 +175,7 @@ const HeroSection = () => {
               <Button variant="hero" size="lg" className="group text-base px-8 relative overflow-hidden" asChild>
                 <Link to="/contact">
                   <span className="relative z-10 flex items-center">
-                    Get Free Consultation
+                    {ctaPrimary}
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>
@@ -168,7 +185,7 @@ const HeroSection = () => {
                   <motion.div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                     <Play className="w-4 h-4 fill-primary text-primary" />
                   </motion.div>
-                  View Success Stories
+                  {ctaSecondary}
                 </Link>
               </Button>
             </motion.div>
@@ -182,15 +199,15 @@ const HeroSection = () => {
             >
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Shield className="w-4 h-4 text-green-500" />
-                <span>Google Partner</span>
+                <span>{trustGoogle}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Globe className="w-4 h-4 text-primary" />
-                <span>500+ Clients</span>
+                <span>{trustClients}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Award className="w-4 h-4 text-yellow-500" />
-                <span>15+ Years</span>
+                <span>{trustYears}</span>
               </div>
             </motion.div>
           </div>
@@ -225,7 +242,7 @@ const HeroSection = () => {
                       <TrendingUp className="w-5 h-5 text-primary" />
                       <span className="text-xs text-muted-foreground">Traffic</span>
                     </div>
-                    <div className="text-2xl font-bold text-foreground">+247%</div>
+                    <div className="text-2xl font-bold text-foreground">{dashboardTraffic}</div>
                     <div className="text-xs text-green-600 mt-1 flex items-center gap-1">
                       <motion.span animate={{ y: [-1, 1, -1] }} transition={{ duration: 1, repeat: Infinity }}>↑</motion.span>
                       12% vs last month
@@ -240,7 +257,7 @@ const HeroSection = () => {
                       <Users className="w-5 h-5 text-accent" />
                       <span className="text-xs text-muted-foreground">Leads</span>
                     </div>
-                    <div className="text-2xl font-bold text-foreground">10.2M</div>
+                    <div className="text-2xl font-bold text-foreground">{dashboardLeads}</div>
                     <div className="text-xs text-green-600 mt-1 flex items-center gap-1">
                       <motion.span animate={{ y: [-1, 1, -1] }} transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}>↑</motion.span>
                       8% vs last month
@@ -268,7 +285,7 @@ const HeroSection = () => {
                       <Award className="w-4 h-4 text-green-600" />
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-foreground">$12M+</div>
+                      <div className="text-sm font-semibold text-foreground">{dashboardRevenue}</div>
                       <div className="text-xs text-muted-foreground">Revenue</div>
                     </div>
                   </motion.div>
@@ -277,7 +294,7 @@ const HeroSection = () => {
                       <Star className="w-4 h-4 text-primary fill-primary" />
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-foreground">4.9/5</div>
+                      <div className="text-sm font-semibold text-foreground">{dashboardRating}</div>
                       <div className="text-xs text-muted-foreground">Client Rating</div>
                     </div>
                   </motion.div>
