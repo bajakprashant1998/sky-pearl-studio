@@ -1,6 +1,7 @@
 import { getServiceBySlug } from "@/data/services";
 import ServicePageLayout from "@/components/ServicePageLayout";
 import NotFound from "@/pages/NotFound";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
