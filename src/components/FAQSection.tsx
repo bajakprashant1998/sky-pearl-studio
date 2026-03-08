@@ -4,8 +4,9 @@ import AnimatedSection from "./AnimatedSection";
 import { motion } from "framer-motion";
 import { HelpCircle, ArrowRight, MessageCircle } from "lucide-react";
 import { Button } from "./ui/button";
+import { useDynamicFAQs } from "@/hooks/useDynamicContent";
 
-const faqs = [
+const staticFaqs = [
   { question: "What industries do you specialize in?", answer: "We have extensive experience across diverse industries including technology, healthcare, e-commerce, finance, education, real estate, and manufacturing. Our team tailors strategies to match each industry's unique challenges and opportunities, ensuring relevant and effective marketing campaigns." },
   { question: "How long does it take to see results from digital marketing?", answer: "Results timeline varies by service: PPC and social media ads can show results within days, while SEO typically takes 3-6 months for significant improvements. We provide monthly reports tracking progress and adjust strategies based on performance data. Our clients typically see measurable ROI within the first 90 days." },
   { question: "What makes Digital Bull Technology different from other agencies?", answer: "We combine data-driven strategies with creative excellence. Our team brings 15+ years of experience, and we focus on measurable outcomes—not vanity metrics. We offer transparent reporting, dedicated account managers, and treat your business goals as our own. Plus, our 98% client satisfaction rate speaks for itself." },
@@ -17,6 +18,11 @@ const faqs = [
 ];
 
 const FAQSection = () => {
+  const { data: dbFaqs } = useDynamicFAQs("/");
+
+  const faqs = dbFaqs && dbFaqs.length > 0
+    ? dbFaqs.map((f: any) => ({ question: f.question, answer: f.answer }))
+    : staticFaqs;
   return (
     <section id="faq" className="py-24 bg-muted/30 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "radial-gradient(hsl(var(--primary)) 1px, transparent 1px)", backgroundSize: "30px 30px" }} />
