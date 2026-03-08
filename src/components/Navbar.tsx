@@ -46,6 +46,9 @@ const Navbar = () => {
   const [hoveredService, setHoveredService] = useState<string | null>(null);
   const [expandedServiceMobile, setExpandedServiceMobile] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const { language, setLanguage, languages } = useI18n();
+  const [langOpen, setLangOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
