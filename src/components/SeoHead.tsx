@@ -22,7 +22,7 @@ const SeoHead = ({
   description,
   keywords,
   canonical,
-  ogImage = "https://dibull.com/dibull_logo.png",
+  ogImage = "https://dibull.com/og-image.jpg",
   ogType = "website",
   noindex = false,
   breadcrumbs,
