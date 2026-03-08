@@ -199,15 +199,15 @@ const HeroSection = () => {
             >
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Shield className="w-4 h-4 text-green-500" />
-                <span>Google Partner</span>
+                <span>{trustGoogle}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Globe className="w-4 h-4 text-primary" />
-                <span>500+ Clients</span>
+                <span>{trustClients}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Award className="w-4 h-4 text-yellow-500" />
-                <span>15+ Years</span>
+                <span>{trustYears}</span>
               </div>
             </motion.div>
           </div>
