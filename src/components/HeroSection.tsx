@@ -242,7 +242,7 @@ const HeroSection = () => {
                       <TrendingUp className="w-5 h-5 text-primary" />
                       <span className="text-xs text-muted-foreground">Traffic</span>
                     </div>
-                    <div className="text-2xl font-bold text-foreground">+247%</div>
+                    <div className="text-2xl font-bold text-foreground">{dashboardTraffic}</div>
                     <div className="text-xs text-green-600 mt-1 flex items-center gap-1">
                       <motion.span animate={{ y: [-1, 1, -1] }} transition={{ duration: 1, repeat: Infinity }}>↑</motion.span>
                       12% vs last month
