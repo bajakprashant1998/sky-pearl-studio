@@ -9,6 +9,63 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import { Helmet } from "react-helmet-async";
+
+// Global FAQ schema for site-wide rich snippets
+const globalFaqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What digital marketing services does Digital Bull offer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Digital Bull Technology offers comprehensive digital marketing services including SEO (Search Engine Optimization), PPC advertising, social media marketing, content marketing, email marketing, web design & development, branding, e-commerce marketing, Amazon marketing, video marketing, and AI-powered marketing automation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take to see results from digital marketing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Results timeline varies by service. PPC campaigns can show immediate results, while SEO typically takes 3-6 months for significant improvements. Social media engagement can increase within weeks. We provide monthly reports to track progress and ROI across all campaigns."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Digital Bull work with small businesses or only large enterprises?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We work with businesses of all sizes, from startups to large enterprises. Our strategies are customized based on your business goals, budget, and industry. We've successfully helped 500+ clients across various sectors achieve measurable growth."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What makes Digital Bull different from other digital marketing agencies?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Digital Bull combines data-driven strategies with creative excellence. We're a Google Partner and Meta Business Partner, offering transparent reporting, dedicated account managers, and proven ROI-focused campaigns. Our 4.9-star rating and 98% client satisfaction rate reflect our commitment to results."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does digital marketing cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our pricing is customized based on your specific needs, goals, and scope of work. We offer flexible packages starting from basic to enterprise level. Contact us for a free consultation and quote tailored to your business requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer free consultations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, we offer free initial consultations to understand your business needs and provide recommendations. We also offer free SEO audits and website analysis tools to help you identify opportunities for improvement."
+      }
+    }
+  ]
+};
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
