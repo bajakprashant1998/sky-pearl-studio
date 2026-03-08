@@ -294,7 +294,7 @@ const HeroSection = () => {
                       <Star className="w-4 h-4 text-primary fill-primary" />
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-foreground">4.9/5</div>
+                      <div className="text-sm font-semibold text-foreground">{dashboardRating}</div>
                       <div className="text-xs text-muted-foreground">Client Rating</div>
                     </div>
                   </motion.div>

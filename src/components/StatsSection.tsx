@@ -51,10 +51,10 @@ const StatsSection = () => {
               <span className="text-sm font-medium text-primary-foreground">Our Track Record</span>
             </motion.div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-4">
-              Proven Results That Speak for Themselves
+              {sectionTitle}
             </h2>
             <p className="text-primary-foreground/70 max-w-2xl mx-auto">
-              Our track record of success across diverse industries and marketing channels
+              {sectionSubtitle}
             </p>
           </div>
         </AnimatedSection>
