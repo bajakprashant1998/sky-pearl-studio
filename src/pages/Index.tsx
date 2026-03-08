@@ -77,7 +77,37 @@ const Index = () => {
       "@type": "GeoCoordinates",
       "latitude": "23.0707",
       "longitude": "72.5177"
-    }
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "127",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Rajesh Kumar" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Digital Bull Technology transformed our online presence with exceptional SEO and PPC strategies. 300% growth in organic traffic within 6 months.",
+        "datePublished": "2025-08-15"
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Priya Sharma" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Outstanding digital marketing services. Our conversion rate improved by 150% and we saw a significant boost in quality leads.",
+        "datePublished": "2025-10-20"
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Amit Patel" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Professional, innovative, and result-oriented. They exceeded our expectations in every metric we tracked. 5x ROI achieved.",
+        "datePublished": "2025-12-05"
+      }
+    ]
   };
 
   const websiteJsonLd = {

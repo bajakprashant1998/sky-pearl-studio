@@ -24,7 +24,16 @@ const Footer = () => {
       { name: "Careers", href: "/careers" },
       { name: "Digital Marketing Academy", href: "/digital-marketing-academy" },
       { name: "Case Studies", href: "/case-studies" },
+      { name: "Our Verticals", href: "/verticals" },
+      { name: "Blog", href: "/blog" },
+      { name: "Free SEO Tools", href: "/free-tools" },
       { name: "Contact", href: "/contact" },
+    ],
+    resources: [
+      { name: "Referral Program", href: "/referral" },
+      { name: "Client Portal", href: "/client-portal" },
+      { name: "Quote Calculator", href: "/quote-calculator" },
+      { name: "Growth Strategy", href: "/growth-strategy" },
     ],
     legal: [
       { name: "Privacy Policy", href: "/privacy-policy" },
@@ -243,6 +252,27 @@ const Footer = () => {
                     <Link
                       to={link.href}
                       className="text-slate-400 hover:text-green-400 transition-all text-sm flex items-center gap-2 group"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                      <span className="group-hover:translate-x-1 transition-transform">{link.name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Resources */}
+            <motion.div variants={itemVariants} className="lg:col-span-1">
+              <h4 className="font-bold text-lg mb-6 text-white flex items-center gap-2">
+                <span className="w-8 h-0.5 bg-gradient-to-r from-amber-500 to-transparent rounded-full" />
+                Resources
+              </h4>
+              <ul className="space-y-3">
+                {links.resources.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      to={link.href}
+                      className="text-slate-400 hover:text-amber-400 transition-all text-sm flex items-center gap-2 group"
                     >
                       <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                       <span className="group-hover:translate-x-1 transition-transform">{link.name}</span>

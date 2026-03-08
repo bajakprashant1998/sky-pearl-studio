@@ -181,14 +181,38 @@ const ServicePageLayout = ({
       "@type": "Organization",
       "name": "Digital Bull Technology Pvt LTD",
       "url": "https://dibull.com",
-      "logo": "https://dibull.com/dibull_logo.png"
+      "logo": "https://dibull.com/dibull_logo.png",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "127",
+        "bestRating": "5"
+      }
     },
     "serviceType": subtitle,
     "areaServed": {
       "@type": "City",
       "name": "Ahmedabad"
     },
-    "url": `https://dibull.com/services/${slug}`
+    "url": `https://dibull.com/services/${slug}`,
+    "offers": {
+      "@type": "Offer",
+      "availability": "https://schema.org/InStock",
+      "priceCurrency": "INR",
+      "price": "0",
+      "description": "Free consultation and audit available"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": `${title} Packages`,
+      "itemListElement": subcategories.slice(0, 5).map((sub) => ({
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": sub.title
+        }
+      }))
+    }
   };
 
   const faqSchema = {

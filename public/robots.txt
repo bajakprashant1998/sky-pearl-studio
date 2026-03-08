@@ -3,13 +3,19 @@
 
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Googlebot-News
 Allow: /blog/
 Allow: /
 
+User-agent: Googlebot-Image
+Allow: /assets/
+Allow: /dibull_logo.png
+
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 2
 
 User-agent: Twitterbot
 Allow: /
@@ -19,7 +25,15 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /admin
+Disallow: /client-portal
+Disallow: /?__lovable_token*
 
 # Sitemaps
 Sitemap: https://dibull.com/dynamic-sitemap.xml
 Sitemap: https://dibull.com/news-sitemap.xml
+Sitemap: https://dibull.com/sitemap.xml
+
+# Host
+Host: https://dibull.com
