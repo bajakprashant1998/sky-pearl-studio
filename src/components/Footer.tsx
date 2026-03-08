@@ -123,7 +123,13 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden">
+    <>
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(globalFaqSchema)}
+        </script>
+      </Helmet>
+      <footer className="relative bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
