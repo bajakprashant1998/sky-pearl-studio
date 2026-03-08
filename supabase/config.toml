@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.news-sitemap]
 verify_jwt = false
+
+[functions.ai-website-agent]
+verify_jwt = false
