@@ -3,6 +3,7 @@ import { ArrowRight, Play, CheckCircle2, Star, Users, TrendingUp, Award, Zap, Ta
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { useSiteSettings } from "@/hooks/useDynamicContent";
 
 const clients = [
   "HireForJob", "Cadbull", "CastingScreen", "Shuttech",
