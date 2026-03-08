@@ -161,7 +161,7 @@ const BlogPage = () => {
         ]}
         jsonLd={{
           "@context": "https://schema.org",
-          "@type": "Blog",
+          "@type": ["Blog", "CollectionPage"],
           "name": "Digital Bull Technology Blog",
           "description": "Expert insights on digital marketing, SEO, AI, and web development",
           "url": "https://dibull.com/blog",
@@ -170,7 +170,16 @@ const BlogPage = () => {
             "name": "Digital Bull Technology",
             "logo": { "@type": "ImageObject", "url": "https://dibull.com/dibull_logo.png" }
           },
-          "inLanguage": "en-IN"
+          "inLanguage": "en-IN",
+          "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": (displayPosts || []).slice(0, 10).map((post, index) => ({
+              "@type": "ListItem",
+              "position": index + 1,
+              "url": `https://dibull.com/blog/${post.slug}`,
+              "name": post.title
+            }))
+          }
         }}
       />
 

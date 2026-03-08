@@ -529,7 +529,7 @@ const BlogDetailPage = () => {
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "NewsArticle",
+            "@type": ["NewsArticle", "Article"],
             "mainEntityOfPage": { "@type": "WebPage", "@id": `https://dibull.com/blog/${post.slug}` },
             "headline": post.title,
             "description": post.metaDescription,
@@ -543,10 +543,20 @@ const BlogDetailPage = () => {
               "url": "https://dibull.com"
             },
             "articleSection": post.category,
+            "articleBody": post.content.replace(/<[^>]*>/g, '').substring(0, 500),
             "keywords": post.tags.join(', '),
             "wordCount": post.content.split(/\s+/).length,
             "inLanguage": "en-IN",
             "isAccessibleForFree": true,
+            "speakable": {
+              "@type": "SpeakableSpecification",
+              "cssSelector": ["h1", ".blog-excerpt", ".key-takeaways"]
+            },
+            "about": {
+              "@type": "Thing",
+              "name": post.category,
+              "description": `${post.category} insights and strategies for digital marketing`
+            },
             "copyrightHolder": { "@type": "Organization", "name": "Digital Bull Technology" },
             "copyrightYear": new Date(post.publishDate).getFullYear()
           })}

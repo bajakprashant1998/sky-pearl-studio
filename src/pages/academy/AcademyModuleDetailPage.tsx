@@ -54,10 +54,53 @@ const AcademyModuleDetailPage = () => {
         <title>{module.title} | Digital Marketing Academy - Dibull Digital</title>
         <meta name="description" content={`${module.description}. Learn ${module.skills.join(", ")} with hands-on training and industry-recognized certification.`} />
         <meta name="keywords" content={`${module.title}, digital marketing course, ${module.skills.join(", ")}, online marketing training`} />
-        <link rel="canonical" href={`https://dibulldigital.com/digital-marketing-academy/${module.slug}`} />
+        <link rel="canonical" href={`https://dibull.com/digital-marketing-academy/module/${module.slug}`} />
         <meta property="og:title" content={`${module.title} | Digital Marketing Academy`} />
         <meta property="og:description" content={module.description} />
         <meta property="og:type" content="website" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": module.title,
+            "description": module.overview,
+            "provider": {
+              "@type": "Organization",
+              "name": "Digital Bull Technology",
+              "url": "https://dibull.com"
+            },
+            "url": `https://dibull.com/digital-marketing-academy/module/${module.slug}`,
+            "timeRequired": module.duration,
+            "educationalLevel": "Beginner to Advanced",
+            "teaches": module.skills.join(", "),
+            "hasCourseInstance": {
+              "@type": "CourseInstance",
+              "courseMode": "Blended",
+              "instructor": {
+                "@type": "Organization",
+                "name": "Digital Bull Technology"
+              }
+            },
+            "about": module.topics.map(t => ({
+              "@type": "Thing",
+              "name": t.title,
+              "description": t.description
+            })),
+            "coursePrerequisites": "No prior experience required",
+            "occupationalCredentialAwarded": module.certification
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" },
+              { "@type": "ListItem", "position": 2, "name": "Digital Marketing Academy", "item": "https://dibull.com/digital-marketing-academy" },
+              { "@type": "ListItem", "position": 3, "name": module.title, "item": `https://dibull.com/digital-marketing-academy/module/${module.slug}` }
+            ]
+          })}
+        </script>
       </Helmet>
 
       <Navbar />
