@@ -68,3 +68,33 @@ export function useClientLogos() {
     staleTime: 1000 * 60 * 10,
   });
 }
+
+export function useAcademyModules() {
+  return useQuery({
+    queryKey: ["academy-modules"],
+    queryFn: async () => {
+      const { data, error } = await backend.from("academy_modules").select("*").eq("is_active", true).order("sort_order");
+      if (error) throw error;
+      return data || [];
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+}
+
+export function useAcademyModuleBySlug(slug: string) {
+  return useQuery({
+    queryKey: ["academy-module", slug],
+    queryFn: async () => {
+      const { data, error } = await backend
+        .from("academy_modules")
+        .select("*")
+        .eq("slug", slug)
+        .eq("is_active", true)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!slug,
+    staleTime: 1000 * 60 * 5,
+  });
+}
