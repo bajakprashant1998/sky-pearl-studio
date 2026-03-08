@@ -98,7 +98,7 @@ const HeroSection = () => {
                   </motion.div>
                 ))}
               </div>
-              <span className="text-sm font-medium text-foreground">Rated #1 Digital Agency in India</span>
+              <span className="text-sm font-medium text-foreground">{badgeText}</span>
             </motion.div>
 
             {/* Heading with rotating word */}
