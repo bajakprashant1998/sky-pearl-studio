@@ -173,7 +173,7 @@ const BlogPage = () => {
           "inLanguage": "en-IN",
           "mainEntity": {
             "@type": "ItemList",
-            "itemListElement": (displayedPosts || []).slice(0, 10).map((post, index) => ({
+            "itemListElement": (displayPosts || []).slice(0, 10).map((post, index) => ({
               "@type": "ListItem",
               "position": index + 1,
               "url": `https://dibull.com/blog/${post.slug}`,
