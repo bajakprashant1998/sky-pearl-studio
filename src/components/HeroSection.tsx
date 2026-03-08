@@ -285,7 +285,7 @@ const HeroSection = () => {
                       <Award className="w-4 h-4 text-green-600" />
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-foreground">$12M+</div>
+                      <div className="text-sm font-semibold text-foreground">{dashboardRevenue}</div>
                       <div className="text-xs text-muted-foreground">Revenue</div>
                     </div>
                   </motion.div>
