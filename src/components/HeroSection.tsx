@@ -185,7 +185,7 @@ const HeroSection = () => {
                   <motion.div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-2" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
                     <Play className="w-4 h-4 fill-primary text-primary" />
                   </motion.div>
-                  View Success Stories
+                  {ctaSecondary}
                 </Link>
               </Button>
             </motion.div>
