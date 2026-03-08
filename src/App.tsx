@@ -73,6 +73,8 @@ const AdminLeads = lazy(() => import("@/pages/admin/AdminLeads"));
 const AdminTestimonials = lazy(() => import("@/pages/admin/AdminTestimonials"));
 const AdminRevenueForecasting = lazy(() => import("@/pages/admin/AdminRevenueForecasting"));
 const AdminAIAgent = lazy(() => import("@/pages/admin/AdminAIAgent"));
+const AdminContentWriter = lazy(() => import("@/pages/admin/AdminContentWriter"));
+const QuoteCalculator = lazy(() => import("@/pages/QuoteCalculator"));
 const WebDesignLandingPage = lazy(() => import("@/pages/WebDesignLandingPage"));
 
 const queryClient = new QueryClient();
@@ -146,6 +148,7 @@ const App = () => (
               <Route path="/cookie-policy" element={<CookiePolicy />} />
               {/* Landing Page */}
               <Route path="/websitedesignlandingpage" element={<WebDesignLandingPage />} />
+              <Route path="/quote-calculator" element={<QuoteCalculator />} />
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminDashboard /></AdminRoute></Suspense>} />
@@ -157,6 +160,7 @@ const App = () => (
               <Route path="/admin/settings" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminSettings /></AdminRoute></Suspense>} />
               <Route path="/admin/revenue" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminRevenueForecasting /></AdminRoute></Suspense>} />
               <Route path="/admin/ai-agent" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminAIAgent /></AdminRoute></Suspense>} />
+              <Route path="/admin/content-writer" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminContentWriter /></AdminRoute></Suspense>} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
