@@ -5,9 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Users, Mail, Phone, Building2, Globe, DollarSign, MessageSquare, Clock, CheckCircle2, XCircle, Search, Filter, Download, Trash2, StickyNote, AlertTriangle } from "lucide-react";
+import { Users, Mail, Phone, Building2, Globe, DollarSign, MessageSquare, Clock, CheckCircle2, XCircle, Search, Download, Trash2, AlertTriangle, Flame, Thermometer, Snowflake } from "lucide-react";
 
 type Lead = {
   id: string;
@@ -20,6 +19,8 @@ type Lead = {
   message: string | null;
   status: string;
   source: string;
+  score: number;
+  temperature: string;
   created_at: string;
 };
 
@@ -31,11 +32,41 @@ const statusConfig: Record<string, { label: string; color: string; icon: React.E
   lost: { label: "Lost", color: "bg-red-100 text-red-700 border-red-200", icon: XCircle },
 };
 
+const tempConfig: Record<string, { label: string; color: string; icon: React.ElementType }> = {
+  hot: { label: "🔥 Hot", color: "bg-red-100 text-red-700", icon: Flame },
+  warm: { label: "🌡️ Warm", color: "bg-amber-100 text-amber-700", icon: Thermometer },
+  cold: { label: "❄️ Cold", color: "bg-blue-100 text-blue-700", icon: Snowflake },
+};
+
+// Auto-score a lead based on available data
+const calculateScore = (lead: Lead): number => {
+  let score = 0;
+  if (lead.phone) score += 20;
+  if (lead.business_name) score += 15;
+  if (lead.budget) {
+    const budgetVal = lead.budget.toLowerCase();
+    if (budgetVal.includes("50k") || budgetVal.includes("1l") || budgetVal.includes("lakh")) score += 30;
+    else if (budgetVal.includes("25k") || budgetVal.includes("30k")) score += 20;
+    else score += 10;
+  }
+  if (lead.message && lead.message.length > 50) score += 15;
+  if (lead.website_type) score += 10;
+  if (lead.source === "quote-calculator") score += 10;
+  return Math.min(100, score);
+};
+
+const getTemperature = (score: number): string => {
+  if (score >= 60) return "hot";
+  if (score >= 30) return "warm";
+  return "cold";
+};
+
 const AdminLeads = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [tempFilter, setTempFilter] = useState("all");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
@@ -47,7 +78,12 @@ const AdminLeads = () => {
         .select("*")
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return data as Lead[];
+      // Auto-score leads
+      return (data as Lead[]).map((lead) => {
+        const score = calculateScore(lead);
+        const temperature = getTemperature(score);
+        return { ...lead, score, temperature };
+      });
     },
   });
 
@@ -81,19 +117,21 @@ const AdminLeads = () => {
       lead.email.toLowerCase().includes(search.toLowerCase()) ||
       (lead.business_name?.toLowerCase() || "").includes(search.toLowerCase());
     const matchesStatus = statusFilter === "all" || lead.status === statusFilter;
-    return matchesSearch && matchesStatus;
+    const matchesTemp = tempFilter === "all" || lead.temperature === tempFilter;
+    return matchesSearch && matchesStatus && matchesTemp;
   });
 
   const stats = {
     total: leads.length,
-    new: leads.filter((l) => l.status === "new").length,
-    converted: leads.filter((l) => l.status === "converted").length,
+    hot: leads.filter((l) => l.temperature === "hot").length,
+    warm: leads.filter((l) => l.temperature === "warm").length,
+    cold: leads.filter((l) => l.temperature === "cold").length,
   };
 
   const exportCSV = () => {
-    const headers = ["Name", "Email", "Phone", "Business", "Website Type", "Budget", "Status", "Date"];
+    const headers = ["Name", "Email", "Phone", "Business", "Score", "Temperature", "Status", "Date"];
     const rows = filteredLeads.map((l) => [
-      l.name, l.email, l.phone || "", l.business_name || "", l.website_type || "", l.budget || "", l.status,
+      l.name, l.email, l.phone || "", l.business_name || "", l.score.toString(), l.temperature, l.status,
       new Date(l.created_at).toLocaleDateString(),
     ]);
     const csv = [headers, ...rows].map((r) => r.join(",")).join("\n");
@@ -108,11 +146,10 @@ const AdminLeads = () => {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Leads</h1>
-            <p className="text-muted-foreground mt-1">Manage inquiries from your website design landing page</p>
+            <p className="text-muted-foreground mt-1">Auto-scored leads with temperature tracking</p>
           </div>
           <Button onClick={exportCSV} variant="outline" size="sm" className="flex items-center gap-2">
             <Download className="w-4 h-4" /> Export CSV
@@ -120,18 +157,22 @@ const AdminLeads = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-4 gap-4">
           <div className="bg-card rounded-2xl border border-border p-5 text-center">
             <div className="text-3xl font-bold text-primary">{stats.total}</div>
-            <div className="text-sm text-muted-foreground mt-1">Total Leads</div>
+            <div className="text-sm text-muted-foreground mt-1">Total</div>
           </div>
           <div className="bg-card rounded-2xl border border-border p-5 text-center">
-            <div className="text-3xl font-bold text-blue-600">{stats.new}</div>
-            <div className="text-sm text-muted-foreground mt-1">New Today</div>
+            <div className="text-3xl font-bold text-red-600">{stats.hot}</div>
+            <div className="text-sm text-muted-foreground mt-1">🔥 Hot</div>
           </div>
           <div className="bg-card rounded-2xl border border-border p-5 text-center">
-            <div className="text-3xl font-bold text-green-600">{stats.converted}</div>
-            <div className="text-sm text-muted-foreground mt-1">Converted</div>
+            <div className="text-3xl font-bold text-amber-600">{stats.warm}</div>
+            <div className="text-sm text-muted-foreground mt-1">🌡️ Warm</div>
+          </div>
+          <div className="bg-card rounded-2xl border border-border p-5 text-center">
+            <div className="text-3xl font-bold text-blue-600">{stats.cold}</div>
+            <div className="text-sm text-muted-foreground mt-1">❄️ Cold</div>
           </div>
         </div>
 
@@ -139,22 +180,28 @@ const AdminLeads = () => {
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              placeholder="Search by name, email, or business..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9"
-            />
+            <Input placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            {["all", "hot", "warm", "cold"].map((t) => (
+              <button
+                key={t}
+                onClick={() => setTempFilter(t)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition-all border ${
+                  tempFilter === t ? "bg-primary text-primary-foreground border-primary" : "bg-card text-muted-foreground border-border hover:border-primary/40"
+                }`}
+              >
+                {t === "hot" ? "🔥 Hot" : t === "warm" ? "🌡️ Warm" : t === "cold" ? "❄️ Cold" : "All"}
+              </button>
+            ))}
           </div>
           <div className="flex gap-2 flex-wrap">
             {["all", "new", "contacted", "qualified", "converted", "lost"].map((s) => (
               <button
                 key={s}
                 onClick={() => setStatusFilter(s)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition-all border ${
-                  statusFilter === s
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-card text-muted-foreground border-border hover:border-primary/40"
+                className={`px-3 py-2 rounded-lg text-xs font-medium capitalize transition-all border ${
+                  statusFilter === s ? "bg-primary text-primary-foreground border-primary" : "bg-card text-muted-foreground border-border"
                 }`}
               >
                 {s}
@@ -177,18 +224,18 @@ const AdminLeads = () => {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-border bg-muted/30">
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Contact</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider hidden md:table-cell">Business</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider hidden lg:table-cell">Website Type</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider hidden lg:table-cell">Budget</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider hidden sm:table-cell">Date</th>
-                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Actions</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase">Contact</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase hidden md:table-cell">Score</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase">Temp</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase">Status</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase hidden sm:table-cell">Date</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {filteredLeads.map((lead) => {
                     const cfg = statusConfig[lead.status] || statusConfig.new;
+                    const temp = tempConfig[lead.temperature] || tempConfig.cold;
                     return (
                       <tr key={lead.id} className="hover:bg-muted/20 transition-colors">
                         <td className="px-5 py-4">
@@ -196,40 +243,36 @@ const AdminLeads = () => {
                           <div className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
                             <Mail className="w-3 h-3" /> {lead.email}
                           </div>
-                          {lead.phone && (
-                            <div className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                              <Phone className="w-3 h-3" /> {lead.phone}
-                            </div>
-                          )}
                         </td>
                         <td className="px-5 py-4 hidden md:table-cell">
-                          <span className="text-sm text-foreground">{lead.business_name || "—"}</span>
+                          <div className="flex items-center gap-2">
+                            <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
+                              <div
+                                className={`h-full rounded-full ${lead.score >= 60 ? "bg-red-500" : lead.score >= 30 ? "bg-amber-500" : "bg-blue-500"}`}
+                                style={{ width: `${lead.score}%` }}
+                              />
+                            </div>
+                            <span className="text-xs font-bold text-foreground">{lead.score}</span>
+                          </div>
                         </td>
-                        <td className="px-5 py-4 hidden lg:table-cell">
-                          <span className="text-sm text-muted-foreground">{lead.website_type || "—"}</span>
-                        </td>
-                        <td className="px-5 py-4 hidden lg:table-cell">
-                          <span className="text-sm text-muted-foreground">{lead.budget || "—"}</span>
+                        <td className="px-5 py-4">
+                          <span className={`text-xs font-semibold px-2 py-1 rounded-full ${temp.color}`}>
+                            {temp.label}
+                          </span>
                         </td>
                         <td className="px-5 py-4">
                           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${cfg.color}`}>
-                            <cfg.icon className="w-3 h-3" />
                             {cfg.label}
                           </span>
                         </td>
                         <td className="px-5 py-4 hidden sm:table-cell">
                           <span className="text-xs text-muted-foreground">
-                            {new Date(lead.created_at).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
+                            {new Date(lead.created_at).toLocaleDateString("en-IN", { day: "2-digit", month: "short" })}
                           </span>
                         </td>
                         <td className="px-5 py-4">
                           <div className="flex gap-2 items-center">
-                            <button
-                              onClick={() => setSelectedLead(lead)}
-                              className="text-xs text-primary hover:underline font-medium"
-                            >
-                              View
-                            </button>
+                            <button onClick={() => setSelectedLead(lead)} className="text-xs text-primary hover:underline font-medium">View</button>
                             <select
                               value={lead.status}
                               onChange={(e) => updateStatus.mutate({ id: lead.id, status: e.target.value })}
@@ -239,11 +282,7 @@ const AdminLeads = () => {
                                 <option key={k} value={k}>{v.label}</option>
                               ))}
                             </select>
-                            <button
-                              onClick={() => setDeleteConfirmId(lead.id)}
-                              className="text-xs text-destructive hover:text-destructive/80 p-1"
-                              title="Delete lead"
-                            >
+                            <button onClick={() => setDeleteConfirmId(lead.id)} className="text-xs text-destructive p-1">
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -260,18 +299,20 @@ const AdminLeads = () => {
         {/* Lead Detail Modal */}
         {selectedLead && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setSelectedLead(null)}>
-            <div
-              className="bg-card rounded-2xl border border-border p-6 max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-start justify-between mb-6">
+            <div className="bg-card rounded-2xl border border-border p-6 max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-start justify-between mb-4">
                 <div>
                   <h3 className="text-xl font-bold text-foreground">{selectedLead.name}</h3>
                   <p className="text-sm text-muted-foreground">{selectedLead.email}</p>
                 </div>
                 <button onClick={() => setSelectedLead(null)} className="text-muted-foreground hover:text-foreground">✕</button>
               </div>
-              <div className="space-y-4">
+              <div className="flex gap-2 mb-4">
+                <span className={`text-xs font-semibold px-2 py-1 rounded-full ${(tempConfig[selectedLead.temperature] || tempConfig.cold).color}`}>
+                  Score: {selectedLead.score} • {(tempConfig[selectedLead.temperature] || tempConfig.cold).label}
+                </span>
+              </div>
+              <div className="space-y-3">
                 {[
                   { icon: Phone, label: "Phone", value: selectedLead.phone },
                   { icon: Building2, label: "Business", value: selectedLead.business_name },
@@ -288,9 +329,9 @@ const AdminLeads = () => {
                   </div>
                 ) : null)}
               </div>
-              <div className="mt-6 flex gap-3">
+              <div className="mt-4 flex gap-3">
                 <a href={`mailto:${selectedLead.email}`} className="flex-1">
-                  <Button className="w-full" size="sm"><Mail className="w-4 h-4 mr-2" /> Send Email</Button>
+                  <Button className="w-full" size="sm"><Mail className="w-4 h-4 mr-2" /> Email</Button>
                 </a>
                 {selectedLead.phone && (
                   <a href={`tel:${selectedLead.phone}`} className="flex-1">
@@ -298,48 +339,26 @@ const AdminLeads = () => {
                   </a>
                 )}
               </div>
-              <div className="mt-3 pt-3 border-t border-border">
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  className="w-full"
-                  onClick={() => setDeleteConfirmId(selectedLead.id)}
-                >
-                  <Trash2 className="w-4 h-4 mr-2" /> Delete Lead
-                </Button>
-              </div>
             </div>
           </div>
         )}
 
-        {/* Delete Confirmation Modal */}
+        {/* Delete Confirmation */}
         {deleteConfirmId && (
           <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4" onClick={() => setDeleteConfirmId(null)}>
-            <div
-              className="bg-card rounded-2xl border border-border p-6 max-w-sm w-full shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className="bg-card rounded-2xl border border-border p-6 max-w-sm w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
                   <AlertTriangle className="w-5 h-5 text-destructive" />
                 </div>
                 <div>
                   <h3 className="font-bold text-foreground">Delete Lead</h3>
-                  <p className="text-xs text-muted-foreground">This action cannot be undone</p>
+                  <p className="text-xs text-muted-foreground">This cannot be undone</p>
                 </div>
               </div>
-              <p className="text-sm text-muted-foreground mb-6">Are you sure you want to permanently delete this lead? All associated data will be lost.</p>
               <div className="flex gap-3">
-                <Button variant="outline" size="sm" className="flex-1" onClick={() => setDeleteConfirmId(null)}>
-                  Cancel
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  className="flex-1"
-                  disabled={deleteLead.isPending}
-                  onClick={() => deleteLead.mutate(deleteConfirmId)}
-                >
+                <Button variant="outline" size="sm" className="flex-1" onClick={() => setDeleteConfirmId(null)}>Cancel</Button>
+                <Button variant="destructive" size="sm" className="flex-1" disabled={deleteLead.isPending} onClick={() => deleteLead.mutate(deleteConfirmId)}>
                   {deleteLead.isPending ? "Deleting..." : "Delete"}
                 </Button>
               </div>
