@@ -12,8 +12,6 @@ import NewsletterSignup from "@/components/NewsletterSignup";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const [email, setEmail] = useState("");
-  const [isSubscribed, setIsSubscribed] = useState(false);
 
   // Split services into two columns for desktop
   const midPoint = Math.ceil(services.length / 2);
