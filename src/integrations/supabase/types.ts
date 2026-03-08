@@ -82,6 +82,75 @@ export type Database = {
           },
         ]
       }
+      academy_modules: {
+        Row: {
+          certification: string
+          color: string
+          created_at: string
+          description: string
+          duration: string
+          future_scope: Json
+          gradient: string
+          icon_name: string
+          id: string
+          is_active: boolean
+          overview: string
+          project_work: string[]
+          short_title: string
+          skills: string[]
+          slug: string
+          sort_order: number
+          title: string
+          tools: string[]
+          topics: Json
+          updated_at: string
+        }
+        Insert: {
+          certification: string
+          color?: string
+          created_at?: string
+          description: string
+          duration?: string
+          future_scope?: Json
+          gradient?: string
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          overview: string
+          project_work?: string[]
+          short_title: string
+          skills?: string[]
+          slug: string
+          sort_order?: number
+          title: string
+          tools?: string[]
+          topics?: Json
+          updated_at?: string
+        }
+        Update: {
+          certification?: string
+          color?: string
+          created_at?: string
+          description?: string
+          duration?: string
+          future_scope?: Json
+          gradient?: string
+          icon_name?: string
+          id?: string
+          is_active?: boolean
+          overview?: string
+          project_work?: string[]
+          short_title?: string
+          skills?: string[]
+          slug?: string
+          sort_order?: number
+          title?: string
+          tools?: string[]
+          topics?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       admin_activity_log: {
         Row: {
           action: string

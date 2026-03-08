@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAdmin } from "@/hooks/useAdmin";
-import { LayoutDashboard, FileText, BookOpen, Settings, LogOut, Menu, Users, MessageSquareQuote, TrendingUp, Sparkles, PenTool, MessageCircle, FlaskConical, Gift, Activity, Mail, Briefcase, Wifi, Globe, FolderOpen, HelpCircle, Image, Navigation, Palette } from "lucide-react";
+import { LayoutDashboard, FileText, BookOpen, Settings, LogOut, Menu, Users, MessageSquareQuote, TrendingUp, Sparkles, PenTool, MessageCircle, FlaskConical, Gift, Activity, Mail, Briefcase, Wifi, Globe, FolderOpen, HelpCircle, Image, Navigation, Palette, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -15,6 +15,7 @@ const navItems = [
   { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
   { to: "/admin/client-logos", label: "Client Logos", icon: Image },
   { to: "/admin/media", label: "Media Library", icon: FolderOpen },
+  { to: "/admin/academy", label: "Academy", icon: GraduationCap },
   { to: "/admin/leads", label: "Leads", icon: Users },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { to: "/admin/client-projects", label: "Client Projects", icon: Briefcase },
