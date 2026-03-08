@@ -7,6 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { lazy, Suspense } from "react";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
+import LiveChatWidget from "@/components/LiveChatWidget";
 
 // Eagerly load Index for LCP
 import Index from "./pages/Index";
@@ -74,6 +75,15 @@ const AdminTestimonials = lazy(() => import("@/pages/admin/AdminTestimonials"));
 const AdminRevenueForecasting = lazy(() => import("@/pages/admin/AdminRevenueForecasting"));
 const AdminAIAgent = lazy(() => import("@/pages/admin/AdminAIAgent"));
 const AdminContentWriter = lazy(() => import("@/pages/admin/AdminContentWriter"));
+const AdminComments = lazy(() => import("@/pages/admin/AdminComments"));
+const AdminABTesting = lazy(() => import("@/pages/admin/AdminABTesting"));
+const AdminReferrals = lazy(() => import("@/pages/admin/AdminReferrals"));
+const AdminActivityLog = lazy(() => import("@/pages/admin/AdminActivityLog"));
+const AdminBulkEmail = lazy(() => import("@/pages/admin/AdminBulkEmail"));
+const AdminUptimeMonitor = lazy(() => import("@/pages/admin/AdminUptimeMonitor"));
+const AdminClientProjects = lazy(() => import("@/pages/admin/AdminClientProjects"));
+const ReferralPage = lazy(() => import("@/pages/ReferralPage"));
+const ClientPortal = lazy(() => import("@/pages/ClientPortal"));
 const QuoteCalculator = lazy(() => import("@/pages/QuoteCalculator"));
 const WebDesignLandingPage = lazy(() => import("@/pages/WebDesignLandingPage"));
 
@@ -94,6 +104,7 @@ const App = () => (
         <BrowserRouter>
           <WhatsAppButton />
           <ScrollToTop />
+          <LiveChatWidget />
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<Index />} />
@@ -146,17 +157,26 @@ const App = () => (
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/cookie-policy" element={<CookiePolicy />} />
-              {/* Landing Page */}
+              {/* Public Pages */}
               <Route path="/websitedesignlandingpage" element={<WebDesignLandingPage />} />
               <Route path="/quote-calculator" element={<QuoteCalculator />} />
+              <Route path="/referral" element={<ReferralPage />} />
+              <Route path="/client-portal" element={<ClientPortal />} />
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminDashboard /></AdminRoute></Suspense>} />
               <Route path="/admin/pages" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminPages /></AdminRoute></Suspense>} />
               <Route path="/admin/pages/:pageId" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminPageEditor /></AdminRoute></Suspense>} />
               <Route path="/admin/blog" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminBlog /></AdminRoute></Suspense>} />
+              <Route path="/admin/comments" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminComments /></AdminRoute></Suspense>} />
               <Route path="/admin/leads" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminLeads /></AdminRoute></Suspense>} />
               <Route path="/admin/testimonials" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminTestimonials /></AdminRoute></Suspense>} />
+              <Route path="/admin/client-projects" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminClientProjects /></AdminRoute></Suspense>} />
+              <Route path="/admin/ab-testing" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminABTesting /></AdminRoute></Suspense>} />
+              <Route path="/admin/referrals" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminReferrals /></AdminRoute></Suspense>} />
+              <Route path="/admin/bulk-email" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminBulkEmail /></AdminRoute></Suspense>} />
+              <Route path="/admin/activity-log" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminActivityLog /></AdminRoute></Suspense>} />
+              <Route path="/admin/uptime" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminUptimeMonitor /></AdminRoute></Suspense>} />
               <Route path="/admin/settings" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminSettings /></AdminRoute></Suspense>} />
               <Route path="/admin/revenue" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminRevenueForecasting /></AdminRoute></Suspense>} />
               <Route path="/admin/ai-agent" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminAIAgent /></AdminRoute></Suspense>} />

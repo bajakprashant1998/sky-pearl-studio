@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Eye, EyeOff, Trash2, Edit2, Plus, Search } from "lucide-react";
+import { Eye, EyeOff, Trash2, Search, Calendar } from "lucide-react";
 
 const AdminBlog = () => {
   const [search, setSearch] = useState("");
@@ -41,6 +41,21 @@ const AdminBlog = () => {
     onError: (err: any) => toast.error(err.message),
   });
 
+  const schedulePublish = useMutation({
+    mutationFn: async ({ id, date }: { id: string; date: string }) => {
+      const { error } = await supabase
+        .from("blog_posts")
+        .update({ published_at: date, is_published: false })
+        .eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
+      toast.success("Post scheduled");
+    },
+    onError: (err: any) => toast.error(err.message),
+  });
+
   const deletePost = useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("blog_posts").delete().eq("id", id);
@@ -59,22 +74,27 @@ const AdminBlog = () => {
       p.category.toLowerCase().includes(search.toLowerCase())
   );
 
+  const isScheduled = (post: any) => {
+    return !post.is_published && post.published_at && new Date(post.published_at) > new Date();
+  };
+
+  const getStatus = (post: any) => {
+    if (post.is_published) return { label: "Published", color: "bg-green-500/10 text-green-600" };
+    if (isScheduled(post)) return { label: `Scheduled: ${new Date(post.published_at).toLocaleDateString()}`, color: "bg-blue-500/10 text-blue-600" };
+    return { label: "Draft", color: "bg-amber-500/10 text-amber-600" };
+  };
+
   return (
     <AdminLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Blog Posts</h1>
-          <p className="text-muted-foreground mt-1">Manage your blog content</p>
+          <p className="text-muted-foreground mt-1">Manage your blog content with scheduled publishing</p>
         </div>
 
         <div className="relative max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
-            placeholder="Search posts..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-10"
-          />
+          <Input placeholder="Search posts..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
         </div>
 
         <div className="bg-card rounded-2xl border border-border overflow-hidden">
@@ -85,48 +105,44 @@ const AdminBlog = () => {
                   <th className="text-left p-4 font-medium text-muted-foreground">Title</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Category</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Status</th>
-                  <th className="text-left p-4 font-medium text-muted-foreground">Date</th>
+                  <th className="text-left p-4 font-medium text-muted-foreground">Schedule</th>
                   <th className="text-right p-4 font-medium text-muted-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filtered?.map((post) => (
-                  <tr key={post.id} className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
-                    <td className="p-4 font-medium text-foreground max-w-[200px] truncate">{post.title}</td>
-                    <td className="p-4 text-muted-foreground">{post.category}</td>
-                    <td className="p-4">
-                      <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full ${
-                        post.is_published
-                          ? "bg-green-500/10 text-green-600"
-                          : "bg-amber-500/10 text-amber-600"
-                      }`}>
-                        {post.is_published ? "Published" : "Draft"}
-                      </span>
-                    </td>
-                    <td className="p-4 text-muted-foreground text-xs">
-                      {new Date(post.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="p-4 text-right space-x-1">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => togglePublish.mutate({ id: post.id, is_published: post.is_published })}
-                      >
-                        {post.is_published ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-destructive hover:text-destructive"
-                        onClick={() => {
-                          if (confirm("Delete this post?")) deletePost.mutate(post.id);
-                        }}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                {filtered?.map((post) => {
+                  const status = getStatus(post);
+                  return (
+                    <tr key={post.id} className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
+                      <td className="p-4 font-medium text-foreground max-w-[200px] truncate">{post.title}</td>
+                      <td className="p-4 text-muted-foreground">{post.category}</td>
+                      <td className="p-4">
+                        <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full ${status.color}`}>
+                          {status.label}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <input
+                          type="datetime-local"
+                          className="text-xs border border-border rounded-md px-2 py-1 bg-background text-foreground"
+                          onChange={(e) => {
+                            if (e.target.value) {
+                              schedulePublish.mutate({ id: post.id, date: new Date(e.target.value).toISOString() });
+                            }
+                          }}
+                        />
+                      </td>
+                      <td className="p-4 text-right space-x-1">
+                        <Button variant="ghost" size="sm" onClick={() => togglePublish.mutate({ id: post.id, is_published: post.is_published })}>
+                          {post.is_published ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </Button>
+                        <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive" onClick={() => { if (confirm("Delete this post?")) deletePost.mutate(post.id); }}>
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
                 {filtered?.length === 0 && (
                   <tr>
                     <td colSpan={5} className="p-8 text-center text-muted-foreground">No posts found</td>

@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import BlogComments from "@/components/BlogComments";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnimatedSection, { StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
@@ -1324,6 +1325,13 @@ const BlogDetailPage = () => {
           </div>
         </section>
       </div>
+
+      {/* Comments Section */}
+      {post && (
+        <section className="container px-4 py-16 max-w-4xl mx-auto">
+          <BlogComments blogPostId={post.id} />
+        </section>
+      )}
 
       {/* Back to Top Button */}
       <AnimatePresence>
