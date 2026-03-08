@@ -35,7 +35,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="home" className="relative min-h-screen flex flex-col pt-20">
+    <section ref={sectionRef} id="home" aria-label="Digital Marketing Agency Hero" className="relative min-h-screen flex flex-col pt-20">
       {/* Animated Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
