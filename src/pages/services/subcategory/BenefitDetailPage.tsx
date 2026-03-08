@@ -202,6 +202,27 @@ const BenefitDetailPage = () => {
         "areaServed": "Worldwide"
     };
 
+    const breadcrumbJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" },
+            { "@type": "ListItem", "position": 2, "name": service.shortTitle, "item": `https://dibull.com/services/${serviceSlug}` },
+            { "@type": "ListItem", "position": 3, "name": subcategory.title, "item": `https://dibull.com/services/${serviceSlug}/${subcategoryId}` },
+            { "@type": "ListItem", "position": 4, "name": itemTitle, "item": `https://dibull.com/services/${serviceSlug}/${subcategoryId}/benefit/${itemSlug}` }
+        ]
+    };
+
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": content.faqs.map(f => ({
+            "@type": "Question",
+            "name": f.question,
+            "acceptedAnswer": { "@type": "Answer", "text": f.answer }
+        }))
+    };
+
     return (
         <>
             <Helmet>
