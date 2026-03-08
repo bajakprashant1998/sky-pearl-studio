@@ -217,7 +217,8 @@ const ContactUs = () => {
         <meta name="twitter:description" content="Get in touch for a free digital marketing consultation." />
         <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
         <meta name="robots" content="index, follow" />
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(contactPageJsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(localBusinessJsonLd)}</script>
       </Helmet>
 
       <Navbar />
