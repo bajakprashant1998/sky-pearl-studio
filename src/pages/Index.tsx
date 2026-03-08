@@ -1,16 +1,19 @@
 import SeoHead from "@/components/SeoHead";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import ClientLogosMarquee from "@/components/ClientLogosMarquee";
 import ServicesSection from "@/components/ServicesSection";
+import PortfolioShowcase from "@/components/PortfolioShowcase";
 import StatsSection from "@/components/StatsSection";
+import HowWeWorkSection from "@/components/HowWeWorkSection";
 import BusinessImpactSection from "@/components/BusinessImpactSection";
+import AcademyBanner from "@/components/AcademyBanner";
 import AboutSection from "@/components/AboutSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import FeaturedBlogCarousel from "@/components/FeaturedBlogCarousel";
 import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import FeaturedBlogCarousel from "@/components/FeaturedBlogCarousel";
-import HowWeWorkSection from "@/components/HowWeWorkSection";
 
 const Index = () => {
   const jsonLd = {
@@ -89,14 +92,6 @@ const Index = () => {
     }
   };
 
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dibull.com" }
-    ]
-  };
-
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -143,13 +138,16 @@ const Index = () => {
       <main className="min-h-screen">
         <Navbar />
         <HeroSection />
+        <ClientLogosMarquee />
         <ServicesSection />
         <HowWeWorkSection />
+        <PortfolioShowcase />
         <StatsSection />
-        <FeaturedBlogCarousel />
         <BusinessImpactSection />
+        <AcademyBanner />
         <AboutSection />
         <TestimonialsSection />
+        <FeaturedBlogCarousel />
         <FAQSection />
         <ContactSection />
         <Footer />
