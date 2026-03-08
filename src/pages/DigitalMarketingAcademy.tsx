@@ -408,8 +408,19 @@ const DigitalMarketingAcademy = () => {
               portfolio that gets you hired.
             </p>
 
+            {/* Next Batch Urgency */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              transition={{ delay: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/15 border border-amber-500/30 mb-6"
+            >
+              <Flame className="w-4 h-4 text-amber-400 animate-pulse" />
+              <span className="text-xs sm:text-sm font-semibold text-amber-300">Next Batch Starting Soon — Limited Seats Available!</span>
+            </motion.div>
+
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
+            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-6 sm:mb-8">
               <Button size="lg" className="bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90 text-white shadow-lg shadow-primary/25 text-sm sm:text-base" asChild>
                 <Link to="/contact?interest=academy">
                   <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
@@ -421,6 +432,37 @@ const DigitalMarketingAcademy = () => {
                 View Full Syllabus
               </Button>
             </div>
+
+            {/* Social Proof Strip */}
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ delay: 0.7 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 mb-6"
+            >
+              <div className="flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  {[
+                    "bg-gradient-to-br from-blue-400 to-blue-600",
+                    "bg-gradient-to-br from-green-400 to-green-600",
+                    "bg-gradient-to-br from-purple-400 to-purple-600",
+                    "bg-gradient-to-br from-amber-400 to-amber-600",
+                    "bg-gradient-to-br from-rose-400 to-rose-600",
+                  ].map((bg, i) => (
+                    <div key={i} className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full ${bg} border-2 border-slate-800 flex items-center justify-center`}>
+                      <span className="text-[10px] sm:text-xs font-bold text-white">{["A", "R", "P", "S", "M"][i]}</span>
+                    </div>
+                  ))}
+                </div>
+                <span className="text-xs sm:text-sm text-slate-300 font-medium">500+ Students Trained</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 fill-amber-400" />
+                ))}
+                <span className="text-xs sm:text-sm text-slate-300 ml-1">4.9/5 Rating</span>
+              </div>
+            </motion.div>
 
             {/* Course Highlights */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
