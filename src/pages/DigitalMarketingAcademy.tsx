@@ -734,6 +734,58 @@ const DigitalMarketingAcademy = () => {
         </div>
       </section>
 
+      {/* Tools You'll Master */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-muted/30 relative overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6">
+          <AnimatedSection className="text-center mb-8 sm:mb-12">
+            <motion.span className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold mb-4" whileHover={{ scale: 1.05 }}>
+              <Wrench className="w-3 h-3 sm:w-4 sm:h-4" />
+              Industry Tools
+            </motion.span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              50+ Tools <span className="text-gradient">You'll Master</span>
+            </h2>
+            <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto">
+              Get hands-on training with every major tool used in the digital marketing industry
+            </p>
+          </AnimatedSection>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 max-w-5xl mx-auto">
+            {[
+              { name: "Google Ads", icon: Target, color: "from-blue-500 to-blue-600" },
+              { name: "Google Analytics", icon: BarChart3, color: "from-amber-500 to-orange-500" },
+              { name: "SEMrush", icon: Search, color: "from-orange-500 to-red-500" },
+              { name: "Canva Pro", icon: Palette, color: "from-purple-500 to-pink-500" },
+              { name: "ChatGPT", icon: Brain, color: "from-green-500 to-emerald-500" },
+              { name: "Meta Ads", icon: Share2, color: "from-blue-600 to-indigo-600" },
+              { name: "WordPress", icon: Globe, color: "from-cyan-500 to-blue-500" },
+              { name: "Ahrefs", icon: Search, color: "from-blue-500 to-blue-700" },
+              { name: "Mailchimp", icon: Mail, color: "from-amber-400 to-yellow-500" },
+              { name: "MidJourney", icon: Sparkles, color: "from-violet-500 to-purple-600" },
+              { name: "Hootsuite", icon: Share2, color: "from-green-500 to-teal-500" },
+              { name: "Figma", icon: Palette, color: "from-pink-500 to-red-500" },
+            ].map((tool, i) => (
+              <AnimatedSection key={tool.name} delay={i * 0.03}>
+                <motion.div 
+                  className="bg-card rounded-xl p-3 sm:p-4 border border-border hover:border-primary/50 transition-all duration-300 text-center group"
+                  whileHover={{ y: -5, scale: 1.05 }}
+                >
+                  <motion.div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${tool.color} rounded-lg sm:rounded-xl flex items-center justify-center mx-auto mb-2`}
+                    whileHover={{ rotate: 10 }}
+                  >
+                    <tool.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  </motion.div>
+                  <p className="text-[10px] sm:text-xs font-semibold text-foreground">{tool.name}</p>
+                </motion.div>
+              </AnimatedSection>
+            ))}
+          </div>
+          <AnimatedSection className="text-center mt-6">
+            <p className="text-sm text-muted-foreground">...and 40+ more industry-standard tools</p>
+          </AnimatedSection>
+        </div>
+      </section>
+
         {/* Practical Projects */}
         <section className="py-20 bg-muted/30 relative overflow-hidden">
           <div className="container mx-auto px-4">
