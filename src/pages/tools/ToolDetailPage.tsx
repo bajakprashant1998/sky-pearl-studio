@@ -66,6 +66,53 @@ const ToolDetailPage = () => {
   const ToolComponent = toolComponents[tool.slug];
   const otherTools = freeToolsData.filter(t => t.id !== tool.id).slice(0, 4);
 
+  // Build HowTo schema for the tool
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": `How to Use ${tool.title}`,
+    "description": tool.fullDescription,
+    "image": "https://dibull.com/dibull_logo.png",
+    "totalTime": "PT5M",
+    "tool": {
+      "@type": "HowToTool",
+      "name": tool.title
+    },
+    "step": tool.howItWorks.map((step, index) => ({
+      "@type": "HowToStep",
+      "position": index + 1,
+      "name": `Step ${index + 1}`,
+      "text": step,
+      "url": `https://dibull.com/free-tools/${tool.slug}#step-${index + 1}`
+    }))
+  };
+
+  // Build BreadcrumbList schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://dibull.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Free Tools",
+        "item": "https://dibull.com/free-tools"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": tool.title,
+        "item": `https://dibull.com/free-tools/${tool.slug}`
+      }
+    ]
+  };
+
   return (
     <>
       <Helmet>
@@ -83,6 +130,12 @@ const ToolDetailPage = () => {
         <meta name="twitter:title" content={`${tool.title} | Digital Bull Technology`} />
         <meta name="twitter:description" content={tool.shortDescription} />
         <meta name="twitter:image" content="https://dibull.com/dibull_logo.png" />
+        <script type="application/ld+json">
+          {JSON.stringify(howToSchema)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
+        </script>
       </Helmet>
 
       <Navbar />
