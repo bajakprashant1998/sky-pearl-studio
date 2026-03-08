@@ -7,6 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { lazy, Suspense } from "react";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollToTop from "@/components/ScrollToTop";
+import LiveChatWidget from "@/components/LiveChatWidget";
 
 // Eagerly load Index for LCP
 import Index from "./pages/Index";
