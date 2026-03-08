@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAdmin } from "@/hooks/useAdmin";
-import { LayoutDashboard, FileText, BookOpen, Settings, LogOut, Menu, Users } from "lucide-react";
+import { LayoutDashboard, FileText, BookOpen, Settings, LogOut, Menu, Users, MessageSquareQuote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
