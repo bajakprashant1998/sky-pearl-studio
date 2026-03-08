@@ -21,6 +21,7 @@ const features = [
 const rotatingWords = ["Revenue", "Leads", "Growth", "Impact"];
 
 const HeroSection = () => {
+  const { data: settings } = useSiteSettings("hero");
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -30,6 +31,22 @@ const HeroSection = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   const [wordIndex, setWordIndex] = useState(0);
+  
+  const badgeText = settings?.hero_badge || "Rated #1 Digital Agency in India";
+  const headingLine1 = settings?.hero_heading_line1 || "Scale Your";
+  const headingHighlight = settings?.hero_heading_highlight || "Business";
+  const headingLine2Prefix = settings?.hero_heading_line2_prefix || "Drive More";
+  const description = settings?.hero_description || "We help ambitious businesses increase revenue, generate qualified leads, and dominate their market through strategic digital marketing solutions.";
+  const ctaPrimary = settings?.hero_cta_primary || "Get Free Consultation";
+  const ctaSecondary = settings?.hero_cta_secondary || "View Success Stories";
+  const trustGoogle = settings?.hero_trust_google || "Google Partner";
+  const trustClients = settings?.hero_trust_clients || "500+ Clients";
+  const trustYears = settings?.hero_trust_years || "15+ Years";
+  const dashboardTraffic = settings?.hero_dashboard_traffic || "+247%";
+  const dashboardLeads = settings?.hero_dashboard_leads || "10.2M";
+  const dashboardRevenue = settings?.hero_dashboard_revenue || "$12M+";
+  const dashboardRating = settings?.hero_dashboard_rating || "4.9/5";
+
   useEffect(() => {
     const interval = setInterval(() => setWordIndex(i => (i + 1) % rotatingWords.length), 2500);
     return () => clearInterval(interval);
