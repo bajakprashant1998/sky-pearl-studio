@@ -19,10 +19,20 @@ const Index = () => {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Digital Bull Technology Pvt LTD",
+    "@id": "https://dibull.com/#organization",
+    "name": "Digital Bull Technology Pvt Ltd",
+    "legalName": "Digital Bull Technology Private Limited",
+    "alternateName": ["Digital Bull", "DiBull", "Digital Bull Technology"],
     "url": "https://dibull.com",
-    "logo": "https://dibull.com/dibull_logo.png",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://dibull.com/dibull_logo.png",
+      "width": "512",
+      "height": "512"
+    },
+    "image": "https://dibull.com/og-image.jpg",
     "description": "Digital Bull Technology is the best digital marketing agency in Ahmedabad offering SEO, PPC, social media marketing, content marketing, and web design services. Expert marketing company in Ahmedabad helping businesses grow.",
+    "slogan": "Transforming Brands Through Digital Excellence",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "A 823 Moneyplant High street, Jagatpur Road, Near GOTA Cross road",
@@ -31,29 +41,79 @@ const Index = () => {
       "postalCode": "382481",
       "addressCountry": "IN"
     },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+91 9824011921",
-      "contactType": "customer service",
-      "availableLanguage": ["English", "Hindi", "Gujarati"]
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "23.0707",
+      "longitude": "72.5177"
     },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+91-9824011921",
+        "contactType": "sales",
+        "availableLanguage": ["English", "Hindi", "Gujarati"],
+        "areaServed": "IN"
+      },
+      {
+        "@type": "ContactPoint",
+        "telephone": "+91-9313401885",
+        "contactType": "customer service",
+        "availableLanguage": ["English", "Hindi", "Gujarati"],
+        "areaServed": "IN"
+      }
+    ],
+    "email": "info@dibull.com",
     "sameAs": [
       "https://www.facebook.com/share/1GGViEsE5a/?mibextid=wwXIfr",
       "https://x.com/digital_1221?s=21&t=gZqAEY-otu1upyCHIOj4Uw",
       "https://www.linkedin.com/company/digitalbulltechnology/",
       "https://www.instagram.com/digitalbulltechnology?igsh=MWxjbTJtMHkxNTBoNg=="
     ],
-    "areaServed": {
-      "@type": "City",
-      "name": "Ahmedabad"
-    },
+    "areaServed": [
+      { "@type": "City", "name": "Ahmedabad" },
+      { "@type": "State", "name": "Gujarat" },
+      { "@type": "Country", "name": "India" }
+    ],
     "knowsAbout": [
       "Digital Marketing", "SEO Services", "Social Media Marketing",
       "PPC Advertising", "Web Design", "Content Marketing",
-      "Email Marketing", "Branding", "E-commerce Marketing"
+      "Email Marketing", "Branding", "E-commerce Marketing",
+      "Google Ads", "Facebook Ads", "AI Marketing", "Growth Hacking"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Digital Marketing Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Search Engine Optimization (SEO)" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pay-Per-Click Advertising (PPC)" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Social Media Marketing" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website Design & Development" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Content Marketing" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Email Marketing" } }
+      ]
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "127",
+      "bestRating": "5"
+    },
+    "award": [
+      "Top Digital Marketing Agency in Ahmedabad 2024",
+      "Best SEO Company Gujarat 2023"
     ],
     "foundingDate": "2020",
-    "numberOfEmployees": "10-50"
+    "foundingLocation": {
+      "@type": "Place",
+      "address": { "@type": "PostalAddress", "addressLocality": "Ahmedabad", "addressRegion": "Gujarat", "addressCountry": "IN" }
+    },
+    "numberOfEmployees": {
+      "@type": "QuantitativeValue",
+      "minValue": "10",
+      "maxValue": "50"
+    },
+    "naics": "541810",
+    "isicV4": "7310"
   };
 
   const localBusinessJsonLd = {
