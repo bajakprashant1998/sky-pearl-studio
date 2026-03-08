@@ -1,15 +1,41 @@
 import { TrendingUp, Users, Award, Target, Sparkles } from "lucide-react";
 import AnimatedSection, { CountUp } from "./AnimatedSection";
 import { motion } from "framer-motion";
+import { useSiteSettings } from "@/hooks/useDynamicContent";
 
-const stats = [
+const defaultStats = [
   { icon: TrendingUp, numericValue: 500, suffix: "+", label: "Successful Campaigns", description: "Delivered across industries", color: "from-blue-500 to-cyan-500" },
   { icon: Users, numericValue: 10, suffix: "M+", label: "Leads Generated", description: "For our valued clients", color: "from-purple-500 to-pink-500" },
   { icon: Target, prefix: "$", numericValue: 50, suffix: "M+", label: "Revenue Generated", description: "In client growth", color: "from-green-500 to-emerald-500" },
   { icon: Award, numericValue: 98, suffix: "%", label: "Client Satisfaction", description: "Consistently maintained", color: "from-orange-500 to-amber-500" },
 ];
 
+const iconMap: Record<string, typeof TrendingUp> = { TrendingUp, Users, Award, Target };
+
 const StatsSection = () => {
+  const { data: settings } = useSiteSettings("stats");
+
+  const sectionTitle = settings?.stats_title || "Proven Results That Speak for Themselves";
+  const sectionSubtitle = settings?.stats_subtitle || "Our track record of success across diverse industries and marketing channels";
+
+  const stats = defaultStats.map((def, i) => {
+    const key = `stats_item_${i}`;
+    if (settings?.[key]) {
+      try {
+        const parsed = JSON.parse(settings[key]);
+        return {
+          ...def,
+          icon: iconMap[parsed.icon] || def.icon,
+          numericValue: parsed.numericValue ?? def.numericValue,
+          prefix: parsed.prefix || def.prefix,
+          suffix: parsed.suffix ?? def.suffix,
+          label: parsed.label || def.label,
+          description: parsed.description || def.description,
+        };
+      } catch { return def; }
+    }
+    return def;
+  });
   return (
     <section className="py-24 bg-gradient-primary relative overflow-hidden">
       <div className="absolute inset-0 opacity-10">
