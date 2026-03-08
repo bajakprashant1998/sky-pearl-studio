@@ -1,7 +1,7 @@
 import SeoHead from "@/components/SeoHead";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import ClientLogosMarquee from "@/components/ClientLogosMarquee";
+
 import ServicesSection from "@/components/ServicesSection";
 import PortfolioShowcase from "@/components/PortfolioShowcase";
 import StatsSection from "@/components/StatsSection";
@@ -138,7 +138,7 @@ const Index = () => {
       <main className="min-h-screen">
         <Navbar />
         <HeroSection />
-        <ClientLogosMarquee />
+        
         <ServicesSection />
         <HowWeWorkSection />
         <PortfolioShowcase />
