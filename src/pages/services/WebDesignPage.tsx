@@ -400,8 +400,9 @@ const WebDesignPage = () => {
       ctaText={service.ctaText}
       slug={service.slug}
       stats={service.stats}
-      extraSection={<WebDesignExtraSection />}
-    />
+        extraSection={<WebDesignExtraSection />}
+      />
+    </>
   );
 };
 
