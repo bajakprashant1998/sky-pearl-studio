@@ -14,6 +14,142 @@ export type Database = {
   }
   public: {
     Tables: {
+      ab_experiments: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          page: string
+          status: string
+          updated_at: string
+          variant_a: Json
+          variant_b: Json
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          page: string
+          status?: string
+          updated_at?: string
+          variant_a?: Json
+          variant_b?: Json
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          page?: string
+          status?: string
+          updated_at?: string
+          variant_a?: Json
+          variant_b?: Json
+        }
+        Relationships: []
+      }
+      ab_impressions: {
+        Row: {
+          converted: boolean
+          created_at: string
+          experiment_id: string
+          id: string
+          session_id: string | null
+          variant: string
+        }
+        Insert: {
+          converted?: boolean
+          created_at?: string
+          experiment_id: string
+          id?: string
+          session_id?: string | null
+          variant: string
+        }
+        Update: {
+          converted?: boolean
+          created_at?: string
+          experiment_id?: string
+          id?: string
+          session_id?: string | null
+          variant?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ab_impressions_experiment_id_fkey"
+            columns: ["experiment_id"]
+            isOneToOne: false
+            referencedRelation: "ab_experiments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      admin_activity_log: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json | null
+          entity_id: string | null
+          entity_type: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      blog_comments: {
+        Row: {
+          blog_post_id: string
+          content: string
+          created_at: string
+          email: string
+          id: string
+          is_approved: boolean
+          name: string
+        }
+        Insert: {
+          blog_post_id: string
+          content: string
+          created_at?: string
+          email: string
+          id?: string
+          is_approved?: boolean
+          name: string
+        }
+        Update: {
+          blog_post_id?: string
+          content?: string
+          created_at?: string
+          email?: string
+          id?: string
+          is_approved?: boolean
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_comments_blog_post_id_fkey"
+            columns: ["blog_post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_posts: {
         Row: {
           author: string
@@ -71,6 +207,107 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: string
+          session_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          session_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          session_id?: string
+        }
+        Relationships: []
+      }
+      client_invoices: {
+        Row: {
+          amount: number
+          created_at: string
+          due_date: string | null
+          id: string
+          invoice_number: string
+          paid_at: string | null
+          project_id: string
+          status: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          invoice_number: string
+          paid_at?: string | null
+          project_id: string
+          status?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          invoice_number?: string
+          paid_at?: string | null
+          project_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_invoices_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "client_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      client_projects: {
+        Row: {
+          client_email: string
+          client_name: string
+          created_at: string
+          details: Json | null
+          id: string
+          progress: number
+          project_name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          client_email: string
+          client_name: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          progress?: number
+          project_name: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          client_email?: string
+          client_name?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          progress?: number
+          project_name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           budget: string | null
@@ -81,8 +318,10 @@ export type Database = {
           message: string | null
           name: string
           phone: string | null
+          score: number
           source: string
           status: string
+          temperature: string
           updated_at: string
           website_type: string | null
         }
@@ -95,8 +334,10 @@ export type Database = {
           message?: string | null
           name: string
           phone?: string | null
+          score?: number
           source?: string
           status?: string
+          temperature?: string
           updated_at?: string
           website_type?: string | null
         }
@@ -109,8 +350,10 @@ export type Database = {
           message?: string | null
           name?: string
           phone?: string | null
+          score?: number
           source?: string
           status?: string
+          temperature?: string
           updated_at?: string
           website_type?: string | null
         }
@@ -221,6 +464,45 @@ export type Database = {
         }
         Relationships: []
       }
+      referrals: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          referred_email: string | null
+          referred_name: string | null
+          referrer_email: string
+          referrer_name: string
+          reward: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          referred_email?: string | null
+          referred_name?: string | null
+          referrer_email: string
+          referrer_name: string
+          reward?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          referred_email?: string | null
+          referred_name?: string | null
+          referrer_email?: string
+          referrer_name?: string
+          reward?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           color: string
@@ -260,6 +542,33 @@ export type Database = {
           role?: string
           sort_order?: number
           updated_at?: string
+        }
+        Relationships: []
+      }
+      uptime_checks: {
+        Row: {
+          checked_at: string
+          id: string
+          is_up: boolean
+          response_time: number | null
+          status_code: number | null
+          url: string
+        }
+        Insert: {
+          checked_at?: string
+          id?: string
+          is_up?: boolean
+          response_time?: number | null
+          status_code?: number | null
+          url: string
+        }
+        Update: {
+          checked_at?: string
+          id?: string
+          is_up?: boolean
+          response_time?: number | null
+          status_code?: number | null
+          url?: string
         }
         Relationships: []
       }
