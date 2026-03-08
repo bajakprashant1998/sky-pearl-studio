@@ -9,6 +9,7 @@ const navItems = [
   { to: "/admin/pages", label: "Pages & SEO", icon: FileText },
   { to: "/admin/blog", label: "Blog Posts", icon: BookOpen },
   { to: "/admin/leads", label: "Leads", icon: Users },
+  { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ];
 

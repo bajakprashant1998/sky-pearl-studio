@@ -3,44 +3,42 @@ import { Link } from "react-router-dom";
 import AnimatedSection from "./AnimatedSection";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-const testimonials = [
-  {
-    name: "Vikram Mehta",
-    role: "CEO, HireForJob.com",
-    content: "Digital Bull Technology transformed our entire digital presence. Their programmatic SEO approach alone generated more qualified traffic than all our previous marketing efforts combined.",
-    rating: 5,
-    result: "+450% Traffic",
-    image: "V",
-    color: "from-blue-500 to-cyan-500",
-  },
-  {
-    name: "Rahul Patel",
-    role: "Founder, Cadbull.com",
-    content: "Their technical SEO expertise helped us fix issues we didn't even know existed, and the international expansion strategy opened up entirely new markets for us.",
-    rating: 5,
-    result: "Top 3 Global",
-    image: "R",
-    color: "from-purple-500 to-pink-500",
-  },
-  {
-    name: "Ankit Sharma",
-    role: "Product Manager, CastingScreen",
-    content: "The team at Digital Bull Technology took our app from obscurity to the top charts. Their data-driven approach to ASO and user acquisition helped us compete with apps backed by much larger budgets.",
-    rating: 5,
-    result: "1M+ Installs",
-    image: "A",
-    color: "from-orange-500 to-red-500",
-  },
+const fallbackTestimonials = [
+  { id: "1", name: "Vikram Mehta", role: "CEO, HireForJob.com", content: "Digital Bull Technology transformed our entire digital presence. Their programmatic SEO approach alone generated more qualified traffic than all our previous marketing efforts combined.", rating: 5, result: "+450% Traffic", color: "from-blue-500 to-cyan-500" },
+  { id: "2", name: "Rahul Patel", role: "Founder, Cadbull.com", content: "Their technical SEO expertise helped us fix issues we didn't even know existed, and the international expansion strategy opened up entirely new markets for us.", rating: 5, result: "Top 3 Global", color: "from-purple-500 to-pink-500" },
+  { id: "3", name: "Ankit Sharma", role: "Product Manager, CastingScreen", content: "The team at Digital Bull Technology took our app from obscurity to the top charts. Their data-driven approach to ASO and user acquisition helped us compete with apps backed by much larger budgets.", rating: 5, result: "1M+ Installs", color: "from-orange-500 to-red-500" },
 ];
 
 const TestimonialsSection = () => {
   const [active, setActive] = useState(0);
 
+  const { data: dbTestimonials } = useQuery({
+    queryKey: ["testimonials"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("testimonials")
+        .select("*")
+        .eq("is_active", true)
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const testimonials = dbTestimonials?.length ? dbTestimonials : fallbackTestimonials;
+
   useEffect(() => {
     const timer = setInterval(() => setActive(i => (i + 1) % testimonials.length), 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
+
+  useEffect(() => {
+    if (active >= testimonials.length) setActive(0);
+  }, [testimonials.length, active]);
 
   return (
     <section id="testimonials" className="py-24 bg-muted/30 relative overflow-hidden">
@@ -65,7 +63,7 @@ const TestimonialsSection = () => {
         {/* Desktop: Cards Grid */}
         <div className="hidden md:grid md:grid-cols-3 gap-8 mb-12">
           {testimonials.map((testimonial, index) => (
-            <AnimatedSection key={testimonial.name} delay={0.1 * index}>
+            <AnimatedSection key={testimonial.id} delay={0.1 * index}>
               <motion.div
                 className={`bg-card rounded-3xl p-8 border h-full flex flex-col relative group overflow-hidden transition-all duration-500 ${active === index ? "border-primary/50 shadow-xl shadow-primary/5" : "border-border"}`}
                 whileHover={{ y: -8 }}
@@ -92,7 +90,7 @@ const TestimonialsSection = () => {
 
                 <div className="flex items-center gap-4 pt-6 border-t border-border">
                   <motion.div className={`w-14 h-14 bg-gradient-to-br ${testimonial.color} rounded-full flex items-center justify-center shadow-lg`} whileHover={{ scale: 1.1 }}>
-                    <span className="text-xl font-bold text-white">{testimonial.image}</span>
+                    <span className="text-xl font-bold text-white">{testimonial.name.charAt(0)}</span>
                   </motion.div>
                   <div>
                     <div className="font-bold text-foreground">{testimonial.name}</div>
@@ -123,7 +121,7 @@ const TestimonialsSection = () => {
                 {testimonials[active].result}
               </div>
               <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
+                {[...Array(testimonials[active].rating)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
                 ))}
               </div>
@@ -132,7 +130,7 @@ const TestimonialsSection = () => {
               </p>
               <div className="flex items-center gap-4 pt-6 border-t border-border">
                 <div className={`w-14 h-14 bg-gradient-to-br ${testimonials[active].color} rounded-full flex items-center justify-center shadow-lg`}>
-                  <span className="text-xl font-bold text-white">{testimonials[active].image}</span>
+                  <span className="text-xl font-bold text-white">{testimonials[active].name.charAt(0)}</span>
                 </div>
                 <div>
                   <div className="font-bold text-foreground">{testimonials[active].name}</div>
