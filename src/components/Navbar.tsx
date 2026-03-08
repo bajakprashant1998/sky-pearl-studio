@@ -701,8 +701,32 @@ const Navbar = () => {
                   Contact
                 </Link>
 
+                {/* Mobile Theme & Language */}
+                <div className="flex items-center gap-3 pt-4 mt-3 border-t border-border px-2">
+                  <button
+                    onClick={toggleTheme}
+                    className="flex items-center gap-2 p-2.5 rounded-lg bg-muted/60 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                    <span className="text-sm">{theme === "dark" ? "Light" : "Dark"}</span>
+                  </button>
+                  <div className="flex gap-1">
+                    {(Object.keys(languages) as Array<keyof typeof languages>).map((lang) => (
+                      <button
+                        key={lang}
+                        onClick={() => setLanguage(lang as "en" | "hi" | "gu")}
+                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          language === lang ? "bg-primary/10 text-primary" : "bg-muted/60 text-muted-foreground"
+                        }`}
+                      >
+                        {languages[lang]}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Mobile CTA */}
-                <div className="flex flex-col gap-3 pt-4 mt-3 border-t border-border px-2">
+                <div className="flex flex-col gap-3 pt-3 px-2">
                   <Button variant="hero" size="lg" className="w-full shadow-lg" asChild>
                     <Link to="/contact" onClick={() => setIsOpen(false)}>
                       Get Started
