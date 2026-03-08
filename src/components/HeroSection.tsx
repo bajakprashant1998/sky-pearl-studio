@@ -138,8 +138,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              We help ambitious businesses increase revenue, generate qualified leads, and
-              dominate their market through strategic digital marketing solutions.
+              {description}
             </motion.p>
 
             {/* Features List */}
