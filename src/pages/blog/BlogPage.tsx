@@ -662,16 +662,11 @@ const BlogPage = () => {
         <div className="container px-4">
           <AnimatedSection direction="up">
             <div className="relative overflow-hidden rounded-3xl">
-              {/* Gradient Background */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-accent" />
-              
-              {/* Pattern Overlay */}
               <div className="absolute inset-0 opacity-10" style={{
                 backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
                 backgroundSize: '24px 24px'
               }} />
-              
-              {/* Decorative Blobs */}
               <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-3xl" />
               
@@ -691,18 +686,8 @@ const BlogPage = () => {
                     strategies, and insider tips in digital marketing.
                   </p>
                   
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Link to="/contact">
-                      <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-xl px-8">
-                        Subscribe Now
-                        <ArrowRight className="w-5 h-5 ml-2" />
-                      </Button>
-                    </Link>
-                    <Link to="/services/digital-marketing">
-                      <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8">
-                        Explore Services
-                      </Button>
-                    </Link>
+                  <div className="flex justify-center">
+                    <NewsletterSignup source="blog-cta" variant="footer" />
                   </div>
                 </div>
               </div>
