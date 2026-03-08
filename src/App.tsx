@@ -72,6 +72,7 @@ const AdminSettings = lazy(() => import("@/pages/admin/AdminSettings"));
 const AdminLeads = lazy(() => import("@/pages/admin/AdminLeads"));
 const AdminTestimonials = lazy(() => import("@/pages/admin/AdminTestimonials"));
 const AdminRevenueForecasting = lazy(() => import("@/pages/admin/AdminRevenueForecasting"));
+const AdminAIAgent = lazy(() => import("@/pages/admin/AdminAIAgent"));
 const WebDesignLandingPage = lazy(() => import("@/pages/WebDesignLandingPage"));
 
 const queryClient = new QueryClient();
@@ -155,6 +156,7 @@ const App = () => (
               <Route path="/admin/testimonials" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminTestimonials /></AdminRoute></Suspense>} />
               <Route path="/admin/settings" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminSettings /></AdminRoute></Suspense>} />
               <Route path="/admin/revenue" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminRevenueForecasting /></AdminRoute></Suspense>} />
+              <Route path="/admin/ai-agent" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminAIAgent /></AdminRoute></Suspense>} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>

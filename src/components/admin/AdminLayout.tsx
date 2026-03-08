@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAdmin } from "@/hooks/useAdmin";
-import { LayoutDashboard, FileText, BookOpen, Settings, LogOut, Menu, Users, MessageSquareQuote, TrendingUp } from "lucide-react";
+import { LayoutDashboard, FileText, BookOpen, Settings, LogOut, Menu, Users, MessageSquareQuote, TrendingUp, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -11,6 +11,7 @@ const navItems = [
   { to: "/admin/leads", label: "Leads", icon: Users },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { to: "/admin/revenue", label: "Revenue Forecast", icon: TrendingUp },
+  { to: "/admin/ai-agent", label: "AI Agent", icon: Sparkles },
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
