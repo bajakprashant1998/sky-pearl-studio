@@ -74,6 +74,15 @@ const AdminTestimonials = lazy(() => import("@/pages/admin/AdminTestimonials"));
 const AdminRevenueForecasting = lazy(() => import("@/pages/admin/AdminRevenueForecasting"));
 const AdminAIAgent = lazy(() => import("@/pages/admin/AdminAIAgent"));
 const AdminContentWriter = lazy(() => import("@/pages/admin/AdminContentWriter"));
+const AdminComments = lazy(() => import("@/pages/admin/AdminComments"));
+const AdminABTesting = lazy(() => import("@/pages/admin/AdminABTesting"));
+const AdminReferrals = lazy(() => import("@/pages/admin/AdminReferrals"));
+const AdminActivityLog = lazy(() => import("@/pages/admin/AdminActivityLog"));
+const AdminBulkEmail = lazy(() => import("@/pages/admin/AdminBulkEmail"));
+const AdminUptimeMonitor = lazy(() => import("@/pages/admin/AdminUptimeMonitor"));
+const AdminClientProjects = lazy(() => import("@/pages/admin/AdminClientProjects"));
+const ReferralPage = lazy(() => import("@/pages/ReferralPage"));
+const ClientPortal = lazy(() => import("@/pages/ClientPortal"));
 const QuoteCalculator = lazy(() => import("@/pages/QuoteCalculator"));
 const WebDesignLandingPage = lazy(() => import("@/pages/WebDesignLandingPage"));
 
