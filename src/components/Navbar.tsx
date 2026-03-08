@@ -464,8 +464,50 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden lg:flex items-center gap-3">
+          {/* Theme, Language & CTA */}
+          <div className="hidden lg:flex items-center gap-2">
+            {/* Language Switcher */}
+            <div className="relative">
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all"
+                title="Change language"
+              >
+                <Languages className="w-4 h-4" />
+              </button>
+              <AnimatePresence>
+                {langOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    className="absolute top-full right-0 mt-2 bg-card border border-border rounded-xl shadow-xl p-1 min-w-[80px] z-50"
+                  >
+                    {(Object.keys(languages) as Array<keyof typeof languages>).map((lang) => (
+                      <button
+                        key={lang}
+                        onClick={() => { setLanguage(lang as "en" | "hi" | "gu"); setLangOpen(false); }}
+                        className={`w-full px-3 py-2 text-sm rounded-lg text-left transition-colors ${
+                          language === lang ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:bg-muted"
+                        }`}
+                      >
+                        {languages[lang]}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-all"
+              title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+
             <motion.div whileHover={{ scale: 1.04, y: -1 }} whileTap={{ scale: 0.97 }}>
               <Button variant="hero" className="shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300" asChild>
                 <Link to="/contact">
