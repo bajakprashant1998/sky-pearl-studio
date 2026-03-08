@@ -164,6 +164,14 @@ const ServicePageLayout = ({
 }: ServicePageLayoutProps) => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const { data: dbFaqs } = useDynamicFAQs(`/services/${slug}`);
+
+  const faqs = useMemo(() => {
+    if (dbFaqs && dbFaqs.length > 0) {
+      return dbFaqs.map((f: any) => ({ q: f.question, a: f.answer }));
+    }
+    return staticFaqs;
+  }, [dbFaqs]);
 
   // Auto-rotate testimonials
   useEffect(() => {
