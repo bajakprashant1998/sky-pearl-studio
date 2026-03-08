@@ -20,7 +20,11 @@ const BrandingDesignPage = () => {
   if (!service) return <NotFound />;
 
   return (
-    <ServicePageLayout
+    <>
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(brandingFaqSchema)}</script>
+      </Helmet>
+      <ServicePageLayout
       icon={service.icon}
       title={service.title}
       subtitle={service.subtitle}

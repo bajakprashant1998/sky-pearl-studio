@@ -20,7 +20,11 @@ const AnalyticsAIPage = () => {
   if (!service) return <NotFound />;
 
   return (
-    <ServicePageLayout
+    <>
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(analyticsFaqSchema)}</script>
+      </Helmet>
+      <ServicePageLayout
       icon={service.icon}
       title={service.title}
       subtitle={service.subtitle}

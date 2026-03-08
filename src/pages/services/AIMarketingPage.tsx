@@ -20,7 +20,11 @@ const AIMarketingPage = () => {
   if (!service) return <NotFound />;
 
   return (
-    <ServicePageLayout
+    <>
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(aiFaqSchema)}</script>
+      </Helmet>
+      <ServicePageLayout
       icon={service.icon}
       title={service.title}
       subtitle={service.subtitle}
