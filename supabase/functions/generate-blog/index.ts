@@ -997,10 +997,10 @@ Remember: Provide ONLY valid JSON in your response. No markdown code blocks.`;
 
         // Generate and upload image
         let imageUrl = null;
-        if (LOVABLE_API_KEY || GEMINI_API_KEY) {
+        if (GEMINI_API_KEY) {
           const base64Image = await generateBlogImage(
             specificTopic, sub.categoryTitle, articleData.title,
-            LOVABLE_API_KEY || GEMINI_API_KEY || ""
+            GEMINI_API_KEY
           );
           if (base64Image) {
             imageUrl = await uploadImageToStorage(supabase, base64Image, slug);
