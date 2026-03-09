@@ -954,7 +954,7 @@ Remember: Provide ONLY valid JSON in your response. No markdown code blocks.`;
         console.log(`Generating article ${i + 1}: ${specificTopic} (${sub.categoryTitle} > ${sub.subcategoryTitle})`);
 
         const aiContent = await generateContentWithAI(
-          systemPrompt, userPrompt, LOVABLE_API_KEY || "", GEMINI_API_KEY
+          systemPrompt, userPrompt, GEMINI_API_KEY
         );
 
         if (!aiContent) {
