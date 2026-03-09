@@ -688,7 +688,7 @@ async function selectSubcategoriesForBatch(
 // ============================================================================
 
 async function generateBlogImage(
-  topic: string, category: string, title: string, apiKey: string
+  topic: string, category: string, title: string, geminiApiKey: string
 ): Promise<string | null> {
   try {
     const visualStyles = [
@@ -728,57 +728,36 @@ REQUIREMENTS:
 
     console.log("Generating image for:", title);
 
-    const lovableResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-2.5-flash-image-preview",
-        messages: [{ role: "user", content: imagePrompt }],
-        modalities: ["image", "text"]
-      }),
-    });
-
-    if (lovableResponse.ok) {
-      const data = await lovableResponse.json();
-      const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
-      if (imageUrl) {
-        console.log("Successfully generated image via Lovable AI");
-        return imageUrl;
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${geminiApiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: imagePrompt }] }],
+          generationConfig: { responseModalities: ["image", "text"] }
+        }),
       }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Gemini image API error:", response.status, errorText);
+      return null;
     }
 
-    if (lovableResponse.status === 402 || lovableResponse.status === 429) {
-      console.log("Lovable AI image credits exhausted, trying Gemini API directly");
-      const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
-      if (GEMINI_API_KEY) {
-        const geminiResponse = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: imagePrompt }] }],
-              generationConfig: { responseModalities: ["image", "text"] }
-            }),
-          }
-        );
-        if (geminiResponse.ok) {
-          const geminiData = await geminiResponse.json();
-          const parts = geminiData.candidates?.[0]?.content?.parts;
-          if (parts) {
-            for (const part of parts) {
-              if (part.inlineData?.mimeType?.startsWith('image/')) {
-                return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
-              }
-            }
-          }
+    const data = await response.json();
+    const parts = data.candidates?.[0]?.content?.parts;
+    if (parts) {
+      for (const part of parts) {
+        if (part.inlineData?.mimeType?.startsWith('image/')) {
+          console.log("Successfully generated image via Gemini API");
+          return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
         }
       }
     }
 
+    console.log("No image found in Gemini response");
     return null;
   } catch (error) {
     console.error("Error generating image:", error);
@@ -832,55 +811,29 @@ async function uploadImageToStorage(
 // ============================================================================
 
 async function generateContentWithAI(
-  systemPrompt: string, userPrompt: string, lovableApiKey: string, geminiApiKey: string | undefined
+  systemPrompt: string, userPrompt: string, geminiApiKey: string
 ): Promise<string | null> {
   try {
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${lovableApiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userPrompt }
-        ],
-        temperature: 0.9,
-        max_tokens: 8192,
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      const content = data.choices?.[0]?.message?.content;
-      if (content) return content;
-    }
-
-    if (response.status === 402 || response.status === 429) {
-      console.log("Lovable AI credits exhausted, falling back to Gemini API");
-      if (!geminiApiKey) return null;
-
-      const geminiResponse = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
-            generationConfig: { temperature: 0.9, maxOutputTokens: 8192 }
-          }),
-        }
-      );
-
-      if (geminiResponse.ok) {
-        const geminiData = await geminiResponse.json();
-        return geminiData.candidates?.[0]?.content?.parts?.[0]?.text || null;
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
+          generationConfig: { temperature: 0.9, maxOutputTokens: 8192 }
+        }),
       }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Gemini content API error:", response.status, errorText);
+      return null;
     }
 
-    return null;
+    const data = await response.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
   } catch (error) {
     console.error("Error generating content:", error);
     return null;
@@ -897,13 +850,12 @@ serve(async (req) => {
   }
 
   try {
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-    if (!LOVABLE_API_KEY && !GEMINI_API_KEY) {
-      throw new Error("No AI API key configured");
+    if (!GEMINI_API_KEY) {
+      throw new Error("GEMINI_API_KEY is not configured");
     }
     if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
       throw new Error("Supabase credentials not configured");
@@ -1002,7 +954,7 @@ Remember: Provide ONLY valid JSON in your response. No markdown code blocks.`;
         console.log(`Generating article ${i + 1}: ${specificTopic} (${sub.categoryTitle} > ${sub.subcategoryTitle})`);
 
         const aiContent = await generateContentWithAI(
-          systemPrompt, userPrompt, LOVABLE_API_KEY || "", GEMINI_API_KEY
+          systemPrompt, userPrompt, GEMINI_API_KEY
         );
 
         if (!aiContent) {
@@ -1045,10 +997,10 @@ Remember: Provide ONLY valid JSON in your response. No markdown code blocks.`;
 
         // Generate and upload image
         let imageUrl = null;
-        if (LOVABLE_API_KEY || GEMINI_API_KEY) {
+        if (GEMINI_API_KEY) {
           const base64Image = await generateBlogImage(
             specificTopic, sub.categoryTitle, articleData.title,
-            LOVABLE_API_KEY || GEMINI_API_KEY || ""
+            GEMINI_API_KEY
           );
           if (base64Image) {
             imageUrl = await uploadImageToStorage(supabase, base64Image, slug);

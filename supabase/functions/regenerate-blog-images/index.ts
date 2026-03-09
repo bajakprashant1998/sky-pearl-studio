@@ -6,8 +6,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Generate unique image using Lovable AI
-async function generateBlogImage(topic: string, category: string, title: string, lovableApiKey: string): Promise<string | null> {
+// Generate unique image using Gemini API directly
+async function generateBlogImage(topic: string, category: string, title: string, geminiApiKey: string): Promise<string | null> {
   try {
     const uniqueElements = [
       "abstract geometric shapes with floating cubes",
@@ -49,44 +49,35 @@ Requirements:
     console.log("Generating unique image for:", title);
 
     const response = await fetch(
-      "https://ai.gateway.lovable.dev/v1/chat/completions",
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${geminiApiKey}`,
       {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${lovableApiKey}`,
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash-image-preview",
-          messages: [
-            {
-              role: "user",
-              content: imagePrompt
-            }
-          ],
-          modalities: ["image", "text"]
+          contents: [{ parts: [{ text: imagePrompt }] }],
+          generationConfig: { responseModalities: ["image", "text"] }
         }),
       }
     );
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Lovable AI image API error:", response.status, errorText);
+      console.error("Gemini image API error:", response.status, errorText);
       return null;
     }
 
     const data = await response.json();
-    
-    const images = data.choices?.[0]?.message?.images;
-    if (images && images.length > 0) {
-      const imageUrl = images[0]?.image_url?.url;
-      if (imageUrl) {
-        console.log("Successfully generated unique image for:", title);
-        return imageUrl;
+    const parts = data.candidates?.[0]?.content?.parts;
+    if (parts) {
+      for (const part of parts) {
+        if (part.inlineData?.mimeType?.startsWith('image/')) {
+          console.log("Successfully generated unique image for:", title);
+          return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+        }
       }
     }
 
-    console.log("No image found in Lovable AI response");
+    console.log("No image found in Gemini response");
     return null;
   } catch (error) {
     console.error("Error generating image:", error);
@@ -148,12 +139,12 @@ serve(async (req) => {
   }
 
   try {
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
+    if (!GEMINI_API_KEY) {
+      throw new Error("GEMINI_API_KEY is not configured");
     }
 
     if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
@@ -200,7 +191,7 @@ serve(async (req) => {
         post.title,
         post.category,
         post.title,
-        LOVABLE_API_KEY
+        GEMINI_API_KEY
       );
 
       if (base64Image) {
