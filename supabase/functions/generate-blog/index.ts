@@ -811,55 +811,29 @@ async function uploadImageToStorage(
 // ============================================================================
 
 async function generateContentWithAI(
-  systemPrompt: string, userPrompt: string, lovableApiKey: string, geminiApiKey: string | undefined
+  systemPrompt: string, userPrompt: string, geminiApiKey: string
 ): Promise<string | null> {
   try {
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${lovableApiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userPrompt }
-        ],
-        temperature: 0.9,
-        max_tokens: 8192,
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      const content = data.choices?.[0]?.message?.content;
-      if (content) return content;
-    }
-
-    if (response.status === 402 || response.status === 429) {
-      console.log("Lovable AI credits exhausted, falling back to Gemini API");
-      if (!geminiApiKey) return null;
-
-      const geminiResponse = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
-            generationConfig: { temperature: 0.9, maxOutputTokens: 8192 }
-          }),
-        }
-      );
-
-      if (geminiResponse.ok) {
-        const geminiData = await geminiResponse.json();
-        return geminiData.candidates?.[0]?.content?.parts?.[0]?.text || null;
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
+          generationConfig: { temperature: 0.9, maxOutputTokens: 8192 }
+        }),
       }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Gemini content API error:", response.status, errorText);
+      return null;
     }
 
-    return null;
+    const data = await response.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
   } catch (error) {
     console.error("Error generating content:", error);
     return null;
