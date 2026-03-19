@@ -988,17 +988,66 @@ Remember: Provide ONLY valid JSON in your response. No markdown code blocks.`;
         let articleData;
         try {
           let jsonStr = aiContent.trim();
+          // Strip markdown code fences
           if (jsonStr.includes("```json")) {
             jsonStr = jsonStr.split("```json")[1].split("```")[0].trim();
           } else if (jsonStr.includes("```")) {
             jsonStr = jsonStr.split("```")[1].split("```")[0].trim();
           }
+          // Clean control chars but preserve newlines in content
           jsonStr = jsonStr
-            .replace(/[\x00-\x1F\x7F]/g, ' ')
-            .replace(/\n\s*\n/g, '\n')
+            .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, ' ')
             .replace(/,\s*}/g, '}')
             .replace(/,\s*]/g, ']');
-          articleData = JSON.parse(jsonStr);
+          
+          // Try parsing directly first
+          try {
+            articleData = JSON.parse(jsonStr);
+          } catch {
+            // If direct parse fails, try to extract JSON object
+            const jsonMatch = jsonStr.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+              // Escape unescaped newlines inside string values
+              let fixed = jsonMatch[0]
+                .replace(/(?<=:\s*"[^"]*)\n(?=[^"]*")/g, '\\n')
+                .replace(/(?<=:\s*"[^"]*)\r(?=[^"]*")/g, '\\r')
+                .replace(/(?<=:\s*"[^"]*)\t(?=[^"]*")/g, '\\t');
+              try {
+                articleData = JSON.parse(fixed);
+              } catch {
+                // Last resort: manually extract fields
+                console.log("Attempting manual field extraction...");
+                const titleMatch = jsonStr.match(/"title"\s*:\s*"([^"]+)"/);
+                const metaMatch = jsonStr.match(/"metaDescription"\s*:\s*"([^"]+)"/);
+                const excerptMatch = jsonStr.match(/"excerpt"\s*:\s*"([^"]+)"/);
+                const categoryMatch = jsonStr.match(/"category"\s*:\s*"([^"]+)"/);
+                const contentStart = jsonStr.indexOf('"content"');
+                
+                if (titleMatch && contentStart > -1) {
+                  // Extract content between the last pair of quotes for content field
+                  const contentSection = jsonStr.substring(contentStart);
+                  const contentValueMatch = contentSection.match(/"content"\s*:\s*"([\s\S]*)"\s*\}?\s*$/);
+                  const contentValue = contentValueMatch 
+                    ? contentValueMatch[1].replace(/\\"/g, '"').replace(/\\n/g, '\n')
+                    : "Content generation error - please regenerate.";
+                  
+                  articleData = {
+                    title: titleMatch[1],
+                    metaDescription: metaMatch?.[1] || titleMatch[1],
+                    excerpt: excerptMatch?.[1] || titleMatch[1],
+                    category: categoryMatch?.[1] || sub.categoryTitle,
+                    tags: [],
+                    content: contentValue
+                  };
+                  console.log("Manual extraction succeeded for:", articleData.title);
+                } else {
+                  throw new Error("Could not extract required fields");
+                }
+              }
+            } else {
+              throw new Error("No JSON object found in response");
+            }
+          }
         } catch (parseError) {
           console.error(`JSON parse error for article ${i + 1}:`, parseError);
           continue;
