@@ -729,13 +729,13 @@ REQUIREMENTS:
     console.log("Generating image for:", title);
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${geminiApiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${geminiApiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [{ parts: [{ text: imagePrompt }] }],
-          generationConfig: { responseModalities: ["image", "text"] }
+          generationConfig: { responseModalities: ["IMAGE", "TEXT"] }
         }),
       }
     );
@@ -813,31 +813,46 @@ async function uploadImageToStorage(
 async function generateContentWithAI(
   systemPrompt: string, userPrompt: string, geminiApiKey: string
 ): Promise<string | null> {
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
-          generationConfig: { temperature: 0.9, maxOutputTokens: 8192 }
-        }),
-      }
-    );
+  const maxRetries = 3;
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
+            generationConfig: { temperature: 0.9, maxOutputTokens: 8192 }
+          }),
+        }
+      );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Gemini content API error:", response.status, errorText);
+      if (response.status === 429) {
+        const waitTime = Math.pow(2, attempt + 1) * 10000; // 20s, 40s, 80s
+        console.log(`Rate limited (attempt ${attempt + 1}/${maxRetries}), waiting ${waitTime / 1000}s...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+        continue;
+      }
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Gemini content API error:", response.status, errorText);
+        return null;
+      }
+
+      const data = await response.json();
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
+    } catch (error) {
+      console.error(`Error generating content (attempt ${attempt + 1}):`, error);
+      if (attempt < maxRetries - 1) {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        continue;
+      }
       return null;
     }
-
-    const data = await response.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
-  } catch (error) {
-    console.error("Error generating content:", error);
-    return null;
   }
+  return null;
 }
 
 // ============================================================================
@@ -953,14 +968,22 @@ Remember: Provide ONLY valid JSON in your response. No markdown code blocks.`;
 
         console.log(`Generating article ${i + 1}: ${specificTopic} (${sub.categoryTitle} > ${sub.subcategoryTitle})`);
 
-        const aiContent = await generateContentWithAI(
-          systemPrompt, userPrompt, GEMINI_API_KEY
-        );
-
-        if (!aiContent) {
-          console.error(`No content generated for article ${i + 1}`);
+        let aiContent: string | null = null;
+        try {
+          aiContent = await generateContentWithAI(
+            systemPrompt, userPrompt, GEMINI_API_KEY
+          );
+        } catch (genErr) {
+          console.error(`Content generation threw for article ${i + 1}:`, genErr);
           continue;
         }
+
+        if (!aiContent) {
+          console.error(`No content generated for article ${i + 1} — Gemini returned empty`);
+          continue;
+        }
+
+        console.log(`Content generated for article ${i + 1}, length: ${aiContent.length}`);
 
         let articleData;
         try {
