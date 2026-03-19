@@ -729,13 +729,13 @@ REQUIREMENTS:
     console.log("Generating image for:", title);
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${geminiApiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${geminiApiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [{ parts: [{ text: imagePrompt }] }],
-          generationConfig: { responseModalities: ["image", "text"] }
+          generationConfig: { responseModalities: ["IMAGE", "TEXT"] }
         }),
       }
     );
