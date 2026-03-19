@@ -953,14 +953,22 @@ Remember: Provide ONLY valid JSON in your response. No markdown code blocks.`;
 
         console.log(`Generating article ${i + 1}: ${specificTopic} (${sub.categoryTitle} > ${sub.subcategoryTitle})`);
 
-        const aiContent = await generateContentWithAI(
-          systemPrompt, userPrompt, GEMINI_API_KEY
-        );
-
-        if (!aiContent) {
-          console.error(`No content generated for article ${i + 1}`);
+        let aiContent: string | null = null;
+        try {
+          aiContent = await generateContentWithAI(
+            systemPrompt, userPrompt, GEMINI_API_KEY
+          );
+        } catch (genErr) {
+          console.error(`Content generation threw for article ${i + 1}:`, genErr);
           continue;
         }
+
+        if (!aiContent) {
+          console.error(`No content generated for article ${i + 1} — Gemini returned empty`);
+          continue;
+        }
+
+        console.log(`Content generated for article ${i + 1}, length: ${aiContent.length}`);
 
         let articleData;
         try {
