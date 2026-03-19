@@ -509,8 +509,9 @@ const Navbar = () => {
             </button>
 
             <motion.div whileHover={{ scale: 1.04, y: -1 }} whileTap={{ scale: 0.97 }}>
-              <Button variant="hero" className="shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300" asChild>
+              <Button variant="hero" className="shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-300 rounded-xl" asChild>
                 <Link to="/contact">
+                  <Rocket className="w-4 h-4 mr-1.5" />
                   Get Started
                   <ArrowRight className="w-4 h-4 ml-1" />
                 </Link>
