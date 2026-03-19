@@ -813,31 +813,46 @@ async function uploadImageToStorage(
 async function generateContentWithAI(
   systemPrompt: string, userPrompt: string, geminiApiKey: string
 ): Promise<string | null> {
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
-          generationConfig: { temperature: 0.9, maxOutputTokens: 8192 }
-        }),
-      }
-    );
+  const maxRetries = 3;
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
+            generationConfig: { temperature: 0.9, maxOutputTokens: 8192 }
+          }),
+        }
+      );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Gemini content API error:", response.status, errorText);
+      if (response.status === 429) {
+        const waitTime = Math.pow(2, attempt + 1) * 10000; // 20s, 40s, 80s
+        console.log(`Rate limited (attempt ${attempt + 1}/${maxRetries}), waiting ${waitTime / 1000}s...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+        continue;
+      }
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Gemini content API error:", response.status, errorText);
+        return null;
+      }
+
+      const data = await response.json();
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
+    } catch (error) {
+      console.error(`Error generating content (attempt ${attempt + 1}):`, error);
+      if (attempt < maxRetries - 1) {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        continue;
+      }
       return null;
     }
-
-    const data = await response.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
-  } catch (error) {
-    console.error("Error generating content:", error);
-    return null;
   }
+  return null;
 }
 
 // ============================================================================
