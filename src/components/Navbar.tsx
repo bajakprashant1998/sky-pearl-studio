@@ -135,7 +135,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-0.5 bg-muted/30 rounded-xl px-1.5 py-1 border border-border/30">
+          <div className="hidden lg:flex items-center gap-0.5 bg-muted/40 rounded-2xl px-2 py-1.5 border border-border/40 shadow-sm">
             {/* Home */}
             <Link
               to="/"
