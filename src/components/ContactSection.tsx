@@ -86,7 +86,7 @@ const ContactSection = () => {
       setLoading(false);
     }
   };
-  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+  
   return <section id="contact" className="py-16 md:py-24">
       <div className="container mx-auto px-0">
         <div className="relative bg-gradient-primary rounded-3xl p-6 sm:p-8 md:p-12 lg:p-16 overflow-hidden">
