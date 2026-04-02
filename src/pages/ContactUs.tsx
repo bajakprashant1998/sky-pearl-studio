@@ -7,13 +7,13 @@ import { ArrowRight, Mail, Phone, MapPin, Loader2, Clock, MessageCircle, Sparkle
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AnimatedSection from "@/components/AnimatedSection";
-import TurnstileWidget from "@/components/TurnstileWidget";
+
 
 const ContactUs = () => {
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  
 
   const interest = searchParams.get("interest");
   const module = searchParams.get("module");
@@ -53,7 +53,6 @@ const ContactUs = () => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return "Invalid email address";
     if (!formData.phone.trim()) return "Phone number is required";
     if (!formData.message.trim()) return "Message is required";
-    if (!captchaToken) return "Please complete the CAPTCHA verification";
     return null;
   };
 
@@ -83,7 +82,7 @@ const ContactUs = () => {
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
-          captchaToken: captchaToken,
+          
         }),
       });
 
@@ -102,8 +101,6 @@ const ContactUs = () => {
         phone: "",
         message: ""
       });
-      setCaptchaToken(null);
-
     } catch (error) {
       console.error("Submission Error:", error);
       toast({
@@ -116,7 +113,7 @@ const ContactUs = () => {
     }
   };
 
-  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+  
 
   const contactPageJsonLd = {
     "@context": "https://schema.org",
@@ -411,26 +408,6 @@ const ContactUs = () => {
                       />
                     </div>
 
-                    <div className="py-2">
-                      {siteKey ? (
-                        <TurnstileWidget
-                          siteKey={siteKey}
-                          onVerify={(token) => setCaptchaToken(token)}
-                          onError={() => {
-                            toast({
-                              variant: "destructive",
-                              title: "Verification Failed",
-                              description: "CAPTCHA verification failed. Please try again.",
-                            });
-                            setCaptchaToken(null);
-                          }}
-                        />
-                      ) : (
-                        <div className="p-4 bg-destructive/10 text-destructive text-sm rounded-lg">
-                          Error: CAPTCHA site key is missing.
-                        </div>
-                      )}
-                    </div>
 
                     <Button
                       type="submit"

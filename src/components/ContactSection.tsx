@@ -3,13 +3,13 @@ import { ArrowRight, Mail, Phone, MapPin, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AnimatedSection from "./AnimatedSection";
-import TurnstileWidget from "@/components/TurnstileWidget";
+
 const ContactSection = () => {
   const [loading, setLoading] = useState(false);
   const {
     toast
   } = useToast();
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,7 +32,6 @@ const ContactSection = () => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return "Invalid email address";
     if (!formData.phone.trim()) return "Phone number is required";
     if (!formData.message.trim()) return "Message is required";
-    if (!captchaToken) return "Please complete the CAPTCHA verification";
     return null;
   };
   const handleSubmit = async (e: React.FormEvent) => {
@@ -58,7 +57,7 @@ const ContactSection = () => {
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
-          captchaToken: captchaToken
+          
         })
       });
       if (!response.ok) {
@@ -76,7 +75,6 @@ const ContactSection = () => {
         phone: "",
         message: ""
       });
-      setCaptchaToken(null);
     } catch (error) {
       console.error("Submission Error:", error);
       toast({
@@ -88,7 +86,7 @@ const ContactSection = () => {
       setLoading(false);
     }
   };
-  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+  
   return <section id="contact" className="py-16 md:py-24">
       <div className="container mx-auto px-0">
         <div className="relative bg-gradient-primary rounded-3xl p-6 sm:p-8 md:p-12 lg:p-16 overflow-hidden">
@@ -176,18 +174,6 @@ const ContactSection = () => {
                     <textarea id="message" name="message" value={formData.message} onChange={handleChange} required rows={4} placeholder="Tell us about your project or requirements..." className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 resize-none" />
                   </div>
 
-                  <div className="py-2">
-                    {siteKey ? <TurnstileWidget siteKey={siteKey} onVerify={token => setCaptchaToken(token)} onError={() => {
-                    toast({
-                      variant: "destructive",
-                      title: "Verification Failed",
-                      description: "CAPTCHA verification failed. Please try again."
-                    });
-                    setCaptchaToken(null);
-                  }} /> : <div className="p-4 bg-destructive/10 text-destructive text-sm rounded-lg">
-                        Error: CAPTCHA site key is missing.
-                      </div>}
-                  </div>
 
                   <Button type="submit" variant="hero" size="lg" className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300" disabled={loading}>
                     {loading ? <>
