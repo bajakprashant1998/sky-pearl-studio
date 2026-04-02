@@ -7,7 +7,7 @@ import { ArrowRight, Mail, Phone, MapPin, Loader2, Clock, MessageCircle, Sparkle
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AnimatedSection from "@/components/AnimatedSection";
-import TurnstileWidget from "@/components/TurnstileWidget";
+
 
 const ContactUs = () => {
   const [searchParams] = useSearchParams();
