@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useState } from "react";
 import { toast } from "sonner";
 import { Eye, EyeOff, Trash2, Search, Pencil } from "lucide-react";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 const AdminBlog = () => {
   const [search, setSearch] = useState("");
@@ -215,8 +216,11 @@ const AdminBlog = () => {
                 <Textarea value={editPost.excerpt} onChange={(e) => setEditPost({ ...editPost, excerpt: e.target.value })} rows={3} />
               </div>
               <div>
-                <Label>Content (HTML)</Label>
-                <Textarea value={editPost.content} onChange={(e) => setEditPost({ ...editPost, content: e.target.value })} rows={12} className="font-mono text-xs" />
+                <Label>Content</Label>
+                <RichTextEditor
+                  value={editPost.content}
+                  onChange={(val) => setEditPost({ ...editPost, content: val })}
+                />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
