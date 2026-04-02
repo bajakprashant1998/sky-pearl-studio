@@ -75,7 +75,6 @@ const ContactSection = () => {
         phone: "",
         message: ""
       });
-      setCaptchaToken(null);
     } catch (error) {
       console.error("Submission Error:", error);
       toast({
