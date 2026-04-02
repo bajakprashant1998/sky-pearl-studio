@@ -13,7 +13,7 @@ const ContactUs = () => {
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  
 
   const interest = searchParams.get("interest");
   const module = searchParams.get("module");
