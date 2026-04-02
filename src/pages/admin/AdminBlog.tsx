@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useState } from "react";
 import { toast } from "sonner";
 import { Eye, EyeOff, Trash2, Search, Pencil } from "lucide-react";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 const AdminBlog = () => {
   const [search, setSearch] = useState("");
