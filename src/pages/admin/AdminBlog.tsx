@@ -3,12 +3,17 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Eye, EyeOff, Trash2, Search, Calendar } from "lucide-react";
+import { Eye, EyeOff, Trash2, Search, Pencil } from "lucide-react";
 
 const AdminBlog = () => {
   const [search, setSearch] = useState("");
+  const [editPost, setEditPost] = useState<any>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: posts, isLoading } = useQuery({
@@ -56,6 +61,23 @@ const AdminBlog = () => {
     onError: (err: any) => toast.error(err.message),
   });
 
+  const updatePost = useMutation({
+    mutationFn: async (post: any) => {
+      const { id, created_at, updated_at, ...rest } = post;
+      const { error } = await supabase
+        .from("blog_posts")
+        .update({ ...rest, updated_at: new Date().toISOString() })
+        .eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
+      setDialogOpen(false);
+      toast.success("Post saved successfully");
+    },
+    onError: (err: any) => toast.error(err.message),
+  });
+
   const deletePost = useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("blog_posts").delete().eq("id", id);
@@ -82,6 +104,11 @@ const AdminBlog = () => {
     if (post.is_published) return { label: "Published", color: "bg-green-500/10 text-green-600" };
     if (isScheduled(post)) return { label: `Scheduled: ${new Date(post.published_at).toLocaleDateString()}`, color: "bg-blue-500/10 text-blue-600" };
     return { label: "Draft", color: "bg-amber-500/10 text-amber-600" };
+  };
+
+  const openEdit = (post: any) => {
+    setEditPost({ ...post, tags: Array.isArray(post.tags) ? post.tags.join(", ") : post.tags });
+    setDialogOpen(true);
   };
 
   return (
@@ -133,6 +160,9 @@ const AdminBlog = () => {
                         />
                       </td>
                       <td className="p-4 text-right space-x-1">
+                        <Button variant="ghost" size="sm" onClick={() => openEdit(post)} title="Edit post">
+                          <Pencil className="w-4 h-4" />
+                        </Button>
                         <Button variant="ghost" size="sm" onClick={() => togglePublish.mutate({ id: post.id, is_published: post.is_published })}>
                           {post.is_published ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </Button>
@@ -153,6 +183,77 @@ const AdminBlog = () => {
           </div>
         </div>
       </div>
+
+      {/* Edit Post Dialog */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Edit Blog Post</DialogTitle>
+          </DialogHeader>
+          {editPost && (
+            <div className="space-y-4">
+              <div>
+                <Label>Title</Label>
+                <Input value={editPost.title} onChange={(e) => setEditPost({ ...editPost, title: e.target.value })} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label>Slug</Label>
+                  <Input value={editPost.slug} onChange={(e) => setEditPost({ ...editPost, slug: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Category</Label>
+                  <Input value={editPost.category} onChange={(e) => setEditPost({ ...editPost, category: e.target.value })} />
+                </div>
+              </div>
+              <div>
+                <Label>Meta Description</Label>
+                <Textarea value={editPost.meta_description} onChange={(e) => setEditPost({ ...editPost, meta_description: e.target.value })} rows={2} />
+              </div>
+              <div>
+                <Label>Excerpt</Label>
+                <Textarea value={editPost.excerpt} onChange={(e) => setEditPost({ ...editPost, excerpt: e.target.value })} rows={3} />
+              </div>
+              <div>
+                <Label>Content (HTML)</Label>
+                <Textarea value={editPost.content} onChange={(e) => setEditPost({ ...editPost, content: e.target.value })} rows={12} className="font-mono text-xs" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label>Image URL</Label>
+                  <Input value={editPost.image_url || ""} onChange={(e) => setEditPost({ ...editPost, image_url: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Author</Label>
+                  <Input value={editPost.author} onChange={(e) => setEditPost({ ...editPost, author: e.target.value })} />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label>Tags (comma separated)</Label>
+                  <Input value={editPost.tags} onChange={(e) => setEditPost({ ...editPost, tags: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Read Time</Label>
+                  <Input value={editPost.read_time} onChange={(e) => setEditPost({ ...editPost, read_time: e.target.value })} />
+                </div>
+              </div>
+              <Button
+                onClick={() => {
+                  const tagsArray = typeof editPost.tags === "string"
+                    ? editPost.tags.split(",").map((t: string) => t.trim()).filter(Boolean)
+                    : editPost.tags;
+                  updatePost.mutate({ ...editPost, tags: tagsArray });
+                }}
+                className="w-full"
+                disabled={updatePost.isPending}
+              >
+                {updatePost.isPending ? "Saving..." : "Save Changes"}
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </AdminLayout>
   );
 };
