@@ -57,7 +57,7 @@ const ContactSection = () => {
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
-          captchaToken: captchaToken
+          
         })
       });
       if (!response.ok) {
