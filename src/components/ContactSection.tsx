@@ -32,7 +32,6 @@ const ContactSection = () => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return "Invalid email address";
     if (!formData.phone.trim()) return "Phone number is required";
     if (!formData.message.trim()) return "Message is required";
-    if (!captchaToken) return "Please complete the CAPTCHA verification";
     return null;
   };
   const handleSubmit = async (e: React.FormEvent) => {
