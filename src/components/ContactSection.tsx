@@ -3,7 +3,7 @@ import { ArrowRight, Mail, Phone, MapPin, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AnimatedSection from "./AnimatedSection";
-import TurnstileWidget from "@/components/TurnstileWidget";
+
 const ContactSection = () => {
   const [loading, setLoading] = useState(false);
   const {
