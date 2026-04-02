@@ -9,7 +9,7 @@ const ContactSection = () => {
   const {
     toast
   } = useToast();
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
