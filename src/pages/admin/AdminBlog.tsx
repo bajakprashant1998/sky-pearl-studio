@@ -216,8 +216,11 @@ const AdminBlog = () => {
                 <Textarea value={editPost.excerpt} onChange={(e) => setEditPost({ ...editPost, excerpt: e.target.value })} rows={3} />
               </div>
               <div>
-                <Label>Content (HTML)</Label>
-                <Textarea value={editPost.content} onChange={(e) => setEditPost({ ...editPost, content: e.target.value })} rows={12} className="font-mono text-xs" />
+                <Label>Content</Label>
+                <RichTextEditor
+                  value={editPost.content}
+                  onChange={(val) => setEditPost({ ...editPost, content: val })}
+                />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
