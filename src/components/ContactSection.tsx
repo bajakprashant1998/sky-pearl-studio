@@ -174,18 +174,6 @@ const ContactSection = () => {
                     <textarea id="message" name="message" value={formData.message} onChange={handleChange} required rows={4} placeholder="Tell us about your project or requirements..." className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 resize-none" />
                   </div>
 
-                  <div className="py-2">
-                    {siteKey ? <TurnstileWidget siteKey={siteKey} onVerify={token => setCaptchaToken(token)} onError={() => {
-                    toast({
-                      variant: "destructive",
-                      title: "Verification Failed",
-                      description: "CAPTCHA verification failed. Please try again."
-                    });
-                    setCaptchaToken(null);
-                  }} /> : <div className="p-4 bg-destructive/10 text-destructive text-sm rounded-lg">
-                        Error: CAPTCHA site key is missing.
-                      </div>}
-                  </div>
 
                   <Button type="submit" variant="hero" size="lg" className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300" disabled={loading}>
                     {loading ? <>

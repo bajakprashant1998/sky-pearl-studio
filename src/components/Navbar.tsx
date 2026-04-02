@@ -120,7 +120,7 @@ const Navbar = () => {
               <img 
                 src="/dibull_logo.png" 
                 alt="Digital Bull Logo" 
-                className="w-11 h-11 rounded-xl shadow-md group-hover:shadow-lg group-hover:shadow-primary/25 transition-all duration-300"
+                className="w-14 h-14 object-contain"
               />
               <div className="absolute inset-0 rounded-xl bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300" />
             </motion.div>
