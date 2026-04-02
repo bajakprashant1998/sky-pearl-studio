@@ -82,7 +82,7 @@ const ContactUs = () => {
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
-          captchaToken: captchaToken,
+          
         }),
       });
 
