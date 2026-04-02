@@ -113,7 +113,7 @@ const ContactUs = () => {
     }
   };
 
-  const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+  
 
   const contactPageJsonLd = {
     "@context": "https://schema.org",
