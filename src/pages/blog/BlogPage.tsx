@@ -377,28 +377,33 @@ const BlogPage = () => {
                     <div className="grid lg:grid-cols-2 gap-0">
                       {/* Icon & Infographic Section */}
                       <div className={`relative aspect-video lg:aspect-auto lg:min-h-[520px] overflow-hidden bg-gradient-to-br ${getCategoryGradient(featuredPost.category)}`}>
-                        {/* Pattern Overlay */}
-                        <div 
-                          className="absolute inset-0 opacity-10 text-white"
-                          style={getPatternStyle(0)}
-                        />
-                        
-                        {/* Animated Floating Elements */}
-                        <div className="absolute top-10 right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl animate-float" />
-                        <div className="absolute bottom-20 left-10 w-32 h-32 bg-white/10 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }} />
-                        <div className="absolute top-1/3 left-1/4 w-20 h-20 bg-white/5 rounded-full blur-lg animate-float" style={{ animationDelay: '2s' }} />
-                        
-                        {/* Main Icon with Glow */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="relative group-hover:scale-110 transition-transform duration-700">
-                            <div className="absolute inset-0 bg-white/30 rounded-full blur-3xl scale-[2] animate-pulse" />
-                            <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
-                            {(() => {
-                              const IconComponent = getCategoryIcon(featuredPost.category);
-                              return <IconComponent className="relative w-36 h-36 lg:w-52 lg:h-52 text-white drop-shadow-2xl" strokeWidth={0.8} />;
-                            })()}
-                          </div>
-                        </div>
+                        {featuredPost.featuredImage && !featuredPost.featuredImage.includes('unsplash.com') ? (
+                          <>
+                            <img 
+                              src={featuredPost.featuredImage} 
+                              alt={featuredPost.title}
+                              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+                          </>
+                        ) : (
+                          <>
+                            <div className="absolute inset-0 opacity-10 text-white" style={getPatternStyle(0)} />
+                            <div className="absolute top-10 right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl animate-float" />
+                            <div className="absolute bottom-20 left-10 w-32 h-32 bg-white/10 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }} />
+                            <div className="absolute top-1/3 left-1/4 w-20 h-20 bg-white/5 rounded-full blur-lg animate-float" style={{ animationDelay: '2s' }} />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="relative group-hover:scale-110 transition-transform duration-700">
+                                <div className="absolute inset-0 bg-white/30 rounded-full blur-3xl scale-[2] animate-pulse" />
+                                <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
+                                {(() => {
+                                  const IconComponent = getCategoryIcon(featuredPost.category);
+                                  return <IconComponent className="relative w-36 h-36 lg:w-52 lg:h-52 text-white drop-shadow-2xl" strokeWidth={0.8} />;
+                                })()}
+                              </div>
+                            </div>
+                          </>
+                        )}
                         
                         {/* Enhanced Stats Bar */}
                         <div className="absolute bottom-6 left-6 right-6 flex gap-3 flex-wrap">
@@ -529,25 +534,31 @@ const BlogPage = () => {
                     <StaggerItem key={post.id}>
                       <Link to={`/blog/${post.slug}`}>
                         <Card className="h-full overflow-hidden group hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-2 border-0 bg-card">
-                          {/* Icon Graphic Section */}
+                          {/* Image / Icon Graphic Section */}
                           <div className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
-                            {/* Pattern Overlay */}
-                            <div 
-                              className="absolute inset-0 opacity-10 text-white"
-                              style={getPatternStyle(index)}
-                            />
-                            
-                            {/* Floating Elements */}
-                            <div className="absolute top-4 right-4 w-16 h-16 bg-white/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
-                            <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/10 rounded-full blur-lg" />
-                            
-                            {/* Main Icon */}
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="relative group-hover:scale-110 transition-transform duration-500">
-                                <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
-                                <IconComponent className="relative w-16 h-16 lg:w-20 lg:h-20 text-white drop-shadow-lg" strokeWidth={1.5} />
-                              </div>
-                            </div>
+                            {post.featuredImage && !post.featuredImage.includes('unsplash.com') ? (
+                              <>
+                                <img 
+                                  src={post.featuredImage} 
+                                  alt={post.title}
+                                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                  loading="lazy"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                              </>
+                            ) : (
+                              <>
+                                <div className="absolute inset-0 opacity-10 text-white" style={getPatternStyle(index)} />
+                                <div className="absolute top-4 right-4 w-16 h-16 bg-white/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
+                                <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/10 rounded-full blur-lg" />
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <div className="relative group-hover:scale-110 transition-transform duration-500">
+                                    <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
+                                    <IconComponent className="relative w-16 h-16 lg:w-20 lg:h-20 text-white drop-shadow-lg" strokeWidth={1.5} />
+                                  </div>
+                                </div>
+                              </>
+                            )}
                             
                             {/* Category Badge */}
                             <Badge className="absolute top-4 left-4 bg-white/90 text-foreground backdrop-blur-sm shadow-lg">
