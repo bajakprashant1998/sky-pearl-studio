@@ -529,25 +529,31 @@ const BlogPage = () => {
                     <StaggerItem key={post.id}>
                       <Link to={`/blog/${post.slug}`}>
                         <Card className="h-full overflow-hidden group hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-2 border-0 bg-card">
-                          {/* Icon Graphic Section */}
+                          {/* Image / Icon Graphic Section */}
                           <div className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
-                            {/* Pattern Overlay */}
-                            <div 
-                              className="absolute inset-0 opacity-10 text-white"
-                              style={getPatternStyle(index)}
-                            />
-                            
-                            {/* Floating Elements */}
-                            <div className="absolute top-4 right-4 w-16 h-16 bg-white/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
-                            <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/10 rounded-full blur-lg" />
-                            
-                            {/* Main Icon */}
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="relative group-hover:scale-110 transition-transform duration-500">
-                                <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
-                                <IconComponent className="relative w-16 h-16 lg:w-20 lg:h-20 text-white drop-shadow-lg" strokeWidth={1.5} />
-                              </div>
-                            </div>
+                            {post.featuredImage && !post.featuredImage.includes('unsplash.com') ? (
+                              <>
+                                <img 
+                                  src={post.featuredImage} 
+                                  alt={post.title}
+                                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                  loading="lazy"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                              </>
+                            ) : (
+                              <>
+                                <div className="absolute inset-0 opacity-10 text-white" style={getPatternStyle(index)} />
+                                <div className="absolute top-4 right-4 w-16 h-16 bg-white/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500" />
+                                <div className="absolute bottom-4 left-4 w-12 h-12 bg-white/10 rounded-full blur-lg" />
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <div className="relative group-hover:scale-110 transition-transform duration-500">
+                                    <div className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150" />
+                                    <IconComponent className="relative w-16 h-16 lg:w-20 lg:h-20 text-white drop-shadow-lg" strokeWidth={1.5} />
+                                  </div>
+                                </div>
+                              </>
+                            )}
                             
                             {/* Category Badge */}
                             <Badge className="absolute top-4 left-4 bg-white/90 text-foreground backdrop-blur-sm shadow-lg">

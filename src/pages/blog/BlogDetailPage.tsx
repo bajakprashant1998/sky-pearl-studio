@@ -664,16 +664,29 @@ const BlogDetailPage = () => {
                     <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-primary rounded-3xl opacity-50 blur-md group-hover:opacity-75 transition-opacity" />
                     <Card className={`relative overflow-hidden border-0 shadow-2xl rounded-2xl bg-gradient-to-br ${getCategoryGradient(post.category)}`}>
                       <div className="relative h-72 md:h-96">
-                        <div className="absolute inset-0 opacity-15 text-white" style={getPatternStyle(0)} />
-                        <div className="absolute top-10 right-10 w-40 h-40 bg-white/15 rounded-full blur-2xl animate-float" />
-                        <div className="absolute bottom-10 left-10 w-32 h-32 bg-white/15 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }} />
-                        
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="relative group-hover:scale-110 transition-transform duration-700">
-                            <div className="absolute inset-0 bg-white/30 rounded-full blur-3xl scale-[2] animate-pulse" />
-                            {(() => { const IC = getCategoryIcon(post.category); return <IC className="relative w-28 h-28 md:w-40 md:h-40 text-white drop-shadow-2xl" strokeWidth={0.8} />; })()}
-                          </div>
-                        </div>
+                        {post.featuredImage && !post.featuredImage.includes('unsplash.com') ? (
+                          <>
+                            <img 
+                              src={post.featuredImage} 
+                              alt={post.title}
+                              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+                          </>
+                        ) : (
+                          <>
+                            <div className="absolute inset-0 opacity-15 text-white" style={getPatternStyle(0)} />
+                            <div className="absolute top-10 right-10 w-40 h-40 bg-white/15 rounded-full blur-2xl animate-float" />
+                            <div className="absolute bottom-10 left-10 w-32 h-32 bg-white/15 rounded-full blur-xl animate-float" style={{ animationDelay: '1s' }} />
+                            
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="relative group-hover:scale-110 transition-transform duration-700">
+                                <div className="absolute inset-0 bg-white/30 rounded-full blur-3xl scale-[2] animate-pulse" />
+                                {(() => { const IC = getCategoryIcon(post.category); return <IC className="relative w-28 h-28 md:w-40 md:h-40 text-white drop-shadow-2xl" strokeWidth={0.8} />; })()}
+                              </div>
+                            </div>
+                          </>
+                        )}
                         
                         <div className="absolute bottom-6 left-6 right-6 flex gap-3 flex-wrap">
                           <div className="bg-white/25 backdrop-blur-md rounded-xl px-5 py-3 flex items-center gap-2 border border-white/20 shadow-lg">
