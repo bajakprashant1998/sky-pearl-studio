@@ -27,7 +27,7 @@ const AdminBlog = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("blog_posts")
-        .select("*")
+        .select("id, title, slug, category, is_published, published_at, created_at, updated_at, image_url, author, read_time, tags, meta_description, excerpt")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
@@ -96,10 +96,12 @@ const AdminBlog = () => {
     onError: (err: any) => toast.error(err.message),
   });
 
-  const compressImage = (file: File, maxWidth = 1200, quality = 0.8): Promise<Blob> => {
+  const compressImage = (file: File, maxWidth = 800, quality = 0.7): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const img = new Image();
+      const objectUrl = URL.createObjectURL(file);
       img.onload = () => {
+        URL.revokeObjectURL(objectUrl);
         const canvas = document.createElement("canvas");
         let { width, height } = img;
         if (width > maxWidth) {
@@ -117,8 +119,8 @@ const AdminBlog = () => {
           quality
         );
       };
-      img.onerror = () => reject(new Error("Failed to load image"));
-      img.src = URL.createObjectURL(file);
+      img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error("Failed to load image")); };
+      img.src = objectUrl;
     });
   };
 
@@ -174,8 +176,15 @@ const AdminBlog = () => {
     return { label: "Draft", color: "bg-amber-500/10 text-amber-600" };
   };
 
-  const openEdit = (post: any) => {
-    setEditPost({ ...post, tags: Array.isArray(post.tags) ? post.tags.join(", ") : post.tags });
+  const openEdit = async (post: any) => {
+    // Fetch full content only when editing
+    const { data, error } = await supabase
+      .from("blog_posts")
+      .select("content")
+      .eq("id", post.id)
+      .single();
+    const content = error ? "" : data?.content || "";
+    setEditPost({ ...post, content, tags: Array.isArray(post.tags) ? post.tags.join(", ") : post.tags });
     setDialogOpen(true);
   };
 
