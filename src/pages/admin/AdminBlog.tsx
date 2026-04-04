@@ -96,10 +96,12 @@ const AdminBlog = () => {
     onError: (err: any) => toast.error(err.message),
   });
 
-  const compressImage = (file: File, maxWidth = 1200, quality = 0.8): Promise<Blob> => {
+  const compressImage = (file: File, maxWidth = 800, quality = 0.7): Promise<Blob> => {
     return new Promise((resolve, reject) => {
       const img = new Image();
+      const objectUrl = URL.createObjectURL(file);
       img.onload = () => {
+        URL.revokeObjectURL(objectUrl);
         const canvas = document.createElement("canvas");
         let { width, height } = img;
         if (width > maxWidth) {
@@ -117,8 +119,8 @@ const AdminBlog = () => {
           quality
         );
       };
-      img.onerror = () => reject(new Error("Failed to load image"));
-      img.src = URL.createObjectURL(file);
+      img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error("Failed to load image")); };
+      img.src = objectUrl;
     });
   };
 
