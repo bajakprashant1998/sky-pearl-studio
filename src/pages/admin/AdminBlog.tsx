@@ -174,8 +174,15 @@ const AdminBlog = () => {
     return { label: "Draft", color: "bg-amber-500/10 text-amber-600" };
   };
 
-  const openEdit = (post: any) => {
-    setEditPost({ ...post, tags: Array.isArray(post.tags) ? post.tags.join(", ") : post.tags });
+  const openEdit = async (post: any) => {
+    // Fetch full content only when editing
+    const { data, error } = await supabase
+      .from("blog_posts")
+      .select("content")
+      .eq("id", post.id)
+      .single();
+    const content = error ? "" : data?.content || "";
+    setEditPost({ ...post, content, tags: Array.isArray(post.tags) ? post.tags.join(", ") : post.tags });
     setDialogOpen(true);
   };
 
