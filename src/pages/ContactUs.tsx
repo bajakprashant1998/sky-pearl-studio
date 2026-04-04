@@ -7,6 +7,7 @@ import { ArrowRight, Mail, Phone, MapPin, Loader2, Clock, MessageCircle, Sparkle
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AnimatedSection from "@/components/AnimatedSection";
+import { supabase } from "@/integrations/supabase/client";
 
 
 const ContactUs = () => {
@@ -32,7 +33,8 @@ const ContactUs = () => {
     name: "",
     email: "",
     phone: "",
-    message: getPrefilledMessage()
+    message: getPrefilledMessage(),
+    _honey: ""
   });
 
   useEffect(() => {
@@ -72,23 +74,17 @@ const ContactUs = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://email.dibull.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const { data, error: fnError } = await supabase.functions.invoke("contact-form", {
+        body: {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
-          
-        }),
+          _honey: formData._honey,
+        },
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to send message");
-      }
+      if (fnError) throw new Error("Failed to send message");
 
       toast({
         title: "Success!",
@@ -99,7 +95,8 @@ const ContactUs = () => {
         name: "",
         email: "",
         phone: "",
-        message: ""
+        message: "",
+        _honey: ""
       });
     } catch (error) {
       console.error("Submission Error:", error);
@@ -408,6 +405,17 @@ const ContactUs = () => {
                       />
                     </div>
 
+                    {/* Honeypot - hidden from humans */}
+                    <div className="absolute opacity-0 pointer-events-none h-0 overflow-hidden" aria-hidden="true" tabIndex={-1}>
+                      <input
+                        type="text"
+                        name="_honey"
+                        value={formData._honey}
+                        onChange={handleChange}
+                        autoComplete="off"
+                        tabIndex={-1}
+                      />
+                    </div>
 
                     <Button
                       type="submit"

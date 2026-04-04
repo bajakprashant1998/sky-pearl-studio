@@ -3,6 +3,7 @@ import { ArrowRight, Mail, Phone, MapPin, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import AnimatedSection from "./AnimatedSection";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactSection = () => {
   const [loading, setLoading] = useState(false);
@@ -14,7 +15,8 @@ const ContactSection = () => {
     name: "",
     email: "",
     phone: "",
-    message: ""
+    message: "",
+    _honey: ""
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {
@@ -47,33 +49,29 @@ const ContactSection = () => {
     }
     setLoading(true);
     try {
-      const response = await fetch("https://email.dibull.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
+      const { data, error: fnError } = await supabase.functions.invoke("contact-form", {
+        body: {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
-          
-        })
+          _honey: formData._honey,
+        },
       });
-      if (!response.ok) {
-        throw new Error("Failed to send message");
-      }
+
+      if (fnError) throw new Error("Failed to send message");
+
       toast({
         title: "Success!",
         description: "Your message has been sent successfully."
       });
 
-      // Clear form
       setFormData({
         name: "",
         email: "",
         phone: "",
-        message: ""
+        message: "",
+        _honey: ""
       });
     } catch (error) {
       console.error("Submission Error:", error);
@@ -174,6 +172,10 @@ const ContactSection = () => {
                     <textarea id="message" name="message" value={formData.message} onChange={handleChange} required rows={4} placeholder="Tell us about your project or requirements..." className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 resize-none" />
                   </div>
 
+                  {/* Honeypot - hidden from humans */}
+                  <div className="absolute opacity-0 pointer-events-none h-0 overflow-hidden" aria-hidden="true" tabIndex={-1}>
+                    <input type="text" name="_honey" value={formData._honey} onChange={handleChange} autoComplete="off" tabIndex={-1} />
+                  </div>
 
                   <Button type="submit" variant="hero" size="lg" className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300" disabled={loading}>
                     {loading ? <>
