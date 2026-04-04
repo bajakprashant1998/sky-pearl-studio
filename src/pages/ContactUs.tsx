@@ -77,23 +77,17 @@ const ContactUs = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://email.dibull.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const { data, error: fnError } = await supabase.functions.invoke("contact-form", {
+        body: {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
-          
-        }),
+          _honey: formData._honey,
+        },
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to send message");
-      }
+      if (fnError) throw new Error("Failed to send message");
 
       toast({
         title: "Success!",
@@ -104,7 +98,8 @@ const ContactUs = () => {
         name: "",
         email: "",
         phone: "",
-        message: ""
+        message: "",
+        _honey: ""
       });
     } catch (error) {
       console.error("Submission Error:", error);
