@@ -36,7 +36,8 @@ const ContactUs = () => {
     name: "",
     email: "",
     phone: "",
-    message: getPrefilledMessage()
+    message: getPrefilledMessage(),
+    _honey: ""
   });
 
   useEffect(() => {
