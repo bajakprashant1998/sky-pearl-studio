@@ -27,7 +27,7 @@ const AdminBlog = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("blog_posts")
-        .select("*")
+        .select("id, title, slug, category, is_published, published_at, created_at, updated_at, image_url, author, read_time, tags, meta_description, excerpt")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
