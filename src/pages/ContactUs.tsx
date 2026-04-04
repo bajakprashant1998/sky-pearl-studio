@@ -417,6 +417,7 @@ const ContactUs = () => {
                       />
                     </div>
 
+                    <Button
                       type="submit"
                       variant="hero"
                       size="lg"
