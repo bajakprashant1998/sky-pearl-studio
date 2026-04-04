@@ -172,6 +172,10 @@ const ContactSection = () => {
                     <textarea id="message" name="message" value={formData.message} onChange={handleChange} required rows={4} placeholder="Tell us about your project or requirements..." className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 resize-none" />
                   </div>
 
+                  {/* Honeypot - hidden from humans */}
+                  <div className="absolute opacity-0 pointer-events-none h-0 overflow-hidden" aria-hidden="true" tabIndex={-1}>
+                    <input type="text" name="_honey" value={formData._honey} onChange={handleChange} autoComplete="off" tabIndex={-1} />
+                  </div>
 
                   <Button type="submit" variant="hero" size="lg" className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300" disabled={loading}>
                     {loading ? <>
