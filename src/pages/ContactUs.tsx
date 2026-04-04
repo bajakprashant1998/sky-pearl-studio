@@ -405,8 +405,18 @@ const ContactUs = () => {
                       />
                     </div>
 
+                    {/* Honeypot - hidden from humans */}
+                    <div className="absolute opacity-0 pointer-events-none h-0 overflow-hidden" aria-hidden="true" tabIndex={-1}>
+                      <input
+                        type="text"
+                        name="_honey"
+                        value={formData._honey}
+                        onChange={handleChange}
+                        autoComplete="off"
+                        tabIndex={-1}
+                      />
+                    </div>
 
-                    <Button
                       type="submit"
                       variant="hero"
                       size="lg"
