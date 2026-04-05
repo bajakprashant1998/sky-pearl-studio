@@ -1,4 +1,4 @@
-import { useRef, useCallback } from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Bold, Italic, Underline, Strikethrough,
@@ -12,7 +12,7 @@ interface RichTextEditorProps {
   onChange: (value: string) => void;
 }
 
-const ToolbarButton = ({ 
+const ToolbarButton = memo(({ 
   onClick, icon: Icon, title, active = false 
 }: { 
   onClick: () => void; icon: any; title: string; active?: boolean;
@@ -27,18 +27,40 @@ const ToolbarButton = ({
   >
     <Icon className="w-4 h-4" />
   </Button>
-);
+));
 
 const RichTextEditor = ({ value, onChange }: RichTextEditorProps) => {
   const editorRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<number | null>(null);
 
-  const exec = useCallback((command: string, val?: string) => {
-    document.execCommand(command, false, val);
+  useEffect(() => {
+    const editor = editorRef.current;
+    if (!editor) return;
+
+    if (editor.innerHTML !== value) {
+      editor.innerHTML = value || "";
+    }
+  }, [value]);
+
+  useEffect(() => {
+    return () => {
+      if (frameRef.current !== null) {
+        cancelAnimationFrame(frameRef.current);
+      }
+    };
+  }, []);
+
+  const emitChange = useCallback(() => {
     if (editorRef.current) {
       onChange(editorRef.current.innerHTML);
     }
-    editorRef.current?.focus();
   }, [onChange]);
+
+  const exec = useCallback((command: string, val?: string) => {
+    document.execCommand(command, false, val);
+    emitChange();
+    editorRef.current?.focus();
+  }, [emitChange]);
 
   const insertLink = useCallback(() => {
     const url = prompt("Enter URL:");
@@ -51,10 +73,15 @@ const RichTextEditor = ({ value, onChange }: RichTextEditorProps) => {
   }, [exec]);
 
   const handleInput = useCallback(() => {
-    if (editorRef.current) {
-      onChange(editorRef.current.innerHTML);
+    if (frameRef.current !== null) {
+      cancelAnimationFrame(frameRef.current);
     }
-  }, [onChange]);
+
+    frameRef.current = requestAnimationFrame(() => {
+      emitChange();
+      frameRef.current = null;
+    });
+  }, [emitChange]);
 
   return (
     <div className="border border-border rounded-xl overflow-hidden bg-background">
@@ -134,11 +161,10 @@ const RichTextEditor = ({ value, onChange }: RichTextEditorProps) => {
           [&_pre]:bg-muted [&_pre]:p-3 [&_pre]:rounded-lg [&_pre]:text-sm [&_pre]:font-mono
           [&_img]:max-w-full [&_img]:rounded-lg [&_img]:my-3"
         onInput={handleInput}
-        dangerouslySetInnerHTML={{ __html: value }}
         suppressContentEditableWarning
       />
     </div>
   );
 };
 
-export default RichTextEditor;
+export default memo(RichTextEditor);

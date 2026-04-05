@@ -3,13 +3,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
-import { Eye, EyeOff, Trash2, Search, Pencil, Upload, ChevronLeft, ChevronRight } from "lucide-react";
-import RichTextEditor from "@/components/admin/RichTextEditor";
+import { Eye, EyeOff, Trash2, Search, Pencil, ChevronLeft, ChevronRight } from "lucide-react";
+import BlogPostEditorDialog from "@/components/admin/BlogPostEditorDialog";
 
 const POSTS_PER_PAGE = 10;
 
@@ -18,8 +15,7 @@ const AdminBlog = () => {
   const [editPost, setEditPost] = useState<any>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [uploading, setUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isLoadingEditorContent, setIsLoadingEditorContent] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: posts, isLoading } = useQuery({
@@ -79,6 +75,8 @@ const AdminBlog = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
       setDialogOpen(false);
+      setEditPost(null);
+      setIsLoadingEditorContent(false);
       toast.success("Post saved successfully");
     },
     onError: (err: any) => toast.error(err.message),
@@ -95,63 +93,6 @@ const AdminBlog = () => {
     },
     onError: (err: any) => toast.error(err.message),
   });
-
-  const compressImage = (file: File, maxWidth = 800, quality = 0.7): Promise<Blob> => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      const objectUrl = URL.createObjectURL(file);
-      img.onload = () => {
-        URL.revokeObjectURL(objectUrl);
-        const canvas = document.createElement("canvas");
-        let { width, height } = img;
-        if (width > maxWidth) {
-          height = (height * maxWidth) / width;
-          width = maxWidth;
-        }
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return reject(new Error("Canvas not supported"));
-        ctx.drawImage(img, 0, 0, width, height);
-        canvas.toBlob(
-          (blob) => (blob ? resolve(blob) : reject(new Error("Compression failed"))),
-          "image/webp",
-          quality
-        );
-      };
-      img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error("Failed to load image")); };
-      img.src = objectUrl;
-    });
-  };
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !editPost) return;
-
-    setUploading(true);
-    try {
-      const compressed = await compressImage(file);
-      const fileName = `${editPost.slug || Date.now()}-${Date.now()}.webp`;
-
-      const { error: uploadError } = await supabase.storage
-        .from("blog-images")
-        .upload(fileName, compressed, { upsert: true, contentType: "image/webp" });
-
-      if (uploadError) throw uploadError;
-
-      const { data: urlData } = supabase.storage
-        .from("blog-images")
-        .getPublicUrl(fileName);
-
-      setEditPost({ ...editPost, image_url: urlData.publicUrl });
-      toast.success("Image uploaded successfully");
-    } catch (err: any) {
-      toast.error(err.message || "Upload failed");
-    } finally {
-      setUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    }
-  };
 
   const filtered = posts?.filter(
     (p) =>
@@ -177,15 +118,28 @@ const AdminBlog = () => {
   };
 
   const openEdit = async (post: any) => {
-    // Fetch full content only when editing
+    setEditPost({ ...post, content: "" });
+    setDialogOpen(true);
+    setIsLoadingEditorContent(true);
+
     const { data, error } = await supabase
       .from("blog_posts")
       .select("content")
       .eq("id", post.id)
       .single();
+
     const content = error ? "" : data?.content || "";
-    setEditPost({ ...post, content, tags: Array.isArray(post.tags) ? post.tags.join(", ") : post.tags });
-    setDialogOpen(true);
+    setEditPost((current: any) => current?.id === post.id ? { ...current, content } : current);
+    setIsLoadingEditorContent(false);
+  };
+
+  const handleDialogOpenChange = (open: boolean) => {
+    setDialogOpen(open);
+
+    if (!open) {
+      setEditPost(null);
+      setIsLoadingEditorContent(false);
+    }
   };
 
   // Reset to page 1 when search changes
@@ -314,123 +268,14 @@ const AdminBlog = () => {
         </div>
       </div>
 
-      {/* Edit Post Dialog */}
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Edit Blog Post</DialogTitle>
-          </DialogHeader>
-          {editPost && (
-            <div className="space-y-4">
-              <div>
-                <Label>Title</Label>
-                <Input value={editPost.title} onChange={(e) => setEditPost({ ...editPost, title: e.target.value })} />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label>Slug</Label>
-                  <Input value={editPost.slug} onChange={(e) => setEditPost({ ...editPost, slug: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Category</Label>
-                  <Input value={editPost.category} onChange={(e) => setEditPost({ ...editPost, category: e.target.value })} />
-                </div>
-              </div>
-              <div>
-                <Label>Meta Description</Label>
-                <Textarea value={editPost.meta_description} onChange={(e) => setEditPost({ ...editPost, meta_description: e.target.value })} rows={2} />
-              </div>
-              <div>
-                <Label>Excerpt</Label>
-                <Textarea value={editPost.excerpt} onChange={(e) => setEditPost({ ...editPost, excerpt: e.target.value })} rows={3} />
-              </div>
-              <div>
-                <Label>Content</Label>
-                <RichTextEditor
-                  value={editPost.content}
-                  onChange={(val) => setEditPost({ ...editPost, content: val })}
-                />
-              </div>
-
-              {/* Image Upload Section */}
-              <div>
-                <Label>Featured Image</Label>
-                <div className="mt-2 space-y-3">
-                  {editPost.image_url && (
-                    <div className="relative rounded-lg overflow-hidden border border-border bg-muted">
-                      <img
-                        src={editPost.image_url}
-                        alt="Featured"
-                        className="w-full h-40 object-cover"
-                      />
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        className="absolute top-2 right-2"
-                        onClick={() => setEditPost({ ...editPost, image_url: "" })}
-                      >
-                        <Trash2 className="w-3 h-3 mr-1" /> Remove
-                      </Button>
-                    </div>
-                  )}
-                  <div className="flex gap-2 items-center">
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleImageUpload}
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      disabled={uploading}
-                      onClick={() => fileInputRef.current?.click()}
-                    >
-                      <Upload className="w-4 h-4 mr-2" />
-                      {uploading ? "Uploading..." : "Upload Image"}
-                    </Button>
-                    <span className="text-xs text-muted-foreground">or paste URL below</span>
-                  </div>
-                  <Input
-                    placeholder="https://example.com/image.jpg"
-                    value={editPost.image_url || ""}
-                    onChange={(e) => setEditPost({ ...editPost, image_url: e.target.value })}
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label>Author</Label>
-                  <Input value={editPost.author} onChange={(e) => setEditPost({ ...editPost, author: e.target.value })} />
-                </div>
-                <div>
-                  <Label>Read Time</Label>
-                  <Input value={editPost.read_time} onChange={(e) => setEditPost({ ...editPost, read_time: e.target.value })} />
-                </div>
-              </div>
-              <div>
-                <Label>Tags (comma separated)</Label>
-                <Input value={editPost.tags} onChange={(e) => setEditPost({ ...editPost, tags: e.target.value })} />
-              </div>
-              <Button
-                onClick={() => {
-                  const tagsArray = typeof editPost.tags === "string"
-                    ? editPost.tags.split(",").map((t: string) => t.trim()).filter(Boolean)
-                    : editPost.tags;
-                  updatePost.mutate({ ...editPost, tags: tagsArray });
-                }}
-                className="w-full"
-                disabled={updatePost.isPending}
-              >
-                {updatePost.isPending ? "Saving..." : "Save Changes"}
-              </Button>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+      <BlogPostEditorDialog
+        open={dialogOpen}
+        onOpenChange={handleDialogOpenChange}
+        post={editPost}
+        isLoadingContent={isLoadingEditorContent}
+        isSaving={updatePost.isPending}
+        onSave={(post) => updatePost.mutate(post)}
+      />
     </AdminLayout>
   );
 };
