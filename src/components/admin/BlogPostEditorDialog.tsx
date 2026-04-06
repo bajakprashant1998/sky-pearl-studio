@@ -276,7 +276,16 @@ const BlogPostEditorDialog = ({
               <Input value={draftPost.tags} onChange={(e) => updateDraftField("tags", e.target.value)} />
             </div>
 
-            <Button onClick={handleSave} className="w-full" disabled={isSaving || uploading || isLoadingContent}>
+            <Button 
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSave();
+              }} 
+              className="w-full" 
+              disabled={isSaving || uploading || isLoadingContent}
+            >
               {isSaving ? "Saving..." : "Save Changes"}
             </Button>
           </div>
