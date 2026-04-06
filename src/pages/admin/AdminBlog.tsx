@@ -63,18 +63,29 @@ const AdminBlog = () => {
     onError: (err: any) => toast.error(err.message),
   });
 
+  const createPost = useMutation({
+    mutationFn: async (post: any) => {
+      const { id, created_at, updated_at, ...rest } = post;
+      const { error } = await supabase.from("blog_posts").insert(rest);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
+      setDialogOpen(false);
+      setEditPost(null);
+      toast.success("Post created successfully");
+    },
+    onError: (err: any) => toast.error(err.message || "Failed to create post"),
+  });
+
   const updatePost = useMutation({
     mutationFn: async (post: any) => {
       const { id, created_at, updated_at, ...rest } = post;
-      console.log("Saving post:", id, Object.keys(rest));
       const { error } = await supabase
         .from("blog_posts")
         .update({ ...rest, updated_at: new Date().toISOString() })
         .eq("id", id);
-      if (error) {
-        console.error("Supabase update error:", error);
-        throw error;
-      }
+      if (error) throw error;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
@@ -83,10 +94,7 @@ const AdminBlog = () => {
       setIsLoadingEditorContent(false);
       toast.success("Post saved successfully");
     },
-    onError: (err: any) => {
-      console.error("Save mutation error:", err);
-      toast.error(err.message || "Failed to save post");
-    },
+    onError: (err: any) => toast.error(err.message || "Failed to save post"),
   });
 
   const deletePost = useMutation({
