@@ -217,7 +217,7 @@ const BlogPostEditorDialog = ({
                   <div className="relative rounded-lg overflow-hidden border border-border bg-muted">
                     <img
                       src={draftPost.image_url}
-                      alt="Featured"
+                      alt={draftPost.title || "Featured image"}
                       className="w-full h-40 object-cover"
                       loading="lazy"
                       decoding="async"
