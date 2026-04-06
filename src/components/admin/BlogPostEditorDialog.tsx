@@ -138,12 +138,17 @@ const BlogPostEditorDialog = ({
   };
 
   const handleSave = () => {
-    if (!draftPost) return;
+    if (!draftPost) {
+      console.error("handleSave: draftPost is null");
+      toast.error("No post data to save");
+      return;
+    }
 
     const tagsArray = typeof draftPost.tags === "string"
       ? draftPost.tags.split(",").map((tag: string) => tag.trim()).filter(Boolean)
       : draftPost.tags;
 
+    console.log("Saving post with tags:", tagsArray);
     onSave({ ...draftPost, tags: tagsArray });
   };
 
