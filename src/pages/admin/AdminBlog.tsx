@@ -66,11 +66,15 @@ const AdminBlog = () => {
   const updatePost = useMutation({
     mutationFn: async (post: any) => {
       const { id, created_at, updated_at, ...rest } = post;
+      console.log("Saving post:", id, Object.keys(rest));
       const { error } = await supabase
         .from("blog_posts")
         .update({ ...rest, updated_at: new Date().toISOString() })
         .eq("id", id);
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase update error:", error);
+        throw error;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
@@ -79,7 +83,10 @@ const AdminBlog = () => {
       setIsLoadingEditorContent(false);
       toast.success("Post saved successfully");
     },
-    onError: (err: any) => toast.error(err.message),
+    onError: (err: any) => {
+      console.error("Save mutation error:", err);
+      toast.error(err.message || "Failed to save post");
+    },
   });
 
   const deletePost = useMutation({
