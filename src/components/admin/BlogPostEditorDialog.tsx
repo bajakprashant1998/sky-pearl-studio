@@ -16,6 +16,7 @@ interface BlogPostEditorDialogProps {
   isLoadingContent: boolean;
   isSaving: boolean;
   onSave: (post: any) => void;
+  isCreateMode?: boolean;
 }
 
 const normalizeDraftPost = (post: any) => ({
@@ -32,6 +33,7 @@ const BlogPostEditorDialog = ({
   isLoadingContent,
   isSaving,
   onSave,
+  isCreateMode = false,
 }: BlogPostEditorDialogProps) => {
   const [draftPost, setDraftPost] = useState<any | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -156,7 +158,7 @@ const BlogPostEditorDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Blog Post</DialogTitle>
+          <DialogTitle>{isCreateMode ? "Create New Blog Post" : "Edit Blog Post"}</DialogTitle>
         </DialogHeader>
 
         {draftPost && (
@@ -286,7 +288,7 @@ const BlogPostEditorDialog = ({
               className="w-full" 
               disabled={isSaving || uploading || isLoadingContent}
             >
-              {isSaving ? "Saving..." : "Save Changes"}
+              {isSaving ? "Saving..." : isCreateMode ? "Create Post" : "Save Changes"}
             </Button>
           </div>
         )}

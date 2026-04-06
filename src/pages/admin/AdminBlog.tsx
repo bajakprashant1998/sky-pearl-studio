@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Eye, EyeOff, Trash2, Search, Pencil, ChevronLeft, ChevronRight } from "lucide-react";
+import { Eye, EyeOff, Trash2, Search, Pencil, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import BlogPostEditorDialog from "@/components/admin/BlogPostEditorDialog";
 
 const POSTS_PER_PAGE = 10;
@@ -63,18 +63,29 @@ const AdminBlog = () => {
     onError: (err: any) => toast.error(err.message),
   });
 
+  const createPost = useMutation({
+    mutationFn: async (post: any) => {
+      const { id, created_at, updated_at, ...rest } = post;
+      const { error } = await supabase.from("blog_posts").insert(rest);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
+      setDialogOpen(false);
+      setEditPost(null);
+      toast.success("Post created successfully");
+    },
+    onError: (err: any) => toast.error(err.message || "Failed to create post"),
+  });
+
   const updatePost = useMutation({
     mutationFn: async (post: any) => {
       const { id, created_at, updated_at, ...rest } = post;
-      console.log("Saving post:", id, Object.keys(rest));
       const { error } = await supabase
         .from("blog_posts")
         .update({ ...rest, updated_at: new Date().toISOString() })
         .eq("id", id);
-      if (error) {
-        console.error("Supabase update error:", error);
-        throw error;
-      }
+      if (error) throw error;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
@@ -83,10 +94,7 @@ const AdminBlog = () => {
       setIsLoadingEditorContent(false);
       toast.success("Post saved successfully");
     },
-    onError: (err: any) => {
-      console.error("Save mutation error:", err);
-      toast.error(err.message || "Failed to save post");
-    },
+    onError: (err: any) => toast.error(err.message || "Failed to save post"),
   });
 
   const deletePost = useMutation({
@@ -179,7 +187,12 @@ const AdminBlog = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input placeholder="Search posts..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
           </div>
-          <span className="text-sm text-muted-foreground">{filtered?.length || 0} posts</span>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-muted-foreground">{filtered?.length || 0} posts</span>
+            <Button onClick={() => { setEditPost({ _isNew: true, title: "", slug: "", category: "", content: "", excerpt: "", meta_description: "", image_url: "", author: "DiBull Team", read_time: "5 min read", tags: [], is_published: false }); setDialogOpen(true); }}>
+              <Plus className="w-4 h-4 mr-2" /> Create New Post
+            </Button>
+          </div>
         </div>
 
         <div className="bg-card rounded-2xl border border-border overflow-hidden">
@@ -292,7 +305,8 @@ const AdminBlog = () => {
         post={editPost}
         isLoadingContent={isLoadingEditorContent}
         isSaving={updatePost.isPending}
-        onSave={(post) => updatePost.mutate(post)}
+        onSave={(post) => post._isNew ? createPost.mutate(post) : updatePost.mutate(post)}
+        isCreateMode={editPost?._isNew || false}
       />
     </AdminLayout>
   );
