@@ -16,6 +16,7 @@ interface BlogPostEditorDialogProps {
   isLoadingContent: boolean;
   isSaving: boolean;
   onSave: (post: any) => void;
+  isCreateMode?: boolean;
 }
 
 const normalizeDraftPost = (post: any) => ({
