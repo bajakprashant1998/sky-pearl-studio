@@ -28,7 +28,9 @@ const staticRoutes: { path: string; priority: string; changefreq: string }[] = [
   { path: "/services", priority: "0.9", changefreq: "weekly" },
   { path: "/growth-strategy", priority: "0.8", changefreq: "monthly" },
   { path: "/blog", priority: "0.9", changefreq: "daily" },
-  // Service pages
+  { path: "/quote-calculator", priority: "0.6", changefreq: "monthly" },
+  { path: "/referral", priority: "0.5", changefreq: "monthly" },
+  // Service pages — slugs must match App.tsx routes exactly
   { path: "/services/seo", priority: "0.9", changefreq: "weekly" },
   { path: "/services/ppc", priority: "0.9", changefreq: "weekly" },
   { path: "/services/web-design", priority: "0.9", changefreq: "weekly" },
@@ -40,14 +42,14 @@ const staticRoutes: { path: string; priority: string; changefreq: string }[] = [
   { path: "/services/amazon-marketing", priority: "0.8", changefreq: "weekly" },
   { path: "/services/video-marketing", priority: "0.8", changefreq: "weekly" },
   { path: "/services/programmatic-advertising", priority: "0.8", changefreq: "weekly" },
-  { path: "/services/analytics-ai", priority: "0.8", changefreq: "weekly" },
+  { path: "/services/analytics-ai-technology", priority: "0.8", changefreq: "weekly" },
   { path: "/services/custom-development", priority: "0.8", changefreq: "weekly" },
   { path: "/services/ai-marketing", priority: "0.8", changefreq: "weekly" },
   { path: "/services/training-programs", priority: "0.7", changefreq: "monthly" },
   { path: "/services/saas-products", priority: "0.7", changefreq: "monthly" },
   { path: "/services/branding-design", priority: "0.8", changefreq: "weekly" },
-  { path: "/services/marketing-automation", priority: "0.8", changefreq: "weekly" },
-  { path: "/services/conversion-ux", priority: "0.8", changefreq: "weekly" },
+  { path: "/services/marketing-automation-crm", priority: "0.8", changefreq: "weekly" },
+  { path: "/services/conversion-ui-ux", priority: "0.8", changefreq: "weekly" },
   { path: "/services/growth-hacking", priority: "0.8", changefreq: "weekly" },
   // Free tools
   { path: "/free-tools/seo-checker", priority: "0.8", changefreq: "weekly" },

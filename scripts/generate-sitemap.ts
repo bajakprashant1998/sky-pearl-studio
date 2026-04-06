@@ -28,6 +28,8 @@ const staticRoutes = [
     '/services',
     '/growth-strategy',
     '/blog',
+    '/quote-calculator',
+    '/referral',
 ];
 
 // Academy benefit slugs
