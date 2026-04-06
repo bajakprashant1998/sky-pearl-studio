@@ -138,12 +138,17 @@ const BlogPostEditorDialog = ({
   };
 
   const handleSave = () => {
-    if (!draftPost) return;
+    if (!draftPost) {
+      console.error("handleSave: draftPost is null");
+      toast.error("No post data to save");
+      return;
+    }
 
     const tagsArray = typeof draftPost.tags === "string"
       ? draftPost.tags.split(",").map((tag: string) => tag.trim()).filter(Boolean)
       : draftPost.tags;
 
+    console.log("Saving post with tags:", tagsArray);
     onSave({ ...draftPost, tags: tagsArray });
   };
 
@@ -271,7 +276,16 @@ const BlogPostEditorDialog = ({
               <Input value={draftPost.tags} onChange={(e) => updateDraftField("tags", e.target.value)} />
             </div>
 
-            <Button onClick={handleSave} className="w-full" disabled={isSaving || uploading || isLoadingContent}>
+            <Button 
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleSave();
+              }} 
+              className="w-full" 
+              disabled={isSaving || uploading || isLoadingContent}
+            >
               {isSaving ? "Saving..." : "Save Changes"}
             </Button>
           </div>

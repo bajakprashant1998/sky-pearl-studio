@@ -66,11 +66,15 @@ const AdminBlog = () => {
   const updatePost = useMutation({
     mutationFn: async (post: any) => {
       const { id, created_at, updated_at, ...rest } = post;
+      console.log("Saving post:", id, Object.keys(rest));
       const { error } = await supabase
         .from("blog_posts")
         .update({ ...rest, updated_at: new Date().toISOString() })
         .eq("id", id);
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase update error:", error);
+        throw error;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
@@ -79,7 +83,10 @@ const AdminBlog = () => {
       setIsLoadingEditorContent(false);
       toast.success("Post saved successfully");
     },
-    onError: (err: any) => toast.error(err.message),
+    onError: (err: any) => {
+      console.error("Save mutation error:", err);
+      toast.error(err.message || "Failed to save post");
+    },
   });
 
   const deletePost = useMutation({
@@ -118,19 +125,30 @@ const AdminBlog = () => {
   };
 
   const openEdit = async (post: any) => {
-    setEditPost({ ...post, content: "" });
-    setDialogOpen(true);
-    setIsLoadingEditorContent(true);
+    try {
+      setEditPost({ ...post, content: "" });
+      setDialogOpen(true);
+      setIsLoadingEditorContent(true);
 
-    const { data, error } = await supabase
-      .from("blog_posts")
-      .select("content")
-      .eq("id", post.id)
-      .single();
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .select("content")
+        .eq("id", post.id)
+        .single();
 
-    const content = error ? "" : data?.content || "";
-    setEditPost((current: any) => current?.id === post.id ? { ...current, content } : current);
-    setIsLoadingEditorContent(false);
+      if (error) {
+        console.error("Error fetching post content:", error);
+        toast.error("Failed to load post content");
+      }
+
+      const content = error ? "" : data?.content || "";
+      setEditPost((current: any) => current?.id === post.id ? { ...current, content } : current);
+    } catch (err: any) {
+      console.error("Error opening editor:", err);
+      toast.error("Failed to open editor");
+    } finally {
+      setIsLoadingEditorContent(false);
+    }
   };
 
   const handleDialogOpenChange = (open: boolean) => {
