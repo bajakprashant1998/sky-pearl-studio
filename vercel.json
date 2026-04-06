@@ -15,6 +15,24 @@
     ],
     "headers": [
         {
+            "source": "/admin/(.*)",
+            "headers": [
+                {
+                    "key": "X-Robots-Tag",
+                    "value": "noindex, nofollow"
+                }
+            ]
+        },
+        {
+            "source": "/client-portal",
+            "headers": [
+                {
+                    "key": "X-Robots-Tag",
+                    "value": "noindex, nofollow"
+                }
+            ]
+        },
+        {
             "source": "/(.*)",
             "headers": [
                 {
