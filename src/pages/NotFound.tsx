@@ -1,6 +1,6 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
-import SeoHead from "@/components/SeoHead";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Home, ArrowLeft } from "lucide-react";
 
@@ -13,12 +13,12 @@ const NotFound = () => {
 
   return (
     <>
-      <SeoHead
-        title="Page Not Found | Digital Bull Technology"
-        description="The page you are looking for does not exist. Return to Digital Bull Technology homepage."
-        canonical={`https://dibull.com${location.pathname}`}
-        noindex={true}
-      />
+      <Helmet>
+        <title>Page Not Found | Digital Bull Technology</title>
+        <meta name="description" content="The page you are looking for does not exist. Return to Digital Bull Technology homepage." />
+        <meta name="robots" content="noindex, nofollow" />
+        <meta name="googlebot" content="noindex, nofollow" />
+      </Helmet>
       <div className="flex min-h-screen items-center justify-center bg-muted">
         <div className="text-center px-4">
           <h1 className="mb-4 text-7xl font-bold text-primary">404</h1>

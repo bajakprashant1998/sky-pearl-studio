@@ -3,7 +3,10 @@
 
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1
+Disallow: /admin/
+Disallow: /admin
+Disallow: /client-portal
+Disallow: /?__lovable_token*
 
 User-agent: Googlebot-News
 Allow: /blog/
@@ -12,9 +15,13 @@ Allow: /
 User-agent: Googlebot-Image
 Allow: /assets/
 Allow: /dibull_logo.png
+Disallow: /admin/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin/
+Disallow: /admin
+Disallow: /client-portal
 Crawl-delay: 2
 
 User-agent: Twitterbot
