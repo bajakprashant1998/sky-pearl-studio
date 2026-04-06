@@ -288,7 +288,7 @@ const BlogPostEditorDialog = ({
               className="w-full" 
               disabled={isSaving || uploading || isLoadingContent}
             >
-              {isSaving ? "Saving..." : "Save Changes"}
+              {isSaving ? "Saving..." : isCreateMode ? "Create Post" : "Save Changes"}
             </Button>
           </div>
         )}

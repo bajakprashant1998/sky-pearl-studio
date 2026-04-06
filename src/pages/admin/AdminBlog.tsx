@@ -305,7 +305,8 @@ const AdminBlog = () => {
         post={editPost}
         isLoadingContent={isLoadingEditorContent}
         isSaving={updatePost.isPending}
-        onSave={(post) => updatePost.mutate(post)}
+        onSave={(post) => post._isNew ? createPost.mutate(post) : updatePost.mutate(post)}
+        isCreateMode={editPost?._isNew || false}
       />
     </AdminLayout>
   );
