@@ -33,6 +33,7 @@ const BlogPostEditorDialog = ({
   isLoadingContent,
   isSaving,
   onSave,
+  isCreateMode = false,
 }: BlogPostEditorDialogProps) => {
   const [draftPost, setDraftPost] = useState<any | null>(null);
   const [uploading, setUploading] = useState(false);
