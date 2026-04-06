@@ -187,7 +187,12 @@ const AdminBlog = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input placeholder="Search posts..." value={search} onChange={(e) => handleSearch(e.target.value)} className="pl-10" />
           </div>
-          <span className="text-sm text-muted-foreground">{filtered?.length || 0} posts</span>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-muted-foreground">{filtered?.length || 0} posts</span>
+            <Button onClick={() => { setEditPost({ _isNew: true, title: "", slug: "", category: "", content: "", excerpt: "", meta_description: "", image_url: "", author: "DiBull Team", read_time: "5 min read", tags: [], is_published: false }); setDialogOpen(true); }}>
+              <Plus className="w-4 h-4 mr-2" /> Create New Post
+            </Button>
+          </div>
         </div>
 
         <div className="bg-card rounded-2xl border border-border overflow-hidden">
