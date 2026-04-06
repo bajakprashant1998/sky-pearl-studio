@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Eye, EyeOff, Trash2, Search, Pencil, ChevronLeft, ChevronRight } from "lucide-react";
+import { Eye, EyeOff, Trash2, Search, Pencil, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import BlogPostEditorDialog from "@/components/admin/BlogPostEditorDialog";
 
 const POSTS_PER_PAGE = 10;
