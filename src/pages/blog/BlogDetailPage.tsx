@@ -110,8 +110,49 @@ const getPatternStyle = (index: number) => {
   return patterns[index % patterns.length];
 };
 
+// Detect if content is HTML-based
+function isHtmlContent(content: string): boolean {
+  return /<(h[1-6]|p|ul|ol|div|section|article|strong|em)\b/i.test(content);
+}
+
+// Parse HTML content into structured sections
+function parseHtmlContentToSections(content: string) {
+  const sections: { type: 'intro' | 'section' | 'tip'; title?: string; content: string }[] = [];
+  
+  // Split by h2 tags
+  const parts = content.split(/(?=<h2[\s>])/i);
+  
+  parts.forEach((part, index) => {
+    const trimmed = part.trim();
+    if (!trimmed) return;
+    
+    if (index === 0 && !trimmed.match(/^<h2[\s>]/i)) {
+      sections.push({ type: 'intro', content: trimmed });
+    } else {
+      const titleMatch = trimmed.match(/^<h2[^>]*>(.*?)<\/h2>/is);
+      if (titleMatch) {
+        const title = titleMatch[1].replace(/<[^>]+>/g, '').trim();
+        const sectionContent = trimmed.replace(/^<h2[^>]*>.*?<\/h2>/is, '').trim();
+        
+        if (title.toLowerCase().includes('tip') || title.toLowerCase().includes('actionable')) {
+          sections.push({ type: 'tip', title, content: sectionContent });
+        } else {
+          sections.push({ type: 'section', title, content: sectionContent });
+        }
+      }
+    }
+  });
+  
+  return sections;
+}
+
 // Parse content into structured sections
 function parseContentToSections(content: string) {
+  // If content is HTML, use HTML parser
+  if (isHtmlContent(content)) {
+    return parseHtmlContentToSections(content);
+  }
+  
   const sections: { type: 'intro' | 'section' | 'tip'; title?: string; content: string }[] = [];
   
   const parts = content.split(/(?=## )/);
