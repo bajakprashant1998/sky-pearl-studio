@@ -1029,7 +1029,12 @@ Remember: Provide ONLY valid JSON in your response. No markdown code blocks.`;
                   const contentValueMatch = contentSection.match(/"content"\s*:\s*"([\s\S]*)"\s*\}?\s*$/);
                   const contentValue = contentValueMatch 
                     ? contentValueMatch[1].replace(/\\"/g, '"').replace(/\\n/g, '\n')
-                    : "Content generation error - please regenerate.";
+                    : null;
+                  
+                  if (!contentValue || contentValue.length < 200) {
+                    console.error(`Content extraction failed or too short for article ${i + 1}, skipping`);
+                    continue;
+                  }
                   
                   articleData = {
                     title: titleMatch[1],
