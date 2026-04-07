@@ -187,6 +187,16 @@ function parseContentToSections(content: string) {
 
 // Simple content formatter for inline use
 function formatSectionContent(content: string, injectLinks: boolean = false, currentSlug?: string) {
+  // If content is already HTML, pass it through with minimal processing
+  if (isHtmlContent(content)) {
+    let result = content;
+    if (injectLinks) {
+      const { content: linkedContent } = injectSeoLinks(result, currentSlug);
+      return linkedContent;
+    }
+    return result;
+  }
+  
   const lines = content.split('\n');
   let result = '';
   let inList = false;
