@@ -822,12 +822,7 @@ const BlogDetailPage = () => {
                               className="prose prose-lg max-w-none text-muted-foreground leading-relaxed [&_a]:text-primary [&_a]:hover:text-primary/80 [&_a]:underline [&_a]:decoration-primary/30 [&_a]:hover:decoration-primary [&_a]:transition-colors text-lg"
                               style={{ lineHeight: '1.9' }}
                               dangerouslySetInnerHTML={{ 
-                                __html: injectSeoLinks(
-                                  section.content
-                                    .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-foreground">$1</strong>')
-                                    .replace(/\n\n/g, '</p><p class="mb-4">'),
-                                  slug
-                                ).content
+                                __html: formatSectionContent(section.content, true, slug)
                               }} 
                             />
                           </CardContent>
