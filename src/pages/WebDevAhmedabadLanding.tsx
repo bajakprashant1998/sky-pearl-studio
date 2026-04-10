@@ -13,7 +13,7 @@ const packages = [
   { value: "9999", label: "₹9,999 – Growth" },
   { value: "14999", label: "₹14,999 – Professional" },
   { value: "19999", label: "₹19,999 – Business Pro" },
-  { value: "35000", label: "₹35,000 – Enterprise" },
+  { value: "49999", label: "₹49,999 – Enterprise" },
 ];
 
 const pricingPlans = [
