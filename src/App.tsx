@@ -93,6 +93,7 @@ const ReferralPage = lazy(() => import("@/pages/ReferralPage"));
 const ClientPortal = lazy(() => import("@/pages/ClientPortal"));
 const QuoteCalculator = lazy(() => import("@/pages/QuoteCalculator"));
 const WebDesignLandingPage = lazy(() => import("@/pages/WebDesignLandingPage"));
+const WebDevAhmedabadLanding = lazy(() => import("@/pages/WebDevAhmedabadLanding"));
 
 const queryClient = new QueryClient();
 
@@ -166,6 +167,7 @@ const App = () => (
               <Route path="/cookie-policy" element={<CookiePolicy />} />
               {/* Public Pages */}
               <Route path="/websitedesignlandingpage" element={<WebDesignLandingPage />} />
+              <Route path="/website-development-in-ahmedabad" element={<WebDevAhmedabadLanding />} />
               <Route path="/quote-calculator" element={<QuoteCalculator />} />
               <Route path="/referral" element={<ReferralPage />} />
               <Route path="/client-portal" element={<ClientPortal />} />
