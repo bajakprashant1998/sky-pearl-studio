@@ -340,15 +340,14 @@ const LiveChatWidget = () => {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setOpen(true)}
-            className="fixed bottom-24 left-6 z-40 w-14 h-14 bg-gradient-to-br from-primary to-blue-600 text-white rounded-full shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-shadow flex items-center justify-center group"
-            aria-label="Open chat"
+            className="fixed bottom-6 left-6 z-50 flex items-center gap-2 bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-3 sm:px-5 sm:py-3.5 rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-shadow"
+            aria-label="Open AI Assistant"
           >
-            <MessageCircle className="w-6 h-6 group-hover:hidden" />
-            <Sparkles className="w-6 h-6 hidden group-hover:block" />
-            <span className="absolute inset-0 rounded-full border-2 border-primary/40 animate-ping opacity-30" />
+            <Bot className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
+            <span className="text-sm sm:text-base font-semibold whitespace-nowrap">AI Assistant</span>
           </motion.button>
         )}
       </AnimatePresence>
