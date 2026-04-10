@@ -59,7 +59,7 @@ const pricingPlans = [
   {
     name: "Growth",
     price: "₹9,999",
-    badge: "Most Popular",
+    badge: "⭐ Most Popular — Best Value for Growing Business",
     highlight: true,
     premium: false,
     features: [
@@ -109,7 +109,7 @@ const pricingPlans = [
   {
     name: "Enterprise",
     price: "₹49,999",
-    badge: "Premium Plan",
+    badge: "🔥 Premium Plan — Complete AI-Powered Growth Suite",
     highlight: false,
     premium: true,
     features: [
@@ -185,6 +185,9 @@ const faqs = [
 ];
 
 const portfolioItems = [
+  { name: "Casting Screen", image: imgCastingscreen, category: "Talent Platform", url: "https://castingscreen.com/" },
+  { name: "AutoCAD Files", image: imgAutocadfiles, category: "CAD Platform", url: "https://autocadfiles.com/" },
+  { name: "Akyca", image: imgAkyca, category: "Finance", url: "https://akyca.com/" },
   { name: "CadBull", image: imgCadbull, category: "CAD Library", url: "https://cadbull.com/" },
   { name: "ARCLL", image: imgArcll, category: "Architecture", url: "https://arcll.com/" },
   { name: "Interiors Store", image: imgInteriorsstore, category: "E-Commerce", url: "https://interiorsstore.com/" },
