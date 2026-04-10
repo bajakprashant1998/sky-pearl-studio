@@ -736,7 +736,7 @@ const WebDevAhmedabadLanding = () => {
         <section className="py-12 sm:py-16 md:py-24 bg-[#0a1628] relative">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-red-600/5 rounded-full blur-[120px]" />
           <div className="container mx-auto px-4 relative z-10">
-            <SectionHeading pre="Choose Your" highlight="Website Package" subtitle="All packages include Free Domain + Hosting" />
+            <SectionHeading pre="Choose Your" highlight="Website Package" subtitle="All packages include Free Domain + Hosting • No hidden charges" />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
               {pricingPlans.map((plan, i) => (
@@ -747,7 +747,7 @@ const WebDevAhmedabadLanding = () => {
                   viewport={{ once: true, margin: "-30px" }}
                   transition={{ delay: i * 0.08 }}
                   whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                  className={`relative rounded-2xl p-5 sm:p-6 flex flex-col border transition-all ${
+                  className={`relative rounded-2xl flex flex-col border transition-all overflow-hidden ${
                     plan.premium
                       ? "bg-gradient-to-b from-yellow-900/30 via-[#1a2a44] to-[#0a1628] border-yellow-500/40 shadow-lg shadow-yellow-500/10"
                       : plan.highlight
@@ -762,11 +762,35 @@ const WebDevAhmedabadLanding = () => {
                       {plan.badge}
                     </div>
                   )}
-                  <div className={`text-center mb-3 sm:mb-4 ${plan.badge ? "pt-5 sm:pt-4" : "pt-3 sm:pt-2"}`}>
+
+                  {/* Card header with icon */}
+                  <div className={`text-center px-5 sm:px-6 pt-5 sm:pt-6 ${plan.badge ? "pt-8 sm:pt-8" : ""}`}>
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl mx-auto mb-3 flex items-center justify-center ${
+                      plan.premium ? "bg-yellow-500/15" : plan.highlight ? "bg-red-500/15" : "bg-white/10"
+                    }`}>
+                      <plan.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${plan.premium ? "text-yellow-400" : plan.highlight ? "text-red-400" : "text-white/60"}`} />
+                    </div>
                     <h3 className="text-base sm:text-lg font-bold">{plan.name}</h3>
-                    <p className={`text-2xl sm:text-3xl font-extrabold mt-1 ${plan.premium ? "text-yellow-400" : plan.highlight ? "text-red-400" : "text-white"}`}>{plan.price}</p>
+                    <p className="text-white/40 text-[10px] sm:text-xs mt-0.5">{plan.idealFor}</p>
+                    
+                    {/* Price with strikethrough */}
+                    <div className="mt-2 sm:mt-3">
+                      <span className="text-white/40 text-xs sm:text-sm line-through mr-2">{plan.originalPrice}</span>
+                      <span className={`text-2xl sm:text-3xl font-extrabold ${plan.premium ? "text-yellow-400" : plan.highlight ? "text-red-400" : "text-white"}`}>{plan.price}</span>
+                    </div>
+                    <div className={`inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium ${
+                      plan.premium ? "bg-yellow-500/10 text-yellow-300" : plan.highlight ? "bg-red-500/10 text-red-300" : "bg-white/5 text-white/50"
+                    }`}>
+                      <Percent className="w-2.5 h-2.5" />
+                      {plan.perPage}
+                    </div>
                   </div>
-                  <ul className="space-y-2 sm:space-y-2.5 flex-1">
+
+                  {/* Divider */}
+                  <div className="mx-5 sm:mx-6 my-3 sm:my-4 h-px bg-white/10" />
+
+                  {/* Features */}
+                  <ul className="space-y-2 sm:space-y-2.5 flex-1 px-5 sm:px-6">
                     {plan.features.map((f) => (
                       <li key={f} className="flex items-start gap-2 text-xs sm:text-sm text-white/80">
                         <CheckCircle2 className={`w-3.5 h-3.5 sm:w-4 sm:h-4 mt-0.5 flex-shrink-0 ${plan.premium ? "text-yellow-400" : "text-green-400"}`} />
@@ -774,18 +798,129 @@ const WebDevAhmedabadLanding = () => {
                       </li>
                     ))}
                   </ul>
-                  <Button
-                    onClick={() => document.getElementById("bottom-form")?.scrollIntoView({ behavior: "smooth", block: "center" })}
-                    className={`w-full mt-4 sm:mt-6 h-11 sm:h-12 font-bold rounded-lg text-sm sm:text-base group ${
-                      plan.premium ? "bg-yellow-500 hover:bg-yellow-600 text-black" : plan.highlight ? "bg-red-600 hover:bg-red-700 text-white" : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
-                    }`}
-                  >
-                    Get Started
-                    <ArrowRight className="ml-1 w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
+
+                  {/* CTA */}
+                  <div className="p-5 sm:p-6 pt-4 sm:pt-5">
+                    <Button
+                      onClick={() => document.getElementById("bottom-form")?.scrollIntoView({ behavior: "smooth", block: "center" })}
+                      className={`w-full h-11 sm:h-12 font-bold rounded-xl text-sm sm:text-base group relative overflow-hidden ${
+                        plan.premium
+                          ? "bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-black shadow-lg shadow-yellow-500/20"
+                          : plan.highlight
+                          ? "bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white shadow-lg shadow-red-500/20"
+                          : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
+                      }`}
+                    >
+                      <span className="relative z-10 flex items-center justify-center gap-1.5">
+                        Get Started
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    </Button>
+                    {plan.highlight && (
+                      <p className="text-center text-[9px] sm:text-[10px] text-red-300/60 mt-2">Chosen by 60% of our clients</p>
+                    )}
+                    {plan.premium && (
+                      <p className="text-center text-[9px] sm:text-[10px] text-yellow-300/60 mt-2">Includes AI-powered growth tools</p>
+                    )}
+                  </div>
                 </motion.div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* ─── COMPARISON TABLE: DIBULL vs OTHERS ─── */}
+        <section className="py-12 sm:py-16 md:py-24 bg-[#0d1e38] relative overflow-hidden">
+          <div className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-red-600/5 rounded-full blur-[100px] -translate-y-1/2" />
+          <div className="container mx-auto px-4 relative z-10">
+            <SectionHeading pre="DiBull vs" highlight="Other Companies" subtitle="See why 500+ businesses chose DiBull over competitors" />
+
+            <motion.div
+              className="max-w-3xl mx-auto rounded-2xl border border-white/10 overflow-hidden bg-white/[0.02] backdrop-blur-sm"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              {/* Table header */}
+              <div className="grid grid-cols-[1fr_100px_100px] sm:grid-cols-[1fr_140px_140px] bg-white/5 border-b border-white/10">
+                <div className="p-3 sm:p-4 text-xs sm:text-sm font-semibold text-white/60">Feature</div>
+                <div className="p-3 sm:p-4 text-center">
+                  <div className="flex flex-col items-center gap-1">
+                    <BadgeCheck className="w-4 h-4 sm:w-5 sm:h-5 text-red-400" />
+                    <span className="text-xs sm:text-sm font-bold text-red-400">DiBull</span>
+                  </div>
+                </div>
+                <div className="p-3 sm:p-4 text-center">
+                  <div className="flex flex-col items-center gap-1">
+                    <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-white/30" />
+                    <span className="text-xs sm:text-sm font-medium text-white/40">Others</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Table rows */}
+              {comparisonFeatures.map((row, i) => (
+                <motion.div
+                  key={row.feature}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.04 }}
+                  className={`grid grid-cols-[1fr_100px_100px] sm:grid-cols-[1fr_140px_140px] border-b border-white/5 last:border-b-0 hover:bg-white/[0.03] transition-colors ${
+                    i % 2 === 0 ? "bg-white/[0.01]" : ""
+                  }`}
+                >
+                  <div className="p-3 sm:p-4 text-xs sm:text-sm text-white/70 flex items-center">{row.feature}</div>
+                  <div className="p-3 sm:p-4 flex items-center justify-center">
+                    {typeof row.dibull === "boolean" ? (
+                      row.dibull ? (
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-green-500/15 flex items-center justify-center">
+                          <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400" />
+                        </div>
+                      ) : (
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-red-500/10 flex items-center justify-center">
+                          <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400/50" />
+                        </div>
+                      )
+                    ) : (
+                      <span className="text-xs sm:text-sm font-semibold text-green-400">{row.dibull}</span>
+                    )}
+                  </div>
+                  <div className="p-3 sm:p-4 flex items-center justify-center">
+                    {typeof row.others === "boolean" ? (
+                      row.others ? (
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-green-500/15 flex items-center justify-center">
+                          <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400" />
+                        </div>
+                      ) : (
+                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-red-500/10 flex items-center justify-center">
+                          <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400/50" />
+                        </div>
+                      )
+                    ) : (
+                      <span className="text-xs sm:text-sm font-medium text-white/40">{row.others}</span>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* CTA below table */}
+            <motion.div
+              className="text-center mt-8 sm:mt-10"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Button
+                onClick={() => document.getElementById("bottom-form")?.scrollIntoView({ behavior: "smooth", block: "center" })}
+                className="h-12 sm:h-14 px-8 sm:px-10 bg-red-600 hover:bg-red-700 text-white text-sm sm:text-base font-bold rounded-xl shadow-lg shadow-red-600/20 group"
+              >
+                Get Started with DiBull
+                <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </motion.div>
           </div>
         </section>
 
