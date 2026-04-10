@@ -333,14 +333,55 @@ const WebDevAhmedabadLanding = () => {
         </div>
 
         {/* HERO SECTION */}
-        <section className="relative py-12 md:py-20 overflow-hidden">
+        <section className="relative py-16 md:py-24 overflow-hidden">
+          {/* Advanced background graphics */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#0f2040] to-[#0a1628]" />
-          <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px]" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-red-600/15 rounded-full blur-[150px] animate-pulse" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[120px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-500/5 rounded-full blur-[200px]" />
+          
+          {/* Animated grid */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+            backgroundSize: "60px 60px"
+          }} />
+
+          {/* Floating particles */}
+          {[...Array(8)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1.5 h-1.5 bg-red-400/30 rounded-full"
+              style={{ left: `${10 + i * 12}%`, top: `${15 + (i % 3) * 25}%` }}
+              animate={{ y: [-20, 20, -20], opacity: [0.2, 0.6, 0.2] }}
+              transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
+            />
+          ))}
+
+          {/* Decorative icons */}
+          <motion.div className="absolute top-20 left-10 text-red-500/10" animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}>
+            <Target className="w-16 h-16" />
+          </motion.div>
+          <motion.div className="absolute bottom-20 right-10 text-blue-500/10" animate={{ rotate: -360 }} transition={{ duration: 25, repeat: Infinity, ease: "linear" }}>
+            <Layers className="w-20 h-20" />
+          </motion.div>
+          <motion.div className="absolute top-32 right-1/4 text-red-400/10" animate={{ y: [-10, 10, -10] }} transition={{ duration: 4, repeat: Infinity }}>
+            <Sparkles className="w-12 h-12" />
+          </motion.div>
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div className="text-center lg:text-left space-y-6" initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
+                {/* Trust badge */}
+                <motion.div
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-red-600/15 border border-red-500/30 rounded-full text-sm text-red-300"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <Award className="w-4 h-4" />
+                  <span className="font-medium">Ahmedabad's #1 Web Development Company</span>
+                </motion.div>
+
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                   <span className="text-red-500">FREE DOMAIN</span> + <span className="text-red-500">FREE HOSTING</span>
                 </h1>
@@ -348,6 +389,27 @@ const WebDevAhmedabadLanding = () => {
                   Get Your Business Website Starting at <span className="text-red-400 font-bold">₹5,999</span>
                 </p>
                 <p className="text-xl text-yellow-300 font-medium">📲 Get Daily Leads on Your Phone</p>
+                
+                {/* Mini stats row */}
+                <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                  {[
+                    { icon: MousePointerClick, text: "500+ Projects" },
+                    { icon: Star, text: "4.9★ Rating" },
+                    { icon: Zap, text: "3-7 Days Delivery" },
+                  ].map((item, i) => (
+                    <motion.div
+                      key={item.text}
+                      className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full text-xs text-white/70"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5 + i * 0.1 }}
+                    >
+                      <item.icon className="w-3.5 h-3.5 text-red-400" />
+                      {item.text}
+                    </motion.div>
+                  ))}
+                </div>
+
                 <div className="flex items-center gap-2 justify-center lg:justify-start text-white/60 text-sm">
                   <Clock className="w-4 h-4" />
                   <span>Limited Slots Available • Offer Ending Soon</span>
@@ -361,11 +423,13 @@ const WebDevAhmedabadLanding = () => {
               </motion.div>
 
               <motion.div
-                className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl"
+                className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl relative"
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.2 }}
               >
+                {/* Glow effect behind form */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-red-600/20 via-transparent to-blue-600/20 rounded-2xl blur-xl -z-10" />
                 <h2 className="text-2xl font-bold text-center mb-6">Book Your Website Now</h2>
                 <LeadForm id="hero-form" buttonText="Get Free Consultation" note="We will contact you within 24 hours" />
               </motion.div>
