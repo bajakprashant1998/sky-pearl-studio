@@ -262,10 +262,12 @@ const LiveChatWidget = () => {
 
             {/* Messages */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 relative">
-              {messages.map((msg, i) => (
-                <ChatMessage key={i} msg={msg} />
-              ))}
-              {loading && messages[messages.length - 1]?.role === "user" && <TypingDots />}
+              {messages.map((msg, i) => {
+                // Hide empty assistant message (show typing dots instead)
+                if (msg.role === "assistant" && msg.content === "" && loading) return null;
+                return <ChatMessage key={i} msg={msg} />;
+              })}
+              {loading && (messages[messages.length - 1]?.role === "user" || messages[messages.length - 1]?.content === "") && <TypingDots />}
 
               {/* Quick Actions */}
               {showQuickActions && (
