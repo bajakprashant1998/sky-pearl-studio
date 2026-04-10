@@ -435,9 +435,9 @@ const WebDevAhmedabadLanding = () => {
         </section>
 
         {/* STATS COUNTER */}
-        <section className="py-10 bg-gradient-to-r from-red-700/90 via-red-600 to-red-700/90 relative">
+        <section className="py-8 sm:py-10 bg-gradient-to-r from-red-700/90 via-red-600 to-red-700/90 relative">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
               {stats.map((s, i) => (
                 <motion.div
                   key={s.label}
@@ -445,10 +445,10 @@ const WebDevAhmedabadLanding = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="text-center"
+                  className="text-center py-2"
                 >
-                  <p className="text-3xl md:text-4xl font-extrabold text-white">{s.number}</p>
-                  <p className="text-white/80 text-sm mt-1">{s.label}</p>
+                  <p className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white">{s.number}</p>
+                  <p className="text-white/80 text-xs sm:text-sm mt-1">{s.label}</p>
                 </motion.div>
               ))}
             </div>
