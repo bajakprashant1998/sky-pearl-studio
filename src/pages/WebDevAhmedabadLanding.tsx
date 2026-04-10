@@ -507,7 +507,7 @@ const WebDevAhmedabadLanding = () => {
                   }`}
                 >
                   {plan.badge && (
-                    <div className={`absolute -top-3 sm:-top-4 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold max-w-[90%] text-center leading-tight ${
+                    <div className={`absolute -top-5 sm:-top-6 left-1/2 -translate-x-1/2 z-10 px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-bold whitespace-nowrap text-center ${
                       plan.premium ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black shadow-lg shadow-yellow-500/30" : "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/30"
                     }`}>
                       {plan.badge}
