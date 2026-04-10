@@ -5,9 +5,11 @@ import AnimatedSection from "./AnimatedSection";
 import { Button } from "./ui/button";
 import { usePortfolioItems } from "@/hooks/useDynamicContent";
 
-import akyca from "@/assets/portfolio/akyca.webp";
+import akyca from "@/assets/portfolio/akyca-new.webp";
 import betterviewtourism from "@/assets/portfolio/betterviewtourism.webp";
 import cadbull from "@/assets/portfolio/cadbull.webp";
+import castingscreen from "@/assets/portfolio/castingscreen.webp";
+import autocadfiles from "@/assets/portfolio/autocadfiles.webp";
 import dreamdecor from "@/assets/portfolio/dreamdecor.webp";
 import gujaratvoyage from "@/assets/portfolio/gujaratvoyage.webp";
 import handbricks from "@/assets/portfolio/handbricks.webp";
@@ -16,6 +18,9 @@ import rentalyacht from "@/assets/portfolio/rentalyacht.webp";
 import tapovanschool from "@/assets/portfolio/tapovanschool.webp";
 
 const staticProjects = [
+  { name: "Casting Screen", image: castingscreen, category: "Talent Platform", color: "from-purple-500 to-violet-500" },
+  { name: "AutoCAD Files", image: autocadfiles, category: "CAD Platform", color: "from-blue-500 to-indigo-500" },
+  { name: "Akyca", image: akyca, category: "Finance", color: "from-amber-500 to-yellow-500" },
   { name: "Cadbull", image: cadbull, category: "Web Design", color: "from-blue-500 to-cyan-500" },
   { name: "HireForJob", image: hireforjob, category: "Job Portal", color: "from-green-500 to-emerald-500" },
   { name: "Gujarat Voyage", image: gujaratvoyage, category: "Tourism", color: "from-amber-500 to-orange-500" },
