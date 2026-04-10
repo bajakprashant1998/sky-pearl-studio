@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { CheckCircle2, Phone, Globe, Shield, Zap, Smartphone, Users, Star, ArrowRight, Clock, Rocket, MessageCircle } from "lucide-react";
+import {
+  CheckCircle2, Phone, Globe, Shield, Zap, Smartphone, Users, Star,
+  ArrowRight, Clock, Rocket, MessageCircle, Code, Palette, Search,
+  BarChart3, ShoppingCart, Building2, Stethoscope, GraduationCap,
+  Briefcase, UtensilsCrossed, Plane, Home, Award, TrendingUp,
+  ChevronDown, ChevronUp, Headphones, MonitorSmartphone, Settings, Eye
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -110,6 +116,63 @@ const whyChooseUs = [
   { icon: Zap, text: "Fast Delivery (3–7 Days)" },
   { icon: Smartphone, text: "Mobile Responsive Design" },
   { icon: Shield, text: "Complete Business Growth Solution" },
+  { icon: Headphones, text: "24/7 Dedicated Support" },
+  { icon: MonitorSmartphone, text: "Cross-Browser Compatible" },
+  { icon: Settings, text: "Easy to Manage CMS" },
+];
+
+const processSteps = [
+  { step: "01", title: "Requirement Analysis", desc: "We understand your business goals, target audience, and website requirements in detail.", icon: Search },
+  { step: "02", title: "UI/UX Design", desc: "Our designers create a stunning, conversion-focused layout tailored to your brand.", icon: Palette },
+  { step: "03", title: "Development", desc: "Expert developers build your website with clean code, fast loading, and mobile responsiveness.", icon: Code },
+  { step: "04", title: "SEO & Optimization", desc: "We optimize every page for Google ranking with targeted keywords and technical SEO.", icon: BarChart3 },
+  { step: "05", title: "Launch & Support", desc: "Your website goes live with full testing, and we provide ongoing support and maintenance.", icon: Rocket },
+];
+
+const industries = [
+  { icon: ShoppingCart, name: "E-Commerce" },
+  { icon: Building2, name: "Real Estate" },
+  { icon: Stethoscope, name: "Healthcare" },
+  { icon: GraduationCap, name: "Education" },
+  { icon: Briefcase, name: "B2B / Corporate" },
+  { icon: UtensilsCrossed, name: "Restaurant & Food" },
+  { icon: Plane, name: "Travel & Tourism" },
+  { icon: Home, name: "Interior & Architecture" },
+  { icon: Settings, name: "Manufacturing" },
+  { icon: TrendingUp, name: "Finance & Insurance" },
+];
+
+const stats = [
+  { number: "500+", label: "Websites Delivered" },
+  { number: "100+", label: "Happy Clients" },
+  { number: "4.9★", label: "Google Rating" },
+  { number: "3-7", label: "Days Delivery" },
+];
+
+const testimonials = [
+  { name: "Rajesh Patel", role: "Owner, Patel Electronics", content: "DiBull ne humare business ke liye excellent website banayi. Leads directly WhatsApp par aate hain. Sales 3x badh gayi!", rating: 5 },
+  { name: "Priya Shah", role: "Founder, Shah Boutique", content: "Very professional team. Website 5 din mein ready thi aur SEO ke wajah se Google par top par aa gaye. Highly recommended!", rating: 5 },
+  { name: "Amit Desai", role: "MD, Desai Industries", content: "Enterprise plan liya tha. AI marketing agent aur lead automation system ne business ko next level par le jaaya. Best investment!", rating: 5 },
+  { name: "Neha Mehta", role: "CEO, Mehta Interiors", content: "₹9,999 mein itna accha website milega socha nahi tha. Google Business Profile integration se local customers bahut aate hain.", rating: 5 },
+];
+
+const faqs = [
+  { q: "Website kitne din mein ready hoti hai?", a: "Hamare packages ke according website 3 se 7 working days mein ready ho jaati hai. Enterprise plan mein 10-15 days lag sakte hain." },
+  { q: "Kya domain aur hosting free hai?", a: "Haan! Sabhi packages mein 1 year free domain aur 12 month hosting included hai. Enterprise plan mein 24 month hosting milti hai." },
+  { q: "Kya main apni website khud manage kar sakta hoon?", a: "Professional, Business Pro, aur Enterprise plans mein dynamic admin panel milta hai jisse aap apni website ka content khud update kar sakte hain." },
+  { q: "SEO kya hai aur isse kya fayda hoga?", a: "SEO (Search Engine Optimization) se aapki website Google par top results mein aati hai. Isse aapko daily organic leads milti hain bina kisi paid advertising ke." },
+  { q: "Payment kaise hoga?", a: "Hum UPI, Bank Transfer, aur online payment accept karte hain. 50% advance aur 50% delivery par payment hota hai." },
+  { q: "Kya ecommerce website bhi bana sakte hain?", a: "Bilkul! Hum complete ecommerce websites banate hain jismein product listing, cart, payment gateway, aur order management sab included hota hai." },
+  { q: "Support kaise milega?", a: "Sabhi plans mein WhatsApp aur phone support milta hai. Enterprise plan mein dedicated account manager milta hai." },
+];
+
+const portfolioItems = [
+  { name: "CadBull.com", category: "E-Commerce", result: "10x Traffic Growth" },
+  { name: "HireForJob.com", category: "Job Portal", result: "50K+ Monthly Users" },
+  { name: "Franchise Discovery", category: "B2B Platform", result: "200+ Franchise Listings" },
+  { name: "Hotel Starter Kit", category: "Hospitality", result: "3x Booking Increase" },
+  { name: "Diamond Trading Hub", category: "Luxury B2B", result: "500+ Daily Inquiries" },
+  { name: "Agri Market Pro", category: "Agriculture", result: "1000+ Farmers Onboarded" },
 ];
 
 interface LeadFormProps {
@@ -187,6 +250,23 @@ const LeadForm = ({ id, buttonText, note }: LeadFormProps) => {
   );
 };
 
+const FAQItem = ({ q, a }: { q: string; a: string }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border border-white/10 rounded-xl overflow-hidden">
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors">
+        <span className="font-semibold text-white/90 pr-4">{q}</span>
+        {open ? <ChevronUp className="w-5 h-5 text-red-400 flex-shrink-0" /> : <ChevronDown className="w-5 h-5 text-white/40 flex-shrink-0" />}
+      </button>
+      {open && (
+        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="px-5 pb-5">
+          <p className="text-white/60 text-sm leading-relaxed">{a}</p>
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
 const WebDevAhmedabadLanding = () => {
   return (
     <>
@@ -210,9 +290,18 @@ const WebDevAhmedabadLanding = () => {
           "description": "Best website development company in Ahmedabad offering professional web design, SEO, and digital marketing services.",
           "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "127" }
         })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": faqs.map(f => ({
+            "@type": "Question",
+            "name": f.q,
+            "acceptedAnswer": { "@type": "Answer", "text": f.a }
+          }))
+        })}</script>
       </Helmet>
 
-      <div className="min-h-screen bg-[#0a1628] text-white">
+      <div className="min-h-screen bg-[#0a1628] text-white font-sans">
         {/* Red Top Strip */}
         <div className="bg-red-600 text-white text-center py-2.5 text-sm font-bold tracking-wider uppercase animate-pulse">
           🔥 LIMITED TIME OFFER — Free Domain + Free Hosting 🔥
@@ -226,7 +315,6 @@ const WebDevAhmedabadLanding = () => {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {/* Left - Content */}
               <motion.div className="text-center lg:text-left space-y-6" initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                   <span className="text-red-500">FREE DOMAIN</span> + <span className="text-red-500">FREE HOSTING</span>
@@ -234,9 +322,7 @@ const WebDevAhmedabadLanding = () => {
                 <p className="text-2xl md:text-3xl font-semibold text-white/90">
                   Get Your Business Website Starting at <span className="text-red-400 font-bold">₹5,999</span>
                 </p>
-                <p className="text-xl text-yellow-300 font-medium">
-                  📲 Get Daily Leads on Your Phone
-                </p>
+                <p className="text-xl text-yellow-300 font-medium">📲 Get Daily Leads on Your Phone</p>
                 <div className="flex items-center gap-2 justify-center lg:justify-start text-white/60 text-sm">
                   <Clock className="w-4 h-4" />
                   <span>Limited Slots Available • Offer Ending Soon</span>
@@ -249,7 +335,6 @@ const WebDevAhmedabadLanding = () => {
                 </Button>
               </motion.div>
 
-              {/* Right - Form */}
               <motion.div
                 className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl"
                 initial={{ opacity: 0, x: 40 }}
@@ -259,6 +344,27 @@ const WebDevAhmedabadLanding = () => {
                 <h2 className="text-2xl font-bold text-center mb-6">Book Your Website Now</h2>
                 <LeadForm id="hero-form" buttonText="Get Free Consultation" note="We will contact you within 24 hours" />
               </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* STATS COUNTER */}
+        <section className="py-10 bg-gradient-to-r from-red-700/90 via-red-600 to-red-700/90 relative">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {stats.map((s, i) => (
+                <motion.div
+                  key={s.label}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="text-center"
+                >
+                  <p className="text-3xl md:text-4xl font-extrabold text-white">{s.number}</p>
+                  <p className="text-white/80 text-sm mt-1">{s.label}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
@@ -347,20 +453,118 @@ const WebDevAhmedabadLanding = () => {
           </div>
         </section>
 
+        {/* OUR PROCESS */}
+        <section className="py-16 md:py-24 bg-[#0d1e38]">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-14">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                Our <span className="text-red-500">Work Process</span>
+              </h2>
+              <p className="text-white/60 max-w-xl mx-auto">Simple, transparent, and result-driven — here's how we build your website</p>
+            </div>
+            <div className="max-w-4xl mx-auto space-y-0">
+              {processSteps.map((step, i) => (
+                <motion.div
+                  key={step.step}
+                  initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ delay: i * 0.1 }}
+                  className="flex gap-6 items-start py-8 relative"
+                >
+                  {/* Connector line */}
+                  {i < processSteps.length - 1 && (
+                    <div className="absolute left-[27px] top-[72px] w-0.5 h-[calc(100%-40px)] bg-gradient-to-b from-red-500/40 to-transparent" />
+                  )}
+                  <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-red-600/15 border border-red-500/30 flex items-center justify-center relative z-10">
+                    <step.icon className="w-6 h-6 text-red-400" />
+                  </div>
+                  <div>
+                    <span className="text-red-500 text-xs font-bold tracking-widest uppercase">Step {step.step}</span>
+                    <h3 className="text-xl font-bold mt-1 text-white">{step.title}</h3>
+                    <p className="text-white/60 text-sm mt-2 leading-relaxed max-w-lg">{step.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* INDUSTRIES WE SERVE */}
+        <section className="py-16 bg-[#0a1628]">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                Industries <span className="text-red-500">We Serve</span>
+              </h2>
+              <p className="text-white/60">We have built websites for 50+ different industries across Ahmedabad</p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
+              {industries.map((ind, i) => (
+                <motion.div
+                  key={ind.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="flex flex-col items-center gap-3 p-5 rounded-xl bg-white/5 border border-white/10 hover:border-red-500/30 hover:bg-white/[0.08] transition-all group"
+                >
+                  <ind.icon className="w-8 h-8 text-white/40 group-hover:text-red-400 transition-colors" />
+                  <span className="text-xs font-medium text-white/70 text-center">{ind.name}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* PORTFOLIO SHOWCASE */}
+        <section className="py-16 md:py-24 bg-[#0d1e38]">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                Our <span className="text-red-500">Portfolio</span>
+              </h2>
+              <p className="text-white/60">Some of our successfully delivered projects</p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              {portfolioItems.map((item, i) => (
+                <motion.div
+                  key={item.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-red-500/30 transition-all group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-red-600/10 flex items-center justify-center mb-4">
+                    <Eye className="w-6 h-6 text-red-400" />
+                  </div>
+                  <h3 className="font-bold text-white text-lg">{item.name}</h3>
+                  <p className="text-white/50 text-xs mt-1">{item.category}</p>
+                  <div className="mt-3 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-green-400" />
+                    <span className="text-green-400 text-sm font-medium">{item.result}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* WHY CHOOSE US */}
-        <section className="py-16 bg-[#0d1e38]">
+        <section className="py-16 bg-[#0a1628]">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
               Why <span className="text-red-500">Choose Us</span>
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
               {whyChooseUs.map((item, i) => (
                 <motion.div
                   key={item.text}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-30px" }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.08 }}
                   className="flex flex-col items-center text-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-red-500/30 transition-colors"
                 >
                   <div className="w-14 h-14 rounded-xl bg-red-600/10 flex items-center justify-center">
@@ -373,8 +577,60 @@ const WebDevAhmedabadLanding = () => {
           </div>
         </section>
 
+        {/* TESTIMONIALS */}
+        <section className="py-16 md:py-24 bg-[#0d1e38]">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                What Our <span className="text-red-500">Clients Say</span>
+              </h2>
+              <p className="text-white/60">Real reviews from our Ahmedabad-based clients</p>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {testimonials.map((t, i) => (
+                <motion.div
+                  key={t.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-white/5 border border-white/10 rounded-2xl p-6 relative"
+                >
+                  <div className="flex gap-1 mb-3">
+                    {Array.from({ length: t.rating }).map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed italic">"{t.content}"</p>
+                  <div className="mt-4 pt-4 border-t border-white/10">
+                    <p className="font-bold text-white text-sm">{t.name}</p>
+                    <p className="text-white/50 text-xs">{t.role}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ SECTION */}
+        <section className="py-16 bg-[#0a1628]">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                Frequently Asked <span className="text-red-500">Questions</span>
+              </h2>
+              <p className="text-white/60">Got questions? We've got answers.</p>
+            </div>
+            <div className="max-w-3xl mx-auto space-y-3">
+              {faqs.map((faq) => (
+                <FAQItem key={faq.q} q={faq.q} a={faq.a} />
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* BOTTOM LEAD FORM */}
-        <section className="py-16 md:py-24 bg-[#0a1628]">
+        <section className="py-16 md:py-24 bg-[#0d1e38]">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 md:p-12 shadow-2xl">
               <div className="text-center space-y-3 mb-8">
