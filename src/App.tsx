@@ -89,6 +89,7 @@ const AdminClientLogos = lazy(() => import("@/pages/admin/AdminClientLogos"));
 const AdminMediaLibrary = lazy(() => import("@/pages/admin/AdminMediaLibrary"));
 const AdminNavigation = lazy(() => import("@/pages/admin/AdminNavigation"));
 const AdminAcademy = lazy(() => import("@/pages/admin/AdminAcademy"));
+const AdminChatConversations = lazy(() => import("@/pages/admin/AdminChatConversations"));
 const ReferralPage = lazy(() => import("@/pages/ReferralPage"));
 const ClientPortal = lazy(() => import("@/pages/ClientPortal"));
 const QuoteCalculator = lazy(() => import("@/pages/QuoteCalculator"));
@@ -197,6 +198,7 @@ const App = () => (
               <Route path="/admin/revenue" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminRevenueForecasting /></AdminRoute></Suspense>} />
               <Route path="/admin/ai-agent" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminAIAgent /></AdminRoute></Suspense>} />
               <Route path="/admin/content-writer" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminContentWriter /></AdminRoute></Suspense>} />
+              <Route path="/admin/chat-conversations" element={<Suspense fallback={<PageLoader />}><AdminRoute><AdminChatConversations /></AdminRoute></Suspense>} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
