@@ -89,6 +89,7 @@ const AdminClientLogos = lazy(() => import("@/pages/admin/AdminClientLogos"));
 const AdminMediaLibrary = lazy(() => import("@/pages/admin/AdminMediaLibrary"));
 const AdminNavigation = lazy(() => import("@/pages/admin/AdminNavigation"));
 const AdminAcademy = lazy(() => import("@/pages/admin/AdminAcademy"));
+const AdminChatConversations = lazy(() => import("@/pages/admin/AdminChatConversations"));
 const ReferralPage = lazy(() => import("@/pages/ReferralPage"));
 const ClientPortal = lazy(() => import("@/pages/ClientPortal"));
 const QuoteCalculator = lazy(() => import("@/pages/QuoteCalculator"));
