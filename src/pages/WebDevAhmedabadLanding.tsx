@@ -6,7 +6,8 @@ import {
   ArrowRight, Clock, Rocket, MessageCircle, Code, Palette, Search,
   BarChart3, ShoppingCart, Building2, Stethoscope, GraduationCap,
   Briefcase, UtensilsCrossed, Plane, Home, Award, TrendingUp,
-  ChevronDown, ChevronUp, Headphones, MonitorSmartphone, Settings, Eye
+  ChevronDown, ChevronUp, Headphones, MonitorSmartphone, Settings, Eye,
+  Sparkles, Target, MousePointerClick, Layers
 } from "lucide-react";
 
 import imgCadbull from "@/assets/portfolio-ahmedabad/cadbull.png";
@@ -22,6 +23,9 @@ import imgHireforjob from "@/assets/portfolio-ahmedabad/hireforjob.png";
 import imgGiftcityproperty from "@/assets/portfolio-ahmedabad/giftcityproperty.png";
 import imgHandbricks from "@/assets/portfolio-ahmedabad/handbricks.png";
 import imgDubaisqft from "@/assets/portfolio-ahmedabad/dubaisqft.png";
+import imgCastingscreen from "@/assets/portfolio/castingscreen.webp";
+import imgAutocadfiles from "@/assets/portfolio/autocadfiles.webp";
+import imgAkyca from "@/assets/portfolio/akyca-new.webp";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
