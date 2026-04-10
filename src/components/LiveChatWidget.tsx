@@ -10,6 +10,19 @@ type Message = { role: "user" | "assistant"; content: string };
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-website-agent`;
 
+const LANGUAGE_OPTIONS = [
+  "🇬🇧 English",
+  "🇮🇳 हिन्दी (Hindi)",
+  "🇮🇳 ગુજરાતી (Gujarati)",
+  "🇮🇳 मराठी (Marathi)",
+  "🇮🇳 தமிழ் (Tamil)",
+  "🇮🇳 తెలుగు (Telugu)",
+  "🇮🇳 ಕನ್ನಡ (Kannada)",
+  "🇮🇳 മലയാളം (Malayalam)",
+  "🇮🇳 বাংলা (Bengali)",
+  "🇮🇳 ਪੰਜਾਬੀ (Punjabi)",
+];
+
 const SERVICES_OPTIONS = [
   "🌐 Website Development",
   "📈 Digital Marketing (SEO/PPC)",
@@ -88,7 +101,7 @@ const OptionButton = ({ label, onClick, variant = "default" }: { label: string; 
   </motion.button>
 );
 
-type ChatStep = "welcome" | "conversation" | "closed";
+type ChatStep = "language" | "welcome" | "conversation" | "closed";
 
 const LiveChatWidget = () => {
   const [open, setOpen] = useState(false);
@@ -97,7 +110,7 @@ const LiveChatWidget = () => {
   const [loading, setLoading] = useState(false);
   const [sessionId] = useState(() => `chat_${Date.now()}_${Math.random().toString(36).slice(2)}`);
   const [showScrollBtn, setShowScrollBtn] = useState(false);
-  const [step, setStep] = useState<ChatStep>("welcome");
+  const [step, setStep] = useState<ChatStep>("language");
   const [showOptions, setShowOptions] = useState<string[] | null>(null);
   const [optionVariant, setOptionVariant] = useState<"default" | "budget">("default");
   const [isHidden, setIsHidden] = useState(false);
@@ -127,15 +140,16 @@ const LiveChatWidget = () => {
     return () => el.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Initialize welcome message
+  // Initialize with language selection
   useEffect(() => {
     if (open && messages.length === 0) {
       setMessages([{
         role: "assistant",
-        content: "Hi! 👋 Welcome to **DiBull Technology**!\n\nI'm here to help you find the perfect solution for your business. What are you looking for today?"
+        content: "Welcome to **DiBull Technology**! 👋🏻\n\nPlease select your preferred language / कृपया अपनी भाषा चुनें:"
       }]);
-      setShowOptions(SERVICES_OPTIONS);
-      setStep("welcome");
+      setShowOptions(LANGUAGE_OPTIONS);
+      setOptionVariant("default");
+      setStep("language");
     }
   }, [open]);
 
