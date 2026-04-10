@@ -7,7 +7,8 @@ import {
   BarChart3, ShoppingCart, Building2, Stethoscope, GraduationCap,
   Briefcase, UtensilsCrossed, Plane, Home, Award, TrendingUp,
   ChevronDown, ChevronUp, Headphones, MonitorSmartphone, Settings,
-  Sparkles, Target, MousePointerClick, Layers, ArrowDown
+  Sparkles, Target, MousePointerClick, Layers, ArrowDown,
+  X, Crown, Check, BadgeCheck, Percent
 } from "lucide-react";
 
 import imgCadbull from "@/assets/portfolio-ahmedabad/cadbull.png";
