@@ -13,7 +13,7 @@ const packages = [
   { value: "9999", label: "₹9,999 – Growth" },
   { value: "14999", label: "₹14,999 – Professional" },
   { value: "19999", label: "₹19,999 – Business Pro" },
-  { value: "35000", label: "₹35,000 – Enterprise" },
+  { value: "49999", label: "₹49,999 – Enterprise" },
 ];
 
 const pricingPlans = [
@@ -84,7 +84,7 @@ const pricingPlans = [
   },
   {
     name: "Enterprise",
-    price: "₹35,000",
+    price: "₹49,999",
     badge: "Premium Plan",
     highlight: false,
     premium: true,
@@ -149,8 +149,8 @@ const LeadForm = ({ id, buttonText, note }: LeadFormProps) => {
         budget: selectedPkg?.label || formData.package,
         website_type: "Website Development",
         source: "ahmedabad-landing",
-        score: formData.package === "35000" ? 90 : formData.package === "19999" ? 75 : formData.package === "14999" ? 65 : formData.package === "9999" ? 55 : 40,
-        temperature: formData.package === "35000" || formData.package === "19999" ? "hot" : formData.package === "14999" || formData.package === "9999" ? "warm" : "cold",
+        score: formData.package === "49999" ? 90 : formData.package === "19999" ? 75 : formData.package === "14999" ? 65 : formData.package === "9999" ? 55 : 40,
+        temperature: formData.package === "49999" || formData.package === "19999" ? "hot" : formData.package === "14999" || formData.package === "9999" ? "warm" : "cold",
       });
       if (error) throw error;
       toast.success("Thank you! We will contact you within 24 hours.");
@@ -206,7 +206,7 @@ const WebDevAhmedabadLanding = () => {
           "url": "https://www.dibull.com",
           "telephone": "+919825009111",
           "address": { "@type": "PostalAddress", "addressLocality": "Ahmedabad", "addressRegion": "Gujarat", "addressCountry": "IN" },
-          "priceRange": "₹5,999 - ₹35,000",
+          "priceRange": "₹5,999 - ₹49,999",
           "description": "Best website development company in Ahmedabad offering professional web design, SEO, and digital marketing services.",
           "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "127" }
         })}</script>
