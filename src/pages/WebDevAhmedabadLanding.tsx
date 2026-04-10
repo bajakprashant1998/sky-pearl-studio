@@ -8,6 +8,20 @@ import {
   Briefcase, UtensilsCrossed, Plane, Home, Award, TrendingUp,
   ChevronDown, ChevronUp, Headphones, MonitorSmartphone, Settings, Eye
 } from "lucide-react";
+
+import imgCadbull from "@/assets/portfolio-ahmedabad/cadbull.png";
+import imgArcll from "@/assets/portfolio-ahmedabad/arcll.png";
+import imgInteriorsstore from "@/assets/portfolio-ahmedabad/interiorsstore.png";
+import imgLovermatching from "@/assets/portfolio-ahmedabad/lovermatching.png";
+import imgBhagavadgitagyan from "@/assets/portfolio-ahmedabad/bhagavadgitagyan.png";
+import imgRentalyacht from "@/assets/portfolio-ahmedabad/rentalyacht.png";
+import imgDreamdecor from "@/assets/portfolio-ahmedabad/dreamdecor.png";
+import imgBetterviewtourism from "@/assets/portfolio-ahmedabad/betterviewtourism.png";
+import imgJhpapi from "@/assets/portfolio-ahmedabad/jhpapi.png";
+import imgHireforjob from "@/assets/portfolio-ahmedabad/hireforjob.png";
+import imgGiftcityproperty from "@/assets/portfolio-ahmedabad/giftcityproperty.png";
+import imgHandbricks from "@/assets/portfolio-ahmedabad/handbricks.png";
+import imgDubaisqft from "@/assets/portfolio-ahmedabad/dubaisqft.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -167,12 +181,19 @@ const faqs = [
 ];
 
 const portfolioItems = [
-  { name: "CadBull.com", category: "E-Commerce", result: "10x Traffic Growth" },
-  { name: "HireForJob.com", category: "Job Portal", result: "50K+ Monthly Users" },
-  { name: "Franchise Discovery", category: "B2B Platform", result: "200+ Franchise Listings" },
-  { name: "Hotel Starter Kit", category: "Hospitality", result: "3x Booking Increase" },
-  { name: "Diamond Trading Hub", category: "Luxury B2B", result: "500+ Daily Inquiries" },
-  { name: "Agri Market Pro", category: "Agriculture", result: "1000+ Farmers Onboarded" },
+  { name: "CadBull", image: imgCadbull, category: "CAD Library", url: "https://cadbull.com/" },
+  { name: "ARCLL", image: imgArcll, category: "Architecture", url: "https://arcll.com/" },
+  { name: "Interiors Store", image: imgInteriorsstore, category: "E-Commerce", url: "https://interiorsstore.com/" },
+  { name: "Lover Matching", image: imgLovermatching, category: "Dating Platform", url: "https://lovermatching.com/" },
+  { name: "Bhagavad Gita Gyan", image: imgBhagavadgitagyan, category: "Spiritual", url: "https://bhagavadgitagyan.com/" },
+  { name: "Rental Yacht Dubai", image: imgRentalyacht, category: "Tourism", url: "https://rentalyachtindubai.com/" },
+  { name: "Dream Decor", image: imgDreamdecor, category: "Interior", url: "https://dreamdecor.dibull.com/" },
+  { name: "Better View Tourism", image: imgBetterviewtourism, category: "Tourism", url: "https://betterviewtourism.dibull.com/" },
+  { name: "JHP API", image: imgJhpapi, category: "Pharma", url: "https://jhpapi.dibull.com/" },
+  { name: "HireForJob", image: imgHireforjob, category: "Job Portal", url: "https://www.hireforjob.com/" },
+  { name: "GIFT City Property", image: imgGiftcityproperty, category: "Real Estate", url: "https://giftcityproperty.com/" },
+  { name: "Handbricks", image: imgHandbricks, category: "Real Estate", url: "https://handbricks.com/" },
+  { name: "Dubai SqFt", image: imgDubaisqft, category: "Real Estate", url: "https://dubaisqft.com/" },
 ];
 
 interface LeadFormProps {
@@ -232,16 +253,16 @@ const LeadForm = ({ id, buttonText, note }: LeadFormProps) => {
         required
         value={formData.package}
         onChange={e => setFormData(p => ({ ...p, package: e.target.value }))}
-        className="w-full h-12 rounded-lg border border-white/20 bg-white/10 px-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-red-500 text-sm"
+        className="w-full h-12 rounded-lg border border-white/30 bg-white/10 px-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm"
       >
         <option value="" disabled>Select Package *</option>
         {packages.map(p => <option key={p.value} value={p.value} className="bg-[#0a1628] text-white">{p.label}</option>)}
       </select>
-      <Input required placeholder="Your Name *" value={formData.name} onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} className="h-12 bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground focus:ring-red-500" />
-      <Input required placeholder="WhatsApp Number *" type="tel" value={formData.phone} onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))} className="h-12 bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground focus:ring-red-500" />
-      <Input required placeholder="Email Address *" type="email" value={formData.email} onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} className="h-12 bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground focus:ring-red-500" />
-      <Input placeholder="Business Name" value={formData.business_name} onChange={e => setFormData(p => ({ ...p, business_name: e.target.value }))} className="h-12 bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground focus:ring-red-500" />
-      <Textarea placeholder="Your Requirement" value={formData.message} onChange={e => setFormData(p => ({ ...p, message: e.target.value }))} className="bg-white/10 border-white/20 text-foreground placeholder:text-muted-foreground focus:ring-red-500 min-h-[80px]" />
+      <Input required placeholder="Your Name *" value={formData.name} onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500" />
+      <Input required placeholder="WhatsApp Number *" type="tel" value={formData.phone} onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))} className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500" />
+      <Input required placeholder="Email Address *" type="email" value={formData.email} onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500" />
+      <Input placeholder="Business Name" value={formData.business_name} onChange={e => setFormData(p => ({ ...p, business_name: e.target.value }))} className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500" />
+      <Textarea placeholder="Your Requirement" value={formData.message} onChange={e => setFormData(p => ({ ...p, message: e.target.value }))} className="bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500 min-h-[80px]" />
       <Button type="submit" disabled={loading} className="w-full h-14 bg-red-600 hover:bg-red-700 text-white text-lg font-bold rounded-lg shadow-lg hover:shadow-red-600/30 transition-all">
         {loading ? "Submitting..." : buttonText}
       </Button>
@@ -517,39 +538,54 @@ const WebDevAhmedabadLanding = () => {
           </div>
         </section>
 
-        {/* PORTFOLIO SHOWCASE */}
-        <section className="py-16 md:py-24 bg-[#0d1e38]">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">
-                Our <span className="text-red-500">Portfolio</span>
-              </h2>
-              <p className="text-white/60">Some of our successfully delivered projects</p>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              {portfolioItems.map((item, i) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-red-500/30 transition-all group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-red-600/10 flex items-center justify-center mb-4">
-                    <Eye className="w-6 h-6 text-red-400" />
-                  </div>
-                  <h3 className="font-bold text-white text-lg">{item.name}</h3>
-                  <p className="text-white/50 text-xs mt-1">{item.category}</p>
-                  <div className="mt-3 flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-green-400" />
-                    <span className="text-green-400 text-sm font-medium">{item.result}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+         {/* PORTFOLIO SHOWCASE */}
+         <section className="py-16 md:py-24 bg-[#0d1e38]">
+           <div className="container mx-auto px-4">
+             <div className="text-center mb-12">
+               <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                 Our <span className="text-red-500">Portfolio</span>
+               </h2>
+               <p className="text-white/60">Websites we have designed & developed</p>
+             </div>
+             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+               {portfolioItems.map((item, i) => (
+                 <motion.a
+                   key={item.name}
+                   href={item.url}
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   initial={{ opacity: 0, y: 20 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   viewport={{ once: true }}
+                   transition={{ delay: i * 0.05 }}
+                   className="group rounded-xl overflow-hidden border border-white/10 bg-white/5 hover:border-red-500/40 transition-all"
+                 >
+                   {/* Browser mockup */}
+                   <div className="bg-[#1a2a44] px-3 py-1.5 flex items-center gap-1.5 border-b border-white/10">
+                     <div className="w-2 h-2 rounded-full bg-red-400" />
+                     <div className="w-2 h-2 rounded-full bg-yellow-400" />
+                     <div className="w-2 h-2 rounded-full bg-green-400" />
+                     <span className="ml-2 text-[9px] text-white/40 truncate">{item.url.replace(/https?:\/\//, '').replace(/\/$/, '')}</span>
+                   </div>
+                   {/* Screenshot */}
+                   <div className="aspect-[16/10] overflow-hidden">
+                     <img
+                       src={item.image}
+                       alt={`${item.name} website`}
+                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                       loading="lazy"
+                     />
+                   </div>
+                   {/* Info */}
+                   <div className="p-3">
+                     <h3 className="font-bold text-white text-sm">{item.name}</h3>
+                     <span className="text-[10px] text-white/50">{item.category}</span>
+                   </div>
+                 </motion.a>
+               ))}
+             </div>
+           </div>
+         </section>
 
         {/* WHY CHOOSE US */}
         <section className="py-16 bg-[#0a1628]">
