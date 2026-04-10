@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, X, Send, Bot, Sparkles, ArrowDown, CheckCircle2 } from "lucide-react";
+import { MessageCircle, X, Bot, Sparkles, ArrowDown, CheckCircle2, Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 
@@ -12,34 +12,41 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-website-a
 
 const LANGUAGE_OPTIONS = [
   "🇬🇧 English",
-  "🇮🇳 हिन्दी (Hindi)",
-  "🇮🇳 ગુજરાતી (Gujarati)",
-  "🇮🇳 मराठी (Marathi)",
-  "🇮🇳 தமிழ் (Tamil)",
-  "🇮🇳 తెలుగు (Telugu)",
-  "🇮🇳 ಕನ್ನಡ (Kannada)",
-  "🇮🇳 മലയാളം (Malayalam)",
-  "🇮🇳 বাংলা (Bengali)",
-  "🇮🇳 ਪੰਜਾਬੀ (Punjabi)",
+  "🇮🇳 हिन्दी",
+  "🇮🇳 ગુજરાતી",
+  "🇮🇳 मराठी",
+  "🇮🇳 தமிழ்",
+  "🇮🇳 తెలుగు",
+  "🇮🇳 ಕನ್ನಡ",
+  "🇮🇳 മലയാളം",
+  "🇮🇳 বাংলা",
+  "🇮🇳 ਪੰਜਾਬੀ",
 ];
 
-const SERVICES_OPTIONS = [
-  "🌐 Website Development",
-  "📈 Digital Marketing (SEO/PPC)",
-  "🛒 E-commerce Solutions",
-  "📱 Mobile App Development",
-  "🎨 Branding & Design",
-  "💬 Other / Just Exploring",
-];
+// Extract numbered options from AI text like "1. Option\n2. Option"
+function extractOptions(text: string): string[] {
+  const lines = text.split("\n");
+  const options: string[] = [];
+  for (const line of lines) {
+    const match = line.trim().match(/^\d+\.\s+(.+)/);
+    if (match) {
+      options.push(match[1].trim());
+    }
+  }
+  return options.length >= 2 ? options : [];
+}
 
-const BUDGET_OPTIONS = [
-  "₹25,000 - ₹50,000",
-  "₹50,000 - ₹1,00,000",
-  "₹1,00,000 - ₹3,00,000",
-  "₹3,00,000 - ₹5,00,000",
-  "₹5,00,000+",
-  "Not sure yet",
-];
+// Remove numbered list from text to show only the question part
+function getTextWithoutOptions(text: string): string {
+  const lines = text.split("\n");
+  const nonOptionLines: string[] = [];
+  for (const line of lines) {
+    if (!line.trim().match(/^\d+\.\s+/)) {
+      nonOptionLines.push(line);
+    }
+  }
+  return nonOptionLines.join("\n").trim();
+}
 
 const TypingDots = () => (
   <div className="flex justify-start">
@@ -53,8 +60,17 @@ const TypingDots = () => (
   </div>
 );
 
-const ChatMessage = ({ msg }: { msg: Message }) => {
+const ChatMessage = ({ msg, hideOptions }: { msg: Message; hideOptions?: boolean }) => {
   const isUser = msg.role === "user";
+  const displayText = !isUser && hideOptions ? getTextWithoutOptions(msg.content) : msg.content;
+  
+  // Don't render if only options remain and we're hiding them
+  if (!isUser && hideOptions && !displayText.replace(/\[SHOW_LEAD_FORM\]/g, "").trim()) return null;
+
+  // Remove the marker from displayed text
+  const cleanText = displayText.replace(/\[SHOW_LEAD_FORM\]/g, "").trim();
+  if (!cleanText) return null;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -73,10 +89,10 @@ const ChatMessage = ({ msg }: { msg: Message }) => {
           : "bg-muted text-foreground rounded-bl-md"
       }`}>
         {isUser ? (
-          msg.content
+          cleanText
         ) : (
-          <div className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&_p]:my-1 [&_ul]:my-1 [&_ol]:my-1 [&_li]:my-0.5 [&_pre]:my-2 [&_code]:text-xs [&_pre]:text-xs [&_pre]:rounded-lg [&_pre]:p-2">
-            <ReactMarkdown>{msg.content}</ReactMarkdown>
+          <div className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&_p]:my-1 [&_ul]:my-1 [&_ol]:my-1 [&_li]:my-0.5">
+            <ReactMarkdown>{cleanText}</ReactMarkdown>
           </div>
         )}
       </div>
@@ -84,24 +100,20 @@ const ChatMessage = ({ msg }: { msg: Message }) => {
   );
 };
 
-const OptionButton = ({ label, onClick, variant = "default" }: { label: string; onClick: () => void; variant?: "default" | "budget" }) => (
+const OptionButton = ({ label, onClick }: { label: string; onClick: () => void }) => (
   <motion.button
-    initial={{ opacity: 0, scale: 0.9 }}
-    animate={{ opacity: 1, scale: 1 }}
+    initial={{ opacity: 0, y: 4 }}
+    animate={{ opacity: 1, y: 0 }}
     whileHover={{ scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
+    whileTap={{ scale: 0.97 }}
     onClick={onClick}
-    className={`text-left text-xs px-3 py-2 rounded-xl border transition-all duration-200 ${
-      variant === "budget"
-        ? "border-green-500/30 text-green-700 dark:text-green-400 hover:bg-green-500/10 hover:border-green-500/50"
-        : "border-primary/20 text-primary hover:bg-primary/10 hover:border-primary/40"
-    }`}
+    className="w-full text-left text-sm px-4 py-2.5 rounded-xl border border-primary/20 text-primary hover:bg-primary/10 hover:border-primary/40 transition-all duration-200"
   >
     {label}
   </motion.button>
 );
 
-type ChatStep = "language" | "welcome" | "conversation" | "closed";
+type ChatStep = "language" | "conversation" | "lead_form" | "closed";
 
 const LiveChatWidget = () => {
   const [open, setOpen] = useState(false);
@@ -111,13 +123,14 @@ const LiveChatWidget = () => {
   const [sessionId] = useState(() => `chat_${Date.now()}_${Math.random().toString(36).slice(2)}`);
   const [showScrollBtn, setShowScrollBtn] = useState(false);
   const [step, setStep] = useState<ChatStep>("language");
-  const [showOptions, setShowOptions] = useState<string[] | null>(null);
-  const [optionVariant, setOptionVariant] = useState<"default" | "budget">("default");
+  const [extractedOptions, setExtractedOptions] = useState<string[]>([]);
   const [isHidden, setIsHidden] = useState(false);
-  const [leadSaved, setLeadSaved] = useState(false);
+  const [leadName, setLeadName] = useState("");
+  const [leadPhone, setLeadPhone] = useState("");
+  const [leadCity, setLeadCity] = useState("");
+  const [leadSubmitting, setLeadSubmitting] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
-  const messageCountRef = useRef(0);
 
   const scrollToBottom = useCallback(() => {
     if (scrollRef.current) {
@@ -127,120 +140,102 @@ const LiveChatWidget = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, loading, scrollToBottom]);
+  }, [messages, loading, step, scrollToBottom]);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
     const handleScroll = () => {
-      const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 60;
-      setShowScrollBtn(!atBottom);
+      setShowScrollBtn(el.scrollHeight - el.scrollTop - el.clientHeight > 60);
     };
     el.addEventListener("scroll", handleScroll);
     return () => el.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Initialize with language selection
+  // Init
   useEffect(() => {
     if (open && messages.length === 0) {
       setMessages([{
         role: "assistant",
         content: "Welcome to **DiBull Technology**! 👋🏻\n\nPlease select your preferred language / कृपया अपनी भाषा चुनें:"
       }]);
-      setShowOptions(LANGUAGE_OPTIONS);
-      setOptionVariant("default");
+      setExtractedOptions([]);
       setStep("language");
     }
   }, [open]);
 
-  // Detect if AI response contains budget-related keywords to show budget options
+  // After AI responds, extract options or detect lead form marker
   useEffect(() => {
-    if (messages.length < 2) return;
+    if (loading || messages.length < 1) return;
     const lastMsg = messages[messages.length - 1];
-    if (lastMsg.role !== "assistant" || loading) return;
-    
-    const content = lastMsg.content.toLowerCase();
-    if ((content.includes("budget") || content.includes("invest")) && !content.includes("thank you for connecting")) {
-      setShowOptions(BUDGET_OPTIONS);
-      setOptionVariant("budget");
-    } else {
-      setShowOptions(null);
-      setOptionVariant("default");
+    if (lastMsg.role !== "assistant") return;
+
+    // Check for lead form marker
+    if (lastMsg.content.includes("[SHOW_LEAD_FORM]")) {
+      setExtractedOptions([]);
+      setStep("lead_form");
+      return;
     }
 
-    // Detect closing message
-    if (content.includes("thank you for connecting") || content.includes("our team will reach out")) {
-      setLeadSaved(true);
-      // Extract lead info from conversation and save
-      saveLead();
-      // Hide chat after delay
-      setTimeout(() => {
-        setStep("closed");
-      }, 5000);
+    // Extract numbered options from AI response
+    if (step !== "language") {
+      const opts = extractOptions(lastMsg.content);
+      setExtractedOptions(opts);
     }
   }, [messages, loading]);
 
   const saveLead = async () => {
+    if (!leadName.trim() || !leadPhone.trim()) return;
+    setLeadSubmitting(true);
+
     try {
-      // Parse conversation to extract lead details
+      // Extract service and budget from conversation
       const allText = messages.map(m => m.content).join("\n");
-      
-      // Extract details using patterns
-      const nameMatch = allText.match(/(?:name|naam)\s*(?:is|hai|:)?\s*([A-Za-z\s]+?)(?:\n|,|\.|\!)/i);
-      const emailMatch = allText.match(/[\w.-]+@[\w.-]+\.\w+/);
-      const phoneMatch = allText.match(/(?:\+91[\s-]?)?[6-9]\d{9}/);
-      const businessMatch = allText.match(/(?:company|business|brand)\s*(?:name|naam)?\s*(?:is|hai|:)?\s*([A-Za-z0-9\s&]+?)(?:\n|,|\.|\!)/i);
-      
-      const name = nameMatch?.[1]?.trim() || "Chat Lead";
-      const email = emailMatch?.[0] || `chat_${sessionId}@lead.dibull.com`;
-      const phone = phoneMatch?.[0] || null;
-      const businessName = businessMatch?.[1]?.trim() || null;
-      
-      // Detect service interest
       const serviceKeywords: Record<string, string> = {
         "website": "Website Development",
-        "seo": "SEO",
-        "ppc": "PPC Advertising",
+        "seo": "SEO", "ppc": "PPC",
         "social media": "Social Media Marketing",
-        "ecommerce": "E-commerce",
-        "e-commerce": "E-commerce",
+        "ecommerce": "E-commerce", "e-commerce": "E-commerce",
         "branding": "Branding & Design",
         "app": "Mobile App Development",
         "digital marketing": "Digital Marketing",
       };
-      
       let detectedService = "General Inquiry";
       for (const [key, val] of Object.entries(serviceKeywords)) {
-        if (allText.toLowerCase().includes(key)) {
-          detectedService = val;
-          break;
-        }
+        if (allText.toLowerCase().includes(key)) { detectedService = val; break; }
       }
-
-      // Detect budget
-      const budgetMatch = allText.match(/₹[\d,]+\s*[-–]\s*₹?[\d,]+|₹[\d,]+\+|not sure/i);
-      const budget = budgetMatch?.[0] || null;
+      const budgetMatch = allText.match(/₹[\d,]+\s*[-–]\s*₹?[\d,]+|₹[\d,]+\+/);
 
       await supabase.from("leads").insert({
-        name,
-        email,
-        phone,
-        business_name: businessName,
-        budget,
+        name: leadName.trim(),
+        email: `chat_${sessionId.slice(5, 20)}@lead.dibull.com`,
+        phone: leadPhone.trim(),
+        business_name: leadCity.trim() || null,
+        budget: budgetMatch?.[0] || null,
         website_type: detectedService,
         source: "chatbot",
-        message: `[Chat Session: ${sessionId}]\n\nService Interest: ${detectedService}\n\nFull conversation available in Admin > Chat Conversations`,
-        score: phone && email && !email.includes("@lead.dibull") ? 70 : 30,
-        temperature: phone && email && !email.includes("@lead.dibull") ? "warm" : "cold",
+        message: `[Chat Session: ${sessionId}]\nCity: ${leadCity.trim()}\nService: ${detectedService}\n\nFull conversation in Admin > Chat Conversations`,
+        score: 70,
+        temperature: "warm",
       });
+
+      // Save lead submission as chat message too
+      await supabase.from("chat_messages").insert({
+        session_id: sessionId,
+        role: "user",
+        content: `📋 Lead Form Submitted:\nName: ${leadName.trim()}\nWhatsApp: ${leadPhone.trim()}\nCity: ${leadCity.trim()}`,
+      });
+
+      setStep("closed");
     } catch (err) {
       console.error("Failed to save lead:", err);
     }
+    setLeadSubmitting(false);
   };
 
   const streamMessage = async (allMessages: Message[]) => {
     setLoading(true);
-    setShowOptions(null);
+    setExtractedOptions([]);
     abortRef.current = new AbortController();
 
     try {
@@ -257,8 +252,8 @@ const LiveChatWidget = () => {
       if (!resp.ok || !resp.body) {
         let errMsg = "Sorry, something went wrong. Please try again.";
         if (resp.status === 429) errMsg = "⏳ Too many requests. Please wait a moment.";
-        if (resp.status === 402) errMsg = "Service temporarily unavailable. Please visit dibull.com or call us.";
-        setMessages((prev) => [...prev, { role: "assistant", content: errMsg }]);
+        if (resp.status === 402) errMsg = "Service temporarily unavailable. Please visit dibull.com.";
+        setMessages(prev => [...prev, { role: "assistant", content: errMsg }]);
         setLoading(false);
         return;
       }
@@ -268,33 +263,29 @@ const LiveChatWidget = () => {
       let buffer = "";
       let assistantText = "";
 
-      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+      setMessages(prev => [...prev, { role: "assistant", content: "" }]);
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         buffer += decoder.decode(value, { stream: true });
 
-        let newlineIdx: number;
-        while ((newlineIdx = buffer.indexOf("\n")) !== -1) {
-          let line = buffer.slice(0, newlineIdx);
-          buffer = buffer.slice(newlineIdx + 1);
+        let idx: number;
+        while ((idx = buffer.indexOf("\n")) !== -1) {
+          let line = buffer.slice(0, idx);
+          buffer = buffer.slice(idx + 1);
           if (line.endsWith("\r")) line = line.slice(0, -1);
           if (line.startsWith(":") || line.trim() === "") continue;
           if (!line.startsWith("data: ")) continue;
-
           const jsonStr = line.slice(6).trim();
           if (jsonStr === "[DONE]") break;
-
           try {
             const parsed = JSON.parse(jsonStr);
             const content = parsed.choices?.[0]?.delta?.content as string | undefined;
             if (content) {
               assistantText += content;
-              const currentText = assistantText;
-              setMessages((prev) =>
-                prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: currentText } : m))
-              );
+              const cur = assistantText;
+              setMessages(prev => prev.map((m, i) => i === prev.length - 1 ? { ...m, content: cur } : m));
             }
           } catch {
             buffer = line + "\n" + buffer;
@@ -305,14 +296,12 @@ const LiveChatWidget = () => {
 
       if (assistantText) {
         await supabase.from("chat_messages").insert({
-          session_id: sessionId,
-          role: "assistant",
-          content: assistantText,
+          session_id: sessionId, role: "assistant", content: assistantText,
         });
       }
     } catch (err: any) {
       if (err?.name !== "AbortError") {
-        setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, something went wrong. Please try again." }]);
+        setMessages(prev => [...prev, { role: "assistant", content: "Something went wrong. Please try again." }]);
       }
     }
     setLoading(false);
@@ -322,19 +311,15 @@ const LiveChatWidget = () => {
     const userMsg = (text || input).trim();
     if (!userMsg || loading) return;
     setInput("");
-    setShowOptions(null);
-    messageCountRef.current++;
+    setExtractedOptions([]);
 
-    if (step === "language") setStep("welcome");
-    else if (step === "welcome") setStep("conversation");
+    if (step === "language") setStep("conversation");
 
     const newMessages: Message[] = [...messages, { role: "user", content: userMsg }];
     setMessages(newMessages);
 
     await supabase.from("chat_messages").insert({
-      session_id: sessionId,
-      role: "user",
-      content: userMsg,
+      session_id: sessionId, role: "user", content: userMsg,
     });
 
     await streamMessage(newMessages);
@@ -342,9 +327,13 @@ const LiveChatWidget = () => {
 
   if (isHidden) return null;
 
+  // Determine which options to show
+  const showLanguageOptions = step === "language" && !loading;
+  const showAIOptions = step === "conversation" && extractedOptions.length > 0 && !loading;
+
   return (
     <>
-      {/* Chat Toggle */}
+      {/* Toggle Button */}
       <AnimatePresence>
         {!open && (
           <motion.button
@@ -373,7 +362,7 @@ const LiveChatWidget = () => {
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed bottom-6 left-6 z-50 w-[400px] max-w-[calc(100vw-48px)] bg-card border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
-            style={{ height: "560px" }}
+            style={{ height: "580px" }}
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-4 py-3.5 flex items-center justify-between relative overflow-hidden">
@@ -395,42 +384,85 @@ const LiveChatWidget = () => {
               </button>
             </div>
 
-            {/* Messages */}
+            {/* Messages Area */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 relative bg-gradient-to-b from-background to-muted/20">
               {messages.map((msg, i) => {
                 if (msg.role === "assistant" && msg.content === "" && loading) return null;
-                return <ChatMessage key={i} msg={msg} />;
+                const isLastAssistant = msg.role === "assistant" && i === messages.length - 1;
+                return (
+                  <ChatMessage
+                    key={i}
+                    msg={msg}
+                    hideOptions={isLastAssistant && (showAIOptions || step === "lead_form")}
+                  />
+                );
               })}
-              {loading && (messages[messages.length - 1]?.role === "user" || messages[messages.length - 1]?.content === "") && <TypingDots />}
 
-              {/* Option Buttons */}
-              {showOptions && !loading && (
+              {loading && <TypingDots />}
+
+              {/* Language Options */}
+              {showLanguageOptions && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="flex flex-wrap gap-2 pt-2"
+                  className="grid grid-cols-2 gap-2 pt-1"
                 >
-                  {showOptions.map((opt) => (
-                    <OptionButton
-                      key={opt}
-                      label={opt}
-                      variant={optionVariant}
-                      onClick={() => sendMessage(opt)}
-                    />
+                  {LANGUAGE_OPTIONS.map(lang => (
+                    <OptionButton key={lang} label={lang} onClick={() => sendMessage(lang)} />
                   ))}
                 </motion.div>
               )}
 
-              {/* Lead Saved Confirmation */}
-              {leadSaved && (
+              {/* AI-extracted Options */}
+              {showAIOptions && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-xl px-4 py-3 text-sm text-green-700 dark:text-green-400"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15 }}
+                  className="flex flex-col gap-2 pt-1"
                 >
-                  <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
-                  <span>Your inquiry has been recorded! Our team will contact you shortly.</span>
+                  {extractedOptions.map((opt, i) => (
+                    <OptionButton key={i} label={opt} onClick={() => sendMessage(opt)} />
+                  ))}
+                </motion.div>
+              )}
+
+              {/* Lead Form */}
+              {step === "lead_form" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-gradient-to-br from-primary/5 to-blue-500/5 border border-primary/20 rounded-2xl p-4 space-y-3"
+                >
+                  <p className="text-sm font-semibold text-foreground text-center">
+                    📋 Almost done! Fill this quick form:
+                  </p>
+                  <Input
+                    placeholder="Your Name / आपका नाम"
+                    value={leadName}
+                    onChange={e => setLeadName(e.target.value)}
+                    className="text-sm rounded-xl"
+                  />
+                  <Input
+                    placeholder="WhatsApp Number"
+                    value={leadPhone}
+                    onChange={e => setLeadPhone(e.target.value)}
+                    className="text-sm rounded-xl"
+                    type="tel"
+                  />
+                  <Input
+                    placeholder="City / शहर"
+                    value={leadCity}
+                    onChange={e => setLeadCity(e.target.value)}
+                    className="text-sm rounded-xl"
+                  />
+                  <Button
+                    onClick={saveLead}
+                    disabled={!leadName.trim() || !leadPhone.trim() || leadSubmitting}
+                    className="w-full rounded-xl bg-gradient-to-r from-primary to-blue-600 hover:opacity-90"
+                  >
+                    {leadSubmitting ? "Submitting..." : "Submit ✅"}
+                  </Button>
                 </motion.div>
               )}
 
@@ -450,20 +482,43 @@ const LiveChatWidget = () => {
               </AnimatePresence>
             </div>
 
-            {/* Input */}
-            {step !== "closed" ? (
+            {/* Bottom Bar */}
+            {step === "closed" ? (
+              <div className="border-t border-border p-4 bg-gradient-to-r from-green-500/5 to-emerald-500/5 text-center">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <CheckCircle2 className="w-5 h-5 text-green-600" />
+                  <p className="text-sm font-semibold text-green-700 dark:text-green-400">
+                    Thank you for connecting! 🙏
+                  </p>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Our representative will contact you shortly on WhatsApp.
+                </p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="mt-2 text-xs"
+                  onClick={() => { setOpen(false); setIsHidden(true); }}
+                >
+                  Close Chat
+                </Button>
+              </div>
+            ) : step === "lead_form" ? (
+              <div className="border-t border-border px-4 py-2 bg-background/80">
+                <p className="text-[10px] text-muted-foreground text-center opacity-60">
+                  Powered by DiBull AI • Your data is secure
+                </p>
+              </div>
+            ) : (
               <div className="border-t border-border p-3 bg-background/80 backdrop-blur-sm">
                 <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    sendMessage();
-                  }}
+                  onSubmit={e => { e.preventDefault(); sendMessage(); }}
                   className="flex gap-2"
                 >
                   <Input
                     value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder="Type your message..."
+                    onChange={e => setInput(e.target.value)}
+                    placeholder="Type or select an option above..."
                     className="flex-1 text-sm rounded-xl border-primary/20 focus:border-primary/40"
                     disabled={loading}
                   />
@@ -479,26 +534,6 @@ const LiveChatWidget = () => {
                 <p className="text-[10px] text-muted-foreground text-center mt-1.5 opacity-60">
                   Powered by DiBull AI
                 </p>
-              </div>
-            ) : (
-              <div className="border-t border-border p-4 bg-gradient-to-r from-green-500/5 to-emerald-500/5 text-center">
-                <p className="text-sm font-medium text-green-700 dark:text-green-400">
-                  🙏 Thank you for connecting with us!
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Our representative will contact you shortly.
-                </p>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="mt-2 text-xs"
-                  onClick={() => {
-                    setOpen(false);
-                    setIsHidden(true);
-                  }}
-                >
-                  Close Chat
-                </Button>
               </div>
             )}
           </motion.div>
