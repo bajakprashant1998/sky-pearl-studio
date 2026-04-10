@@ -481,53 +481,53 @@ const WebDevAhmedabadLanding = () => {
         </section>
 
         {/* PACKAGES */}
-        <section className="py-16 md:py-24 bg-[#0a1628]">
+        <section className="py-12 sm:py-16 md:py-24 bg-[#0a1628]">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3">
                 Choose Your <span className="text-red-500">Website Package</span>
               </h2>
-              <p className="text-white/60">All packages include Free Domain + Hosting</p>
+              <p className="text-white/60 text-sm sm:text-base">All packages include Free Domain + Hosting</p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
               {pricingPlans.map((plan, i) => (
                 <motion.div
                   key={plan.name}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-30px" }}
-                  transition={{ delay: i * 0.1 }}
-                  className={`relative rounded-2xl p-6 flex flex-col border transition-all hover:-translate-y-1 ${
+                  transition={{ delay: i * 0.08 }}
+                  className={`relative rounded-2xl p-5 sm:p-6 flex flex-col border transition-all hover:-translate-y-1 ${
                     plan.premium
                       ? "bg-gradient-to-b from-yellow-900/30 via-[#1a2a44] to-[#0a1628] border-yellow-500/40 shadow-lg shadow-yellow-500/10"
                       : plan.highlight
-                      ? "bg-gradient-to-b from-red-900/20 via-[#1a2a44] to-[#0a1628] border-red-500/40 shadow-lg shadow-red-500/10 scale-[1.02]"
+                      ? "bg-gradient-to-b from-red-900/20 via-[#1a2a44] to-[#0a1628] border-red-500/40 shadow-lg shadow-red-500/10 sm:scale-[1.02]"
                       : "bg-white/5 border-white/10"
                   }`}
                 >
                   {plan.badge && (
-                    <div className={`absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap ${
+                    <div className={`absolute -top-3 sm:-top-4 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold max-w-[90%] text-center leading-tight ${
                       plan.premium ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black shadow-lg shadow-yellow-500/30" : "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/30"
                     }`}>
                       {plan.badge}
                     </div>
                   )}
-                  <div className="text-center mb-4 pt-2">
-                    <h3 className="text-lg font-bold">{plan.name}</h3>
-                    <p className={`text-3xl font-extrabold mt-1 ${plan.premium ? "text-yellow-400" : plan.highlight ? "text-red-400" : "text-white"}`}>{plan.price}</p>
+                  <div className="text-center mb-3 sm:mb-4 pt-3 sm:pt-2">
+                    <h3 className="text-base sm:text-lg font-bold">{plan.name}</h3>
+                    <p className={`text-2xl sm:text-3xl font-extrabold mt-1 ${plan.premium ? "text-yellow-400" : plan.highlight ? "text-red-400" : "text-white"}`}>{plan.price}</p>
                   </div>
-                  <ul className="space-y-2.5 flex-1">
+                  <ul className="space-y-2 sm:space-y-2.5 flex-1">
                     {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-sm text-white/80">
-                        <CheckCircle2 className={`w-4 h-4 mt-0.5 flex-shrink-0 ${plan.premium ? "text-yellow-400" : "text-green-400"}`} />
+                      <li key={f} className="flex items-start gap-2 text-xs sm:text-sm text-white/80">
+                        <CheckCircle2 className={`w-3.5 h-3.5 sm:w-4 sm:h-4 mt-0.5 flex-shrink-0 ${plan.premium ? "text-yellow-400" : "text-green-400"}`} />
                         <span>{f}</span>
                       </li>
                     ))}
                   </ul>
                   <Button
                     onClick={() => document.getElementById("bottom-form")?.scrollIntoView({ behavior: "smooth", block: "center" })}
-                    className={`w-full mt-6 h-12 font-bold rounded-lg ${
+                    className={`w-full mt-4 sm:mt-6 h-11 sm:h-12 font-bold rounded-lg text-sm sm:text-base ${
                       plan.premium ? "bg-yellow-500 hover:bg-yellow-600 text-black" : plan.highlight ? "bg-red-600 hover:bg-red-700 text-white" : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
                     }`}
                   >
@@ -540,35 +540,34 @@ const WebDevAhmedabadLanding = () => {
         </section>
 
         {/* OUR PROCESS */}
-        <section className="py-16 md:py-24 bg-[#0d1e38]">
+        <section className="py-12 sm:py-16 md:py-24 bg-[#0d1e38]">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-14">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+            <div className="text-center mb-8 sm:mb-14">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3">
                 Our <span className="text-red-500">Work Process</span>
               </h2>
-              <p className="text-white/60 max-w-xl mx-auto">Simple, transparent, and result-driven — here's how we build your website</p>
+              <p className="text-white/60 text-sm sm:text-base max-w-xl mx-auto">Simple, transparent, and result-driven — here's how we build your website</p>
             </div>
             <div className="max-w-4xl mx-auto space-y-0">
               {processSteps.map((step, i) => (
                 <motion.div
                   key={step.step}
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+                  initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-30px" }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex gap-6 items-start py-8 relative"
+                  className="flex gap-4 sm:gap-6 items-start py-5 sm:py-8 relative"
                 >
-                  {/* Connector line */}
                   {i < processSteps.length - 1 && (
-                    <div className="absolute left-[27px] top-[72px] w-0.5 h-[calc(100%-40px)] bg-gradient-to-b from-red-500/40 to-transparent" />
+                    <div className="absolute left-[23px] sm:left-[27px] top-[60px] sm:top-[72px] w-0.5 h-[calc(100%-36px)] sm:h-[calc(100%-40px)] bg-gradient-to-b from-red-500/40 to-transparent" />
                   )}
-                  <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-red-600/15 border border-red-500/30 flex items-center justify-center relative z-10">
-                    <step.icon className="w-6 h-6 text-red-400" />
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-red-600/15 border border-red-500/30 flex items-center justify-center relative z-10">
+                    <step.icon className="w-5 h-5 sm:w-6 sm:h-6 text-red-400" />
                   </div>
                   <div>
-                    <span className="text-red-500 text-xs font-bold tracking-widest uppercase">Step {step.step}</span>
-                    <h3 className="text-xl font-bold mt-1 text-white">{step.title}</h3>
-                    <p className="text-white/60 text-sm mt-2 leading-relaxed max-w-lg">{step.desc}</p>
+                    <span className="text-red-500 text-[10px] sm:text-xs font-bold tracking-widest uppercase">Step {step.step}</span>
+                    <h3 className="text-base sm:text-xl font-bold mt-0.5 sm:mt-1 text-white">{step.title}</h3>
+                    <p className="text-white/60 text-xs sm:text-sm mt-1 sm:mt-2 leading-relaxed max-w-lg">{step.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -577,15 +576,15 @@ const WebDevAhmedabadLanding = () => {
         </section>
 
         {/* INDUSTRIES WE SERVE */}
-        <section className="py-16 bg-[#0a1628]">
+        <section className="py-12 sm:py-16 bg-[#0a1628]">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3">
                 Industries <span className="text-red-500">We Serve</span>
               </h2>
-              <p className="text-white/60">We have built websites for 50+ different industries across Ahmedabad</p>
+              <p className="text-white/60 text-sm sm:text-base">We have built websites for 50+ different industries across Ahmedabad</p>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 max-w-4xl mx-auto">
               {industries.map((ind, i) => (
                 <motion.div
                   key={ind.name}
@@ -593,10 +592,10 @@ const WebDevAhmedabadLanding = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className="flex flex-col items-center gap-3 p-5 rounded-xl bg-white/5 border border-white/10 hover:border-red-500/30 hover:bg-white/[0.08] transition-all group"
+                  className="flex flex-col items-center gap-2 sm:gap-3 p-4 sm:p-5 rounded-xl bg-white/5 border border-white/10 hover:border-red-500/30 hover:bg-white/[0.08] transition-all group"
                 >
-                  <ind.icon className="w-8 h-8 text-white/40 group-hover:text-red-400 transition-colors" />
-                  <span className="text-xs font-medium text-white/70 text-center">{ind.name}</span>
+                  <ind.icon className="w-6 h-6 sm:w-8 sm:h-8 text-white/40 group-hover:text-red-400 transition-colors" />
+                  <span className="text-[10px] sm:text-xs font-medium text-white/70 text-center">{ind.name}</span>
                 </motion.div>
               ))}
             </div>
@@ -604,15 +603,15 @@ const WebDevAhmedabadLanding = () => {
         </section>
 
          {/* PORTFOLIO SHOWCASE */}
-         <section className="py-16 md:py-24 bg-[#0d1e38]">
+         <section className="py-12 sm:py-16 md:py-24 bg-[#0d1e38]">
            <div className="container mx-auto px-4">
-             <div className="text-center mb-12">
-               <h2 className="text-3xl md:text-4xl font-bold mb-3">
+             <div className="text-center mb-8 sm:mb-12">
+               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3">
                  Our <span className="text-red-500">Portfolio</span>
                </h2>
-               <p className="text-white/60">Websites we have designed & developed</p>
+               <p className="text-white/60 text-sm sm:text-base">Websites we have designed & developed</p>
              </div>
-             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                {portfolioItems.map((item, i) => (
                  <motion.a
                    key={item.name}
@@ -622,7 +621,7 @@ const WebDevAhmedabadLanding = () => {
                    initial={{ opacity: 0, y: 20 }}
                    whileInView={{ opacity: 1, y: 0 }}
                    viewport={{ once: true }}
-                   transition={{ delay: i * 0.05 }}
+                   transition={{ delay: i * 0.04 }}
                    className="group rounded-xl overflow-hidden border border-white/10 bg-white/5 hover:border-red-500/40 transition-all"
                  >
                    {/* Browser mockup */}
@@ -653,12 +652,12 @@ const WebDevAhmedabadLanding = () => {
          </section>
 
         {/* WHY CHOOSE US */}
-        <section className="py-16 bg-[#0a1628]">
+        <section className="py-12 sm:py-16 bg-[#0a1628]">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">
               Why <span className="text-red-500">Choose Us</span>
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 max-w-4xl mx-auto">
               {whyChooseUs.map((item, i) => (
                 <motion.div
                   key={item.text}
@@ -666,12 +665,12 @@ const WebDevAhmedabadLanding = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-30px" }}
                   transition={{ delay: i * 0.08 }}
-                  className="flex flex-col items-center text-center gap-3 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-red-500/30 transition-colors"
+                  className="flex flex-col items-center text-center gap-2 sm:gap-3 p-4 sm:p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-red-500/30 transition-colors"
                 >
-                  <div className="w-14 h-14 rounded-xl bg-red-600/10 flex items-center justify-center">
-                    <item.icon className="w-7 h-7 text-red-400" />
+                  <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl bg-red-600/10 flex items-center justify-center">
+                    <item.icon className="w-5 h-5 sm:w-7 sm:h-7 text-red-400" />
                   </div>
-                  <span className="text-sm font-medium text-white/90">{item.text}</span>
+                  <span className="text-[11px] sm:text-sm font-medium text-white/90 leading-tight">{item.text}</span>
                 </motion.div>
               ))}
             </div>
@@ -679,15 +678,15 @@ const WebDevAhmedabadLanding = () => {
         </section>
 
         {/* TESTIMONIALS */}
-        <section className="py-16 md:py-24 bg-[#0d1e38]">
+        <section className="py-12 sm:py-16 md:py-24 bg-[#0d1e38]">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3">
                 What Our <span className="text-red-500">Clients Say</span>
               </h2>
-              <p className="text-white/60">Real reviews from our Ahmedabad-based clients</p>
+              <p className="text-white/60 text-sm sm:text-base">Real reviews from our Ahmedabad-based clients</p>
             </div>
-            <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
               {testimonials.map((t, i) => (
                 <motion.div
                   key={t.name}
@@ -695,17 +694,17 @@ const WebDevAhmedabadLanding = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="bg-white/5 border border-white/10 rounded-2xl p-6 relative"
+                  className="bg-white/5 border border-white/10 rounded-2xl p-5 sm:p-6 relative"
                 >
-                  <div className="flex gap-1 mb-3">
+                  <div className="flex gap-0.5 sm:gap-1 mb-2 sm:mb-3">
                     {Array.from({ length: t.rating }).map((_, j) => (
-                      <Star key={j} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      <Star key={j} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  <p className="text-white/70 text-sm leading-relaxed italic">"{t.content}"</p>
-                  <div className="mt-4 pt-4 border-t border-white/10">
-                    <p className="font-bold text-white text-sm">{t.name}</p>
-                    <p className="text-white/50 text-xs">{t.role}</p>
+                  <p className="text-white/70 text-xs sm:text-sm leading-relaxed italic">"{t.content}"</p>
+                  <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-white/10">
+                    <p className="font-bold text-white text-xs sm:text-sm">{t.name}</p>
+                    <p className="text-white/50 text-[10px] sm:text-xs">{t.role}</p>
                   </div>
                 </motion.div>
               ))}
@@ -714,15 +713,15 @@ const WebDevAhmedabadLanding = () => {
         </section>
 
         {/* FAQ SECTION */}
-        <section className="py-16 bg-[#0a1628]">
+        <section className="py-12 sm:py-16 bg-[#0a1628]">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3">
                 Frequently Asked <span className="text-red-500">Questions</span>
               </h2>
-              <p className="text-white/60">Got questions? We've got answers.</p>
+              <p className="text-white/60 text-sm sm:text-base">Got questions? We've got answers.</p>
             </div>
-            <div className="max-w-3xl mx-auto space-y-3">
+            <div className="max-w-3xl mx-auto space-y-2 sm:space-y-3">
               {faqs.map((faq) => (
                 <FAQItem key={faq.q} q={faq.q} a={faq.a} />
               ))}
@@ -731,12 +730,12 @@ const WebDevAhmedabadLanding = () => {
         </section>
 
         {/* BOTTOM LEAD FORM */}
-        <section className="py-16 md:py-24 bg-[#0d1e38]">
+        <section className="py-12 sm:py-16 md:py-24 bg-[#0d1e38]">
           <div className="container mx-auto px-4">
-            <div className="max-w-2xl mx-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 md:p-12 shadow-2xl">
-              <div className="text-center space-y-3 mb-8">
-                <h2 className="text-3xl font-bold">Get Started Today</h2>
-                <p className="text-white/60">Fill the form below and our team will contact you shortly</p>
+            <div className="max-w-2xl mx-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 md:p-12 shadow-2xl">
+              <div className="text-center space-y-2 sm:space-y-3 mb-6 sm:mb-8">
+                <h2 className="text-2xl sm:text-3xl font-bold">Get Started Today</h2>
+                <p className="text-white/60 text-sm sm:text-base">Fill the form below and our team will contact you shortly</p>
               </div>
               <LeadForm id="bottom-form" buttonText="Book Your Website Now" note="Our team will contact you shortly" />
             </div>
@@ -744,26 +743,26 @@ const WebDevAhmedabadLanding = () => {
         </section>
 
         {/* FINAL CTA */}
-        <section className="py-16 bg-gradient-to-r from-red-700 via-red-600 to-red-700 relative overflow-hidden">
+        <section className="py-12 sm:py-16 bg-gradient-to-r from-red-700 via-red-600 to-red-700 relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50" />
-          <div className="container mx-auto px-4 relative z-10 text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">
+          <div className="container mx-auto px-4 relative z-10 text-center space-y-4 sm:space-y-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
               Start Growing Your Business Online Today
             </h2>
             <Button
               onClick={() => document.getElementById("hero-form")?.scrollIntoView({ behavior: "smooth", block: "center" })}
-              className="h-14 px-12 bg-white text-red-600 hover:bg-white/90 text-lg font-bold rounded-xl shadow-lg"
+              className="h-12 sm:h-14 px-8 sm:px-12 bg-white text-red-600 hover:bg-white/90 text-base sm:text-lg font-bold rounded-xl shadow-lg"
             >
-              Get Started Now <ArrowRight className="ml-2 w-5 h-5" />
+              Get Started Now <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
-            <p className="text-white/80 text-sm flex items-center justify-center gap-2">
-              <Clock className="w-4 h-4" /> Limited Time Offer • Limited Slots Available
+            <p className="text-white/80 text-xs sm:text-sm flex items-center justify-center gap-2">
+              <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Limited Time Offer • Limited Slots Available
             </p>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="py-8 bg-[#060f1f] text-center text-white/40 text-sm border-t border-white/5">
+        <footer className="py-6 sm:py-8 bg-[#060f1f] text-center text-white/40 text-xs sm:text-sm border-t border-white/5 pb-20 sm:pb-8">
           <p>© {new Date().getFullYear()} Digital Bull Technology Pvt Ltd. All rights reserved.</p>
           <p className="mt-1">Best Website Development Company in Ahmedabad</p>
         </footer>
