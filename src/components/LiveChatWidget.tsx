@@ -325,7 +325,8 @@ const LiveChatWidget = () => {
     setShowOptions(null);
     messageCountRef.current++;
 
-    if (step === "welcome") setStep("conversation");
+    if (step === "language") setStep("welcome");
+    else if (step === "welcome") setStep("conversation");
 
     const newMessages: Message[] = [...messages, { role: "user", content: userMsg }];
     setMessages(newMessages);
