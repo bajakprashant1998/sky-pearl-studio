@@ -254,26 +254,26 @@ const LeadForm = ({ id, buttonText, note }: LeadFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} id={id} className="space-y-4 w-full max-w-lg mx-auto">
+    <form onSubmit={handleSubmit} id={id} className="space-y-3 sm:space-y-4 w-full max-w-lg mx-auto">
       <input type="text" name="_honey" className="hidden" value={formData._honey} onChange={e => setFormData(p => ({ ...p, _honey: e.target.value }))} tabIndex={-1} autoComplete="off" />
       <select
         required
         value={formData.package}
         onChange={e => setFormData(p => ({ ...p, package: e.target.value }))}
-        className="w-full h-12 rounded-lg border border-white/30 bg-white/10 px-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm"
+        className="w-full h-11 sm:h-12 rounded-lg border border-white/30 bg-white/10 px-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm"
       >
         <option value="" disabled>Select Package *</option>
         {packages.map(p => <option key={p.value} value={p.value} className="bg-[#0a1628] text-white">{p.label}</option>)}
       </select>
-      <Input required placeholder="Your Name *" value={formData.name} onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500" />
-      <Input required placeholder="WhatsApp Number *" type="tel" value={formData.phone} onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))} className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500" />
-      <Input required placeholder="Email Address *" type="email" value={formData.email} onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500" />
-      <Input placeholder="Business Name" value={formData.business_name} onChange={e => setFormData(p => ({ ...p, business_name: e.target.value }))} className="h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500" />
-      <Textarea placeholder="Your Requirement" value={formData.message} onChange={e => setFormData(p => ({ ...p, message: e.target.value }))} className="bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500 min-h-[80px]" />
-      <Button type="submit" disabled={loading} className="w-full h-14 bg-red-600 hover:bg-red-700 text-white text-lg font-bold rounded-lg shadow-lg hover:shadow-red-600/30 transition-all">
+      <Input required placeholder="Your Name *" value={formData.name} onChange={e => setFormData(p => ({ ...p, name: e.target.value }))} className="h-11 sm:h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500 text-sm" />
+      <Input required placeholder="WhatsApp Number *" type="tel" value={formData.phone} onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))} className="h-11 sm:h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500 text-sm" />
+      <Input required placeholder="Email Address *" type="email" value={formData.email} onChange={e => setFormData(p => ({ ...p, email: e.target.value }))} className="h-11 sm:h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500 text-sm" />
+      <Input placeholder="Business Name" value={formData.business_name} onChange={e => setFormData(p => ({ ...p, business_name: e.target.value }))} className="h-11 sm:h-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500 text-sm" />
+      <Textarea placeholder="Your Requirement" value={formData.message} onChange={e => setFormData(p => ({ ...p, message: e.target.value }))} className="bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:ring-red-500 min-h-[70px] sm:min-h-[80px] text-sm" />
+      <Button type="submit" disabled={loading} className="w-full h-12 sm:h-14 bg-red-600 hover:bg-red-700 text-white text-base sm:text-lg font-bold rounded-lg shadow-lg hover:shadow-red-600/30 transition-all">
         {loading ? "Submitting..." : buttonText}
       </Button>
-      <p className="text-center text-sm text-muted-foreground">{note}</p>
+      <p className="text-center text-xs sm:text-sm text-muted-foreground">{note}</p>
     </form>
   );
 };
