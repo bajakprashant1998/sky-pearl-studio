@@ -125,6 +125,11 @@ const LiveChatWidget = () => {
       const decoder = new TextDecoder();
       let buffer = "";
       let assistantText = "";
+      let assistantAdded = false;
+
+      // Add empty assistant message first
+      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+      assistantAdded = true;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -147,13 +152,10 @@ const LiveChatWidget = () => {
             const content = parsed.choices?.[0]?.delta?.content as string | undefined;
             if (content) {
               assistantText += content;
-              setMessages((prev) => {
-                const last = prev[prev.length - 1];
-                if (last?.role === "assistant" && prev.length > 1 && loading) {
-                  return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantText } : m));
-                }
-                return [...prev, { role: "assistant", content: assistantText }];
-              });
+              const currentText = assistantText;
+              setMessages((prev) =>
+                prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: currentText } : m))
+              );
             }
           } catch {
             buffer = line + "\n" + buffer;
