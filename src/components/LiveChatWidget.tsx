@@ -125,6 +125,11 @@ const LiveChatWidget = () => {
       const decoder = new TextDecoder();
       let buffer = "";
       let assistantText = "";
+      let assistantAdded = false;
+
+      // Add empty assistant message first
+      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+      assistantAdded = true;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -147,13 +152,10 @@ const LiveChatWidget = () => {
             const content = parsed.choices?.[0]?.delta?.content as string | undefined;
             if (content) {
               assistantText += content;
-              setMessages((prev) => {
-                const last = prev[prev.length - 1];
-                if (last?.role === "assistant" && prev.length > 1 && loading) {
-                  return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantText } : m));
-                }
-                return [...prev, { role: "assistant", content: assistantText }];
-              });
+              const currentText = assistantText;
+              setMessages((prev) =>
+                prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: currentText } : m))
+              );
             }
           } catch {
             buffer = line + "\n" + buffer;
@@ -260,10 +262,12 @@ const LiveChatWidget = () => {
 
             {/* Messages */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 relative">
-              {messages.map((msg, i) => (
-                <ChatMessage key={i} msg={msg} />
-              ))}
-              {loading && messages[messages.length - 1]?.role === "user" && <TypingDots />}
+              {messages.map((msg, i) => {
+                // Hide empty assistant message (show typing dots instead)
+                if (msg.role === "assistant" && msg.content === "" && loading) return null;
+                return <ChatMessage key={i} msg={msg} />;
+              })}
+              {loading && (messages[messages.length - 1]?.role === "user" || messages[messages.length - 1]?.content === "") && <TypingDots />}
 
               {/* Quick Actions */}
               {showQuickActions && (
