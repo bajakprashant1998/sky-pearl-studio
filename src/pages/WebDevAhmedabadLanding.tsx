@@ -513,10 +513,10 @@ const WebDevAhmedabadLanding = () => {
                   }`}
                 >
                   {plan.badge && (
-                    <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold ${
-                      plan.premium ? "bg-yellow-500 text-black" : "bg-red-600 text-white"
+                    <div className={`absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap ${
+                      plan.premium ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black shadow-lg shadow-yellow-500/30" : "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/30"
                     }`}>
-                      {plan.premium ? "🔥 " : "⭐ "}{plan.badge}
+                      {plan.badge}
                     </div>
                   )}
                   <div className="text-center mb-4 pt-2">
