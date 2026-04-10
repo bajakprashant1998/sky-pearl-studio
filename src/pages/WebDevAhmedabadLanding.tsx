@@ -513,7 +513,7 @@ const WebDevAhmedabadLanding = () => {
                       {plan.badge}
                     </div>
                   )}
-                  <div className="text-center mb-3 sm:mb-4 pt-3 sm:pt-2">
+                  <div className={`text-center mb-3 sm:mb-4 ${plan.badge ? "pt-5 sm:pt-4" : "pt-3 sm:pt-2"}`}>
                     <h3 className="text-base sm:text-lg font-bold">{plan.name}</h3>
                     <p className={`text-2xl sm:text-3xl font-extrabold mt-1 ${plan.premium ? "text-yellow-400" : plan.highlight ? "text-red-400" : "text-white"}`}>{plan.price}</p>
                   </div>
