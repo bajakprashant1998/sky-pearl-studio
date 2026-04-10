@@ -456,24 +456,24 @@ const WebDevAhmedabadLanding = () => {
         </section>
 
         {/* TRUST + BRANDING */}
-        <section className="py-10 bg-[#0d1e38] border-y border-white/5">
+        <section className="py-8 sm:py-10 bg-[#0d1e38] border-y border-white/5">
           <div className="container mx-auto px-4">
-            <div className="text-center space-y-3 mb-8">
-              <h2 className="text-2xl font-bold">Digital Bull Technology Pvt Ltd</h2>
-              <div className="flex flex-wrap items-center justify-center gap-4 text-white/70 text-sm">
-                <a href="https://www.dibull.com" className="flex items-center gap-1.5 hover:text-white transition-colors"><Globe className="w-4 h-4" /> www.dibull.com</a>
-                <a href="tel:9825009111" className="flex items-center gap-1.5 hover:text-white transition-colors"><Phone className="w-4 h-4" /> 9825009111</a>
+            <div className="text-center space-y-2 sm:space-y-3 mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold">Digital Bull Technology Pvt Ltd</h2>
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-white/70 text-xs sm:text-sm">
+                <a href="https://www.dibull.com" className="flex items-center gap-1.5 hover:text-white transition-colors"><Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> www.dibull.com</a>
+                <a href="tel:9825009111" className="flex items-center gap-1.5 hover:text-white transition-colors"><Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> 9825009111</a>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-lg mx-auto">
               {[
                 { icon: Zap, label: "Fast Delivery" },
                 { icon: Smartphone, label: "Mobile Friendly" },
-                { icon: Users, label: "100+ Clients Served" },
+                { icon: Users, label: "100+ Clients" },
               ].map((b) => (
-                <div key={b.label} className="flex flex-col items-center gap-2 text-center p-4 rounded-xl bg-white/5 border border-white/10">
-                  <b.icon className="w-6 h-6 text-red-400" />
-                  <span className="text-xs font-medium text-white/80">{b.label}</span>
+                <div key={b.label} className="flex flex-col items-center gap-1.5 sm:gap-2 text-center p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10">
+                  <b.icon className="w-5 h-5 sm:w-6 sm:h-6 text-red-400" />
+                  <span className="text-[10px] sm:text-xs font-medium text-white/80">{b.label}</span>
                 </div>
               ))}
             </div>
