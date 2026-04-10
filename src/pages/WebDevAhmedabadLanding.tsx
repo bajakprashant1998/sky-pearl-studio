@@ -8,6 +8,20 @@ import {
   Briefcase, UtensilsCrossed, Plane, Home, Award, TrendingUp,
   ChevronDown, ChevronUp, Headphones, MonitorSmartphone, Settings, Eye
 } from "lucide-react";
+
+import imgCadbull from "@/assets/portfolio-ahmedabad/cadbull.png";
+import imgArcll from "@/assets/portfolio-ahmedabad/arcll.png";
+import imgInteriorsstore from "@/assets/portfolio-ahmedabad/interiorsstore.png";
+import imgLovermatching from "@/assets/portfolio-ahmedabad/lovermatching.png";
+import imgBhagavadgitagyan from "@/assets/portfolio-ahmedabad/bhagavadgitagyan.png";
+import imgRentalyacht from "@/assets/portfolio-ahmedabad/rentalyacht.png";
+import imgDreamdecor from "@/assets/portfolio-ahmedabad/dreamdecor.png";
+import imgBetterviewtourism from "@/assets/portfolio-ahmedabad/betterviewtourism.png";
+import imgJhpapi from "@/assets/portfolio-ahmedabad/jhpapi.png";
+import imgHireforjob from "@/assets/portfolio-ahmedabad/hireforjob.png";
+import imgGiftcityproperty from "@/assets/portfolio-ahmedabad/giftcityproperty.png";
+import imgHandbricks from "@/assets/portfolio-ahmedabad/handbricks.png";
+import imgDubaisqft from "@/assets/portfolio-ahmedabad/dubaisqft.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -167,12 +181,19 @@ const faqs = [
 ];
 
 const portfolioItems = [
-  { name: "CadBull.com", category: "E-Commerce", result: "10x Traffic Growth" },
-  { name: "HireForJob.com", category: "Job Portal", result: "50K+ Monthly Users" },
-  { name: "Franchise Discovery", category: "B2B Platform", result: "200+ Franchise Listings" },
-  { name: "Hotel Starter Kit", category: "Hospitality", result: "3x Booking Increase" },
-  { name: "Diamond Trading Hub", category: "Luxury B2B", result: "500+ Daily Inquiries" },
-  { name: "Agri Market Pro", category: "Agriculture", result: "1000+ Farmers Onboarded" },
+  { name: "CadBull", image: imgCadbull, category: "CAD Library", url: "https://cadbull.com/" },
+  { name: "ARCLL", image: imgArcll, category: "Architecture", url: "https://arcll.com/" },
+  { name: "Interiors Store", image: imgInteriorsstore, category: "E-Commerce", url: "https://interiorsstore.com/" },
+  { name: "Lover Matching", image: imgLovermatching, category: "Dating Platform", url: "https://lovermatching.com/" },
+  { name: "Bhagavad Gita Gyan", image: imgBhagavadgitagyan, category: "Spiritual", url: "https://bhagavadgitagyan.com/" },
+  { name: "Rental Yacht Dubai", image: imgRentalyacht, category: "Tourism", url: "https://rentalyachtindubai.com/" },
+  { name: "Dream Decor", image: imgDreamdecor, category: "Interior", url: "https://dreamdecor.dibull.com/" },
+  { name: "Better View Tourism", image: imgBetterviewtourism, category: "Tourism", url: "https://betterviewtourism.dibull.com/" },
+  { name: "JHP API", image: imgJhpapi, category: "Pharma", url: "https://jhpapi.dibull.com/" },
+  { name: "HireForJob", image: imgHireforjob, category: "Job Portal", url: "https://www.hireforjob.com/" },
+  { name: "GIFT City Property", image: imgGiftcityproperty, category: "Real Estate", url: "https://giftcityproperty.com/" },
+  { name: "Handbricks", image: imgHandbricks, category: "Real Estate", url: "https://handbricks.com/" },
+  { name: "Dubai SqFt", image: imgDubaisqft, category: "Real Estate", url: "https://dubaisqft.com/" },
 ];
 
 interface LeadFormProps {
