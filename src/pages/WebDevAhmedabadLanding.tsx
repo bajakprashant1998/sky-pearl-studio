@@ -538,39 +538,54 @@ const WebDevAhmedabadLanding = () => {
           </div>
         </section>
 
-        {/* PORTFOLIO SHOWCASE */}
-        <section className="py-16 md:py-24 bg-[#0d1e38]">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-3">
-                Our <span className="text-red-500">Portfolio</span>
-              </h2>
-              <p className="text-white/60">Some of our successfully delivered projects</p>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              {portfolioItems.map((item, i) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-red-500/30 transition-all group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-red-600/10 flex items-center justify-center mb-4">
-                    <Eye className="w-6 h-6 text-red-400" />
-                  </div>
-                  <h3 className="font-bold text-white text-lg">{item.name}</h3>
-                  <p className="text-white/50 text-xs mt-1">{item.category}</p>
-                  <div className="mt-3 flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-green-400" />
-                    <span className="text-green-400 text-sm font-medium">{item.result}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+         {/* PORTFOLIO SHOWCASE */}
+         <section className="py-16 md:py-24 bg-[#0d1e38]">
+           <div className="container mx-auto px-4">
+             <div className="text-center mb-12">
+               <h2 className="text-3xl md:text-4xl font-bold mb-3">
+                 Our <span className="text-red-500">Portfolio</span>
+               </h2>
+               <p className="text-white/60">Websites we have designed & developed</p>
+             </div>
+             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+               {portfolioItems.map((item, i) => (
+                 <motion.a
+                   key={item.name}
+                   href={item.url}
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   initial={{ opacity: 0, y: 20 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   viewport={{ once: true }}
+                   transition={{ delay: i * 0.05 }}
+                   className="group rounded-xl overflow-hidden border border-white/10 bg-white/5 hover:border-red-500/40 transition-all"
+                 >
+                   {/* Browser mockup */}
+                   <div className="bg-[#1a2a44] px-3 py-1.5 flex items-center gap-1.5 border-b border-white/10">
+                     <div className="w-2 h-2 rounded-full bg-red-400" />
+                     <div className="w-2 h-2 rounded-full bg-yellow-400" />
+                     <div className="w-2 h-2 rounded-full bg-green-400" />
+                     <span className="ml-2 text-[9px] text-white/40 truncate">{item.url.replace(/https?:\/\//, '').replace(/\/$/, '')}</span>
+                   </div>
+                   {/* Screenshot */}
+                   <div className="aspect-[16/10] overflow-hidden">
+                     <img
+                       src={item.image}
+                       alt={`${item.name} website`}
+                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                       loading="lazy"
+                     />
+                   </div>
+                   {/* Info */}
+                   <div className="p-3">
+                     <h3 className="font-bold text-white text-sm">{item.name}</h3>
+                     <span className="text-[10px] text-white/50">{item.category}</span>
+                   </div>
+                 </motion.a>
+               ))}
+             </div>
+           </div>
+         </section>
 
         {/* WHY CHOOSE US */}
         <section className="py-16 bg-[#0a1628]">
