@@ -13,7 +13,15 @@ export function useSiteSettings(category?: string) {
       const settings: Record<string, string> = {};
       data?.forEach((row: any) => {
         const val = row.setting_value;
-        settings[row.setting_key] = typeof val === "object" && val !== null ? (val.value || JSON.stringify(val)) : String(val || "");
+        let resolved = typeof val === "object" && val !== null ? (val.value || JSON.stringify(val)) : String(val || "");
+        // Unwrap double-nested JSON strings like '{"value":"Get Free Consultation"}'
+        if (typeof resolved === "string" && resolved.startsWith('{"value":')) {
+          try {
+            const inner = JSON.parse(resolved);
+            if (inner && typeof inner.value === "string") resolved = inner.value;
+          } catch {}
+        }
+        settings[row.setting_key] = resolved;
       });
       return settings;
     },
