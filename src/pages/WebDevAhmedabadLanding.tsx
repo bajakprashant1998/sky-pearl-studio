@@ -46,9 +46,13 @@ const pricingPlans = [
   {
     name: "Starter",
     price: "₹5,999",
+    originalPrice: "₹8,999",
+    perPage: "₹1,500/page",
+    idealFor: "Personal & Portfolio Sites",
     badge: null,
     highlight: false,
     premium: false,
+    icon: Globe,
     features: [
       "Up to 4 Pages Website",
       "Free Domain (1 Year)",
@@ -61,9 +65,13 @@ const pricingPlans = [
   {
     name: "Growth",
     price: "₹9,999",
+    originalPrice: "₹14,999",
+    perPage: "₹833/page",
+    idealFor: "Small Business & Startups",
     badge: "⭐ Most Popular — Best Value for Growing Business",
     highlight: true,
     premium: false,
+    icon: TrendingUp,
     features: [
       "Up to 12 Pages Website",
       "Free Domain (1 Year)",
@@ -77,9 +85,13 @@ const pricingPlans = [
   {
     name: "Professional",
     price: "₹14,999",
+    originalPrice: "₹19,999",
+    perPage: "₹750/page",
+    idealFor: "Growing Businesses",
     badge: null,
     highlight: false,
     premium: false,
+    icon: Briefcase,
     features: [
       "Up to 20 Pages Website",
       "Free Domain (1 Year)",
@@ -94,9 +106,13 @@ const pricingPlans = [
   {
     name: "Business Pro",
     price: "₹19,999",
+    originalPrice: "₹29,999",
+    perPage: "₹400/page",
+    idealFor: "Medium Enterprises",
     badge: null,
     highlight: false,
     premium: false,
+    icon: Building2,
     features: [
       "Up to 50 Pages Website",
       "Free Domain (1 Year)",
@@ -111,9 +127,13 @@ const pricingPlans = [
   {
     name: "Enterprise",
     price: "₹49,999",
+    originalPrice: "₹79,999",
+    perPage: "Best Value",
+    idealFor: "Large Business & Agencies",
     badge: "🔥 Premium Plan — Complete AI-Powered Growth Suite",
     highlight: false,
     premium: true,
+    icon: Crown,
     features: [
       "Unlimited Pages Website",
       "Free Domain (1 Year)",
@@ -128,6 +148,21 @@ const pricingPlans = [
       "Lead Automation System",
     ],
   },
+];
+
+const comparisonFeatures = [
+  { feature: "Free Domain & Hosting", dibull: true, others: false },
+  { feature: "SEO Optimization Included", dibull: true, others: false },
+  { feature: "WhatsApp Lead Integration", dibull: true, others: false },
+  { feature: "Direct Leads on Phone", dibull: true, others: false },
+  { feature: "3-7 Days Delivery", dibull: true, others: false },
+  { feature: "Mobile Responsive Design", dibull: true, others: true },
+  { feature: "Google Business Profile Setup", dibull: true, others: false },
+  { feature: "AI-Powered Marketing Tools", dibull: true, others: false },
+  { feature: "Dedicated Support Team", dibull: true, others: false },
+  { feature: "Starting Price", dibull: "₹5,999", others: "₹15,000+" },
+  { feature: "Hidden Charges", dibull: "None", others: "Yes" },
+  { feature: "Post-Launch Support", dibull: "Included", others: "Extra Cost" },
 ];
 
 const whyChooseUs = [
