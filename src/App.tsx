@@ -93,6 +93,7 @@ const ReferralPage = lazy(() => import("@/pages/ReferralPage"));
 const ClientPortal = lazy(() => import("@/pages/ClientPortal"));
 const QuoteCalculator = lazy(() => import("@/pages/QuoteCalculator"));
 const WebDesignLandingPage = lazy(() => import("@/pages/WebDesignLandingPage"));
+const WebDevAhmedabadLanding = lazy(() => import("@/pages/WebDevAhmedabadLanding"));
 
 const queryClient = new QueryClient();
 
