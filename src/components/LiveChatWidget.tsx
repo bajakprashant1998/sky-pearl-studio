@@ -357,36 +357,23 @@ const LiveChatWidget = () => {
   return (
     <>
       {/* Toggle Button with unread badge */}
-      <AnimatePresence>
-        {!open && (
-          <motion.button
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            exit={{ scale: 0, rotate: 180 }}
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.92 }}
-            onClick={() => setOpen(true)}
-            className="fixed bottom-6 left-6 z-50 flex items-center gap-2.5 bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-5 py-3.5 rounded-2xl shadow-xl shadow-primary/25 hover:shadow-primary/40 transition-shadow relative group"
-            aria-label="Open AI Assistant"
-          >
-            {/* Pulse ring */}
-            <span className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 animate-ping opacity-20 pointer-events-none" />
-            <Bot className="w-5 h-5 flex-shrink-0 relative z-10" />
-            <span className="text-sm font-semibold whitespace-nowrap relative z-10">AI Assistant</span>
-            
-            {/* Unread badge */}
-            {unreadCount > 0 && (
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-lg z-20"
-              >
-                {unreadCount > 9 ? "9+" : unreadCount}
-              </motion.span>
-            )}
-          </motion.button>
-        )}
-      </AnimatePresence>
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          className="fixed bottom-6 left-6 z-50 flex items-center gap-2.5 bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-5 py-3.5 rounded-2xl shadow-xl shadow-primary/25 hover:shadow-primary/40 hover:scale-105 active:scale-95 transition-all relative group"
+          aria-label="Open AI Assistant"
+        >
+          <span className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 animate-ping opacity-20 pointer-events-none" />
+          <Bot className="w-5 h-5 flex-shrink-0 relative z-10" />
+          <span className="text-sm font-semibold whitespace-nowrap relative z-10">AI Assistant</span>
+          
+          {unreadCount > 0 && (
+            <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-lg z-20 animate-bounce">
+              {unreadCount > 9 ? "9+" : unreadCount}
+            </span>
+          )}
+        </button>
+      )}
 
       {/* Chat Window - Glassmorphism */}
       <AnimatePresence>
