@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, X, Bot, Sparkles, ArrowDown, CheckCircle2, Send } from "lucide-react";
+import { MessageCircle, X, Bot, Sparkles, ArrowDown, CheckCircle2, Send, Volume2, VolumeX, Mail, Phone, MapPin, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 
@@ -23,34 +23,46 @@ const LANGUAGE_OPTIONS = [
   "🇮🇳 ਪੰਜਾਬੀ",
 ];
 
-// Extract numbered options from AI text like "1. Option\n2. Option"
+// Simple notification sound using Web Audio API
+const playNotificationSound = () => {
+  try {
+    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.setValueAtTime(1100, ctx.currentTime + 0.08);
+    osc.frequency.setValueAtTime(1320, ctx.currentTime + 0.16);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.35);
+  } catch { /* silent fail */ }
+};
+
 function extractOptions(text: string): string[] {
   const lines = text.split("\n");
   const options: string[] = [];
   for (const line of lines) {
     const match = line.trim().match(/^\d+\.\s+(.+)/);
-    if (match) {
-      options.push(match[1].trim());
-    }
+    if (match) options.push(match[1].trim());
   }
   return options.length >= 2 ? options : [];
 }
 
-// Remove numbered list from text to show only the question part
 function getTextWithoutOptions(text: string): string {
   const lines = text.split("\n");
   const nonOptionLines: string[] = [];
   for (const line of lines) {
-    if (!line.trim().match(/^\d+\.\s+/)) {
-      nonOptionLines.push(line);
-    }
+    if (!line.trim().match(/^\d+\.\s+/)) nonOptionLines.push(line);
   }
   return nonOptionLines.join("\n").trim();
 }
 
 const TypingDots = () => (
   <div className="flex justify-start">
-    <div className="bg-muted rounded-2xl rounded-bl-md px-4 py-3">
+    <div className="bg-white/80 dark:bg-white/10 backdrop-blur-sm rounded-2xl rounded-bl-md px-4 py-3 shadow-sm">
       <div className="flex gap-1.5">
         {[0, 150, 300].map((d) => (
           <div key={d} className="w-2 h-2 rounded-full bg-primary/60 animate-bounce" style={{ animationDelay: `${d}ms` }} />
@@ -63,30 +75,26 @@ const TypingDots = () => (
 const ChatMessage = ({ msg, hideOptions }: { msg: Message; hideOptions?: boolean }) => {
   const isUser = msg.role === "user";
   const displayText = !isUser && hideOptions ? getTextWithoutOptions(msg.content) : msg.content;
-  
-  // Don't render if only options remain and we're hiding them
   if (!isUser && hideOptions && !displayText.replace(/\[SHOW_LEAD_FORM\]/g, "").trim()) return null;
-
-  // Remove the marker from displayed text
   const cleanText = displayText.replace(/\[SHOW_LEAD_FORM\]/g, "").trim();
   if (!cleanText) return null;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2 }}
+      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
       className={`flex ${isUser ? "justify-end" : "justify-start"} gap-2`}
     >
       {!isUser && (
-        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center flex-shrink-0 mt-1">
-          <Bot className="w-4 h-4 text-primary" />
+        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary/30 to-blue-500/30 backdrop-blur-sm flex items-center justify-center flex-shrink-0 mt-1 ring-1 ring-white/20 shadow-sm">
+          <Bot className="w-3.5 h-3.5 text-primary" />
         </div>
       )}
-      <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+      <div className={`max-w-[82%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm ${
         isUser
-          ? "bg-gradient-to-r from-primary to-blue-600 text-primary-foreground rounded-br-md"
-          : "bg-muted text-foreground rounded-bl-md"
+          ? "bg-gradient-to-br from-primary via-blue-600 to-indigo-600 text-white rounded-br-md shadow-primary/20"
+          : "bg-white/80 dark:bg-white/10 backdrop-blur-sm text-foreground rounded-bl-md border border-white/30 dark:border-white/10"
       }`}>
         {isUser ? (
           cleanText
@@ -100,14 +108,15 @@ const ChatMessage = ({ msg, hideOptions }: { msg: Message; hideOptions?: boolean
   );
 };
 
-const OptionButton = ({ label, onClick }: { label: string; onClick: () => void }) => (
+const OptionButton = ({ label, onClick, index }: { label: string; onClick: () => void; index: number }) => (
   <motion.button
-    initial={{ opacity: 0, y: 4 }}
-    animate={{ opacity: 1, y: 0 }}
-    whileHover={{ scale: 1.02 }}
+    initial={{ opacity: 0, x: -10 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ delay: index * 0.06 }}
+    whileHover={{ scale: 1.02, x: 4 }}
     whileTap={{ scale: 0.97 }}
     onClick={onClick}
-    className="w-full text-left text-sm px-4 py-2.5 rounded-xl border border-primary/20 text-primary hover:bg-primary/10 hover:border-primary/40 transition-all duration-200"
+    className="w-full text-left text-sm px-4 py-2.5 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-primary/15 text-primary hover:bg-primary/10 hover:border-primary/40 hover:shadow-sm transition-all duration-200"
   >
     {label}
   </motion.button>
@@ -126,9 +135,13 @@ const LiveChatWidget = () => {
   const [extractedOptions, setExtractedOptions] = useState<string[]>([]);
   const [isHidden, setIsHidden] = useState(false);
   const [leadName, setLeadName] = useState("");
+  const [leadEmail, setLeadEmail] = useState("");
   const [leadPhone, setLeadPhone] = useState("");
   const [leadCity, setLeadCity] = useState("");
   const [leadSubmitting, setLeadSubmitting] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
@@ -138,19 +151,20 @@ const LiveChatWidget = () => {
     }
   }, []);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, loading, step, scrollToBottom]);
+  useEffect(() => { scrollToBottom(); }, [messages, loading, step, scrollToBottom]);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    const handleScroll = () => {
-      setShowScrollBtn(el.scrollHeight - el.scrollTop - el.clientHeight > 60);
-    };
+    const handleScroll = () => setShowScrollBtn(el.scrollHeight - el.scrollTop - el.clientHeight > 60);
     el.addEventListener("scroll", handleScroll);
     return () => el.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Reset unread when opened
+  useEffect(() => {
+    if (open) setUnreadCount(0);
+  }, [open]);
 
   // Init
   useEffect(() => {
@@ -164,41 +178,45 @@ const LiveChatWidget = () => {
     }
   }, [open]);
 
-  // After AI responds, extract options or detect lead form marker
+  // After AI responds, extract options or detect lead form
   useEffect(() => {
     if (loading || messages.length < 1) return;
     const lastMsg = messages[messages.length - 1];
     if (lastMsg.role !== "assistant") return;
 
-    // Check for lead form marker
     if (lastMsg.content.includes("[SHOW_LEAD_FORM]")) {
       setExtractedOptions([]);
       setStep("lead_form");
       return;
     }
 
-    // Extract numbered options from AI response
     if (step !== "language") {
       const opts = extractOptions(lastMsg.content);
       setExtractedOptions(opts);
     }
   }, [messages, loading]);
 
+  const validateLeadForm = (): boolean => {
+    const errors: Record<string, string> = {};
+    if (!leadName.trim()) errors.name = "Name is required";
+    if (!leadPhone.trim()) errors.phone = "WhatsApp number is required";
+    else if (!/^[\d\s+()-]{7,15}$/.test(leadPhone.trim())) errors.phone = "Enter a valid phone number";
+    if (leadEmail.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(leadEmail.trim())) errors.email = "Enter a valid email";
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const saveLead = async () => {
-    if (!leadName.trim() || !leadPhone.trim()) return;
+    if (!validateLeadForm()) return;
     setLeadSubmitting(true);
 
     try {
-      // Extract service and budget from conversation
       const allText = messages.map(m => m.content).join("\n");
       const serviceKeywords: Record<string, string> = {
-        "website": "Website Development",
-        "seo": "SEO", "ppc": "PPC",
-        "social media": "Social Media Marketing",
-        "ecommerce": "E-commerce", "e-commerce": "E-commerce",
-        "branding": "Branding & Design",
-        "app": "Mobile App Development",
-        "digital marketing": "Digital Marketing",
+        "website": "Website Development", "seo": "SEO", "ppc": "PPC",
+        "social media": "Social Media Marketing", "ecommerce": "E-commerce",
+        "e-commerce": "E-commerce", "branding": "Branding & Design",
+        "app": "Mobile App Development", "digital marketing": "Digital Marketing",
       };
       let detectedService = "General Inquiry";
       for (const [key, val] of Object.entries(serviceKeywords)) {
@@ -208,7 +226,7 @@ const LiveChatWidget = () => {
 
       await supabase.from("leads").insert({
         name: leadName.trim(),
-        email: `chat_${sessionId.slice(5, 20)}@lead.dibull.com`,
+        email: leadEmail.trim() || `chat_${sessionId.slice(5, 20)}@lead.dibull.com`,
         phone: leadPhone.trim(),
         business_name: leadCity.trim() || null,
         budget: budgetMatch?.[0] || null,
@@ -219,11 +237,9 @@ const LiveChatWidget = () => {
         temperature: "warm",
       });
 
-      // Save lead submission as chat message too
       await supabase.from("chat_messages").insert({
-        session_id: sessionId,
-        role: "user",
-        content: `📋 Lead Form Submitted:\nName: ${leadName.trim()}\nWhatsApp: ${leadPhone.trim()}\nCity: ${leadCity.trim()}`,
+        session_id: sessionId, role: "user",
+        content: `📋 Lead Form Submitted:\nName: ${leadName.trim()}\nEmail: ${leadEmail.trim()}\nWhatsApp: ${leadPhone.trim()}\nCity: ${leadCity.trim()}`,
       });
 
       setStep("closed");
@@ -295,6 +311,14 @@ const LiveChatWidget = () => {
       }
 
       if (assistantText) {
+        // Play sound for new assistant message
+        if (soundEnabled && !open) {
+          playNotificationSound();
+          setUnreadCount(prev => prev + 1);
+        } else if (soundEnabled) {
+          playNotificationSound();
+        }
+
         await supabase.from("chat_messages").insert({
           session_id: sessionId, role: "assistant", content: assistantText,
         });
@@ -327,64 +351,88 @@ const LiveChatWidget = () => {
 
   if (isHidden) return null;
 
-  // Determine which options to show
   const showLanguageOptions = step === "language" && !loading;
   const showAIOptions = step === "conversation" && extractedOptions.length > 0 && !loading;
 
   return (
     <>
-      {/* Toggle Button */}
+      {/* Toggle Button with unread badge */}
       <AnimatePresence>
         {!open && (
           <motion.button
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            exit={{ scale: 0, rotate: 180 }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
             onClick={() => setOpen(true)}
-            className="fixed bottom-6 left-6 z-50 flex items-center gap-2 bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-3 sm:px-5 sm:py-3.5 rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-shadow"
+            className="fixed bottom-6 left-6 z-50 flex items-center gap-2.5 bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-5 py-3.5 rounded-2xl shadow-xl shadow-primary/25 hover:shadow-primary/40 transition-shadow relative group"
             aria-label="Open AI Assistant"
           >
-            <Bot className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
-            <span className="text-sm sm:text-base font-semibold whitespace-nowrap">AI Assistant</span>
+            {/* Pulse ring */}
+            <span className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 animate-ping opacity-20" />
+            <Bot className="w-5 h-5 flex-shrink-0 relative z-10" />
+            <span className="text-sm font-semibold whitespace-nowrap relative z-10">AI Assistant</span>
+            
+            {/* Unread badge */}
+            {unreadCount > 0 && (
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-lg z-20"
+              >
+                {unreadCount > 9 ? "9+" : unreadCount}
+              </motion.span>
+            )}
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* Chat Window */}
+      {/* Chat Window - Glassmorphism */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            initial={{ opacity: 0, y: 30, scale: 0.85 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed bottom-6 left-6 z-50 w-[400px] max-w-[calc(100vw-48px)] bg-card border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
-            style={{ height: "580px" }}
+            exit={{ opacity: 0, y: 30, scale: 0.85 }}
+            transition={{ type: "spring", damping: 22, stiffness: 280 }}
+            className="fixed bottom-6 left-6 z-50 w-[400px] max-w-[calc(100vw-48px)] bg-white/70 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-white/10 rounded-3xl shadow-2xl shadow-black/10 flex flex-col overflow-hidden"
+            style={{ height: "600px" }}
           >
-            {/* Header */}
-            <div className="bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-4 py-3.5 flex items-center justify-between relative overflow-hidden">
-              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvc3ZnPg==')] opacity-50" />
+            {/* Header - Glass */}
+            <div className="relative bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-4 py-4 flex items-center justify-between overflow-hidden">
+              {/* Decorative circles */}
+              <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-white/10" />
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-white/5" />
+              
               <div className="flex items-center gap-3 relative z-10">
-                <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center ring-2 ring-white/30">
+                <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center ring-2 ring-white/20 shadow-inner">
                   <Bot className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="font-semibold text-sm block leading-tight">DiBull Assistant</span>
-                  <span className="text-[10px] text-white/80 flex items-center gap-1">
+                  <span className="font-bold text-sm block leading-tight">DiBull Assistant</span>
+                  <span className="text-[10px] text-white/70 flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block animate-pulse" />
-                    Sales Consultant • Online
+                    AI Sales Consultant • Always Online
                   </span>
                 </div>
               </div>
-              <button onClick={() => setOpen(false)} className="hover:bg-white/10 rounded-lg p-1.5 transition-colors relative z-10">
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-1 relative z-10">
+                <button
+                  onClick={() => setSoundEnabled(!soundEnabled)}
+                  className="hover:bg-white/10 rounded-lg p-1.5 transition-colors"
+                  title={soundEnabled ? "Mute sounds" : "Unmute sounds"}
+                >
+                  {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 opacity-50" />}
+                </button>
+                <button onClick={() => setOpen(false)} className="hover:bg-white/10 rounded-lg p-1.5 transition-colors">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Messages Area */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 relative bg-gradient-to-b from-background to-muted/20">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 relative bg-gradient-to-b from-slate-50/50 to-blue-50/30 dark:from-gray-900/50 dark:to-gray-800/30">
               {messages.map((msg, i) => {
                 if (msg.role === "assistant" && msg.content === "" && loading) return null;
                 const isLastAssistant = msg.role === "assistant" && i === messages.length - 1;
@@ -406,8 +454,8 @@ const LiveChatWidget = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="grid grid-cols-2 gap-2 pt-1"
                 >
-                  {LANGUAGE_OPTIONS.map(lang => (
-                    <OptionButton key={lang} label={lang} onClick={() => sendMessage(lang)} />
+                  {LANGUAGE_OPTIONS.map((lang, i) => (
+                    <OptionButton key={lang} label={lang} onClick={() => sendMessage(lang)} index={i} />
                   ))}
                 </motion.div>
               )}
@@ -417,51 +465,96 @@ const LiveChatWidget = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15 }}
+                  transition={{ delay: 0.1 }}
                   className="flex flex-col gap-2 pt-1"
                 >
                   {extractedOptions.map((opt, i) => (
-                    <OptionButton key={i} label={opt} onClick={() => sendMessage(opt)} />
+                    <OptionButton key={i} label={opt} onClick={() => sendMessage(opt)} index={i} />
                   ))}
                 </motion.div>
               )}
 
-              {/* Lead Form */}
+              {/* Lead Form - Enhanced */}
               {step === "lead_form" && (
                 <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-gradient-to-br from-primary/5 to-blue-500/5 border border-primary/20 rounded-2xl p-4 space-y-3"
+                  initial={{ opacity: 0, y: 16, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ type: "spring", damping: 20 }}
+                  className="bg-white/80 dark:bg-white/5 backdrop-blur-md border border-primary/15 rounded-2xl p-4 space-y-3 shadow-lg shadow-primary/5"
                 >
-                  <p className="text-sm font-semibold text-foreground text-center">
-                    📋 Almost done! Fill this quick form:
-                  </p>
-                  <Input
-                    placeholder="Your Name / आपका नाम"
-                    value={leadName}
-                    onChange={e => setLeadName(e.target.value)}
-                    className="text-sm rounded-xl"
-                  />
-                  <Input
-                    placeholder="WhatsApp Number"
-                    value={leadPhone}
-                    onChange={e => setLeadPhone(e.target.value)}
-                    className="text-sm rounded-xl"
-                    type="tel"
-                  />
-                  <Input
-                    placeholder="City / शहर"
-                    value={leadCity}
-                    onChange={e => setLeadCity(e.target.value)}
-                    className="text-sm rounded-xl"
-                  />
+                  <div className="text-center mb-1">
+                    <p className="text-sm font-bold text-foreground">📋 Almost done!</p>
+                    <p className="text-[11px] text-muted-foreground">Fill this quick form to get a free quote</p>
+                  </div>
+
+                  {/* Name */}
+                  <div>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
+                      <Input
+                        placeholder="Your Name *"
+                        value={leadName}
+                        onChange={e => { setLeadName(e.target.value); setFormErrors(p => ({ ...p, name: "" })); }}
+                        className={`text-sm rounded-xl pl-9 bg-white/60 dark:bg-white/5 ${formErrors.name ? "border-red-400" : "border-primary/15"}`}
+                      />
+                    </div>
+                    {formErrors.name && <p className="text-[10px] text-red-500 mt-0.5 ml-1">{formErrors.name}</p>}
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
+                      <Input
+                        placeholder="Email (optional)"
+                        value={leadEmail}
+                        onChange={e => { setLeadEmail(e.target.value); setFormErrors(p => ({ ...p, email: "" })); }}
+                        className={`text-sm rounded-xl pl-9 bg-white/60 dark:bg-white/5 ${formErrors.email ? "border-red-400" : "border-primary/15"}`}
+                        type="email"
+                      />
+                    </div>
+                    {formErrors.email && <p className="text-[10px] text-red-500 mt-0.5 ml-1">{formErrors.email}</p>}
+                  </div>
+
+                  {/* Phone */}
+                  <div>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
+                      <Input
+                        placeholder="WhatsApp Number *"
+                        value={leadPhone}
+                        onChange={e => { setLeadPhone(e.target.value); setFormErrors(p => ({ ...p, phone: "" })); }}
+                        className={`text-sm rounded-xl pl-9 bg-white/60 dark:bg-white/5 ${formErrors.phone ? "border-red-400" : "border-primary/15"}`}
+                        type="tel"
+                      />
+                    </div>
+                    {formErrors.phone && <p className="text-[10px] text-red-500 mt-0.5 ml-1">{formErrors.phone}</p>}
+                  </div>
+
+                  {/* City */}
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
+                    <Input
+                      placeholder="City / शहर"
+                      value={leadCity}
+                      onChange={e => setLeadCity(e.target.value)}
+                      className="text-sm rounded-xl pl-9 bg-white/60 dark:bg-white/5 border-primary/15"
+                    />
+                  </div>
+
                   <Button
                     onClick={saveLead}
-                    disabled={!leadName.trim() || !leadPhone.trim() || leadSubmitting}
-                    className="w-full rounded-xl bg-gradient-to-r from-primary to-blue-600 hover:opacity-90"
+                    disabled={leadSubmitting}
+                    className="w-full rounded-xl bg-gradient-to-r from-primary via-blue-600 to-indigo-600 hover:opacity-90 shadow-md shadow-primary/20 font-semibold"
                   >
-                    {leadSubmitting ? "Submitting..." : "Submit ✅"}
+                    {leadSubmitting ? (
+                      <span className="flex items-center gap-2">
+                        <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Submitting...
+                      </span>
+                    ) : "Get Free Quote ✅"}
                   </Button>
+                  <p className="text-[9px] text-muted-foreground text-center">🔒 Your data is 100% secure & private</p>
                 </motion.div>
               )}
 
@@ -473,7 +566,7 @@ const LiveChatWidget = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.8 }}
                     onClick={scrollToBottom}
-                    className="sticky bottom-0 left-1/2 -translate-x-1/2 w-8 h-8 bg-primary/90 text-white rounded-full flex items-center justify-center shadow-lg"
+                    className="sticky bottom-0 left-1/2 -translate-x-1/2 w-8 h-8 bg-primary/90 text-white rounded-full flex items-center justify-center shadow-lg backdrop-blur-sm"
                   >
                     <ArrowDown className="w-4 h-4" />
                   </motion.button>
@@ -483,33 +576,49 @@ const LiveChatWidget = () => {
 
             {/* Bottom Bar */}
             {step === "closed" ? (
-              <div className="border-t border-border p-4 bg-gradient-to-r from-green-500/5 to-emerald-500/5 text-center">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <CheckCircle2 className="w-5 h-5 text-green-600" />
-                  <p className="text-sm font-semibold text-green-700 dark:text-green-400">
-                    Thank you for connecting! 🙏
+              <div className="border-t border-white/20 p-4 bg-gradient-to-r from-green-500/5 to-emerald-500/5 backdrop-blur-sm text-center">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", damping: 15 }}
+                  className="flex items-center justify-center gap-2 mb-2"
+                >
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                  <p className="text-sm font-bold text-green-700 dark:text-green-400">
+                    Thank you! 🙏
                   </p>
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Our representative will contact you shortly on WhatsApp.
+                </motion.div>
+                <p className="text-xs text-muted-foreground mb-2">
+                  Our team will contact you shortly on WhatsApp.
                 </p>
+                {/* WhatsApp direct link */}
+                <a
+                  href={`https://wa.me/919876543210?text=${encodeURIComponent(`Hi DiBull! I'm ${leadName}. I just enquired about your services.`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-green-600 hover:text-green-700 mb-2"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  Chat on WhatsApp now →
+                </a>
+                <br />
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="mt-2 text-xs"
+                  className="text-xs mt-1"
                   onClick={() => { setOpen(false); setIsHidden(true); }}
                 >
                   Close Chat
                 </Button>
               </div>
             ) : step === "lead_form" ? (
-              <div className="border-t border-border px-4 py-2 bg-background/80">
+              <div className="border-t border-white/20 px-4 py-2 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
                 <p className="text-[10px] text-muted-foreground text-center opacity-60">
-                  Powered by DiBull AI • Your data is secure
+                  Powered by DiBull AI • Secure & Private
                 </p>
               </div>
             ) : (
-              <div className="border-t border-border p-3 bg-background/80 backdrop-blur-sm">
+              <div className="border-t border-white/20 p-3 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
                 <form
                   onSubmit={e => { e.preventDefault(); sendMessage(); }}
                   className="flex gap-2"
@@ -518,19 +627,19 @@ const LiveChatWidget = () => {
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     placeholder="Type or select an option above..."
-                    className="flex-1 text-sm rounded-xl border-primary/20 focus:border-primary/40"
+                    className="flex-1 text-sm rounded-xl border-primary/15 bg-white/60 dark:bg-white/5 focus:border-primary/40 backdrop-blur-sm"
                     disabled={loading}
                   />
                   <Button
                     type="submit"
                     size="icon"
                     disabled={loading || !input.trim()}
-                    className="rounded-xl bg-gradient-to-r from-primary to-blue-600 hover:opacity-90 shadow-md shadow-primary/20"
+                    className="rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:opacity-90 shadow-md shadow-primary/20"
                   >
                     <Send className="w-4 h-4" />
                   </Button>
                 </form>
-                <p className="text-[10px] text-muted-foreground text-center mt-1.5 opacity-60">
+                <p className="text-[10px] text-muted-foreground text-center mt-1.5 opacity-50">
                   Powered by DiBull AI
                 </p>
               </div>
