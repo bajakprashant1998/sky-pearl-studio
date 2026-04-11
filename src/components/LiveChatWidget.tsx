@@ -370,7 +370,7 @@ const LiveChatWidget = () => {
             aria-label="Open AI Assistant"
           >
             {/* Pulse ring */}
-            <span className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 animate-ping opacity-20" />
+            <span className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 animate-ping opacity-20 pointer-events-none" />
             <Bot className="w-5 h-5 flex-shrink-0 relative z-10" />
             <span className="text-sm font-semibold whitespace-nowrap relative z-10">AI Assistant</span>
             
