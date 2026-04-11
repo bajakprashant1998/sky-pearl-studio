@@ -360,15 +360,15 @@ const LiveChatWidget = () => {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 left-6 z-50 flex items-center gap-2.5 bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-5 py-3.5 rounded-2xl shadow-xl shadow-primary/25 hover:shadow-primary/40 hover:scale-105 active:scale-95 transition-all relative group"
+          className="fixed bottom-6 left-6 z-[9999] flex items-center gap-2.5 px-5 py-3.5 rounded-2xl shadow-2xl transition-all"
+          style={{ background: 'linear-gradient(135deg, #2563eb, #4f46e5)', color: 'white' }}
           aria-label="Open AI Assistant"
         >
-          <span className="absolute -inset-1 rounded-2xl bg-primary/20 animate-pulse pointer-events-none" />
-          <Bot className="w-5 h-5 flex-shrink-0 relative z-10" />
-          <span className="text-sm font-semibold whitespace-nowrap relative z-10">AI Assistant</span>
+          <Bot className="w-5 h-5 flex-shrink-0" />
+          <span className="text-sm font-semibold whitespace-nowrap">AI Assistant</span>
           
           {unreadCount > 0 && (
-            <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-lg z-20 animate-bounce">
+            <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-lg">
               {unreadCount > 9 ? "9+" : unreadCount}
             </span>
           )}
