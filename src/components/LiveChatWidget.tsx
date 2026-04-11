@@ -363,7 +363,7 @@ const LiveChatWidget = () => {
           className="fixed bottom-6 left-6 z-50 flex items-center gap-2.5 bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-5 py-3.5 rounded-2xl shadow-xl shadow-primary/25 hover:shadow-primary/40 hover:scale-105 active:scale-95 transition-all relative group"
           aria-label="Open AI Assistant"
         >
-          <span className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 animate-ping opacity-20 pointer-events-none" />
+          <span className="absolute -inset-1 rounded-2xl bg-primary/20 animate-pulse pointer-events-none" />
           <Bot className="w-5 h-5 flex-shrink-0 relative z-10" />
           <span className="text-sm font-semibold whitespace-nowrap relative z-10">AI Assistant</span>
           
