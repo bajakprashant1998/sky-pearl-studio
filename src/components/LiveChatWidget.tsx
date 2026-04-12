@@ -353,10 +353,12 @@ const LiveChatWidget = () => {
 
   const showLanguageOptions = step === "language" && !loading;
   const showAIOptions = step === "conversation" && extractedOptions.length > 0 && !loading;
+  const floatingHorizontalSpacing = "calc(env(safe-area-inset-left, 0px) + clamp(1rem, 2vw, 1.5rem))";
+  const floatingBottomSpacing = "calc(env(safe-area-inset-bottom, 0px) + clamp(1rem, 2vw, 1.5rem))";
   const floatingOffsetStyle = {
     position: "fixed" as const,
-    left: "calc(env(safe-area-inset-left, 0px) + 1rem)",
-    bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)",
+    left: floatingHorizontalSpacing,
+    bottom: floatingBottomSpacing,
     top: "auto",
     right: "auto",
   };
@@ -367,7 +369,7 @@ const LiveChatWidget = () => {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="z-[9999] flex items-center gap-2.5 bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-5 py-3.5 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all relative"
+          className="z-[9999] flex items-center gap-2.5 px-4 py-3 sm:px-5 sm:py-3.5 bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all relative"
           style={floatingOffsetStyle}
           aria-label="Open AI Assistant"
         >

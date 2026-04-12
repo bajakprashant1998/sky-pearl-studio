@@ -48,13 +48,19 @@ const WhatsAppButton = () => {
   }
 
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const floatingHorizontalSpacing = "calc(env(safe-area-inset-right, 0px) + clamp(1rem, 2vw, 1.5rem))";
+  const floatingBottomSpacing = "calc(env(safe-area-inset-bottom, 0px) + clamp(1rem, 2vw, 1.5rem))";
 
   return (
     <a
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] text-white px-4 py-3 sm:px-5 sm:py-3.5 rounded-xl shadow-lg hover:shadow-xl hover:bg-[#20bd5a] transition-all duration-300 hover:scale-105 animate-fade-in"
+      className="fixed z-[9998] flex items-center gap-2.5 rounded-2xl bg-[#25D366] px-4 py-3 text-white shadow-xl transition-all duration-300 hover:scale-105 hover:bg-[#20bd5a] hover:shadow-2xl animate-fade-in sm:px-5 sm:py-3.5"
+      style={{
+        right: floatingHorizontalSpacing,
+        bottom: floatingBottomSpacing,
+      }}
       aria-label="Chat on WhatsApp"
     >
       <FaWhatsapp className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
