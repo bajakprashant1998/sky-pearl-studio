@@ -381,8 +381,8 @@ const LiveChatWidget = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.85 }}
             transition={{ type: "spring", damping: 22, stiffness: 280 }}
-            className="fixed bottom-6 left-6 z-[9999] w-[400px] max-w-[calc(100vw-48px)] bg-white/70 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-white/10 rounded-3xl shadow-2xl shadow-black/10 flex flex-col overflow-hidden"
-            style={{ height: "600px" }}
+            className="fixed bottom-6 left-6 z-[9999] w-[400px] max-w-[calc(100vw-48px)] max-h-[calc(100dvh-100px)] bg-white/70 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-white/10 rounded-3xl shadow-2xl shadow-black/10 flex flex-col overflow-hidden"
+            style={{ height: "min(600px, calc(100dvh - 100px))" }}
           >
             {/* Header - Glass */}
             <div className="relative bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-4 py-4 flex items-center justify-between overflow-hidden">
