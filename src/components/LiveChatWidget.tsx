@@ -353,6 +353,13 @@ const LiveChatWidget = () => {
 
   const showLanguageOptions = step === "language" && !loading;
   const showAIOptions = step === "conversation" && extractedOptions.length > 0 && !loading;
+  const floatingOffsetStyle = {
+    position: "fixed" as const,
+    left: "calc(env(safe-area-inset-left, 0px) + 1rem)",
+    bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)",
+    top: "auto",
+    right: "auto",
+  };
 
   return (
     <>
@@ -360,7 +367,8 @@ const LiveChatWidget = () => {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 left-6 z-[9999] flex items-center gap-2.5 bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-5 py-3.5 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all relative"
+          className="z-[9999] flex items-center gap-2.5 bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-5 py-3.5 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all relative"
+          style={floatingOffsetStyle}
           aria-label="Open AI Assistant"
         >
           <Bot className="w-5 h-5 flex-shrink-0" />
@@ -381,8 +389,11 @@ const LiveChatWidget = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.85 }}
             transition={{ type: "spring", damping: 22, stiffness: 280 }}
-            className="fixed bottom-6 left-6 z-[9999] w-[400px] max-w-[calc(100vw-48px)] max-h-[calc(100dvh-100px)] bg-white/70 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-white/10 rounded-3xl shadow-2xl shadow-black/10 flex flex-col overflow-hidden"
-            style={{ height: "min(600px, calc(100dvh - 100px))" }}
+            className="z-[9999] w-[400px] max-w-[calc(100vw-48px)] max-h-[calc(100dvh-100px)] bg-white/70 dark:bg-gray-900/80 backdrop-blur-xl border border-white/30 dark:border-white/10 rounded-3xl shadow-2xl shadow-black/10 flex flex-col overflow-hidden"
+            style={{
+              ...floatingOffsetStyle,
+              height: "min(600px, calc(100dvh - 100px))",
+            }}
           >
             {/* Header - Glass */}
             <div className="relative bg-gradient-to-r from-primary via-blue-600 to-indigo-600 text-white px-4 py-4 flex items-center justify-between overflow-hidden">
