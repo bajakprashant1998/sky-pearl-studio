@@ -657,6 +657,30 @@ const LiveChatWidget = () => {
                     />
                   </div>
 
+                  {/* Business Type Dropdown */}
+                  <div className="relative">
+                    <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50 z-10" />
+                    <select
+                      value={leadBusinessType}
+                      onChange={e => setLeadBusinessType(e.target.value)}
+                      className="w-full text-sm rounded-xl pl-9 pr-3 py-2 bg-white/60 dark:bg-white/5 border border-primary/15 text-foreground appearance-none cursor-pointer focus:outline-none focus:border-primary/40"
+                    >
+                      <option value="">Select Business Type</option>
+                      <option value="Retail / Shop">🏪 Retail / Shop</option>
+                      <option value="Restaurant / Food">🍽️ Restaurant / Food</option>
+                      <option value="Healthcare / Medical">🏥 Healthcare / Medical</option>
+                      <option value="Education / Coaching">📚 Education / Coaching</option>
+                      <option value="Real Estate">🏠 Real Estate</option>
+                      <option value="Manufacturing">🏭 Manufacturing</option>
+                      <option value="IT / SaaS">💻 IT / SaaS</option>
+                      <option value="E-commerce">🛒 E-commerce</option>
+                      <option value="Fashion / Beauty">👗 Fashion / Beauty</option>
+                      <option value="Travel / Hospitality">✈️ Travel / Hospitality</option>
+                      <option value="Finance / Legal">💼 Finance / Legal</option>
+                      <option value="Other">📦 Other</option>
+                    </select>
+                  </div>
+
                   <Button
                     onClick={saveLead}
                     disabled={leadSubmitting}
