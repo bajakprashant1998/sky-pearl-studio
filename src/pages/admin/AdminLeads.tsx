@@ -119,7 +119,8 @@ const AdminLeads = () => {
       (lead.business_name?.toLowerCase() || "").includes(search.toLowerCase());
     const matchesStatus = statusFilter === "all" || lead.status === statusFilter;
     const matchesTemp = tempFilter === "all" || lead.temperature === tempFilter;
-    return matchesSearch && matchesStatus && matchesTemp;
+    const matchesSource = sourceFilter === "all" || lead.source === sourceFilter;
+    return matchesSearch && matchesStatus && matchesTemp && matchesSource;
   });
 
   const stats = {
