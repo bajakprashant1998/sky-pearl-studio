@@ -476,6 +476,31 @@ const LiveChatWidget = () => {
     await streamMessage(newMessages);
   };
 
+  // Save partial lead on exit if user had any conversation
+  const handleClose = useCallback(async () => {
+    setOpen(false);
+    if (step !== "language" && step !== "closed" && messages.length > 1) {
+      try {
+        const hasLeadForm = messages.some(m => m.content.includes("📋 Lead Form Submitted"));
+        if (!hasLeadForm) {
+          const chatContent = messages.map(m => `${m.role}: ${m.content}`).join("\n").slice(0, 500);
+          await supabase.from("leads").insert({
+            name: leadName.trim() || "Chat Visitor",
+            email: leadEmail.trim() || `partial_${sessionId.slice(5, 20)}@lead.dibull.com`,
+            phone: leadPhone.trim() || null,
+            business_name: leadCity.trim() || null,
+            budget: null,
+            website_type: leadBusinessType || "Partial Chat",
+            source: "chatbot-partial",
+            message: `[Partial Chat - User exited]\nSession: ${sessionId}\n\n${chatContent}`,
+            score: 30,
+            temperature: "cold",
+          });
+        }
+      } catch { /* silent */ }
+    }
+  }, [step, messages, leadName, leadEmail, leadPhone, leadCity, leadBusinessType, sessionId]);
+
   if (isHidden) return null;
 
   const showLanguageOptions = step === "language" && !loading;
