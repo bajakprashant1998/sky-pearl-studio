@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, X, Bot, Sparkles, ArrowDown, CheckCircle2, Send, Volume2, VolumeX, Mail, Phone, MapPin, User, Mic, MicOff } from "lucide-react";
+import { MessageCircle, X, Bot, Sparkles, ArrowDown, CheckCircle2, Send, Volume2, VolumeX, Mail, Phone, MapPin, User, Mic, MicOff, Star, Briefcase } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 
@@ -150,6 +150,8 @@ const LiveChatWidget = () => {
   const [leadEmail, setLeadEmail] = useState("");
   const [leadPhone, setLeadPhone] = useState("");
   const [leadCity, setLeadCity] = useState("");
+  const [leadBusinessType, setLeadBusinessType] = useState("");
+  const [chatRating, setChatRating] = useState(0);
   const [leadSubmitting, setLeadSubmitting] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -315,17 +317,7 @@ const LiveChatWidget = () => {
     setLeadSubmitting(true);
 
     try {
-      const allText = messages.map(m => m.content).join("\n");
-      const serviceKeywords: Record<string, string> = {
-        "website": "Website Development", "seo": "SEO", "ppc": "PPC",
-        "social media": "Social Media Marketing", "ecommerce": "E-commerce",
-        "e-commerce": "E-commerce", "branding": "Branding & Design",
-        "app": "Mobile App Development", "digital marketing": "Digital Marketing",
-      };
-      let detectedService = "General Inquiry";
-      for (const [key, val] of Object.entries(serviceKeywords)) {
-        if (allText.toLowerCase().includes(key)) { detectedService = val; break; }
-      }
+      const detectedService = leadBusinessType || "General Inquiry";
 
       await supabase.from("leads").insert({
         name: leadName.trim(),
@@ -335,7 +327,7 @@ const LiveChatWidget = () => {
         budget: null,
         website_type: detectedService,
         source: "chatbot",
-        message: `[Chat Session: ${sessionId}]\nCity: ${leadCity.trim()}\nService: ${detectedService}`,
+        message: `[Chat Session: ${sessionId}]\nCity: ${leadCity.trim()}\nBusiness: ${detectedService}`,
         score: 70,
         temperature: "warm",
       });
@@ -655,6 +647,30 @@ const LiveChatWidget = () => {
                     />
                   </div>
 
+                  {/* Business Type Dropdown */}
+                  <div className="relative">
+                    <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50 z-10" />
+                    <select
+                      value={leadBusinessType}
+                      onChange={e => setLeadBusinessType(e.target.value)}
+                      className="w-full text-sm rounded-xl pl-9 pr-3 py-2 bg-white/60 dark:bg-white/5 border border-primary/15 text-foreground appearance-none cursor-pointer focus:outline-none focus:border-primary/40"
+                    >
+                      <option value="">Select Business Type</option>
+                      <option value="Retail / Shop">🏪 Retail / Shop</option>
+                      <option value="Restaurant / Food">🍽️ Restaurant / Food</option>
+                      <option value="Healthcare / Medical">🏥 Healthcare / Medical</option>
+                      <option value="Education / Coaching">📚 Education / Coaching</option>
+                      <option value="Real Estate">🏠 Real Estate</option>
+                      <option value="Manufacturing">🏭 Manufacturing</option>
+                      <option value="IT / SaaS">💻 IT / SaaS</option>
+                      <option value="E-commerce">🛒 E-commerce</option>
+                      <option value="Fashion / Beauty">👗 Fashion / Beauty</option>
+                      <option value="Travel / Hospitality">✈️ Travel / Hospitality</option>
+                      <option value="Finance / Legal">💼 Finance / Legal</option>
+                      <option value="Other">📦 Other</option>
+                    </select>
+                  </div>
+
                   <Button
                     onClick={saveLead}
                     disabled={leadSubmitting}
@@ -689,36 +705,70 @@ const LiveChatWidget = () => {
 
             {/* Bottom Bar */}
             {step === "closed" ? (
-              <div className="border-t border-white/20 p-4 bg-gradient-to-r from-green-500/5 to-emerald-500/5 backdrop-blur-sm text-center">
+              <div className="border-t border-white/20 p-4 bg-gradient-to-r from-green-500/5 to-emerald-500/5 backdrop-blur-sm text-center space-y-3">
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", damping: 15 }}
-                  className="flex items-center justify-center gap-2 mb-2"
+                  className="flex items-center justify-center gap-2"
                 >
                   <CheckCircle2 className="w-6 h-6 text-green-600" />
                   <p className="text-sm font-bold text-green-700 dark:text-green-400">
-                    Thank you! 🙏
+                    Thank you{leadName ? `, ${leadName}` : ""}! 🙏
                   </p>
                 </motion.div>
-                <p className="text-xs text-muted-foreground mb-2">
+                <p className="text-xs text-muted-foreground">
                   Our team will contact you shortly on WhatsApp.
                 </p>
-                {/* WhatsApp direct link */}
+
+                {/* WhatsApp direct link - prominent button */}
                 <a
-                  href={`https://wa.me/919876543210?text=${encodeURIComponent(`Hi DiBull! I'm ${leadName}. I just enquired about your services.`)}`}
+                  href={`https://wa.me/919824011921?text=${encodeURIComponent(`Hi DiBull! I'm ${leadName.trim() || "interested"}. I just enquired about ${leadBusinessType || "your services"}.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-medium text-green-600 hover:text-green-700 mb-2"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-xl shadow-md shadow-green-500/20 transition-all hover:scale-105"
                 >
-                  <MessageCircle className="w-3.5 h-3.5" />
-                  Chat on WhatsApp now →
+                  <MessageCircle className="w-4 h-4" />
+                  Chat on WhatsApp Now
                 </a>
-                <br />
+
+                {/* Star Rating */}
+                <div>
+                  <p className="text-[11px] text-muted-foreground mb-1.5">Rate your experience</p>
+                  <div className="flex items-center justify-center gap-1">
+                    {[1, 2, 3, 4, 5].map(star => (
+                      <motion.button
+                        key={star}
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => setChatRating(star)}
+                        className="transition-colors"
+                      >
+                        <Star
+                          className={`w-6 h-6 ${
+                            star <= chatRating
+                              ? "text-yellow-400 fill-yellow-400"
+                              : "text-muted-foreground/30"
+                          }`}
+                        />
+                      </motion.button>
+                    ))}
+                  </div>
+                  {chatRating > 0 && (
+                    <motion.p
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-[10px] text-primary mt-1"
+                    >
+                      {chatRating >= 4 ? "Thank you! We're glad you liked it! ⭐" : chatRating >= 2 ? "Thanks for your feedback! 🙏" : "We'll do better! 💪"}
+                    </motion.p>
+                  )}
+                </div>
+
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-xs mt-1"
+                  className="text-xs"
                   onClick={() => { setOpen(false); setIsHidden(true); }}
                 >
                   Close Chat
