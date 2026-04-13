@@ -129,7 +129,19 @@ const LiveChatWidget = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [sessionId] = useState(() => `chat_${Date.now()}_${Math.random().toString(36).slice(2)}`);
+  const [sessionId] = useState(() => {
+    // Reuse existing session from localStorage if available (within 24h)
+    const saved = localStorage.getItem("dibull_chat_session");
+    if (saved) {
+      try {
+        const { id, ts } = JSON.parse(saved);
+        if (Date.now() - ts < 24 * 60 * 60 * 1000) return id;
+      } catch { /* ignore */ }
+    }
+    const newId = `chat_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    localStorage.setItem("dibull_chat_session", JSON.stringify({ id: newId, ts: Date.now() }));
+    return newId;
+  });
   const [showScrollBtn, setShowScrollBtn] = useState(false);
   const [step, setStep] = useState<ChatStep>("language");
   const [extractedOptions, setExtractedOptions] = useState<string[]>([]);
@@ -142,6 +154,7 @@ const LiveChatWidget = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [historyLoaded, setHistoryLoaded] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
