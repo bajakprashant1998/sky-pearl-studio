@@ -317,13 +317,6 @@ const LiveChatWidget = () => {
     setLeadSubmitting(true);
 
     try {
-      const allText = messages.map(m => m.content).join("\n");
-      const serviceKeywords: Record<string, string> = {
-        "website": "Website Development", "seo": "SEO", "ppc": "PPC",
-        "social media": "Social Media Marketing", "ecommerce": "E-commerce",
-        "e-commerce": "E-commerce", "branding": "Branding & Design",
-        "app": "Mobile App Development", "digital marketing": "Digital Marketing",
-      };
       const detectedService = leadBusinessType || "General Inquiry";
 
       await supabase.from("leads").insert({
