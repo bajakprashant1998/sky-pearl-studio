@@ -324,10 +324,7 @@ const LiveChatWidget = () => {
         "e-commerce": "E-commerce", "branding": "Branding & Design",
         "app": "Mobile App Development", "digital marketing": "Digital Marketing",
       };
-      let detectedService = "General Inquiry";
-      for (const [key, val] of Object.entries(serviceKeywords)) {
-        if (allText.toLowerCase().includes(key)) { detectedService = val; break; }
-      }
+      const detectedService = leadBusinessType || "General Inquiry";
 
       await supabase.from("leads").insert({
         name: leadName.trim(),
@@ -337,7 +334,7 @@ const LiveChatWidget = () => {
         budget: null,
         website_type: detectedService,
         source: "chatbot",
-        message: `[Chat Session: ${sessionId}]\nCity: ${leadCity.trim()}\nService: ${detectedService}`,
+        message: `[Chat Session: ${sessionId}]\nCity: ${leadCity.trim()}\nBusiness: ${detectedService}`,
         score: 70,
         temperature: "warm",
       });
