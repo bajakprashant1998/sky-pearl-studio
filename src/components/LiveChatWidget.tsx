@@ -724,10 +724,23 @@ const LiveChatWidget = () => {
                   <Input
                     value={input}
                     onChange={e => setInput(e.target.value)}
-                    placeholder="Type or select an option above..."
+                    placeholder={isListening ? "🎤 Listening..." : "Type or select an option above..."}
                     className="flex-1 text-sm rounded-xl border-primary/15 bg-white/60 dark:bg-white/5 focus:border-primary/40 backdrop-blur-sm"
                     disabled={loading}
                   />
+                  <button
+                    type="button"
+                    onClick={toggleVoice}
+                    disabled={loading}
+                    className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all ${
+                      isListening
+                        ? "bg-red-500 text-white animate-pulse shadow-lg shadow-red-500/30"
+                        : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
+                    }`}
+                    title={isListening ? "Stop recording" : "Voice input"}
+                  >
+                    {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                  </button>
                   <Button
                     type="submit"
                     size="icon"
