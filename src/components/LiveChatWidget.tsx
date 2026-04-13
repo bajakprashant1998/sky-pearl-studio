@@ -23,6 +23,25 @@ const LANGUAGE_OPTIONS = [
   "🇮🇳 ਪੰਜਾਬੀ",
 ];
 
+// Map browser language codes to our language options
+const BROWSER_LANG_MAP: Record<string, string> = {
+  "en": "🇬🇧 English",
+  "hi": "🇮🇳 हिन्दी",
+  "gu": "🇮🇳 ગુજરાતી",
+  "mr": "🇮🇳 मराठी",
+  "ta": "🇮🇳 தமிழ்",
+  "te": "🇮🇳 తెలుగు",
+  "kn": "🇮🇳 ಕನ್ನಡ",
+  "ml": "🇮🇳 മലയാളം",
+  "bn": "🇮🇳 বাংলা",
+  "pa": "🇮🇳 ਪੰਜਾਬੀ",
+};
+
+const getDetectedLanguage = (): string | null => {
+  const browserLang = navigator.language?.split("-")[0]?.toLowerCase();
+  return browserLang ? BROWSER_LANG_MAP[browserLang] || null : null;
+};
+
 // Simple notification sound using Web Audio API
 const playNotificationSound = () => {
   try {
