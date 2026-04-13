@@ -575,7 +575,7 @@ const LiveChatWidget = () => {
                 >
                   {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 opacity-50" />}
                 </button>
-                <button onClick={() => setOpen(false)} className="hover:bg-white/10 rounded-lg p-1.5 transition-colors">
+                <button onClick={handleClose} className="hover:bg-white/10 rounded-lg p-1.5 transition-colors">
                   <X className="w-5 h-5" />
                 </button>
               </div>
