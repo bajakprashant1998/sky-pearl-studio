@@ -247,13 +247,17 @@ const LiveChatWidget = () => {
           }));
           setMessages(restored);
           // Determine step from history
+          const hasLeadForm = restored.some(m => m.content.includes("📋 Lead Form Submitted"));
           const lastAssistant = [...restored].reverse().find(m => m.role === "assistant");
           if (lastAssistant?.content.includes("[SHOW_LEAD_FORM]")) {
-            setStep("lead_form");
-          } else if (restored.length > 1) {
+            setStep("closed");
+          } else if (hasLeadForm && restored.length > 2) {
             setStep("conversation");
             const opts = extractOptions(lastAssistant?.content || "");
             setExtractedOptions(opts);
+          } else if (restored.length > 1 && !hasLeadForm) {
+            // Language selected but no lead form yet
+            setStep("lead_form");
           }
         } else {
           // Fresh session
