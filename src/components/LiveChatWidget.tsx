@@ -322,17 +322,16 @@ const LiveChatWidget = () => {
       for (const [key, val] of Object.entries(serviceKeywords)) {
         if (allText.toLowerCase().includes(key)) { detectedService = val; break; }
       }
-      const budgetMatch = allText.match(/₹[\d,]+\s*[-–]\s*₹?[\d,]+|₹[\d,]+\+/);
 
       await supabase.from("leads").insert({
         name: leadName.trim(),
         email: leadEmail.trim() || `chat_${sessionId.slice(5, 20)}@lead.dibull.com`,
         phone: leadPhone.trim(),
         business_name: leadCity.trim() || null,
-        budget: budgetMatch?.[0] || null,
+        budget: null,
         website_type: detectedService,
         source: "chatbot",
-        message: `[Chat Session: ${sessionId}]\nCity: ${leadCity.trim()}\nService: ${detectedService}\n\nFull conversation in Admin > Chat Conversations`,
+        message: `[Chat Session: ${sessionId}]\nCity: ${leadCity.trim()}\nService: ${detectedService}`,
         score: 70,
         temperature: "warm",
       });
@@ -342,7 +341,10 @@ const LiveChatWidget = () => {
         content: `📋 Lead Form Submitted:\nName: ${leadName.trim()}\nEmail: ${leadEmail.trim()}\nWhatsApp: ${leadPhone.trim()}\nCity: ${leadCity.trim()}`,
       });
 
-      setStep("closed");
+      // Now start the AI conversation
+      setStep("conversation");
+      const currentMessages = messages;
+      await streamMessage(currentMessages);
     } catch (err) {
       console.error("Failed to save lead:", err);
     }
