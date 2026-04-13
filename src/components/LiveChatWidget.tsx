@@ -122,7 +122,7 @@ const OptionButton = ({ label, onClick, index }: { label: string; onClick: () =>
   </motion.button>
 );
 
-type ChatStep = "language" | "conversation" | "lead_form" | "closed";
+type ChatStep = "language" | "lead_form" | "conversation" | "closed";
 
 const LiveChatWidget = () => {
   const [open, setOpen] = useState(false);
