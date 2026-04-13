@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, X, Bot, Sparkles, ArrowDown, CheckCircle2, Send, Volume2, VolumeX, Mail, Phone, MapPin, User } from "lucide-react";
+import { MessageCircle, X, Bot, Sparkles, ArrowDown, CheckCircle2, Send, Volume2, VolumeX, Mail, Phone, MapPin, User, Mic, MicOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 
@@ -155,8 +155,57 @@ const LiveChatWidget = () => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [historyLoaded, setHistoryLoaded] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const recognitionRef = useRef<any>(null);
+
+  // Voice input via Web Speech API
+  const toggleVoice = useCallback(() => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setInput(prev => prev || "Voice not supported on this browser");
+      return;
+    }
+
+    if (isListening && recognitionRef.current) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "hi-IN"; // default Hindi, works for most Indian languages
+    recognition.interimResults = true;
+    recognition.continuous = false;
+    recognitionRef.current = recognition;
+
+    let finalTranscript = "";
+
+    recognition.onstart = () => setIsListening(true);
+
+    recognition.onresult = (event: any) => {
+      let interim = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
+        } else {
+          interim += event.results[i][0].transcript;
+        }
+      }
+      setInput(finalTranscript + interim);
+    };
+
+    recognition.onerror = () => setIsListening(false);
+    recognition.onend = () => {
+      setIsListening(false);
+      if (finalTranscript.trim()) {
+        setInput(finalTranscript.trim());
+      }
+    };
+
+    recognition.start();
+  }, [isListening]);
 
   const scrollToBottom = useCallback(() => {
     if (scrollRef.current) {
@@ -675,10 +724,23 @@ const LiveChatWidget = () => {
                   <Input
                     value={input}
                     onChange={e => setInput(e.target.value)}
-                    placeholder="Type or select an option above..."
+                    placeholder={isListening ? "🎤 Listening..." : "Type or select an option above..."}
                     className="flex-1 text-sm rounded-xl border-primary/15 bg-white/60 dark:bg-white/5 focus:border-primary/40 backdrop-blur-sm"
                     disabled={loading}
                   />
+                  <button
+                    type="button"
+                    onClick={toggleVoice}
+                    disabled={loading}
+                    className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all ${
+                      isListening
+                        ? "bg-red-500 text-white animate-pulse shadow-lg shadow-red-500/30"
+                        : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
+                    }`}
+                    title={isListening ? "Stop recording" : "Voice input"}
+                  >
+                    {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                  </button>
                   <Button
                     type="submit"
                     size="icon"
