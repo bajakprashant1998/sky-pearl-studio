@@ -23,6 +23,25 @@ const LANGUAGE_OPTIONS = [
   "🇮🇳 ਪੰਜਾਬੀ",
 ];
 
+// Map browser language codes to our language options
+const BROWSER_LANG_MAP: Record<string, string> = {
+  "en": "🇬🇧 English",
+  "hi": "🇮🇳 हिन्दी",
+  "gu": "🇮🇳 ગુજરાતી",
+  "mr": "🇮🇳 मराठी",
+  "ta": "🇮🇳 தமிழ்",
+  "te": "🇮🇳 తెలుగు",
+  "kn": "🇮🇳 ಕನ್ನಡ",
+  "ml": "🇮🇳 മലയാളം",
+  "bn": "🇮🇳 বাংলা",
+  "pa": "🇮🇳 ਪੰਜਾਬੀ",
+};
+
+const getDetectedLanguage = (): string | null => {
+  const browserLang = navigator.language?.split("-")[0]?.toLowerCase();
+  return browserLang ? BROWSER_LANG_MAP[browserLang] || null : null;
+};
+
 // Simple notification sound using Web Audio API
 const playNotificationSound = () => {
   try {
@@ -158,6 +177,7 @@ const LiveChatWidget = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [historyLoaded, setHistoryLoaded] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [detectedLang] = useState(() => getDetectedLanguage());
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
   const recognitionRef = useRef<any>(null);
@@ -456,6 +476,31 @@ const LiveChatWidget = () => {
     await streamMessage(newMessages);
   };
 
+  // Save partial lead on exit if user had any conversation
+  const handleClose = useCallback(async () => {
+    setOpen(false);
+    if (step !== "language" && step !== "closed" && messages.length > 1) {
+      try {
+        const hasLeadForm = messages.some(m => m.content.includes("📋 Lead Form Submitted"));
+        if (!hasLeadForm) {
+          const chatContent = messages.map(m => `${m.role}: ${m.content}`).join("\n").slice(0, 500);
+          await supabase.from("leads").insert({
+            name: leadName.trim() || "Chat Visitor",
+            email: leadEmail.trim() || `partial_${sessionId.slice(5, 20)}@lead.dibull.com`,
+            phone: leadPhone.trim() || null,
+            business_name: leadCity.trim() || null,
+            budget: null,
+            website_type: leadBusinessType || "Partial Chat",
+            source: "chatbot-partial",
+            message: `[Partial Chat - User exited]\nSession: ${sessionId}\n\n${chatContent}`,
+            score: 30,
+            temperature: "cold",
+          });
+        }
+      } catch { /* silent */ }
+    }
+  }, [step, messages, leadName, leadEmail, leadPhone, leadCity, leadBusinessType, sessionId]);
+
   if (isHidden) return null;
 
   const showLanguageOptions = step === "language" && !loading;
@@ -530,7 +575,7 @@ const LiveChatWidget = () => {
                 >
                   {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 opacity-50" />}
                 </button>
-                <button onClick={() => setOpen(false)} className="hover:bg-white/10 rounded-lg p-1.5 transition-colors">
+                <button onClick={handleClose} className="hover:bg-white/10 rounded-lg p-1.5 transition-colors">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -557,11 +602,27 @@ const LiveChatWidget = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="grid grid-cols-2 gap-2 pt-1"
+                  className="space-y-2 pt-1"
                 >
-                  {LANGUAGE_OPTIONS.map((lang, i) => (
-                    <OptionButton key={lang} label={lang} onClick={() => sendMessage(lang)} index={i} />
-                  ))}
+                  {/* Detected language recommendation */}
+                  {detectedLang && (
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => sendMessage(detectedLang)}
+                      className="w-full text-left text-sm px-4 py-3 rounded-xl bg-primary/10 border-2 border-primary/30 text-primary hover:bg-primary/15 transition-all duration-200 flex items-center justify-between"
+                    >
+                      <span className="font-medium">{detectedLang}</span>
+                      <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-semibold">✨ Recommended</span>
+                    </motion.button>
+                  )}
+                  <div className="grid grid-cols-2 gap-2">
+                    {LANGUAGE_OPTIONS.filter(l => l !== detectedLang).map((lang, i) => (
+                      <OptionButton key={lang} label={lang} onClick={() => sendMessage(lang)} index={i} />
+                    ))}
+                  </div>
                 </motion.div>
               )}
 
