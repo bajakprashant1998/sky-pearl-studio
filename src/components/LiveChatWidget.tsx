@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, X, Bot, Sparkles, ArrowDown, CheckCircle2, Send, Volume2, VolumeX, Mail, Phone, MapPin, User, Mic, MicOff } from "lucide-react";
+import { MessageCircle, X, Bot, Sparkles, ArrowDown, CheckCircle2, Send, Volume2, VolumeX, Mail, Phone, MapPin, User, Mic, MicOff, Star, Briefcase } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 
