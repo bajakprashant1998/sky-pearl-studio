@@ -177,6 +177,7 @@ const LiveChatWidget = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [historyLoaded, setHistoryLoaded] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [detectedLang] = useState(() => getDetectedLanguage());
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
   const recognitionRef = useRef<any>(null);
