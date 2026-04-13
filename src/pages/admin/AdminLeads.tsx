@@ -67,6 +67,7 @@ const AdminLeads = () => {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [tempFilter, setTempFilter] = useState("all");
+  const [sourceFilter, setSourceFilter] = useState("all");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
@@ -118,7 +119,8 @@ const AdminLeads = () => {
       (lead.business_name?.toLowerCase() || "").includes(search.toLowerCase());
     const matchesStatus = statusFilter === "all" || lead.status === statusFilter;
     const matchesTemp = tempFilter === "all" || lead.temperature === tempFilter;
-    return matchesSearch && matchesStatus && matchesTemp;
+    const matchesSource = sourceFilter === "all" || lead.source === sourceFilter;
+    return matchesSearch && matchesStatus && matchesTemp && matchesSource;
   });
 
   const stats = {
@@ -205,6 +207,19 @@ const AdminLeads = () => {
                 }`}
               >
                 {s}
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            {["all", "chatbot", "chatbot-partial", "quote-calculator", "contact-form", "web-design-landing"].map((s) => (
+              <button
+                key={s}
+                onClick={() => setSourceFilter(s)}
+                className={`px-3 py-2 rounded-lg text-xs font-medium transition-all border ${
+                  sourceFilter === s ? "bg-primary text-primary-foreground border-primary" : "bg-card text-muted-foreground border-border"
+                }`}
+              >
+                {s === "all" ? "All Sources" : s === "chatbot-partial" ? "⚠️ Incomplete Chat" : s}
               </button>
             ))}
           </div>
