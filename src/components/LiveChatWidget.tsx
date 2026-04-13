@@ -179,17 +179,55 @@ const LiveChatWidget = () => {
     if (open) setUnreadCount(0);
   }, [open]);
 
-  // Init
+  // Init — restore chat history from DB if session exists
   useEffect(() => {
-    if (open && messages.length === 0) {
-      setMessages([{
-        role: "assistant",
-        content: "Welcome to **DiBull Technology**! 👋🏻\n\nPlease select your preferred language / कृपया अपनी भाषा चुनें:"
-      }]);
-      setExtractedOptions([]);
-      setStep("language");
-    }
-  }, [open]);
+    if (!open || historyLoaded) return;
+
+    const restoreHistory = async () => {
+      try {
+        const { data } = await supabase
+          .from("chat_messages")
+          .select("role, content")
+          .eq("session_id", sessionId)
+          .order("created_at", { ascending: true });
+
+        if (data && data.length > 0) {
+          const restored: Message[] = data.map(m => ({
+            role: m.role as "user" | "assistant",
+            content: m.content,
+          }));
+          setMessages(restored);
+          // Determine step from history
+          const lastAssistant = [...restored].reverse().find(m => m.role === "assistant");
+          if (lastAssistant?.content.includes("[SHOW_LEAD_FORM]")) {
+            setStep("lead_form");
+          } else if (restored.length > 1) {
+            setStep("conversation");
+            const opts = extractOptions(lastAssistant?.content || "");
+            setExtractedOptions(opts);
+          }
+        } else {
+          // Fresh session
+          setMessages([{
+            role: "assistant",
+            content: "Welcome to **DiBull Technology**! 👋🏻\n\nPlease select your preferred language / कृपया अपनी भाषा चुनें:"
+          }]);
+          setExtractedOptions([]);
+          setStep("language");
+        }
+      } catch {
+        // Fallback to fresh session
+        setMessages([{
+          role: "assistant",
+          content: "Welcome to **DiBull Technology**! 👋🏻\n\nPlease select your preferred language / कृपया अपनी भाषा चुनें:"
+        }]);
+        setStep("language");
+      }
+      setHistoryLoaded(true);
+    };
+
+    restoreHistory();
+  }, [open, historyLoaded, sessionId]);
 
   // After AI responds, extract options or detect lead form
   useEffect(() => {
