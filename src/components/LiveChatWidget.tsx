@@ -150,6 +150,8 @@ const LiveChatWidget = () => {
   const [leadEmail, setLeadEmail] = useState("");
   const [leadPhone, setLeadPhone] = useState("");
   const [leadCity, setLeadCity] = useState("");
+  const [leadBusinessType, setLeadBusinessType] = useState("");
+  const [chatRating, setChatRating] = useState(0);
   const [leadSubmitting, setLeadSubmitting] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
