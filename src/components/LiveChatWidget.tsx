@@ -437,7 +437,16 @@ const LiveChatWidget = () => {
     setInput("");
     setExtractedOptions([]);
 
-    if (step === "language") setStep("conversation");
+    if (step === "language") {
+      setStep("lead_form");
+      // Don't start AI conversation yet — wait for lead form
+      const newMessages: Message[] = [...messages, { role: "user", content: userMsg }];
+      setMessages(newMessages);
+      await supabase.from("chat_messages").insert({
+        session_id: sessionId, role: "user", content: userMsg,
+      });
+      return;
+    }
 
     const newMessages: Message[] = [...messages, { role: "user", content: userMsg }];
     setMessages(newMessages);
