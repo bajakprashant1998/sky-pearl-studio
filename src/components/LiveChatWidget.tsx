@@ -712,36 +712,70 @@ const LiveChatWidget = () => {
 
             {/* Bottom Bar */}
             {step === "closed" ? (
-              <div className="border-t border-white/20 p-4 bg-gradient-to-r from-green-500/5 to-emerald-500/5 backdrop-blur-sm text-center">
+              <div className="border-t border-white/20 p-4 bg-gradient-to-r from-green-500/5 to-emerald-500/5 backdrop-blur-sm text-center space-y-3">
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", damping: 15 }}
-                  className="flex items-center justify-center gap-2 mb-2"
+                  className="flex items-center justify-center gap-2"
                 >
                   <CheckCircle2 className="w-6 h-6 text-green-600" />
                   <p className="text-sm font-bold text-green-700 dark:text-green-400">
-                    Thank you! 🙏
+                    Thank you{leadName ? `, ${leadName}` : ""}! 🙏
                   </p>
                 </motion.div>
-                <p className="text-xs text-muted-foreground mb-2">
+                <p className="text-xs text-muted-foreground">
                   Our team will contact you shortly on WhatsApp.
                 </p>
-                {/* WhatsApp direct link */}
+
+                {/* WhatsApp direct link - prominent button */}
                 <a
-                  href={`https://wa.me/919876543210?text=${encodeURIComponent(`Hi DiBull! I'm ${leadName}. I just enquired about your services.`)}`}
+                  href={`https://wa.me/919824011921?text=${encodeURIComponent(`Hi DiBull! I'm ${leadName.trim() || "interested"}. I just enquired about ${leadBusinessType || "your services"}.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-medium text-green-600 hover:text-green-700 mb-2"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-xl shadow-md shadow-green-500/20 transition-all hover:scale-105"
                 >
-                  <MessageCircle className="w-3.5 h-3.5" />
-                  Chat on WhatsApp now →
+                  <MessageCircle className="w-4 h-4" />
+                  Chat on WhatsApp Now
                 </a>
-                <br />
+
+                {/* Star Rating */}
+                <div>
+                  <p className="text-[11px] text-muted-foreground mb-1.5">Rate your experience</p>
+                  <div className="flex items-center justify-center gap-1">
+                    {[1, 2, 3, 4, 5].map(star => (
+                      <motion.button
+                        key={star}
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => setChatRating(star)}
+                        className="transition-colors"
+                      >
+                        <Star
+                          className={`w-6 h-6 ${
+                            star <= chatRating
+                              ? "text-yellow-400 fill-yellow-400"
+                              : "text-muted-foreground/30"
+                          }`}
+                        />
+                      </motion.button>
+                    ))}
+                  </div>
+                  {chatRating > 0 && (
+                    <motion.p
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-[10px] text-primary mt-1"
+                    >
+                      {chatRating >= 4 ? "Thank you! We're glad you liked it! ⭐" : chatRating >= 2 ? "Thanks for your feedback! 🙏" : "We'll do better! 💪"}
+                    </motion.p>
+                  )}
+                </div>
+
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-xs mt-1"
+                  className="text-xs"
                   onClick={() => { setOpen(false); setIsHidden(true); }}
                 >
                   Close Chat
