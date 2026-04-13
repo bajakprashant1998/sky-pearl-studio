@@ -122,7 +122,7 @@ const OptionButton = ({ label, onClick, index }: { label: string; onClick: () =>
   </motion.button>
 );
 
-type ChatStep = "language" | "conversation" | "lead_form" | "closed";
+type ChatStep = "language" | "lead_form" | "conversation" | "closed";
 
 const LiveChatWidget = () => {
   const [open, setOpen] = useState(false);
@@ -247,13 +247,17 @@ const LiveChatWidget = () => {
           }));
           setMessages(restored);
           // Determine step from history
+          const hasLeadForm = restored.some(m => m.content.includes("📋 Lead Form Submitted"));
           const lastAssistant = [...restored].reverse().find(m => m.role === "assistant");
           if (lastAssistant?.content.includes("[SHOW_LEAD_FORM]")) {
-            setStep("lead_form");
-          } else if (restored.length > 1) {
+            setStep("closed");
+          } else if (hasLeadForm && restored.length > 2) {
             setStep("conversation");
             const opts = extractOptions(lastAssistant?.content || "");
             setExtractedOptions(opts);
+          } else if (restored.length > 1 && !hasLeadForm) {
+            // Language selected but no lead form yet
+            setStep("lead_form");
           }
         } else {
           // Fresh session
@@ -286,11 +290,11 @@ const LiveChatWidget = () => {
 
     if (lastMsg.content.includes("[SHOW_LEAD_FORM]")) {
       setExtractedOptions([]);
-      setStep("lead_form");
+      setStep("closed");
       return;
     }
 
-    if (step !== "language") {
+    if (step === "conversation") {
       const opts = extractOptions(lastMsg.content);
       setExtractedOptions(opts);
     }
@@ -322,17 +326,16 @@ const LiveChatWidget = () => {
       for (const [key, val] of Object.entries(serviceKeywords)) {
         if (allText.toLowerCase().includes(key)) { detectedService = val; break; }
       }
-      const budgetMatch = allText.match(/₹[\d,]+\s*[-–]\s*₹?[\d,]+|₹[\d,]+\+/);
 
       await supabase.from("leads").insert({
         name: leadName.trim(),
         email: leadEmail.trim() || `chat_${sessionId.slice(5, 20)}@lead.dibull.com`,
         phone: leadPhone.trim(),
         business_name: leadCity.trim() || null,
-        budget: budgetMatch?.[0] || null,
+        budget: null,
         website_type: detectedService,
         source: "chatbot",
-        message: `[Chat Session: ${sessionId}]\nCity: ${leadCity.trim()}\nService: ${detectedService}\n\nFull conversation in Admin > Chat Conversations`,
+        message: `[Chat Session: ${sessionId}]\nCity: ${leadCity.trim()}\nService: ${detectedService}`,
         score: 70,
         temperature: "warm",
       });
@@ -342,7 +345,10 @@ const LiveChatWidget = () => {
         content: `📋 Lead Form Submitted:\nName: ${leadName.trim()}\nEmail: ${leadEmail.trim()}\nWhatsApp: ${leadPhone.trim()}\nCity: ${leadCity.trim()}`,
       });
 
-      setStep("closed");
+      // Now start the AI conversation
+      setStep("conversation");
+      const currentMessages = messages;
+      await streamMessage(currentMessages);
     } catch (err) {
       console.error("Failed to save lead:", err);
     }
@@ -437,7 +443,16 @@ const LiveChatWidget = () => {
     setInput("");
     setExtractedOptions([]);
 
-    if (step === "language") setStep("conversation");
+    if (step === "language") {
+      setStep("lead_form");
+      // Don't start AI conversation yet — wait for lead form
+      const newMessages: Message[] = [...messages, { role: "user", content: userMsg }];
+      setMessages(newMessages);
+      await supabase.from("chat_messages").insert({
+        session_id: sessionId, role: "user", content: userMsg,
+      });
+      return;
+    }
 
     const newMessages: Message[] = [...messages, { role: "user", content: userMsg }];
     setMessages(newMessages);
@@ -581,8 +596,8 @@ const LiveChatWidget = () => {
                   className="bg-white/80 dark:bg-white/5 backdrop-blur-md border border-primary/15 rounded-2xl p-4 space-y-3 shadow-lg shadow-primary/5"
                 >
                   <div className="text-center mb-1">
-                    <p className="text-sm font-bold text-foreground">📋 Almost done!</p>
-                    <p className="text-[11px] text-muted-foreground">Fill this quick form to get a free quote</p>
+                    <p className="text-sm font-bold text-foreground">👋 Welcome! Let's get started</p>
+                    <p className="text-[11px] text-muted-foreground">Tell us about yourself for a personalized experience</p>
                   </div>
 
                   {/* Name */}
@@ -650,7 +665,7 @@ const LiveChatWidget = () => {
                         <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         Submitting...
                       </span>
-                    ) : "Get Free Quote ✅"}
+                    ) : "Start Chat 🚀"}
                   </Button>
                   <p className="text-[9px] text-muted-foreground text-center">🔒 Your data is 100% secure & private</p>
                 </motion.div>
