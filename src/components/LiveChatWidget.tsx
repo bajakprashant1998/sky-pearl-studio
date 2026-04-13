@@ -577,11 +577,27 @@ const LiveChatWidget = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="grid grid-cols-2 gap-2 pt-1"
+                  className="space-y-2 pt-1"
                 >
-                  {LANGUAGE_OPTIONS.map((lang, i) => (
-                    <OptionButton key={lang} label={lang} onClick={() => sendMessage(lang)} index={i} />
-                  ))}
+                  {/* Detected language recommendation */}
+                  {detectedLang && (
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => sendMessage(detectedLang)}
+                      className="w-full text-left text-sm px-4 py-3 rounded-xl bg-primary/10 border-2 border-primary/30 text-primary hover:bg-primary/15 transition-all duration-200 flex items-center justify-between"
+                    >
+                      <span className="font-medium">{detectedLang}</span>
+                      <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-semibold">✨ Recommended</span>
+                    </motion.button>
+                  )}
+                  <div className="grid grid-cols-2 gap-2">
+                    {LANGUAGE_OPTIONS.filter(l => l !== detectedLang).map((lang, i) => (
+                      <OptionButton key={lang} label={lang} onClick={() => sendMessage(lang)} index={i} />
+                    ))}
+                  </div>
                 </motion.div>
               )}
 
