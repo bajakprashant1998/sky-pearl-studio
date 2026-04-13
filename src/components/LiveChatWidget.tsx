@@ -129,7 +129,19 @@ const LiveChatWidget = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [sessionId] = useState(() => `chat_${Date.now()}_${Math.random().toString(36).slice(2)}`);
+  const [sessionId] = useState(() => {
+    // Reuse existing session from localStorage if available (within 24h)
+    const saved = localStorage.getItem("dibull_chat_session");
+    if (saved) {
+      try {
+        const { id, ts } = JSON.parse(saved);
+        if (Date.now() - ts < 24 * 60 * 60 * 1000) return id;
+      } catch { /* ignore */ }
+    }
+    const newId = `chat_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    localStorage.setItem("dibull_chat_session", JSON.stringify({ id: newId, ts: Date.now() }));
+    return newId;
+  });
   const [showScrollBtn, setShowScrollBtn] = useState(false);
   const [step, setStep] = useState<ChatStep>("language");
   const [extractedOptions, setExtractedOptions] = useState<string[]>([]);
@@ -142,6 +154,7 @@ const LiveChatWidget = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [historyLoaded, setHistoryLoaded] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
@@ -166,17 +179,55 @@ const LiveChatWidget = () => {
     if (open) setUnreadCount(0);
   }, [open]);
 
-  // Init
+  // Init — restore chat history from DB if session exists
   useEffect(() => {
-    if (open && messages.length === 0) {
-      setMessages([{
-        role: "assistant",
-        content: "Welcome to **DiBull Technology**! 👋🏻\n\nPlease select your preferred language / कृपया अपनी भाषा चुनें:"
-      }]);
-      setExtractedOptions([]);
-      setStep("language");
-    }
-  }, [open]);
+    if (!open || historyLoaded) return;
+
+    const restoreHistory = async () => {
+      try {
+        const { data } = await supabase
+          .from("chat_messages")
+          .select("role, content")
+          .eq("session_id", sessionId)
+          .order("created_at", { ascending: true });
+
+        if (data && data.length > 0) {
+          const restored: Message[] = data.map(m => ({
+            role: m.role as "user" | "assistant",
+            content: m.content,
+          }));
+          setMessages(restored);
+          // Determine step from history
+          const lastAssistant = [...restored].reverse().find(m => m.role === "assistant");
+          if (lastAssistant?.content.includes("[SHOW_LEAD_FORM]")) {
+            setStep("lead_form");
+          } else if (restored.length > 1) {
+            setStep("conversation");
+            const opts = extractOptions(lastAssistant?.content || "");
+            setExtractedOptions(opts);
+          }
+        } else {
+          // Fresh session
+          setMessages([{
+            role: "assistant",
+            content: "Welcome to **DiBull Technology**! 👋🏻\n\nPlease select your preferred language / कृपया अपनी भाषा चुनें:"
+          }]);
+          setExtractedOptions([]);
+          setStep("language");
+        }
+      } catch {
+        // Fallback to fresh session
+        setMessages([{
+          role: "assistant",
+          content: "Welcome to **DiBull Technology**! 👋🏻\n\nPlease select your preferred language / कृपया अपनी भाषा चुनें:"
+        }]);
+        setStep("language");
+      }
+      setHistoryLoaded(true);
+    };
+
+    restoreHistory();
+  }, [open, historyLoaded, sessionId]);
 
   // After AI responds, extract options or detect lead form
   useEffect(() => {
