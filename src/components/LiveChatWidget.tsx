@@ -286,11 +286,11 @@ const LiveChatWidget = () => {
 
     if (lastMsg.content.includes("[SHOW_LEAD_FORM]")) {
       setExtractedOptions([]);
-      setStep("lead_form");
+      setStep("closed");
       return;
     }
 
-    if (step !== "language") {
+    if (step === "conversation") {
       const opts = extractOptions(lastMsg.content);
       setExtractedOptions(opts);
     }
