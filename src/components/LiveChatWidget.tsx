@@ -596,8 +596,8 @@ const LiveChatWidget = () => {
                   className="bg-white/80 dark:bg-white/5 backdrop-blur-md border border-primary/15 rounded-2xl p-4 space-y-3 shadow-lg shadow-primary/5"
                 >
                   <div className="text-center mb-1">
-                    <p className="text-sm font-bold text-foreground">📋 Almost done!</p>
-                    <p className="text-[11px] text-muted-foreground">Fill this quick form to get a free quote</p>
+                    <p className="text-sm font-bold text-foreground">👋 Welcome! Let's get started</p>
+                    <p className="text-[11px] text-muted-foreground">Tell us about yourself for a personalized experience</p>
                   </div>
 
                   {/* Name */}
